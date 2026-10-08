@@ -385,7 +385,8 @@ footer{font-size:12px}
 .vclose{position:absolute;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.6);cursor:pointer}
 .vclose::before,.vclose::after{content:"";position:absolute;left:14px;right:14px;top:22px;height:2px;background:#fff;transform:rotate(45deg)}
 .vclose::after{transform:rotate(-45deg)}
-@media (max-width:760px){.tvideos{grid-template-columns:1fr;gap:12px}}
+.tvoce:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 8px)}
+@media (max-width:760px){.tvideos{grid-template-columns:1fr;gap:12px}.tvoce:last-child:nth-child(odd){width:100%}}
 /* ───────── Responsive ───────── */
 @media (max-width:1024px){
   .stats{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -576,7 +577,7 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
-<!-- ════════ LE PROVE (4 video testimonianze dalla optin profitOS) ════════ -->
+<!-- ════════ LE PROVE (5 video testimonianze dalla optin profitOS) ════════ -->
 <section class="proof">
   <div class="wrap">
     <h2 class="h2 rv">Le prove</h2>
@@ -869,7 +870,8 @@ const TESTI = [
   [803151377, "n06", "Davide Strada e Riccardo Bianchi", "35.000€ al mese con le attività locali"],
   [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
   [704213129, "n11", "Ivan Greppi", "25.000€ al mese con la formazione sales"],
-  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"]
+  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"],
+  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"]
 ];
 const tBox = document.querySelector("[data-tvideos]");
 tBox.innerHTML = TESTI.map(t => `<button type="button" class="tvoce" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
