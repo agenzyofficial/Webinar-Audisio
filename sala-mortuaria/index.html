@@ -364,6 +364,12 @@ footer{font-size:12px}
 .hero-media img{object-position:50% 30%}
 .hero-media::after{background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 82%,var(--bg) 100%),
   linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 86%,#050606 100%)}
+/* chiusura: titolo su righe piene e countdown a riquadri luminosi */
+.close-s .h2{max-width:16ch}
+.cd{display:grid;grid-template-columns:repeat(3,minmax(0,116px));gap:12px;margin-top:28px}
+.cd > div{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:14px 8px 12px;text-align:center}
+.cd b{font-size:46px;line-height:1}
+.cd span{display:block;margin-top:6px;color:var(--fg-2)}
 /* ───────── Responsive ───────── */
 @media (max-width:1024px){
   .stats{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -492,6 +498,16 @@ body.locked{overflow:hidden}
   .modal .panel{border-radius:16px}
 }
 
+
+@media (max-width:760px){
+  .close-s .bg{height:44svh;min-height:280px}
+  .close-s > .wrap{margin-top:-56px}
+  .close-s .h2{max-width:none;font-size:clamp(28px,8vw,34px)}
+  .close-s p{font-size:16px;margin-top:14px}
+  .cd{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+  .cd b{font-size:36px}
+  .close-s .btn{margin-top:24px}
+}
 </style>
 </head>
 <body class="no-js">
