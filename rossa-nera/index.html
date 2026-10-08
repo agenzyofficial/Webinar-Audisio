@@ -160,6 +160,8 @@ section{padding:56px 0}
 .pack.vip .lab{color:#ffd25e}
 .pack h3{font-weight:900;font-size:40px;line-height:1.1;margin-top:6px}
 .pack .price{font-style:italic;color:var(--fg-2)}
+.pack .vip-price{font-size:clamp(84px,10vw,112px);line-height:.9;color:#ffd25e}
+.pack.vip .price{font-style:normal;font-weight:700;color:var(--fg)}
 .pack ul{list-style:none;text-align:left;margin:18px 0 22px;display:grid;gap:10px;font-size:15px}
 .pack li{display:grid;grid-template-columns:22px 1fr;gap:10px}
 .pack .cta{margin-top:auto;min-width:0;width:100%}
@@ -373,14 +375,13 @@ footer p+p{margin-top:10px}
       </article>
       <article class="pack glow vip rv">
         <span class="lab">Ingresso VIP</span>
-        <h3>VIP</h3>
-        <span class="price" data-cfg="vipPrice">Prezzo in arrivo</span>
+        <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
+        <span class="price">+ 1 ora di consulenza con Andrea</span>
         <ul>
           <li><span class="ck"></span><span>Tutto ciò che è incluso nello standard</span></li>
-          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
-          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
+          <li><span class="ck"></span><span><b>Consulenza individuale di un'ora con Andrea</b></span></li>
         </ul>
-        <a class="cta" href="#" data-cfg-href="vipCheckout">Prendi il VIP<small>Posto in prima fila</small></a>
+        <a class="cta" href="#" data-cfg-href="vipCheckout">Prendi il VIP a <span data-cfg="vipPrice">27 €</span><small>Con 1 ora di consulenza con Andrea</small></a>
       </article>
     </div>
   </div>
@@ -417,7 +418,7 @@ footer p+p{margin-top:10px}
     <div class="faq rv">
       <details><summary>A chi è rivolto l'evento?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
       <details><summary>Quanto dura l'evento?</summary><div class="a"><div><p>Una sola serata, a partire dalle <span data-cfg="time">21:00</span>. <span class="todo">durata da confermare</span></p></div></div></details>
-      <details><summary>È davvero gratuito?</summary><div class="a"><div><p>Sì, l'ingresso standard è completamente gratuito. Il VIP è facoltativo, per chi vuole qualcosa in più.</p></div></div></details>
+      <details><summary>È davvero gratuito?</summary><div class="a"><div><p>Sì, l'ingresso standard è completamente gratuito. Il VIP è facoltativo: costa 27 € e include un'ora di consulenza individuale con Andrea.</p></div></div></details>
       <details><summary>È un evento registrato o in diretta?</summary><div class="a"><div><p>È un evento in diretta, con la possibilità di fare domande. <span class="todo">replay da confermare</span></p></div></div></details>
       <details><summary>Alla fine mi vendi qualcosa?</summary><div class="a"><div><p>Niente prezzo sparato in diretta. A chi lo chiede propongo un'analisi strategica gratuita del suo business. Se ha senso lavorare insieme, ne parliamo dopo; se non ha senso, te lo dico.</p></div></div></details>
       <details><summary>Cosa ricevo subito dopo l'iscrizione?</summary><div class="a"><div><p>Il link della serata via email e su WhatsApp, l'accesso al gruppo WhatsApp dell'evento e una chiamata del team per confermare la tua presenza.</p></div></div></details>
@@ -451,7 +452,7 @@ const CONFIG = {
   eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
   dateLong: "Giovedì 29 ottobre",
   time: "21:00",
-  vipPrice: null,
+  vipPrice: "27 €",
   vipCheckout: "#",
   whatsapp: "#",
   ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL

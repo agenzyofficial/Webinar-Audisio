@@ -2,14 +2,15 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
 <meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e che cosa fare invece.">
-<link rel="preload" as="image" href="assets/obitorio-centro.jpg" media="(min-width:761px)">
-<link rel="preload" as="image" href="assets/obitorio-centro-mobile.jpg" media="(max-width:760px)">
+<meta name="theme-color" content="#FF5A14">
+<link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
+<link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Courier+Prime:wght@400;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0B0D0E;
@@ -141,6 +142,18 @@ body::after{
 .evidence .ph{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;color:var(--fg-3);
   background:repeating-linear-gradient(-45deg,transparent 0 10px,rgba(255,255,255,.025) 10px 11px),#14181B}
 .evidence .cap{display:flex;justify-content:space-between;color:var(--fg-3);padding:12px 4px 2px}
+/* scheda del medico legale: foto fredda da obitorio, cartellino arancione */
+.coroner{border-top:3px solid var(--acc)}
+.coroner .badge-top{display:flex;justify-content:space-between;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;padding:2px 4px 10px}
+.coroner .ph{position:relative;overflow:hidden}
+.coroner .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;
+  filter:contrast(1.05)}
+/* velo freddo come la luce della sala mortuaria */
+.coroner .ph::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(11,13,14,0) 60%,rgba(11,13,14,.5))}
+.coroner .stamp{position:absolute;z-index:2;right:10px;bottom:12px;background:var(--acc);color:var(--on-acc);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:4px 8px;transform:rotate(-4deg)}
+.coroner .cap{flex-direction:column;gap:2px}
+.coroner .cap span:first-child{color:var(--fg)}
 .andrea .bio{color:var(--fg-2);margin-top:22px;max-width:60ch}
 .andrea .bio b{color:var(--fg);font-weight:600}
 .timeline{margin-top:32px;display:grid;gap:0}
@@ -181,6 +194,8 @@ body::after{
           mask:radial-gradient(circle at 50% 34px,transparent 11px,#000 12px);
 }
 .tag.vip .tag-body{background:var(--acc)}
+.tag.vip .vip-price{font-size:clamp(88px,10vw,116px);line-height:.9;letter-spacing:-.01em}
+.tag.vip .price{display:inline-block;font-family:var(--mono);font-weight:700;font-size:15px;background:var(--on-acc);color:var(--acc);padding:5px 10px;margin-top:6px}
 .tag-body .mono{display:block;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .tag-body h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(56px,6vw,76px);line-height:1;margin:12px 0 6px}
 .tag-body .price{font-family:var(--mono);font-size:16px}
@@ -257,7 +272,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .panel form{display:grid;gap:14px;margin-top:22px}
 .panel label{display:grid;gap:6px;font-weight:600;font-size:14px}
 .panel input[type=text],.panel input[type=email],.panel input[type=tel]{font:inherit;font-size:16px;padding:14px;border:1.5px solid #8C979E;background:#fff;color:var(--on-acc);border-radius:0;outline:none;transition:border-color 160ms ease}
+.panel input::placeholder{color:#9AA4AA}
 .panel input:focus{border-color:var(--on-acc)}
+.panel .tel{display:flex}
+.panel .tel .pre{display:grid;place-items:center;padding:0 12px;background:#E3E8EB;border:1.5px solid #8C979E;border-right:0;font-weight:600;font-size:16px}
+.panel .tel input{flex:1;min-width:0}
 .panel input[aria-invalid="true"]{border-color:var(--acc-2);box-shadow:inset 0 0 0 1px var(--acc-2)}
 .panel .consent{display:flex;gap:10px;font-weight:400;font-size:13px;color:#2E3539;align-items:flex-start}
 .panel .consent input{accent-color:var(--acc);width:16px;height:16px;margin-top:3px;flex:none}
@@ -283,6 +302,68 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .modal .panel{transform:none!important}
 }
 
+
+/* ───────── RESTYLE: tipografia e superfici come la variante rossa-nera ───────── */
+:root{--display:"Poppins", system-ui, sans-serif;--sans:"Poppins", system-ui, sans-serif;--mono:"Poppins", system-ui, sans-serif;
+  --glow:0 0 18px rgba(255,90,20,.45),inset 0 0 12px rgba(255,90,20,.14);--r:12px}
+body{line-height:1.6}
+.mono{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.h2{font-weight:800;font-style:italic;text-transform:none;font-size:clamp(30px,4.2vw,52px);line-height:1.12;letter-spacing:-.015em}
+.lede{font-size:clamp(16px,1.4vw,18px)}
+.btn{font-weight:800;text-transform:uppercase;letter-spacing:.01em;font-size:17px;border-radius:var(--r);box-shadow:0 0 22px rgba(255,90,20,.5)}
+@media (hover:hover) and (pointer:fine){.btn:hover{box-shadow:0 0 34px rgba(255,90,20,.7)}}
+.btn.ghost{box-shadow:inset 0 0 0 1.5px rgba(232,236,238,.5)}
+.tag-body .btn,.bar .btn{box-shadow:none}
+.prehead{font-weight:600}
+.when{font-size:13px}
+.promise{font-weight:800;letter-spacing:-.02em}
+.event-row{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);overflow:hidden;background:#050505}
+.event-row div{border-color:rgba(255,90,20,.35)}
+.event-row dd{font-weight:800;font-style:italic;text-transform:none;font-size:clamp(17px,1.6vw,21px);line-height:1.25}
+.points{border-top:0;gap:14px clamp(20px,3vw,32px)}
+.points li{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-2);padding:22px 20px}
+.points .n,.bonus .n{font-weight:900;font-style:italic;font-size:40px}
+.points h3,.bonus h3,.cause h3,.stop h3,.file h3{font-weight:800;font-style:italic;text-transform:none;letter-spacing:-.01em;line-height:1.22}
+.points h3,.bonus h3{font-size:clamp(19px,1.6vw,22px)}
+.bonus{border-radius:var(--r);box-shadow:0 0 26px rgba(255,90,20,.45)}
+.cause h3{font-size:clamp(22px,2.2vw,28px)}
+.causes{border-top:0;display:grid;gap:14px}
+.cause{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:22px 22px 24px}
+.report .left .mono{color:var(--acc)}
+.evidence{border-radius:var(--r);overflow:hidden}
+.timeline .y{font-family:var(--sans);font-weight:800;font-style:italic}
+.stats{border-top:0;gap:14px}
+.stats div{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-3);padding:20px 18px}
+.stats b{font-weight:900;font-style:italic;font-size:clamp(34px,3.6vw,54px);letter-spacing:-.02em;line-height:1}
+.file{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505}
+.file h3{font-size:20px}
+.file .big{font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,36px);line-height:1.1;letter-spacing:-.02em}
+.tag-body h3{font-weight:900;font-style:italic;text-transform:none;letter-spacing:-.02em}
+.tag-body .price{font-family:var(--sans);font-weight:600}
+.tag.vip .price{font-family:var(--sans)}
+.stop h3{font-size:22px}
+.faq{border-top:0;display:grid;gap:12px}
+.faq details{background:var(--bg-2);border:1px solid var(--line);border-radius:10px}
+.faq summary{font-weight:700;padding:18px 52px 18px 20px}
+.faq summary::after{right:20px}
+.faq .a p{padding:0 20px 18px}
+.cd b{font-weight:900;font-style:italic;font-size:48px}
+.cd span{font-size:11px}
+.bar .t{font-weight:800;font-style:italic;text-transform:none;font-size:16px}
+.bar .t .mono{font-style:normal;font-weight:600;letter-spacing:.02em;text-transform:none;font-size:12.5px}
+.modal .panel{border-radius:16px}
+.panel h3{font-weight:800;font-style:italic;text-transform:none;font-size:30px}
+.panel .pp{font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:500}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{border-radius:8px}
+.panel .tel .pre{border-radius:8px 0 0 8px}
+.panel .tel input{border-radius:0 8px 8px 0!important}
+footer{font-size:12px}
+
+.event-row .sm{display:none}
+/* hero con Andrea: il volto resta visibile, sfumatura solo ai bordi */
+.hero-media img{object-position:50% 30%}
+.hero-media::after{background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 82%,var(--bg) 100%),
+  linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 86%,#050606 100%)}
 /* ───────── Responsive ───────── */
 @media (max-width:1024px){
   .stats{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -324,7 +405,96 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .bar .t .left{display:none}
   .bar .t{font-size:17px}
   .bar .btn{font-size:17px;padding:0 16px}
+
+  /* ── Ottimizzazione mobile ── */
+  /* grana senza blend: stessa texture, niente ricalcolo a ogni scroll */
+  body::after{mix-blend-mode:normal;opacity:.35}
+  .prehead{font-size:14px;padding:9px 16px}
+  /* hero: CTA visibile anche su schermi da 667px */
+  .hero-in{padding-top:16px}
+  .when{font-size:12px;letter-spacing:.02em}
+  .event-logo{margin-top:6px}
+  .promise{font-size:20px;line-height:1.28;margin-top:6px}
+  .event-row{grid-template-columns:1.5fr 1fr 1.2fr;margin-top:16px}
+  .event-row div{padding:9px 10px;border-right:1px solid var(--line)!important}
+  .event-row div:nth-child(3){grid-column:auto;border-top:0;border-right:0!important}
+  .event-row dt{font-size:11px}
+  .event-row dd{font-size:17px}
+  .hero .ctas{margin-top:14px}
+  .btn{height:58px;font-size:20px;padding:0 20px}
+  .trust{font-size:13px;margin-top:10px;padding:0 8px}
+  .hero-media{aspect-ratio:4/5}
+  /* sezioni più corte */
+  .learn,.proof,.andrea,.tickets,.after-reg{padding:56px 0}
+  .report{padding:56px 0}
+  .faq-s{padding-bottom:56px}
+  .h2{font-size:clamp(40px,11vw,52px)}
+  .lede{font-size:16px;margin-top:12px}
+  .points{margin-top:24px}
+  .points li{padding:20px 0}
+  .learn .after{margin-top:24px}
+  .learn .after .btn,.close-s .btn{width:100%}
+  .cause{padding:22px 0}
+  .cause h3{font-size:28px}
+  .andrea .grid{gap:28px}
+  .evidence{max-width:none}
+  .andrea .bio{margin-top:14px}
+  .timeline{margin-top:20px}
+  .timeline li{grid-template-columns:52px 1fr;gap:12px;padding:8px 0}
+  .stats{margin-top:40px}
+  .stats div{padding-top:20px}
+  .stats span{font-size:14px}
+  .files{margin-top:28px}
+  .file{padding:20px 18px 22px}
+  .file h3{font-size:24px}
+  .tags{margin-top:64px;gap:64px}
+  .tag-body{padding-top:68px}
+  .tag-body h3{font-size:56px}
+  .faq summary{font-size:17px;padding:20px 40px 20px 0}
+  .cd{gap:22px;margin-top:24px}
+  .cd b{font-size:46px}
+  footer{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  /* modulo: pannello che sale dal basso, a portata di pollice */
+  .modal{place-items:end stretch;padding:0}
+  .modal .panel{width:100%;max-height:92dvh;overflow-y:auto;overscroll-behavior:contain;
+    padding:28px 20px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform 320ms var(--ease-out),opacity 200ms ease}
+  .modal.open .panel{transform:none}
+  .modal .panel::before{content:"";position:absolute;top:10px;left:50%;width:40px;height:4px;margin-left:-20px;background:#8C979E}
+  .panel h3{font-size:34px}
+  .panel form{gap:12px;margin-top:18px}
 }
+@media (max-width:760px) and (max-height:700px){
+  .event-logo{width:min(calc(100vw - 8px),calc(30vh * 2.06))}
+  .promise{font-size:18px}
+}
+body.locked{overflow:hidden}
+@media (max-width:760px){
+  .h2{font-size:clamp(27px,7.6vw,34px)}
+  .btn{font-size:15.5px}
+  .event-row{grid-template-columns:1.25fr .85fr 1fr}
+  .event-row .lg{display:none}
+  .event-row .sm{display:inline}
+  .event-row dd{font-size:16px;white-space:nowrap}
+  .event-row div{padding:10px 12px}
+  .hero-media{aspect-ratio:3/4;margin-top:-10px}
+  .event-row dt{font-size:10px}
+  .promise{font-size:19px}
+  .points li{padding:18px 16px}
+  .points h3,.bonus h3{font-size:18px}
+  .points .n,.bonus .n{font-size:30px}
+  .cause{padding:18px 18px 20px}
+  .cause h3{font-size:21px}
+  .stats div{padding:16px 14px}
+  .stats b{font-size:32px}
+  .file h3{font-size:18px}
+  .file .big{font-size:28px}
+  .tag-body h3{font-size:46px}
+  .stop h3{font-size:20px}
+  .cd b{font-size:38px}
+  .panel h3{font-size:26px}
+  .modal .panel{border-radius:16px 16px 0 0}
+}
+
 </style>
 </head>
 <body class="no-js">
@@ -336,22 +506,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <header class="hero">
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
-    <div class="event-logo"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="2000" height="1116" fetchpriority="high"></div>
+    <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
     <h1 class="promise">In una sola serata ti mostro perché <span class="acc">oggi i contenuti non bastano più a vendere</span> e cosa fanno i business che vendono di più lavorando meno.</h1>
     <dl class="event-row">
-      <div><dt class="mono">Quando</dt><dd data-cfg="dateLong">Giovedì 29 ottobre</dd></div>
+      <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
       <div><dt class="mono">Ora</dt><dd data-cfg="time">21:00</dd></div>
-      <div><dt class="mono">Dove</dt><dd>Online, in diretta</dd></div>
+      <div><dt class="mono">Dove</dt><dd><span class="lg">Online, in diretta</span><span class="sm">Online</span></dd></div>
     </dl>
     <div class="ctas">
       <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
     </div>
     <p class="trust">Gratuito. Ricevi il link via email e su WhatsApp. Niente spam.</p>
   </div>
-  <div class="hero-media" aria-hidden="true">
+  <div class="hero-media">
     <picture>
-      <source media="(max-width:760px)" srcset="assets/obitorio-centro-mobile.jpg">
-      <img src="assets/obitorio-centro.jpg" alt="" width="2400" height="1339" loading="lazy">
+      <source media="(max-width:760px)" srcset="assets/hero-andrea-mobile.jpg">
+      <img src="assets/hero-andrea.jpg" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2200" height="1228" decoding="async">
     </picture>
   </div>
 </header>
@@ -425,10 +595,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="andrea">
   <div class="wrap">
     <div class="grid">
-      <figure class="evidence rv">
-        <!-- Sostituire con foto reale di Andrea (4:5, desaturata, luce fredda) -->
-        <div class="ph"><span class="mono">Foto di Andrea<br><span class="todo">da inserire</span></span></div>
-        <figcaption class="cap mono"><span>Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
+      <figure class="evidence coroner rv">
+        <div class="badge-top mono"><span>Medico legale</span><span>Sala 3</span></div>
+        <!-- Foto generata con kie.ai. Alternative pronte: assets/andrea-v2.jpg, assets/andrea-v3.jpg -->
+        <div class="ph">
+          <img src="assets/andrea.jpg" alt="Andrea Audisio, il medico legale del personal brand" loading="lazy" decoding="async" width="886" height="1100">
+          <span class="stamp mono">Referto firmato</span>
+        </div>
+        <figcaption class="cap mono"><span>Dott. Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
       </figure>
       <div class="rv">
         <h2 class="h2">Chi fa l'autopsia</h2>
@@ -466,7 +640,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="tickets" id="ingresso">
   <div class="wrap">
     <h2 class="h2 rv">Scegli come partecipare</h2>
-    <p class="lede rv">L'ingresso standard è gratuito. Il VIP è per chi vuole qualcosa in più.</p>
+    <p class="lede rv">L'ingresso standard è gratuito. Con il VIP, a 27 €, hai anche un'ora a tu per tu con Andrea.</p>
     <div class="tags">
       <article class="tag rv">
         <div class="tag-body">
@@ -484,14 +658,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <article class="tag vip rv">
         <div class="tag-body">
           <span class="mono">Ingresso VIP</span>
-          <h3>VIP</h3>
-          <span class="price" data-cfg="vipPrice">Prezzo in arrivo</span>
+          <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
+          <span class="price">+ 1 ora di consulenza con Andrea</span>
           <ul>
             <li>Tutto ciò che è incluso nello standard</li>
-            <li>Benefit VIP <span class="todo">da definire</span></li>
-            <li>Benefit VIP <span class="todo">da definire</span></li>
+            <li><b>Consulenza individuale di un'ora con Andrea</b></li>
           </ul>
-          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Prendi il VIP</span></a>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Prendi il VIP a <span data-cfg="vipPrice">27 €</span></span></a>
         </div>
       </article>
     </div>
@@ -504,7 +677,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <h2 class="h2 rv">Domande</h2>
     <div class="faq rv">
       <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
-      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo, per chi vuole qualcosa in più.</p></div></div></details>
+      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e include un'ora di consulenza individuale con Andrea.</p></div></div></details>
       <details><summary>Alla fine mi vendi qualcosa?</summary><div class="a"><div><p>Niente prezzo sparato in diretta. A chi lo chiede propongo un'analisi strategica gratuita del suo business. Se ha senso lavorare insieme, ne parliamo dopo; se non ha senso, te lo dico.</p></div></div></details>
       <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
       <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p><span class="todo">da confermare</span> Ti consiglio di esserci dal vivo: è lì che rispondo alle domande.</p></div></div></details>
@@ -514,7 +687,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <!-- ════════ CHIUSURA ════════ -->
 <section class="close-s">
-  <div class="bg"><img src="assets/obitorio-chiusura.jpg" alt="" loading="lazy" width="2200" height="1228"></div>
+  <div class="bg"><picture><source media="(max-width:760px)" srcset="assets/obitorio-chiusura-mobile.jpg"><img src="assets/obitorio-chiusura.jpg" alt="" loading="lazy" decoding="async" width="2200" height="1228"></picture></div>
   <div class="wrap rv">
     <h2 class="h2">Il riconoscimento è <span class="acc">giovedì sera.</span></h2>
     <p>Vieni a scoprire che cosa l'ha ucciso e che cosa lo sostituisce. <span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>, online.</p>
@@ -554,9 +727,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p class="pp"><span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>. Online e gratuito.</p>
     </div>
     <form novalidate data-form>
-      <label>Nome<input type="text" name="nome" autocomplete="given-name" required></label>
-      <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" required></label>
-      <label>WhatsApp<input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required></label>
+      <label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Il tuo nome" required></label>
+      <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
+      <label>WhatsApp<span class="tel"><span class="pre" aria-hidden="true">+39</span><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
       <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto la privacy policy e voglio ricevere il link e i promemoria dell'evento.</span></label>
       <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
     </form>
@@ -579,8 +752,9 @@ const CONFIG = {
   eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
   dateLong: "Giovedì 29 ottobre",
   dateShort: "Gio 29.10",
+  dateMobile: "Gio 29 ott",
   time: "21:00",
-  vipPrice: null,                           // DA DEFINIRE
+  vipPrice: "27 €",
   vipCheckout: "#",
   whatsapp: "#",
   ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL
@@ -628,8 +802,15 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 /* Modale */
 const modal = document.querySelector("[data-modal]");
 let lastFocus = null;
-const open = () => { lastFocus = document.activeElement; modal.classList.add("open"); setTimeout(() => modal.querySelector("input")?.focus(), 60); };
-const close = () => { modal.classList.remove("open"); lastFocus?.focus(); };
+/* su telefono niente focus automatico: la tastiera coprirebbe il modulo prima che lo veda */
+const finePointer = matchMedia("(pointer:fine)").matches;
+const open = () => {
+  lastFocus = document.activeElement; modal.classList.add("open"); document.body.classList.add("locked");
+  if (finePointer) setTimeout(() => modal.querySelector("input")?.focus(), 60);
+};
+const close = () => { modal.classList.remove("open"); document.body.classList.remove("locked"); if (finePointer) lastFocus?.focus(); };
+/* con la tastiera aperta il campo attivo resta visibile */
+modal.querySelectorAll("input").forEach(i => i.addEventListener("focus", () => setTimeout(() => i.scrollIntoView({ block: "nearest" }), 300)));
 document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", open));
 modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", close));
 addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) close(); });
@@ -640,7 +821,8 @@ form.addEventListener("submit", async e => {
   e.preventDefault();
   let ok = true;
   form.querySelectorAll("input[required]").forEach(i => {
-    const bad = i.type === "checkbox" ? !i.checked : !i.value.trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value));
+    const bad = i.type === "checkbox" ? !i.checked : !i.value.trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value))
+      || (i.type === "tel" && i.value.replace(/\D/g, "").length < 8);
     i.setAttribute("aria-invalid", bad); if (bad) ok = false;
   });
   if (!ok) { form.querySelector('[aria-invalid="true"]').focus(); return; }
@@ -666,10 +848,16 @@ function tick(){
 }
 tick(); setInterval(tick, 30000);
 
-/* Barra: compare quando l'hero esce dallo schermo */
-const bar = document.querySelector(".bar");
-new IntersectionObserver(([e]) => bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0))
-  .observe(document.querySelector(".hero .ctas"));
+/* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
+   quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
+const bar = document.querySelector(".bar"), heroCta = document.querySelector(".hero .ctas");
+const pageCtas = [...document.querySelectorAll("main [data-open], .hero [data-open]")];
+const visible = new Set();
+let pastHero = false;
+const syncBar = () => bar.classList.toggle("show", pastHero && visible.size === 0);
+new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; syncBar(); }).observe(heroCta);
+const ctaIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)); syncBar(); });
+pageCtas.forEach(b => ctaIO.observe(b));
 </script>
 </body>
 </html>

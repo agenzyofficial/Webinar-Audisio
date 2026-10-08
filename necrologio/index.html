@@ -361,6 +361,8 @@ section{position:relative}
 .ticket .label{opacity:.7}
 .ticket h3{font-family:var(--display);font-weight:700;font-size:clamp(30px,3.4vw,44px);line-height:1.12;letter-spacing:-.02em;margin:10px 0 6px}
 .ticket .price{font-family:var(--display);font-size:20px;font-weight:500}
+.ticket .vip-price{font-size:clamp(84px,10vw,112px);line-height:.9}
+.ticket.vip .price{font-weight:700}
 .ticket ul{list-style:none;margin:20px 0 26px;display:grid;gap:10px}
 .ticket li{padding-left:22px;position:relative;font-size:16px}
 .ticket li::before{content:"";position:absolute;left:0;top:.75em;width:10px;height:1.5px;background:currentColor}
@@ -775,16 +777,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <article class="ticket vip">
         <div class="body">
           <span class="label">Biglietto VIP</span>
-          <h3>VIP</h3>
-          <p class="price" data-cfg="vipPrice">Prezzo in arrivo</p>
+          <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
+          <p class="price">+ 1 ora di consulenza con Andrea</p>
           <ul>
             <li>Tutto quello del biglietto standard</li>
-            <li>Benefit VIP <span class="todo">da definire</span></li>
-            <li>Benefit VIP <span class="todo">da definire</span></li>
+            <li><b>Consulenza individuale di un'ora con Andrea</b></li>
           </ul>
           <a class="btn ghost" href="#" data-cfg-href="vipCheckout">Voglio il VIP <span class="arrow" aria-hidden="true">→</span></a>
         </div>
-        <div class="stub"><span>Prima fila VIP</span></div>
+        <div class="stub"><span>1 ora con Andrea</span></div>
       </article>
     </div>
   </div>
@@ -861,7 +862,7 @@ const CONFIG = {
   dateLong: "Giovedì 29 ottobre",
   dateShort: "Gio 29.10",
   time: "21:00",
-  vipPrice: null,                           // es. "€47" · DA DEFINIRE
+  vipPrice: "27 €",
   vipCheckout: "#",                         // link checkout Stripe/GHL
   whatsapp: "#",                            // link gruppo WhatsApp
   ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL
