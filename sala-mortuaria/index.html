@@ -370,6 +370,26 @@ footer{font-size:12px}
 .cd > div{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:14px 8px 12px;text-align:center}
 .cd b{font-size:46px;line-height:1}
 .cd span{display:block;margin-top:6px;color:var(--fg-2)}
+/* video testimonianze */
+.tvideos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(28px,4vw,44px)}
+.tvoce{position:relative;display:block;width:100%;padding:0;margin:0;border:2px solid var(--acc);border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;
+  box-shadow:var(--glow);transition:transform 200ms var(--ease-out),box-shadow 200ms ease;-webkit-tap-highlight-color:transparent}
+.tvoce img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.tvoce:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.tvoce:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(255,90,20,.6)}}
+.tvoce:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.tvoce.off{display:none}
+.tvideos.all .tvoce.off{display:block}
+.tmore{display:flex;justify-content:center;margin-top:22px}
+.tmore[hidden]{display:none}
+.vlight{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:16px}
+.vlight[hidden]{display:none}
+.vframe{width:min(1100px,100%);aspect-ratio:16/9;background:#000;border-radius:var(--r);overflow:hidden;box-shadow:0 0 0 2px rgba(255,90,20,.6),0 30px 100px rgba(0,0,0,.8)}
+.vframe iframe{display:block;width:100%;height:100%;border:0}
+.vclose{position:absolute;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.6);cursor:pointer}
+.vclose::before,.vclose::after{content:"";position:absolute;left:14px;right:14px;top:22px;height:2px;background:#fff;transform:rotate(45deg)}
+.vclose::after{transform:rotate(-45deg)}
+@media (max-width:760px){.tvideos{grid-template-columns:1fr;gap:12px}}
 /* ───────── Responsive ───────── */
 @media (max-width:1024px){
   .stats{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -560,20 +580,22 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
-<!-- ════════ LE PROVE ════════ -->
+<!-- ════════ LE PROVE (video testimonianze, le stesse della optin profitOS) ════════ -->
 <section class="proof">
   <div class="wrap">
     <h2 class="h2 rv">Le prove</h2>
-    <p class="lede rv">Alcune aziende che hanno lavorato con Andrea o con il suo team.</p>
-    <div class="files">
-      <article class="file rv"><span class="mono">Finanza personale</span><h3>Investitore Efficace</h3><div class="big">Da zero a €4M l'anno</div><p>Brand, community funnel e procedure costruiti da zero.</p></article>
-      <article class="file rv"><span class="mono">Formazione</span><h3>Evolutia</h3><div class="big">Da 6K a 35K al mese</div><p>In 3 mesi, con team, procedure e KPI.</p></article>
-      <article class="file rv"><span class="mono">Consulenza</span><h3>Roberto C. Bortolussi</h3><div class="big">Da 70K a 250K</div><p>Da 70.000 € a 250.000 € l'anno, in 3 mesi.</p></article>
-      <article class="file rv"><span class="mono">Recruitment B2B</span><h3>Sales Valley</h3><div class="big">+70 clienti in 12 mesi</div><p>Nata da zero, è diventata leader del suo settore in meno di un anno.</p></article>
-    </div>
+    <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
+    <div class="tvideos" data-tvideos></div>
+    <div class="tmore"><button type="button" class="btn ghost" data-tmore>Guarda le altre testimonianze</button></div>
     <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
   </div>
 </section>
+
+<!-- Lettore video delle testimonianze -->
+<div class="vlight" data-vlight hidden>
+  <div class="vframe"><iframe title="Testimonianza" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+  <button type="button" class="vclose" aria-label="Chiudi il video" data-vclose></button>
+</div>
 
 <!-- ════════ REFERTO ════════ -->
 <section class="report">
@@ -846,6 +868,48 @@ form.addEventListener("submit", async e => {
   } catch (err) { btn.classList.remove("sending"); btn.disabled = false; alert("Qualcosa non è andato. Riprova tra un attimo."); }
 });
 form.querySelectorAll("input").forEach(i => i.addEventListener("input", () => i.removeAttribute("aria-invalid")));
+
+/* Video testimonianze: [id Vimeo o yt:id YouTube, copertina, nome, risultato] */
+const TESTI = [
+  [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
+  [803151377, "n06", "Davide Strada e Riccardo Bianchi", "35.000€ al mese con le attività locali"],
+  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"],
+  [704213129, "n11", "Ivan Greppi", "25.000€ al mese con la formazione sales"],
+  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"],
+  [644574623, "n02", "Pierpaolo Chiti", "Primo contratto da 8.000€, agenzia web"],
+  [644576368, "n04", "Ethel Bersanetti", "Investimento rientrato in una settimana"],
+  [644575671, "n01", "Carlo Alberto De Cesare", "Da dipendente a imprenditore"],
+  [704215770, "n05", "Morris Bottazzi", "Ha smesso di buttare soldi in sponsorizzate"],
+  [704212060, "n07", "Paolo Ronchi", "Da studente a imprenditore"],
+  [704217184, "n09", "Enrico Zangara", "Digital marketer"],
+  [644574975, "n10", "Lorenzo Savasta", "Consulente marketing per strutture ricettive"],
+  [644574829, "n13", "Marika Manetta", "Consulente branding"],
+  [644574778, "n14", "Patrizia Parca", "Consulente branding"],
+  [644576898, "n15", "Stefano De Mojà", "Consulente marketing"],
+  [644575426, "n16", "Isacco Bonardi", "Mental coach, partito da zero"],
+  ["yt:KbuyMNgxYOE", "y01", "Luca Balbarini", "Da zero al suo corso di lingua online"],
+  ["yt:saRSFjlO1dE", "y02", "Sara Gariglio", "Visibilità aziendale online"],
+  ["yt:0TU9-WK6RNI", "y03", "Franco Mastrorilli", "Cresciuto su LinkedIn"],
+  ["yt:X1WE5kxdRqQ", "y04", "Francesca e Alessandro", "Pix Around, marketing sviluppato insieme"],
+  ["yt:xc_XAdwimww", "y05", "Irina", "Studente Felice, fatturato in crescita"]
+];
+const tBox = document.querySelector("[data-tvideos]"), tMore = document.querySelector("[data-tmore]");
+const tFirst = matchMedia("(max-width:760px)").matches ? 4 : 6;
+tBox.innerHTML = TESTI.map((t, i) => `<button type="button" class="tvoce${i >= tFirst ? " off" : ""}" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
+tMore.textContent = `Guarda le altre ${TESTI.length - tFirst} testimonianze`;
+tMore.addEventListener("click", () => { tBox.classList.add("all"); tMore.parentElement.hidden = true; });
+const vLight = document.querySelector("[data-vlight]"), vFrame = vLight.querySelector("iframe");
+function vOpen(id) {
+  vFrame.src = String(id).startsWith("yt:")
+    ? "https://www.youtube-nocookie.com/embed/" + id.slice(3) + "?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+    : "https://player.vimeo.com/video/" + id + "?autoplay=1&title=0&byline=0&portrait=0&dnt=1&playsinline=1";
+  vLight.hidden = false; document.body.classList.add("locked");
+}
+function vClose() { vLight.hidden = true; vFrame.src = ""; document.body.classList.remove("locked"); }
+tBox.addEventListener("click", e => { const b = e.target.closest(".tvoce"); if (b) vOpen(b.dataset.video); });
+vLight.querySelector("[data-vclose]").addEventListener("click", vClose);
+vLight.addEventListener("click", e => { if (e.target === vLight) vClose(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vClose(); });
 
 /* Countdown reale all'evento */
 const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]");
