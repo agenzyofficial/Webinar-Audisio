@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
+<meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e che cosa fare invece.">
+<link rel="preload" as="image" href="assets/obitorio-centro.jpg" media="(min-width:761px)">
+<link rel="preload" as="image" href="assets/obitorio-centro-mobile.jpg" media="(max-width:760px)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Courier+Prime:wght@400;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0D0E;
+  --bg-2:#111417;
+  --bg-3:#181C20;
+  --line:#262C31;
+  --fg:#E8ECEE;
+  --fg-2:#A6B0B6;
+  --fg-3:#6B757D;
+  --steel:#C8D0D5;
+  --acc:#FF5A14;
+  --acc-2:#D94608;
+  --on-acc:#0B0D0E;
+
+  --display:"Big Shoulders Display", "Arial Narrow", sans-serif;
+  --sans:"Hanken Grotesk", system-ui, sans-serif;
+  --mono:"Courier Prime", "Courier New", monospace;
+
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --gutter:clamp(16px,4vw,56px);
+  --max:1320px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--acc);color:var(--on-acc)}
+/* grana da pellicola, coerente con la foto */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.55;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono);font-size:14px;letter-spacing:.02em}
+.acc{color:var(--acc)}
+.h2{
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(44px,6.4vw,92px);line-height:1.02;letter-spacing:.005em;text-wrap:balance
+}
+.lede{color:var(--fg-2);font-size:clamp(17px,1.5vw,19px);max-width:52ch;margin-top:18px}
+
+/* ───────── Bottoni ───────── */
+.btn{
+  appearance:none;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;
+  display:inline-flex;align-items:center;justify-content:center;gap:14px;
+  background:var(--acc);color:var(--on-acc);
+  font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.04em;
+  font-size:22px;line-height:1;padding:0 30px;height:62px;
+  transition:transform 160ms var(--ease-out),background-color 160ms ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn .ar{display:inline-block;transition:transform 200ms var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1.5px rgba(232,236,238,.5)}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#FF6D2E}
+  .btn:hover .ar{transform:translateX(4px)}
+  .btn.ghost:hover{background:rgba(232,236,238,.08)}
+}
+.btn .lbl{transition:filter 200ms ease,opacity 200ms ease}
+.btn.sending .lbl{filter:blur(2px);opacity:.6}
+
+/* ───────── HERO: locandina centrata ───────── */
+.hero{position:relative;min-height:100dvh;display:flex;flex-direction:column;background:#050606;overflow:hidden;isolation:isolate}
+.hero-in{position:relative;z-index:2;text-align:center;padding:clamp(28px,4vh,48px) var(--gutter) 0;display:flex;flex-direction:column;align-items:center}
+.when{color:var(--fg-2);font-size:16px;font-weight:700;letter-spacing:.04em;display:inline-flex;align-items:center;gap:12px}
+.when::before,.when::after{content:"";width:28px;height:1px;background:var(--acc)}
+.prehead{text-wrap:balance;background:var(--acc);color:var(--on-acc);text-align:center;padding:11px var(--gutter);font-weight:600;font-size:clamp(14px,1.3vw,16px);line-height:1.35}
+.prehead b{font-weight:800}
+/* logo dell'evento (visual del lead magnet): su nero puro, "screen" fa sparire il nero */
+.event-logo{width:min(92vw,820px,calc(44vh * 2.06));margin-top:clamp(12px,2vh,22px)}
+.event-logo img{width:100%;height:auto;mix-blend-mode:screen;filter:contrast(1.12) brightness(.96);animation:fade 900ms var(--ease-out) 100ms both;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);
+  -webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);
+          mask-composite:intersect}
+.promise{
+  font-family:var(--sans);font-weight:700;letter-spacing:-.015em;text-wrap:balance;
+  font-size:clamp(21px,2.1vw,32px);line-height:1.25;max-width:40ch;margin-top:clamp(8px,1.6vh,18px);
+  animation:fade 700ms var(--ease-out) 300ms both
+}
+.event-row{display:grid;grid-template-columns:repeat(3,auto);margin-top:clamp(20px,3vh,30px);border:1px solid var(--line);background:rgba(17,20,23,.7);animation:fade 700ms var(--ease-out) 420ms both}
+.event-row div{padding:12px clamp(16px,2vw,28px);border-right:1px solid var(--line);text-align:left}
+.event-row div:last-child{border-right:0}
+.event-row dt{color:var(--fg-3);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.event-row dd{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(20px,1.8vw,26px);line-height:1.1;margin-top:2px}
+.trust{color:var(--fg-3);font-size:14px;margin-top:14px;animation:fade 700ms var(--ease-out) 600ms both}
+.hero .sub-unused{font-size:clamp(17px,1.4vw,20px);line-height:1.5;color:var(--fg-2);max-width:44ch;margin-top:clamp(14px,2.2vh,24px);opacity:0;animation:fade 700ms var(--ease-out) 450ms forwards}
+.hero .sub b{color:var(--fg);font-weight:600}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:clamp(18px,2.6vh,26px);opacity:0;animation:fade 700ms var(--ease-out) 600ms forwards}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* la scena sotto il titolo, ancorata in basso: si vedono sempre ring light e cartellino */
+.hero-media{position:relative;flex:1 1 auto;min-height:clamp(300px,40vh,560px);margin-top:-24px;z-index:1}
+.hero-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;transform:scale(1.05);transform-origin:50% 100%;animation:settle 2400ms var(--ease-out) forwards}
+@keyframes settle{to{transform:scale(1)}}
+.hero-media::after{content:"";position:absolute;inset:-1px 0 -2px 0;
+  background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,.6) 22%,rgba(5,6,6,0) 45%,rgba(5,6,6,0) 80%,var(--bg) 100%),
+             linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 18%,rgba(5,6,6,0) 82%,#050606 100%)}
+
+/* ───────── REFERTO ───────── */
+.report{padding:clamp(80px,11vw,160px) 0 clamp(64px,8vw,120px)}
+.report .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.report .left{position:sticky;top:48px}
+.report .left .mono{color:var(--fg-3);display:block;margin-bottom:18px}
+.causes{border-top:1px solid var(--line)}
+.cause{padding:clamp(26px,3vw,40px) 0;border-bottom:1px solid var(--line)}
+.cause h3{text-wrap:balance;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,3vw,42px);line-height:1.05;letter-spacing:.01em}
+.cause p{color:var(--fg-2);margin-top:12px;max-width:58ch}
+
+/* ───────── COSA SCOPRIRAI (bento) ───────── */
+.learn{padding:clamp(64px,8vw,120px) 0}
+.points{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,5vw,72px);margin-top:clamp(32px,5vw,52px);border-top:1px solid var(--line)}
+.points li{display:grid;grid-template-columns:56px 1fr;gap:18px;padding:clamp(24px,2.6vw,34px) 0;border-bottom:1px solid var(--line)}
+.points .n,.bonus .n{font-family:var(--display);font-weight:900;font-size:48px;line-height:1;color:var(--acc)}
+.points h3,.bonus h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(26px,2.2vw,32px);line-height:1.05;text-wrap:balance}
+.points p,.bonus p{color:var(--fg-2);margin-top:8px}
+.bonus{display:grid;grid-template-columns:56px 1fr;gap:18px;margin-top:28px;padding:clamp(22px,2.6vw,32px);background:var(--acc);color:var(--on-acc)}
+.bonus .n{color:var(--on-acc)}
+.bonus p{color:#3A1A08}
+.learn .after{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:36px}
+.learn .after .mono{color:var(--fg-3)}
+
+/* ───────── CHI FA L'AUTOPSIA ───────── */
+.andrea{padding:clamp(64px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--line)}
+.andrea .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.evidence{background:var(--bg-3);border:1px solid var(--line);padding:12px}
+.evidence .ph{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;color:var(--fg-3);
+  background:repeating-linear-gradient(-45deg,transparent 0 10px,rgba(255,255,255,.025) 10px 11px),#14181B}
+.evidence .cap{display:flex;justify-content:space-between;color:var(--fg-3);padding:12px 4px 2px}
+.andrea .bio{color:var(--fg-2);margin-top:22px;max-width:60ch}
+.andrea .bio b{color:var(--fg);font-weight:600}
+.timeline{margin-top:32px;display:grid;gap:0}
+.timeline li{list-style:none;display:grid;grid-template-columns:72px 1fr;gap:18px;padding:12px 0}
+.timeline .y{font-family:var(--mono);font-weight:700;color:var(--acc)}
+.timeline p{color:var(--fg-2)}
+.timeline p b{color:var(--fg);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(56px,7vw,96px);border-top:1px solid var(--line)}
+.stats div{padding:28px 20px 0 0}
+.stats b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(48px,5.4vw,84px);line-height:.9}
+.stats span{display:block;color:var(--fg-2);font-size:15px;margin-top:10px;max-width:22ch}
+
+/* ───────── PROVE (scroll orizzontale) ───────── */
+.proof{padding:clamp(64px,8vw,120px) 0}
+.files{display:grid;grid-template-columns:repeat(4,minmax(260px,1fr));gap:16px;margin-top:clamp(36px,5vw,56px);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
+.files::-webkit-scrollbar{display:none}
+.file{scroll-snap-align:start;background:var(--bg-2);border-top:3px solid var(--steel);padding:26px 24px 28px;display:flex;flex-direction:column;min-height:300px}
+.file .mono{color:var(--fg-3)}
+.file h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:28px;line-height:1;margin-top:10px}
+.file .big{font-family:var(--display);font-weight:900;font-size:clamp(40px,3.6vw,54px);line-height:1.02;color:var(--acc);margin-top:auto;padding-top:28px}
+.file p{color:var(--fg-2);font-size:15.5px;margin-top:10px}
+.fine{color:var(--fg-3);font-size:13px;margin-top:18px}
+
+/* ───────── BIGLIETTI = CARTELLINI ───────── */
+.tickets{padding:clamp(64px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--line);overflow:hidden}
+.tags{display:flex;justify-content:center;gap:clamp(24px,5vw,72px);margin-top:clamp(56px,7vw,88px);flex-wrap:wrap}
+.tag{position:relative;width:min(100%,400px);transition:transform 300ms var(--ease-out)}
+.tag:nth-child(1){transform:rotate(-2deg)}
+.tag:nth-child(2){transform:rotate(1.6deg)}
+@media (hover:hover) and (pointer:fine){.tag:hover{transform:rotate(0deg)}}
+/* lo spago */
+.tag::before{content:"";position:absolute;left:50%;top:-56px;width:1.5px;height:84px;background:linear-gradient(var(--fg-3),var(--steel));transform:translateX(-50%);z-index:2}
+.tag-body{
+  position:relative;padding:76px clamp(26px,3vw,36px) 34px;color:var(--on-acc);
+  background:var(--steel);
+  clip-path:polygon(16% 0,84% 0,100% 8%,100% 100%,0 100%,0 8%);
+  -webkit-mask:radial-gradient(circle at 50% 34px,transparent 11px,#000 12px);
+          mask:radial-gradient(circle at 50% 34px,transparent 11px,#000 12px);
+}
+.tag.vip .tag-body{background:var(--acc)}
+.tag-body .mono{display:block;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.tag-body h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(56px,6vw,76px);line-height:1;margin:12px 0 6px}
+.tag-body .price{font-family:var(--mono);font-size:16px}
+.tag-body ul{list-style:none;margin:22px 0 28px;border-top:1.5px dashed rgba(11,13,14,.35)}
+.tag-body li{padding:10px 0;border-bottom:1.5px dashed rgba(11,13,14,.35);font-size:16px;font-weight:500}
+.tag-body .btn{width:100%;background:var(--on-acc);color:var(--fg)}
+@media (hover:hover) and (pointer:fine){.tag-body .btn:hover{background:#000}}
+.todo{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;background:#F4D35E;color:#111;padding:0 5px;vertical-align:middle}
+
+/* ───────── DOPO L'ISCRIZIONE (timeline orizzontale) ───────── */
+.after-reg{padding:clamp(64px,8vw,120px) 0}
+.rail{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(36px,5vw,56px);position:relative}
+.rail::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:var(--line)}
+.stop{position:relative;padding-top:36px;padding-right:32px}
+.stop::before{content:"";position:absolute;left:0;top:0;width:15px;height:15px;background:var(--bg);border:2px solid var(--acc)}
+.stop:last-child::before{background:var(--acc)}
+.stop .mono{color:var(--acc)}
+.stop h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:1;margin-top:8px}
+.stop p{color:var(--fg-2);margin-top:10px;max-width:34ch}
+
+/* ───────── FAQ ───────── */
+.faq-s{padding:0 0 clamp(64px,8vw,120px)}
+.faq{margin-top:clamp(28px,4vw,44px);border-top:1px solid var(--line);max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 48px 24px 0;font-weight:600;font-size:19px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:4px;top:50%;width:14px;height:14px;margin-top:-7px;
+  background:linear-gradient(var(--acc),var(--acc)) center/14px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) center/2px 14px no-repeat;
+  transition:transform 200ms var(--ease-out)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 240ms var(--ease-out)}
+.faq details[open] .a{grid-template-rows:1fr}
+.faq .a > div{overflow:hidden}
+.faq .a p{padding:0 0 24px;color:var(--fg-2);max-width:68ch}
+
+/* ───────── CHIUSURA ───────── */
+.close-s{position:relative;min-height:min(92dvh,860px);display:grid;align-items:center;overflow:hidden;isolation:isolate;border-top:1px solid var(--line)}
+.close-s .bg{position:absolute;inset:0;z-index:-1}
+.close-s .bg img{position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:62% 50%}
+.close-s .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 38%,rgba(11,13,14,.6) 48%,rgba(11,13,14,0) 64%),linear-gradient(0deg,rgba(11,13,14,.8),transparent 30%)}
+/* testo attaccato al margine sinistro, non al contenitore centrato */
+.close-s > .wrap{max-width:none;margin:0;padding-left:clamp(24px,6vw,112px);padding-right:var(--gutter);width:100%}
+.close-s .h2{max-width:11ch}
+.close-s p{color:var(--fg-2);max-width:40ch;margin-top:20px;font-size:clamp(17px,1.5vw,19px)}
+.close-s .btn{margin-top:32px}
+.cd{display:flex;gap:28px;margin-top:36px}
+.cd b{display:block;font-family:var(--display);font-weight:900;font-size:56px;line-height:.9;font-variant-numeric:tabular-nums}
+.cd span{color:var(--fg-3)}
+
+footer{border-top:1px solid var(--line);padding:28px 0 104px;color:var(--fg-3);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ───────── BARRA FISSA ───────── */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:rgba(11,13,14,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  transform:translateY(110%);transition:transform 300ms var(--ease-out);
+}
+.bar.show{transform:none}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.bar .t{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:20px;line-height:1}
+.bar .t .mono{display:block;font-family:var(--mono);text-transform:none;font-weight:400;font-size:13px;color:var(--fg-2);margin-top:4px}
+.bar .btn{height:50px;font-size:19px;padding:0 22px}
+
+/* ───────── MODALE ───────── */
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;visibility:hidden}
+.modal .scrim{position:absolute;inset:0;background:rgba(5,6,7,.8);opacity:0;transition:opacity 200ms ease}
+.modal .panel{position:relative;width:min(100%,460px);background:var(--steel);color:var(--on-acc);padding:clamp(24px,4vw,36px);opacity:0;transform:scale(.96);transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.modal.open{visibility:visible}
+.modal.open .scrim{opacity:1}
+.modal.open .panel{opacity:1;transform:none}
+.panel h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:40px;line-height:1}
+.panel .pp{font-family:var(--mono);font-size:14px;margin-top:10px;color:#2E3539}
+.panel form{display:grid;gap:14px;margin-top:22px}
+.panel label{display:grid;gap:6px;font-weight:600;font-size:14px}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{font:inherit;font-size:16px;padding:14px;border:1.5px solid #8C979E;background:#fff;color:var(--on-acc);border-radius:0;outline:none;transition:border-color 160ms ease}
+.panel input:focus{border-color:var(--on-acc)}
+.panel input[aria-invalid="true"]{border-color:var(--acc-2);box-shadow:inset 0 0 0 1px var(--acc-2)}
+.panel .consent{display:flex;gap:10px;font-weight:400;font-size:13px;color:#2E3539;align-items:flex-start}
+.panel .consent input{accent-color:var(--acc);width:16px;height:16px;margin-top:3px;flex:none}
+.panel .btn{width:100%}
+.close{position:absolute;top:6px;right:6px;width:44px;height:44px;border:0;background:none;cursor:pointer}
+.close::before,.close::after{content:"";position:absolute;left:13px;right:13px;top:21px;height:2px;background:var(--on-acc);transform:rotate(45deg)}
+.close::after{transform:rotate(-45deg)}
+.done{display:none}
+.panel.ok form,.panel.ok .intro{display:none}
+.panel.ok .done{display:block}
+.done ol{margin:16px 0 22px 18px;display:grid;gap:8px;color:#2E3539}
+
+/* ───────── Reveal ───────── */
+.rv{opacity:0;transform:translateY(14px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-media img{animation:none;transform:none}
+  .event-logo img,.promise,.event-row,.trust{animation:none}
+  .hero .sub,.hero .ctas{animation:none;opacity:1}
+  .rv{transform:none!important;transition:opacity 300ms ease!important}
+  .modal .panel{transform:none!important}
+}
+
+/* ───────── Responsive ───────── */
+@media (max-width:1024px){
+  .stats{grid-template-columns:1fr 1fr;row-gap:28px}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .hero{min-height:0}
+  .hero-in{padding-top:22px}
+  .event-logo{width:calc(100vw - 8px)}
+  .hero .ctas{width:100%}
+  .event-row{grid-template-columns:1fr 1fr;width:100%}
+  .event-row div:nth-child(2){border-right:0}
+  .event-row div:nth-child(3){grid-column:1 / -1;border-top:1px solid var(--line)}
+  .bar .t{display:none}
+  .bar .btn{width:100%}
+    .when{font-size:14px;gap:8px}
+  .when::before,.when::after{width:14px}
+  .hero-media{min-height:0;height:auto;aspect-ratio:3/4;margin-top:-36px}
+  .hero .ctas .btn{flex:1 1 100%}
+  .report .grid,.andrea .grid{grid-template-columns:1fr}
+  .report .left{position:static}
+  .tag:nth-child(1),.tag:nth-child(2){transform:none}
+  .tags{gap:72px}
+  .files{grid-template-columns:1fr;overflow:visible;gap:12px}
+  .file{min-height:0}
+  .file .big{padding-top:18px}
+  .rail{grid-template-columns:1fr;gap:28px}
+  .points{grid-template-columns:1fr}
+  .points li,.bonus{grid-template-columns:40px 1fr;gap:14px}
+  .points .n,.bonus .n{font-size:38px}
+  .rail::before{left:7px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .stop{padding-top:0;padding-left:36px}
+  .evidence{max-width:260px}
+  .close-s{display:block;min-height:0;padding-bottom:64px}
+  .close-s .bg{position:relative;inset:auto;height:56svh;min-height:340px}
+  .close-s .bg img{width:100%;object-position:72% 50%}
+  .close-s .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,13,14,0) 45%)}
+  .close-s > .wrap{margin-top:-40px;position:relative}
+  .bar .t .left{display:none}
+  .bar .t{font-size:17px}
+  .bar .btn{font-size:17px;padding:0 16px}
+}
+</style>
+</head>
+<body class="no-js">
+
+<!-- ════════ PRE-HEAD (qualifica il pubblico) ════════ -->
+<div class="prehead">Hai un business online che <b>vende già</b>, ma passa ancora tutto da te?</div>
+
+<!-- ════════ HERO: logo evento + promessa + data + una sola CTA ════════ -->
+<header class="hero">
+  <div class="hero-in">
+    <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
+    <div class="event-logo"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="2000" height="1116" fetchpriority="high"></div>
+    <h1 class="promise">In una sola serata ti mostro perché <span class="acc">oggi i contenuti non bastano più a vendere</span> e cosa fanno i business che vendono di più lavorando meno.</h1>
+    <dl class="event-row">
+      <div><dt class="mono">Quando</dt><dd data-cfg="dateLong">Giovedì 29 ottobre</dd></div>
+      <div><dt class="mono">Ora</dt><dd data-cfg="time">21:00</dd></div>
+      <div><dt class="mono">Dove</dt><dd>Online, in diretta</dd></div>
+    </dl>
+    <div class="ctas">
+      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    </div>
+    <p class="trust">Gratuito. Ricevi il link via email e su WhatsApp. Niente spam.</p>
+  </div>
+  <div class="hero-media" aria-hidden="true">
+    <picture>
+      <source media="(max-width:760px)" srcset="assets/obitorio-centro-mobile.jpg">
+      <img src="assets/obitorio-centro.jpg" alt="" width="2400" height="1339" loading="lazy">
+    </picture>
+  </div>
+</header>
+
+<main>
+<!-- ════════ COSA SCOPRIRAI (benefici) ════════ -->
+<section class="learn">
+  <div class="wrap">
+    <h2 class="h2 rv">Cosa scoprirai in questa serata</h2>
+    <ol class="points">
+      <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
+      <li class="rv"><span class="n">2</span><div><h3>Il vero collo di bottiglia del tuo business</h3><p>Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</p></div></li>
+      <li class="rv"><span class="n">3</span><div><h3>Cosa delegare alla tecnologia nel 2026</h3><p>Setter, montaggio video, copy, follow-up: quali attività oggi non richiedono più una persona.</p></div></li>
+      <li class="rv"><span class="n">4</span><div><h3>Entra basso, guadagna dopo</h3><p>Perché vendere subito un'offerta high ticket a freddo ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</p></div></li>
+    </ol>
+    <div class="bonus rv">
+      <span class="n">+1</span>
+      <div><h3>Un'analisi strategica del tuo business, gratis</h3><p>Per chi la chiede, alla fine della serata: ti dico con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
+    </div>
+    <div class="after rv">
+      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ LE PROVE ════════ -->
+<section class="proof">
+  <div class="wrap">
+    <h2 class="h2 rv">Le prove</h2>
+    <p class="lede rv">Alcune aziende che hanno lavorato con Andrea o con il suo team.</p>
+    <div class="files">
+      <article class="file rv"><span class="mono">Finanza personale</span><h3>Investitore Efficace</h3><div class="big">Da zero a €4M l'anno</div><p>Brand, community funnel e procedure costruiti da zero.</p></article>
+      <article class="file rv"><span class="mono">Formazione</span><h3>Evolutia</h3><div class="big">Da 6K a 35K al mese</div><p>In 3 mesi, con team, procedure e KPI.</p></article>
+      <article class="file rv"><span class="mono">Consulenza</span><h3>Roberto C. Bortolussi</h3><div class="big">Da 70K a 250K</div><p>Da 70.000 € a 250.000 € l'anno, in 3 mesi.</p></article>
+      <article class="file rv"><span class="mono">Recruitment B2B</span><h3>Sales Valley</h3><div class="big">+70 clienti in 12 mesi</div><p>Nata da zero, è diventata leader del suo settore in meno di un anno.</p></article>
+    </div>
+    <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
+  </div>
+</section>
+
+<!-- ════════ REFERTO ════════ -->
+<section class="report">
+  <div class="wrap grid">
+    <div class="left rv">
+      <span class="mono">Referto, causa del decesso</span>
+      <h2 class="h2">Non l'ha ucciso l'algoritmo.</h2>
+      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema non è la nicchia e nemmeno l'offerta: probabilmente le hai già cambiate tre volte.</p>
+    </div>
+    <div class="causes">
+      <article class="cause rv">
+        <h3>La barriera è crollata.</h3>
+        <p>Mettere la faccia e fare contenuti oggi è facile, quindi lo fanno tutti. È come aprire una pizzeria in una città che ne ha cento: per quanto tu sia bravo, anche gli altri lo sono.</p>
+      </article>
+      <article class="cause rv">
+        <h3>Nessuno si fida più.</h3>
+        <p>Reel, podcast, screenshot dei bonifici, Dubai: la gente ha già visto tutto e ci è cascata almeno una volta. Oggi il personal brand perfetto ottiene l'effetto contrario.</p>
+      </article>
+      <article class="cause rv">
+        <h3>Il collante sei tu.</h3>
+        <p>Contenuti, stories, DM, follow-up, funnel, email, call, numeri: tutto passa da te. Puoi avere l'offerta migliore del mondo: se per farla girare devi mettere benzina in ogni pezzo, prima o poi ti fermi.</p>
+      </article>
+      <article class="cause rv">
+        <h3>La cura era altro lavoro.</h3>
+        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» Per imparare tutto questo servono anni e nel frattempo devi mangiare. Ogni corso ti ha lasciato soltanto una lista più lunga di cose da fare.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHI FA L'AUTOPSIA ════════ -->
+<section class="andrea">
+  <div class="wrap">
+    <div class="grid">
+      <figure class="evidence rv">
+        <!-- Sostituire con foto reale di Andrea (4:5, desaturata, luce fredda) -->
+        <div class="ph"><span class="mono">Foto di Andrea<br><span class="todo">da inserire</span></span></div>
+        <figcaption class="cap mono"><span>Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
+      </figure>
+      <div class="rv">
+        <h2 class="h2">Chi fa l'autopsia</h2>
+        <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
+        <ul class="timeline">
+          <li><span class="y">2007</span><p>Faccio advertising su Facebook quando la piattaforma è ancora in inglese. La mia agenzia passa <b>da 0 a 400 clienti</b>.</p></li>
+          <li><span class="y">2019</span><p>Divento socio al 30% di un gruppo da <b>20 milioni di fatturato</b>: progetti per LEGO, BMW, Ducati e Alfa Romeo.</p></li>
+          <li><span class="y">2018</span><p>Sono il primo in Italia a introdurre la figura dell'<b>appointment setter</b>.</p></li>
+          <li><span class="y">2025</span><p>Fondo <b>ProfitOS</b>: entriamo come soci operativi nei business che già vendono.</p></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats rv">
+      <div><b>18 anni</b><span>di business online, dal 2007</span></div>
+      <div><b class="acc">€1,5M</b><span>in 2 mesi con un e-commerce nato in lockdown</span></div>
+      <div><b>400</b><span>clienti in 6 mesi con Consulente High Ticket</span></div>
+      <div><b>1.500+</b><span>imprenditori seguiti in consulenza individuale</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DOPO L'ISCRIZIONE ════════ -->
+<section class="after-reg">
+  <div class="wrap">
+    <h2 class="h2 rv">Cosa succede dopo</h2>
+    <div class="rail">
+      <div class="stop rv"><span class="mono">Subito</span><h3>Ricevi il link</h3><p>Ti mandiamo subito tutti i dettagli via email e su WhatsApp.</p></div>
+      <div class="stop rv"><span class="mono">Nei giorni prima</span><h3>Ti chiama il team</h3><p>Ti chiamiamo per confermare la tua presenza, così il posto non resta vuoto.</p></div>
+      <div class="stop rv"><span class="mono">Giovedì, ore <span data-cfg="time">21:00</span></span><h3>Clicchi ed entri</h3><p>Basta il link. Porta i tuoi numeri: ci servono.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ INGRESSO ════════ -->
+<section class="tickets" id="ingresso">
+  <div class="wrap">
+    <h2 class="h2 rv">Scegli come partecipare</h2>
+    <p class="lede rv">L'ingresso standard è gratuito. Il VIP è per chi vuole qualcosa in più.</p>
+    <div class="tags">
+      <article class="tag rv">
+        <div class="tag-body">
+          <span class="mono">Ingresso standard</span>
+          <h3>Gratis</h3>
+          <span class="price">La serata in diretta, per intero</span>
+          <ul>
+            <li>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></li>
+            <li>Gruppo WhatsApp dell'evento</li>
+            <li>Analisi strategica gratuita, su richiesta</li>
+          </ul>
+          <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+        </div>
+      </article>
+      <article class="tag vip rv">
+        <div class="tag-body">
+          <span class="mono">Ingresso VIP</span>
+          <h3>VIP</h3>
+          <span class="price" data-cfg="vipPrice">Prezzo in arrivo</span>
+          <ul>
+            <li>Tutto ciò che è incluso nello standard</li>
+            <li>Benefit VIP <span class="todo">da definire</span></li>
+            <li>Benefit VIP <span class="todo">da definire</span></li>
+          </ul>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Prendi il VIP</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section class="faq-s">
+  <div class="wrap">
+    <h2 class="h2 rv">Domande</h2>
+    <div class="faq rv">
+      <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
+      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo, per chi vuole qualcosa in più.</p></div></div></details>
+      <details><summary>Alla fine mi vendi qualcosa?</summary><div class="a"><div><p>Niente prezzo sparato in diretta. A chi lo chiede propongo un'analisi strategica gratuita del suo business. Se ha senso lavorare insieme, ne parliamo dopo; se non ha senso, te lo dico.</p></div></div></details>
+      <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
+      <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p><span class="todo">da confermare</span> Ti consiglio di esserci dal vivo: è lì che rispondo alle domande.</p></div></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHIUSURA ════════ -->
+<section class="close-s">
+  <div class="bg"><img src="assets/obitorio-chiusura.jpg" alt="" loading="lazy" width="2200" height="1228"></div>
+  <div class="wrap rv">
+    <h2 class="h2">Il riconoscimento è <span class="acc">giovedì sera.</span></h2>
+    <p>Vieni a scoprire che cosa l'ha ucciso e che cosa lo sostituisce. <span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>, online.</p>
+    <div class="cd" data-cd aria-label="Tempo che manca alla serata">
+      <div><b data-d>--</b><span class="mono">giorni</span></div>
+      <div><b data-h>--</b><span class="mono">ore</span></div>
+      <div><b data-m>--</b><span class="mono">minuti</span></div>
+    </div>
+    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 ProfitOS, Andrea Audisio</span>
+    <span><a href="#">Privacy policy</a> &nbsp; <a href="#">Cookie policy</a></span>
+    <span>Questo sito non fa parte di Facebook o di Meta Platforms, Inc.</span>
+  </div>
+</footer>
+
+<!-- Barra fissa: compare dopo l'hero -->
+<div class="bar">
+  <div class="wrap">
+    <div class="t">La morte del personal brand<span class="mono"><span data-cfg="dateShort">Gio 29.10</span>, ore <span data-cfg="time">21:00</span><span class="left">. Mancano <span data-bar-left>--</span></span></span></div>
+    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+  </div>
+</div>
+
+<!-- Modale iscrizione -->
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" data-modal>
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <button class="close" aria-label="Chiudi" data-close></button>
+    <div class="intro">
+      <h3 id="m-title">Riserva il posto</h3>
+      <p class="pp"><span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>. Online e gratuito.</p>
+    </div>
+    <form novalidate data-form>
+      <label>Nome<input type="text" name="nome" autocomplete="given-name" required></label>
+      <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" required></label>
+      <label>WhatsApp<input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required></label>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto la privacy policy e voglio ricevere il link e i promemoria dell'evento.</span></label>
+      <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
+    </form>
+    <div class="done" role="status" aria-live="polite">
+      <h3>Sei dentro.</h3>
+      <ol>
+        <li>Controlla la tua email: lì trovi il link della serata.</li>
+        <li>Entra nel gruppo WhatsApp per i promemoria.</li>
+        <li>Segnati in agenda <b data-cfg="dateLong">giovedì 29 ottobre</b> alle <b data-cfg="time">21:00</b>.</li>
+      </ol>
+      <a class="btn" href="#" data-cfg-href="whatsapp"><span class="lbl">Entra nel gruppo WhatsApp</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ CONFIG: stessi valori della variante A ═══ */
+const CONFIG = {
+  variant: "B",
+  eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
+  dateLong: "Giovedì 29 ottobre",
+  dateShort: "Gio 29.10",
+  time: "21:00",
+  vipPrice: null,                           // DA DEFINIRE
+  vipCheckout: "#",
+  whatsapp: "#",
+  ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL
+  thankYouUrl: "",                          // URL della thank-you page (vuoto = conferma nella pagina)
+  phonePrefix: "+39"
+};
+
+/* ── Invio a GoHighLevel (Inbound Webhook) ──────────────────────────────
+   Manda nome, email, telefono, variante, UTM e fbclid. La risposta del webhook
+   non è leggibile dal browser (no-cors): l'arrivo del contatto si verifica in GHL. */
+const pbmQS = new URLSearchParams(location.search);
+async function pbmSend(raw) {
+  const d = {};
+  const name = (raw.full_name || raw.nome || raw.first_name || "").trim();
+  d.full_name = name;
+  d.first_name = name.split(/\s+/)[0] || "";
+  d.last_name = name.split(/\s+/).slice(1).join(" ");
+  d.email = (raw.email || "").trim();
+  let ph = (raw.phone || raw.telefono || "").replace(/[^\d+]/g, "");
+  if (ph.startsWith("00")) ph = "+" + ph.slice(2);
+  else if (ph && !ph.startsWith("+")) ph = (CONFIG.phonePrefix || "+39") + ph;
+  d.phone = ph;
+  d.variante = CONFIG.variant;
+  d.evento = "La morte del personal brand";
+  d.privacy = raw.privacy ? "si" : "no";
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k => { if (pbmQS.get(k)) d[k] = pbmQS.get(k); });
+  d.page_url = location.href.split("#")[0];
+  if (CONFIG.ghlWebhookUrl) {
+    try { await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (e) {}
+  } else {
+    await new Promise(r => setTimeout(r, 400));
+  }
+  if (window.fbq) fbq("track", "CompleteRegistration", { content_name: "webinar_pb_morto", variant: CONFIG.variant });
+  if (CONFIG.thankYouUrl) { location.href = CONFIG.thankYouUrl; return new Promise(() => {}); }
+}
+
+document.body.classList.remove("no-js");
+document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
+document.querySelectorAll("[data-cfg-href]").forEach(el => { el.href = CONFIG[el.dataset.cfgHref] || "#"; });
+
+/* Reveal allo scroll, una volta */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -60px 0px" });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* Modale */
+const modal = document.querySelector("[data-modal]");
+let lastFocus = null;
+const open = () => { lastFocus = document.activeElement; modal.classList.add("open"); setTimeout(() => modal.querySelector("input")?.focus(), 60); };
+const close = () => { modal.classList.remove("open"); lastFocus?.focus(); };
+document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", open));
+modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", close));
+addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) close(); });
+
+/* Form */
+const form = modal.querySelector("[data-form]");
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  let ok = true;
+  form.querySelectorAll("input[required]").forEach(i => {
+    const bad = i.type === "checkbox" ? !i.checked : !i.value.trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value));
+    i.setAttribute("aria-invalid", bad); if (bad) ok = false;
+  });
+  if (!ok) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+  const btn = form.querySelector("button"); btn.classList.add("sending"); btn.disabled = true;
+  try {
+    await pbmSend(Object.fromEntries(new FormData(form)));
+    modal.querySelector(".panel").classList.add("ok");
+  } catch (err) { btn.classList.remove("sending"); btn.disabled = false; alert("Qualcosa non è andato. Riprova tra un attimo."); }
+});
+form.querySelectorAll("input").forEach(i => i.addEventListener("input", () => i.removeAttribute("aria-invalid")));
+
+/* Countdown reale all'evento */
+const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]");
+function tick(){
+  const ms = new Date(CONFIG.eventISO) - new Date();
+  if (ms <= 0) { cd.innerHTML = '<b style="font-size:32px">In diretta ora</b>'; left.textContent = "0 minuti"; return; }
+  const m = Math.floor(ms / 60000), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60;
+  cd.querySelector("[data-d]").textContent = d;
+  cd.querySelector("[data-h]").textContent = String(h).padStart(2, "0");
+  cd.querySelector("[data-m]").textContent = String(mm).padStart(2, "0");
+  const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  left.textContent = d > 0 ? `${pl(d, "giorno", "giorni")} e ${pl(h, "ora", "ore")}` : `${pl(h, "ora", "ore")} e ${pl(mm, "minuto", "minuti")}`;
+}
+tick(); setInterval(tick, 30000);
+
+/* Barra: compare quando l'hero esce dallo schermo */
+const bar = document.querySelector(".bar");
+new IntersectionObserver(([e]) => bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0))
+  .observe(document.querySelector(".hero .ctas"));
+</script>
+</body>
+</html>
