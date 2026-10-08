@@ -371,17 +371,13 @@ footer{font-size:12px}
 .cd b{font-size:46px;line-height:1}
 .cd span{display:block;margin-top:6px;color:var(--fg-2)}
 /* video testimonianze */
-.tvideos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(28px,4vw,44px)}
+.tvideos{display:grid;grid-template-columns:repeat(2,1fr);max-width:960px;gap:16px;margin-top:clamp(28px,4vw,44px)}
 .tvoce{position:relative;display:block;width:100%;padding:0;margin:0;border:2px solid var(--acc);border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;
   box-shadow:var(--glow);transition:transform 200ms var(--ease-out),box-shadow 200ms ease;-webkit-tap-highlight-color:transparent}
 .tvoce img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
 .tvoce:active{transform:scale(.98)}
 @media (hover:hover) and (pointer:fine){.tvoce:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(255,90,20,.6)}}
 .tvoce:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.tvoce.off{display:none}
-.tvideos.all .tvoce.off{display:block}
-.tmore{display:flex;justify-content:center;margin-top:22px}
-.tmore[hidden]{display:none}
 .vlight{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:16px}
 .vlight[hidden]{display:none}
 .vframe{width:min(1100px,100%);aspect-ratio:16/9;background:#000;border-radius:var(--r);overflow:hidden;box-shadow:0 0 0 2px rgba(255,90,20,.6),0 30px 100px rgba(0,0,0,.8)}
@@ -580,13 +576,12 @@ body.locked{overflow:hidden}
   </div>
 </section>
 
-<!-- ════════ LE PROVE (video testimonianze, le stesse della optin profitOS) ════════ -->
+<!-- ════════ LE PROVE (4 video testimonianze dalla optin profitOS) ════════ -->
 <section class="proof">
   <div class="wrap">
     <h2 class="h2 rv">Le prove</h2>
     <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
     <div class="tvideos" data-tvideos></div>
-    <div class="tmore"><button type="button" class="btn ghost" data-tmore>Guarda le altre testimonianze</button></div>
     <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
   </div>
 </section>
@@ -871,33 +866,13 @@ form.querySelectorAll("input").forEach(i => i.addEventListener("input", () => i.
 
 /* Video testimonianze: [id Vimeo o yt:id YouTube, copertina, nome, risultato] */
 const TESTI = [
-  [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
   [803151377, "n06", "Davide Strada e Riccardo Bianchi", "35.000€ al mese con le attività locali"],
-  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"],
+  [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
   [704213129, "n11", "Ivan Greppi", "25.000€ al mese con la formazione sales"],
-  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"],
-  [644574623, "n02", "Pierpaolo Chiti", "Primo contratto da 8.000€, agenzia web"],
-  [644576368, "n04", "Ethel Bersanetti", "Investimento rientrato in una settimana"],
-  [644575671, "n01", "Carlo Alberto De Cesare", "Da dipendente a imprenditore"],
-  [704215770, "n05", "Morris Bottazzi", "Ha smesso di buttare soldi in sponsorizzate"],
-  [704212060, "n07", "Paolo Ronchi", "Da studente a imprenditore"],
-  [704217184, "n09", "Enrico Zangara", "Digital marketer"],
-  [644574975, "n10", "Lorenzo Savasta", "Consulente marketing per strutture ricettive"],
-  [644574829, "n13", "Marika Manetta", "Consulente branding"],
-  [644574778, "n14", "Patrizia Parca", "Consulente branding"],
-  [644576898, "n15", "Stefano De Mojà", "Consulente marketing"],
-  [644575426, "n16", "Isacco Bonardi", "Mental coach, partito da zero"],
-  ["yt:KbuyMNgxYOE", "y01", "Luca Balbarini", "Da zero al suo corso di lingua online"],
-  ["yt:saRSFjlO1dE", "y02", "Sara Gariglio", "Visibilità aziendale online"],
-  ["yt:0TU9-WK6RNI", "y03", "Franco Mastrorilli", "Cresciuto su LinkedIn"],
-  ["yt:X1WE5kxdRqQ", "y04", "Francesca e Alessandro", "Pix Around, marketing sviluppato insieme"],
-  ["yt:xc_XAdwimww", "y05", "Irina", "Studente Felice, fatturato in crescita"]
+  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"]
 ];
-const tBox = document.querySelector("[data-tvideos]"), tMore = document.querySelector("[data-tmore]");
-const tFirst = matchMedia("(max-width:760px)").matches ? 4 : 6;
-tBox.innerHTML = TESTI.map((t, i) => `<button type="button" class="tvoce${i >= tFirst ? " off" : ""}" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
-tMore.textContent = `Guarda le altre ${TESTI.length - tFirst} testimonianze`;
-tMore.addEventListener("click", () => { tBox.classList.add("all"); tMore.parentElement.hidden = true; });
+const tBox = document.querySelector("[data-tvideos]");
+tBox.innerHTML = TESTI.map(t => `<button type="button" class="tvoce" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
 const vLight = document.querySelector("[data-vlight]"), vFrame = vLight.querySelector("iframe");
 function vOpen(id) {
   vFrame.src = String(id).startsWith("yt:")
