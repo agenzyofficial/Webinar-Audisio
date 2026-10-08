@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
+<meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e come vendere di più lavorando meno.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;
+  --card:#0d0d0d;
+  --fg:#fff;
+  --fg-2:#d6d6d6;
+  --fg-3:#9a9a9a;
+  --red:#E3261C;
+  --red-glow:rgba(227,38,28,.55);
+  --green:#3FB950;
+  --green-2:#2E9B3E;
+  --lilac:#EEEDFB;
+  --sans:"Poppins", system-ui, sans-serif;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:64px}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+.narrow{max-width:760px;margin:0 auto;padding:0 20px}
+.c{text-align:center}
+.r{color:var(--red)}
+.ital{font-style:italic;font-weight:700}
+section{padding:56px 0}
+
+/* box con bordo rosso luminoso, il segno distintivo di questo stile */
+.glow{border:2px solid var(--red);border-radius:10px;box-shadow:0 0 18px var(--red-glow),inset 0 0 12px rgba(227,38,28,.18);background:#050505}
+
+/* ───────── HERO ───────── */
+.topq{max-width:880px;margin:22px auto 0;padding:16px 20px;text-align:center;font-weight:700;font-size:clamp(17px,2vw,22px);line-height:1.3}
+.tagline{margin-top:26px;font-style:italic;font-weight:600;font-size:clamp(15px,1.6vw,18px);line-height:1.35;color:var(--fg-2)}
+.pre-logo{margin-top:22px;font-style:italic;font-weight:800;font-size:clamp(18px,2vw,24px);text-transform:uppercase;letter-spacing:.04em}
+.logo{width:min(92%,640px);margin:8px auto 0}
+.logo img{width:100%;mix-blend-mode:screen}
+.promise{margin:28px auto 0;max-width:30ch;text-wrap:balance;font-weight:800;font-size:clamp(30px,4.6vw,56px);line-height:1.15;letter-spacing:-.01em}
+/* bottone bianco luminoso, come nell'originale */
+.cta{
+  appearance:none;border:0;cursor:pointer;text-decoration:none;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#fff;color:#000;border-radius:12px;padding:16px 34px;min-width:280px;
+  box-shadow:0 0 22px rgba(255,255,255,.55),0 0 0 3px rgba(255,255,255,.12);
+  font-family:var(--sans);font-weight:800;font-size:clamp(17px,1.8vw,20px);text-transform:uppercase;letter-spacing:.02em;line-height:1.2;
+  transition:transform 160ms var(--ease-out),box-shadow 200ms ease;
+}
+.cta small{font-size:12px;font-weight:600;letter-spacing:.06em;color:#444;margin-top:4px}
+.cta:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.cta:hover{box-shadow:0 0 34px rgba(255,255,255,.75),0 0 0 3px rgba(255,255,255,.2)}}
+.cta-row{margin-top:30px;display:flex;justify-content:center}
+.datebox{max-width:520px;margin:30px auto 0;padding:18px 20px;text-align:center}
+.datebox .d{font-style:italic;font-weight:800;font-size:clamp(20px,2.2vw,26px);text-transform:uppercase}
+.datebox .t{font-style:italic;font-weight:700;font-size:18px;margin-top:4px}
+.datebox .o{font-style:italic;font-weight:600;color:var(--fg-2);margin-top:2px}
+
+/* ───────── CARD FORM BIANCA ───────── */
+.formcard{max-width:500px;margin:40px auto 0;background:#fff;color:#111;border-radius:14px;padding:18px 18px 22px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.formcard .banner{border-radius:8px;overflow:hidden;background:#000}
+.formcard .banner img{width:100%;mix-blend-mode:normal}
+.formcard .when{text-align:center;font-style:italic;font-weight:800;font-size:18px;margin-top:14px;text-transform:uppercase}
+.formcard .when > span{display:block}
+.formcard .when > span + span{font-size:16px;font-weight:700;text-transform:none}
+.formcard .note{text-align:center;color:var(--red);font-weight:600;font-size:13.5px;margin-top:10px}
+.formcard form{display:grid;gap:10px;margin-top:16px}
+.formcard label{display:block}
+.formcard .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.formcard input[type=text],.formcard input[type=email],.formcard input[type=tel]{
+  width:100%;font:inherit;font-size:16px;font-weight:500;color:#111;background:var(--lilac);border:1.5px solid transparent;border-radius:8px;padding:15px 14px;outline:none;
+  transition:border-color 160ms ease
+}
+.formcard input::placeholder{color:#4d4a6e;font-weight:600}
+.formcard input:focus{border-color:#6b66c9}
+.formcard input[aria-invalid="true"]{border-color:var(--red)}
+.formcard .consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#555;line-height:1.4}
+.formcard .consent input{width:16px;height:16px;margin-top:2px;accent-color:var(--green);flex:none}
+.go{
+  appearance:none;border:0;cursor:pointer;width:100%;border-radius:8px;padding:16px;
+  background:var(--green);color:#fff;font-family:var(--sans);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.02em;
+  transition:transform 160ms var(--ease-out),background-color 160ms ease
+}
+.go:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.go:hover{background:var(--green-2)}}
+.go .lbl{transition:filter 200ms ease,opacity 200ms ease}
+.go.sending .lbl{filter:blur(2px);opacity:.6}
+.formcard .gift{margin-top:16px;text-align:center;font-size:14px;line-height:1.45;color:#222}
+.formcard .gift b{font-weight:800}
+.formcard .ok{display:none;text-align:center;padding:10px 4px}
+.formcard.done form,.formcard.done .note{display:none}
+.formcard.done .ok{display:block}
+.formcard .ok h3{font-weight:800;font-size:24px}
+.formcard .ok p{color:#333;margin-top:8px;font-size:15px}
+.formcard .ok a{display:inline-block;margin-top:14px;background:var(--green);color:#fff;text-decoration:none;font-weight:800;border-radius:8px;padding:14px 22px;text-transform:uppercase;font-size:15px}
+
+/* ───────── TESTIMONIANZE ───────── */
+.h-ital{font-style:italic;font-weight:800;font-size:clamp(24px,3vw,36px);line-height:1.2;text-align:center}
+.tests{display:grid;grid-template-columns:1fr 1fr;gap:36px 28px;margin-top:36px}
+.test{padding:22px 22px 24px;text-align:center}
+.test .tag{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px}
+.test .big{font-weight:900;font-size:clamp(26px,3vw,34px);line-height:1.1;margin-top:12px}
+.test .who{font-style:italic;font-weight:800;font-size:19px;margin-top:12px}
+.test .q{color:var(--red);font-weight:600;font-size:14.5px;margin-top:6px}
+.fine{color:var(--fg-3);font-size:12.5px;text-align:center;margin-top:24px}
+
+/* banner numero */
+.bignum{margin-top:8px;border-radius:12px;padding:clamp(28px,5vw,56px);background:
+  radial-gradient(ellipse at 85% 40%,rgba(80,110,200,.35),transparent 55%),
+  radial-gradient(ellipse at 15% 90%,rgba(227,38,28,.25),transparent 50%),#07080d}
+.bignum p{font-weight:800;font-size:clamp(32px,5vw,60px);line-height:1.05;letter-spacing:-.01em;max-width:13ch}
+.bignum .pill{display:inline-block;margin-top:18px;background:linear-gradient(90deg,#1b2a6b,#10183f);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 18px;font-weight:700;font-size:clamp(15px,1.6vw,19px);line-height:1.3}
+
+/* ───────── COSA SCOPRIRAI ───────── */
+.list{margin-top:28px;padding:10px 22px}
+.list li{list-style:none;display:grid;grid-template-columns:22px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:15.5px;color:var(--fg-2)}
+.list li:last-child{border-bottom:0}
+.list li b{color:var(--red);font-style:italic;font-weight:700}
+.ck{width:20px;height:20px;border-radius:50%;background:var(--red);display:grid;place-items:center;margin-top:2px}
+.ck::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.theory{margin-top:22px;padding:16px 20px;text-align:center;font-weight:700;font-size:clamp(14px,1.5vw,17px);line-height:1.4;font-style:italic}
+.theory .r{font-style:normal}
+
+/* ───────── TESTO LUNGO ───────── */
+.headline-2{font-style:italic;font-weight:800;font-size:clamp(24px,3.2vw,38px);line-height:1.2;text-align:center}
+.quote{margin-top:34px;border-radius:12px;padding:clamp(28px,5vw,56px);background:radial-gradient(ellipse at 80% 50%,rgba(227,38,28,.35),transparent 60%),#120404;border:1px solid rgba(227,38,28,.35)}
+.quote p{font-weight:800;font-size:clamp(24px,3.4vw,40px);line-height:1.2;max-width:20ch}
+.quote cite{display:block;margin-top:16px;font-style:normal;color:var(--fg-3);letter-spacing:.2em;font-size:13px}
+.quote cite::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:10px;vertical-align:middle}
+.letter{margin-top:30px;padding:clamp(22px,3vw,34px);text-align:center;font-style:italic;font-weight:600;font-size:15.5px;line-height:1.6}
+.letter p+p{margin-top:12px}
+.letter b{font-weight:800}
+
+/* ───────── RELATORE ───────── */
+.speaker{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,48px);align-items:center}
+.speaker .ph{aspect-ratio:4/5;border-radius:12px;background:#151515;border:1px dashed #444;display:grid;place-items:center;text-align:center;color:#888;font-weight:600;font-size:15px;padding:20px}
+.speaker h2{font-weight:800;font-size:clamp(24px,2.8vw,32px);line-height:1.2}
+.speaker ul{list-style:none;margin-top:18px;display:grid;gap:16px}
+.speaker li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.speaker li h3{font-weight:700;font-size:16.5px}
+.speaker li p{color:var(--fg-2);font-size:15px;margin-top:2px}
+
+/* ───────── STEP E RICEVI ───────── */
+.rows{display:grid;gap:18px;margin-top:30px;max-width:620px;margin-left:auto;margin-right:auto}
+.rows .glow{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:16px 18px;font-style:italic;font-size:14.5px;line-height:1.45}
+.rows .glow b{font-weight:800}
+.h-plain{font-weight:700;font-size:clamp(22px,2.6vw,30px);text-align:center;line-height:1.25}
+
+/* ───────── PACCHETTI ───────── */
+.packs{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}
+.pack{padding:26px 24px;text-align:center;display:flex;flex-direction:column}
+.pack.vip{border-color:#ffd25e;box-shadow:0 0 18px rgba(255,210,94,.45)}
+.pack .lab{font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+.pack.vip .lab{color:#ffd25e}
+.pack h3{font-weight:900;font-size:40px;line-height:1.1;margin-top:6px}
+.pack .price{font-style:italic;color:var(--fg-2)}
+.pack ul{list-style:none;text-align:left;margin:18px 0 22px;display:grid;gap:10px;font-size:15px}
+.pack li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.pack .cta{margin-top:auto;min-width:0;width:100%}
+.todo{display:inline-block;background:#F4D35E;color:#111;font-size:11px;font-weight:800;padding:1px 6px;border-radius:3px;vertical-align:middle;text-transform:uppercase}
+
+/* ───────── FAQ ───────── */
+.faq{margin-top:28px;display:grid;gap:12px}
+.faq details{background:#0d0d0d;border:1px solid #222;border-radius:10px}
+.faq summary{list-style:none;cursor:pointer;padding:18px 52px 18px 20px;font-weight:700;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--red);font-size:24px;font-weight:600;transition:transform 200ms var(--ease-out)}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 240ms var(--ease-out)}
+.faq details[open] .a{grid-template-rows:1fr}
+.faq .a > div{overflow:hidden}
+.faq .a p{padding:0 20px 18px;color:var(--fg-2);font-size:15.5px}
+
+/* ───────── CHIUSURA ───────── */
+.final h2{font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.15}
+.final p{color:var(--fg-2);margin-top:10px;font-size:clamp(16px,1.6vw,19px)}
+.final p b{color:var(--fg)}
+.trustrow{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--fg-2);font-size:14.5px;font-weight:600}
+footer{border-top:1px solid #1d1d1d;padding:28px 0 24px;color:#777;font-size:12px;line-height:1.6;text-align:center}
+footer p+p{margin-top:10px}
+
+/* barra fissa rossa con countdown reale */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 14px calc(8px + env(safe-area-inset-bottom));font-weight:700;font-size:14px}
+.bar .cd{display:flex;gap:10px;font-variant-numeric:tabular-nums}
+.bar .cd b{font-size:20px;font-weight:900}
+.bar .cd span{font-size:11px;font-weight:600;opacity:.9;margin-left:2px}
+
+.rv{opacity:0;transform:translateY(12px);transition:opacity 500ms var(--ease-out),transform 500ms var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{transform:none!important;transition:opacity 300ms ease!important}}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  section{padding:44px 0}
+  .tests,.packs,.speaker{grid-template-columns:1fr}
+  .speaker .ph{max-width:300px;margin:0 auto;aspect-ratio:1/1}
+  .cta{min-width:0;width:100%;max-width:420px}
+  .bar{gap:10px;font-size:13px}
+}
+</style>
+</head>
+<body class="no-js">
+
+<!-- ════════ HERO ════════ -->
+<header class="wrap c">
+  <div class="topq glow">Hai un business online che vende già, ma passa ancora tutto da te?</div>
+  <p class="tagline">Chiudi il 2026 vendendo di più<br>e lavorando meno!</p>
+  <p class="pre-logo">Iscriviti a</p>
+  <div class="logo"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" data-asset="logo"></div>
+  <h1 class="promise">Scopri <span class="r">in una sola serata</span> perché oggi <span class="r">i contenuti non bastano più</span> a vendere e come vendere di più <span class="r">lavorando meno</span>. Gratis.</h1>
+  <div class="cta-row"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
+  <div class="datebox glow">
+    <div class="d">📅 <span data-cfg="dateLong">Giovedì 29 ottobre</span></div>
+    <div class="t">🕘 Ore <span data-cfg="time">21:00</span></div>
+    <div class="o">Online, in diretta</div>
+  </div>
+
+  <div class="formcard" id="iscrizione">
+    <div class="banner"><img src="assets/logo-evento.jpg" alt="" width="1800" height="875" data-asset="logo"></div>
+    <div class="when"><span data-cfg="dateLong">Giovedì 29 ottobre</span><span>🕘 ore <span data-cfg="time">21:00</span>, online</span></div>
+    <p class="note">Iscrizione gratuita: ti mandiamo il link via email e su WhatsApp.</p>
+    <form novalidate data-form>
+      <label><span class="sr">Nome completo</span><input type="text" name="full_name" placeholder="Nome completo*" autocomplete="name" required></label>
+      <label><span class="sr">Email</span><input type="email" name="email" placeholder="✉ Email*" autocomplete="email" inputmode="email" required></label>
+      <label><span class="sr">Telefono (WhatsApp)</span><input type="tel" name="phone" placeholder="Telefono (WhatsApp)*" autocomplete="tel" inputmode="tel" required></label>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto la privacy policy e accetto di ricevere il link e i promemoria dell'evento.</span></label>
+      <button class="go" type="submit"><span class="lbl">Iscriviti gratis</span></button>
+    </form>
+    <div class="ok" role="status" aria-live="polite">
+      <h3>Sei dentro! 🎉</h3>
+      <p>Controlla la tua email: lì trovi il link della serata. Entra anche nel gruppo WhatsApp per i promemoria.</p>
+      <a href="#" data-cfg-href="whatsapp">Entra nel gruppo WhatsApp</a>
+    </div>
+    <p class="gift"><b>IN OMAGGIO</b> per chi si iscrive: l'accesso al gruppo WhatsApp dell'evento, con i contenuti di preparazione prima della diretta.</p>
+  </div>
+</header>
+
+<!-- ════════ TESTIMONIANZE ════════ -->
+<section>
+  <div class="wrap">
+    <h2 class="h-ital rv">Ecco cosa è successo a chi ha già lavorato con Andrea!</h2>
+    <div class="tests">
+      <article class="test glow rv"><span class="tag">Caso studio</span><div class="big">Da zero a €4M l'anno</div><div class="who">Investitore Efficace</div><p class="q">Brand, community funnel e procedure costruiti da zero: oggi è leader nella formazione in finanza personale.</p></article>
+      <article class="test glow rv"><span class="tag">Caso studio</span><div class="big">Da 6K a oltre 35K al mese</div><div class="who">Evolutia</div><p class="q">In 3 mesi, da liberi professionisti ad azienda strutturata, con team, procedure e KPI.</p></article>
+      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">Da 70K a 250K l'anno</div><div class="who">Roberto C. Bortolussi</div><p class="q">Da 70.000 € l'anno a 250.000 € in 3 mesi.</p></article>
+      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">25K al mese</div><div class="who">Valerio Barsanti</div><p class="q">20.000 € già il primo mese, poi stabile sui 25.000 € al mese.</p></article>
+    </div>
+    <p class="fine">Risultati individuali di persone e aziende diverse: non costituiscono una promessa di guadagno.</p>
+  </div>
+</section>
+
+<!-- ════════ NUMERO ════════ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="bignum rv">
+      <p>Oltre 1.500 imprenditori seguiti in Italia</p>
+      <span class="pill">dal 2018 a oggi, in consulenza individuale con Andrea</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ COSA SCOPRIRAI ════════ -->
+<section style="padding-top:0">
+  <div class="narrow">
+    <h2 class="h-ital rv">✅ Cosa scoprirai durante il webinar</h2>
+    <ul class="list glow rv">
+      <li><span class="ck"></span><div><b>Perché il personal brand classico non vende più.</b> Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</div></li>
+      <li><span class="ck"></span><div><b>Il vero collo di bottiglia.</b> Non ti manca un'altra strategia: c'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</div></li>
+      <li><span class="ck"></span><div><b>Cosa delegare alla tecnologia nel 2026.</b> Setter, montaggio video, copy, follow-up: quali attività oggi non richiedono più una persona.</div></li>
+      <li><span class="ck"></span><div><b>Entra basso, guadagna dopo.</b> Perché vendere subito high ticket a freddo ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</div></li>
+      <li><span class="ck"></span><div><b>Un'analisi strategica gratuita.</b> Per chi la chiede, alla fine della serata: ti dico con sincerità se ha ancora senso continuare a fare quello che stai facendo.</div></li>
+    </ul>
+    <p class="theory glow rv">NON È TEORIA... È UN METODO GIÀ OPERATIVO, con <span class="r">oltre €10 milioni di fatturato annuo</span> costruiti insieme ai clienti in 18 anni di business online.</p>
+  </div>
+</section>
+
+<!-- ════════ LOGO + CTA ════════ -->
+<section class="c" style="padding-top:0">
+  <div class="wrap">
+    <p class="pre-logo rv">Iscriviti a</p>
+    <div class="logo rv"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" loading="lazy" data-asset="logo"></div>
+    <div class="cta-row rv"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
+  </div>
+</section>
+
+<!-- ════════ TESTO LUNGO ════════ -->
+<section style="padding-top:0">
+  <div class="narrow">
+    <h2 class="headline-2 rv">Hai un business online? Ecco come vendere di più facendo <span class="r">meno attività</span>, non più contenuti</h2>
+    <div class="quote rv">
+      <p>"La definizione di follia è fare la stessa cosa più e più volte e aspettarsi risultati diversi."</p>
+      <cite>ALBERT EINSTEIN</cite>
+    </div>
+    <div class="letter glow rv">
+      <p>Questa è la tua occasione di cambiare le cose.</p>
+      <p><span class="r">Non</span> domani,<br><span class="r">non</span> tra un mese,<br><span class="r">non</span> tra un anno.<br><b>Oggi.</b></p>
+      <p>E puoi farlo <span class="r">gratis</span>, dedicando una sola serata.</p>
+      <p>Per capire come fanno i business che vendono di più a lavorare meno, delegando alla tecnologia <b>quello che oggi fai tu</b>.</p>
+      <p class="r">Ma la scelta rimane tua.</p>
+      <p><b>Puoi continuare a lavorare come hai sempre fatto, oppure iscriverti a <span class="r">LA MORTE DEL PERSONAL BRAND</span> oggi.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ RELATORE ════════ -->
+<section style="padding-top:0">
+  <div class="wrap speaker">
+    <!-- Sostituire con foto reale di Andrea -->
+    <div class="ph rv">Foto di Andrea Audisio<br><span class="todo">da inserire</span></div>
+    <div class="rv">
+      <h2>Andrea Audisio, fondatore di ProfitOS, condividerà:</h2>
+      <ul>
+        <li><span class="ck"></span><div><h3>Casi studio concreti</h3><p>Come Investitore Efficace, passata <span class="r">da zero a 4 milioni l'anno</span>, ed Evolutia, cresciuta da 6.000 a oltre 35.000 € al mese in 3 mesi.</p></div></li>
+        <li><span class="ck"></span><div><h3>Dati e risultati reali</h3><p>18 anni di business online, <span class="r">€1,5 milioni in 2 mesi</span> con un e-commerce costruito da zero e 400 clienti in 6 mesi con Consulente High Ticket.</p></div></li>
+        <li><span class="ck"></span><div><h3>Errori comuni da evitare</h3><p>I colli di bottiglia che bloccano i business online, <span class="r">anche quelli che vendono già</span>.</p></div></li>
+        <li><span class="ck"></span><div><h3>Strumenti pratici e replicabili</h3><p>Cosa delegare alla tecnologia e cosa tenere in mano, per lavorare meno senza vendere meno.</p></div></li>
+        <li><span class="ck"></span><div><h3>Esperienza sul campo</h3><p>Da founder, socio, COO e CMO, con progetti per brand come <span class="r">LEGO, BMW, Ducati e Alfa Romeo</span>.</p></div></li>
+      </ul>
+      <div class="cta-row" style="justify-content:flex-start"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ COSA SUCCEDE ════════ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="headline-2 rv">Cosa succede una volta iscritto all'evento?</h2>
+    <div class="rows">
+      <div class="glow rv"><span class="ck"></span><span>Ti inviamo i dettagli e le istruzioni via <b>EMAIL</b> e su <b>WHATSAPP</b>.</span></div>
+      <div class="glow rv"><span class="ck"></span><span>Il team ti contatta per confermare la tua partecipazione, così il posto non resta vuoto.</span></div>
+      <div class="glow rv"><span class="ck"></span><span>Il giorno dell'evento basta cliccare sul link d'accesso per entrare nella diretta.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ COSA RICEVI ════════ -->
+<section class="c" style="padding-top:0">
+  <div class="wrap">
+    <p class="pre-logo rv">Iscriviti a</p>
+    <div class="logo rv"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" loading="lazy" data-asset="logo"></div>
+    <h2 class="h-plain rv" style="margin-top:24px">Cosa ricevi appena ti iscrivi?</h2>
+    <div class="rows" style="text-align:left">
+      <div class="glow rv"><span class="ck"></span><span>⚡ <b>Accesso immediato</b> al gruppo WhatsApp dell'evento, con i contenuti di preparazione prima della diretta.</span></div>
+      <div class="glow rv"><span class="ck"></span><span><b>Il link della diretta</b> e i promemoria, via email e su WhatsApp.</span></div>
+      <div class="glow rv"><span class="ck"></span><span><b>Una chiamata di conferma</b> del team, per assicurarti il posto.</span></div>
+      <div class="glow rv"><span class="ck"></span><span><b>L'analisi strategica gratuita</b> del tuo business, per chi la chiede alla fine della serata.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ PACCHETTI (VIP solo qui) ════════ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="headline-2 rv">Scegli come partecipare</h2>
+    <div class="packs">
+      <article class="pack glow rv">
+        <span class="lab">Ingresso standard</span>
+        <h3>GRATIS</h3>
+        <span class="price">La serata in diretta, per intero</span>
+        <ul>
+          <li><span class="ck"></span><span>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></span></li>
+          <li><span class="ck"></span><span>Gruppo WhatsApp dell'evento</span></li>
+          <li><span class="ck"></span><span>Analisi strategica gratuita, su richiesta</span></li>
+        </ul>
+        <a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis</small></a>
+      </article>
+      <article class="pack glow vip rv">
+        <span class="lab">Ingresso VIP</span>
+        <h3>VIP</h3>
+        <span class="price" data-cfg="vipPrice">Prezzo in arrivo</span>
+        <ul>
+          <li><span class="ck"></span><span>Tutto ciò che è incluso nello standard</span></li>
+          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
+          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
+        </ul>
+        <a class="cta" href="#" data-cfg-href="vipCheckout">Prendi il VIP<small>Posto in prima fila</small></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SECONDO FORM ════════ -->
+<section class="c" style="padding-top:0">
+  <div class="wrap">
+    <h2 class="headline-2 rv">Riserva ora il tuo posto gratuito</h2>
+    <div class="formcard rv">
+      <div class="banner"><img src="assets/logo-evento.jpg" alt="" width="1800" height="875" loading="lazy" data-asset="logo"></div>
+      <div class="when"><span data-cfg="dateLong">Giovedì 29 ottobre</span><span>🕘 ore <span data-cfg="time">21:00</span>, online</span></div>
+      <p class="note">Iscrizione gratuita: ti mandiamo il link via email e su WhatsApp.</p>
+      <form novalidate data-form>
+        <label><span class="sr">Nome completo</span><input type="text" name="full_name" placeholder="Nome completo*" autocomplete="name" required></label>
+        <label><span class="sr">Email</span><input type="email" name="email" placeholder="✉ Email*" autocomplete="email" inputmode="email" required></label>
+        <label><span class="sr">Telefono (WhatsApp)</span><input type="tel" name="phone" placeholder="Telefono (WhatsApp)*" autocomplete="tel" inputmode="tel" required></label>
+        <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto la privacy policy e accetto di ricevere il link e i promemoria dell'evento.</span></label>
+        <button class="go" type="submit"><span class="lbl">Iscriviti gratis</span></button>
+      </form>
+      <div class="ok" role="status" aria-live="polite">
+        <h3>Sei dentro! 🎉</h3>
+        <p>Controlla la tua email: lì trovi il link della serata. Entra anche nel gruppo WhatsApp per i promemoria.</p>
+        <a href="#" data-cfg-href="whatsapp">Entra nel gruppo WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section style="padding-top:0">
+  <div class="narrow">
+    <h2 class="headline-2 rv">Domande frequenti</h2>
+    <div class="faq rv">
+      <details><summary>A chi è rivolto l'evento?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
+      <details><summary>Quanto dura l'evento?</summary><div class="a"><div><p>Una sola serata, a partire dalle <span data-cfg="time">21:00</span>. <span class="todo">durata da confermare</span></p></div></div></details>
+      <details><summary>È davvero gratuito?</summary><div class="a"><div><p>Sì, l'ingresso standard è completamente gratuito. Il VIP è facoltativo, per chi vuole qualcosa in più.</p></div></div></details>
+      <details><summary>È un evento registrato o in diretta?</summary><div class="a"><div><p>È un evento in diretta, con la possibilità di fare domande. <span class="todo">replay da confermare</span></p></div></div></details>
+      <details><summary>Alla fine mi vendi qualcosa?</summary><div class="a"><div><p>Niente prezzo sparato in diretta. A chi lo chiede propongo un'analisi strategica gratuita del suo business. Se ha senso lavorare insieme, ne parliamo dopo; se non ha senso, te lo dico.</p></div></div></details>
+      <details><summary>Cosa ricevo subito dopo l'iscrizione?</summary><div class="a"><div><p>Il link della serata via email e su WhatsApp, l'accesso al gruppo WhatsApp dell'evento e una chiamata del team per confermare la tua presenza.</p></div></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHIUSURA ════════ -->
+<section class="final c" style="padding-top:0">
+  <div class="narrow">
+    <h2 class="rv">Il 2026 può essere l'anno della svolta</h2>
+    <p class="rv">O continui a fare le stesse cose con gli stessi risultati... oppure decidi di <b>cambiare modello</b>.</p>
+    <div class="cta-row rv"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
+    <div class="trustrow rv"><span>🎁 Ingresso gratuito</span><span>🌙 Una sola serata</span><span>🔍 Analisi gratuita</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 ProfitOS, Andrea Audisio. <a href="#">Privacy policy</a> · <a href="#">Termini e condizioni</a></p>
+    <p>Questo sito non fa parte di Facebook o di Meta Platforms, Inc. e non è in alcun modo approvato da Meta. Facebook è un marchio registrato di Meta Platforms, Inc.</p>
+  </div>
+</footer>
+
+<div class="bar"><span>L'evento inizia tra</span><div class="cd" data-cd><span><b data-d>--</b><span>g</span></span><span><b data-h>--</b><span>h</span></span><span><b data-m>--</b><span>m</span></span></div></div>
+
+<script>
+/* ═══ CONFIG ═══ */
+const CONFIG = {
+  variant: "C",
+  eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
+  dateLong: "Giovedì 29 ottobre",
+  time: "21:00",
+  vipPrice: null,
+  vipCheckout: "#",
+  whatsapp: "#",
+  ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL
+  thankYouUrl: "",                          // URL della thank-you page (vuoto = conferma nella pagina)
+  phonePrefix: "+39"
+};
+
+/* ── Invio a GoHighLevel (Inbound Webhook) ──────────────────────────────
+   Manda nome, email, telefono, variante, UTM e fbclid. La risposta del webhook
+   non è leggibile dal browser (no-cors): l'arrivo del contatto si verifica in GHL. */
+const pbmQS = new URLSearchParams(location.search);
+async function pbmSend(raw) {
+  const d = {};
+  const name = (raw.full_name || raw.nome || raw.first_name || "").trim();
+  d.full_name = name;
+  d.first_name = name.split(/\s+/)[0] || "";
+  d.last_name = name.split(/\s+/).slice(1).join(" ");
+  d.email = (raw.email || "").trim();
+  let ph = (raw.phone || raw.telefono || "").replace(/[^\d+]/g, "");
+  if (ph.startsWith("00")) ph = "+" + ph.slice(2);
+  else if (ph && !ph.startsWith("+")) ph = (CONFIG.phonePrefix || "+39") + ph;
+  d.phone = ph;
+  d.variante = CONFIG.variant;
+  d.evento = "La morte del personal brand";
+  d.privacy = raw.privacy ? "si" : "no";
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k => { if (pbmQS.get(k)) d[k] = pbmQS.get(k); });
+  d.page_url = location.href.split("#")[0];
+  if (CONFIG.ghlWebhookUrl) {
+    try { await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (e) {}
+  } else {
+    await new Promise(r => setTimeout(r, 400));
+  }
+  if (window.fbq) fbq("track", "CompleteRegistration", { content_name: "webinar_pb_morto", variant: CONFIG.variant });
+  if (CONFIG.thankYouUrl) { location.href = CONFIG.thankYouUrl; return new Promise(() => {}); }
+}
+document.body.classList.remove("no-js");
+document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
+document.querySelectorAll("[data-cfg-href]").forEach(el => { el.href = CONFIG[el.dataset.cfgHref] || "#"; });
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -60px 0px" });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+document.querySelectorAll("[data-form]").forEach(form => {
+  const card = form.closest(".formcard");
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    let ok = true;
+    form.querySelectorAll("input[required]").forEach(i => {
+      const bad = i.type === "checkbox" ? !i.checked : !i.value.trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value));
+      i.setAttribute("aria-invalid", bad); if (bad) ok = false;
+    });
+    if (!ok) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+    const btn = form.querySelector("button"); btn.classList.add("sending"); btn.disabled = true;
+    await pbmSend(Object.fromEntries(new FormData(form)));
+    card.classList.add("done");
+  });
+  form.querySelectorAll("input").forEach(i => i.addEventListener("input", () => i.removeAttribute("aria-invalid")));
+});
+const cd = document.querySelector("[data-cd]");
+function tick(){
+  const ms = new Date(CONFIG.eventISO) - new Date();
+  if (ms <= 0) { cd.textContent = "in diretta ora"; return; }
+  const m = Math.floor(ms / 60000);
+  cd.querySelector("[data-d]").textContent = Math.floor(m / 1440);
+  cd.querySelector("[data-h]").textContent = String(Math.floor(m % 1440 / 60)).padStart(2, "0");
+  cd.querySelector("[data-m]").textContent = String(m % 60).padStart(2, "0");
+}
+tick(); setInterval(tick, 30000);
+</script>
+</body>
+</html>
