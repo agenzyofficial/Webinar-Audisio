@@ -80,8 +80,8 @@ section{padding:56px 0}
 .formcard input::placeholder{color:#4d4a6e;font-weight:600}
 .formcard input:focus{border-color:#6b66c9}
 .formcard input[aria-invalid="true"]{border-color:var(--red)}
-.formcard .consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#555;line-height:1.4}
-.formcard .consent input{width:16px;height:16px;margin-top:2px;accent-color:var(--green);flex:none}
+.formcard .consent{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#555;line-height:1.45;padding:8px 0;min-height:44px;cursor:pointer}
+.formcard .consent input{width:22px;height:22px;margin-top:0;accent-color:var(--green);flex:none}
 .go{
   appearance:none;border:0;cursor:pointer;width:100%;border-radius:8px;padding:16px;
   background:var(--green);color:#fff;font-family:var(--sans);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.02em;
@@ -105,7 +105,7 @@ section{padding:56px 0}
 .tests{display:grid;grid-template-columns:1fr 1fr;gap:36px 28px;margin-top:36px}
 .test{padding:22px 22px 24px;text-align:center}
 .test .tag{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px}
-.test .big{font-weight:900;font-size:clamp(26px,3vw,34px);line-height:1.1;margin-top:12px}
+.test .big{font-weight:900;font-size:clamp(26px,3vw,34px);line-height:1.2;margin-top:12px}
 .test .who{font-style:italic;font-weight:800;font-size:19px;margin-top:12px}
 .test .q{color:var(--red);font-weight:600;font-size:14.5px;margin-top:6px}
 .fine{color:var(--fg-3);font-size:12.5px;text-align:center;margin-top:24px}
@@ -114,7 +114,7 @@ section{padding:56px 0}
 .bignum{margin-top:8px;border-radius:12px;padding:clamp(28px,5vw,56px);background:
   radial-gradient(ellipse at 85% 40%,rgba(80,110,200,.35),transparent 55%),
   radial-gradient(ellipse at 15% 90%,rgba(227,38,28,.25),transparent 50%),#07080d}
-.bignum p{font-weight:800;font-size:clamp(32px,5vw,60px);line-height:1.05;letter-spacing:-.01em;max-width:13ch}
+.bignum p{font-weight:800;font-size:clamp(32px,5vw,60px);line-height:1.15;letter-spacing:-.01em;max-width:13ch}
 .bignum .pill{display:inline-block;margin-top:18px;background:linear-gradient(90deg,#1b2a6b,#10183f);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 18px;font-weight:700;font-size:clamp(15px,1.6vw,19px);line-height:1.3}
 
 /* ───────── COSA SCOPRIRAI ───────── */
@@ -158,10 +158,8 @@ section{padding:56px 0}
 .pack.vip{border-color:#ffd25e;box-shadow:0 0 18px rgba(255,210,94,.45)}
 .pack .lab{font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
 .pack.vip .lab{color:#ffd25e}
-.pack h3{font-weight:900;font-size:40px;line-height:1.1;margin-top:6px}
+.pack h3{font-weight:900;font-size:40px;line-height:1.2;margin:6px 0 4px}
 .pack .price{font-style:italic;color:var(--fg-2)}
-.pack .vip-price{font-size:clamp(84px,10vw,112px);line-height:.9;color:#ffd25e}
-.pack.vip .price{font-style:normal;font-weight:700;color:var(--fg)}
 .pack ul{list-style:none;text-align:left;margin:18px 0 22px;display:grid;gap:10px;font-size:15px}
 .pack li{display:grid;grid-template-columns:22px 1fr;gap:10px}
 .pack .cta{margin-top:auto;min-width:0;width:100%}
@@ -180,7 +178,7 @@ section{padding:56px 0}
 .faq .a p{padding:0 20px 18px;color:var(--fg-2);font-size:15.5px}
 
 /* ───────── CHIUSURA ───────── */
-.final h2{font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.15}
+.final h2{font-weight:900;font-size:clamp(28px,4vw,46px);line-height:1.25}
 .final p{color:var(--fg-2);margin-top:10px;font-size:clamp(16px,1.6vw,19px)}
 .final p b{color:var(--fg)}
 .trustrow{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--fg-2);font-size:14.5px;font-weight:600}
@@ -205,6 +203,17 @@ footer p+p{margin-top:10px}
   .speaker .ph{max-width:300px;margin:0 auto;aspect-ratio:1/1}
   .cta{min-width:0;width:100%;max-width:420px}
   .bar{gap:10px;font-size:13px}
+  .promise{font-size:clamp(25px,7.2vw,31px);line-height:1.2;margin-top:22px}
+  .topq{font-size:17px;padding:14px 16px}
+  .bignum p{font-size:clamp(28px,8.2vw,36px);line-height:1.25}
+  .bignum .pill{font-size:15px}
+  .formcard{padding:14px 14px 20px}
+  .formcard .consent{text-align:left}
+  .test{padding:20px 18px 22px}
+  .letter{font-size:15px;padding:20px 18px}
+  .quote p{font-size:clamp(22px,6.4vw,28px)}
+  .final h2{font-size:clamp(26px,7.4vw,32px)}
+  .headline-2,.h-ital{font-size:clamp(23px,6.6vw,28px)}
 }
 </style>
 </head>
@@ -212,11 +221,11 @@ footer p+p{margin-top:10px}
 
 <!-- ════════ HERO ════════ -->
 <header class="wrap c">
-  <div class="topq glow">Hai un personal brand che vende già, ma passa ancora tutto da te?</div>
-  <p class="tagline">Chiudi il 2026 vendendo di più<br>e lavorando meno!</p>
+  <div class="topq glow">Hai un business online che vende già, ma passa ancora tutto da te?</div>
+  <p class="tagline">Chiudi il 2026 vendendo di più<br>e lavorando meno.</p>
   <p class="pre-logo">Iscriviti a</p>
   <div class="logo"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" data-asset="logo"></div>
-  <h1 class="promise">Scopri <span class="r">in una sola serata</span> perché oggi <span class="r">i contenuti non bastano più</span> a vendere e come vendere di più <span class="r">lavorando meno</span>. Gratis.</h1>
+  <h1 class="promise">Scopri <span class="r">in una sola serata</span> perché oggi <span class="r">i contenuti non bastano più</span> e le <span class="r">4+1 mosse</span> dei business online che vendono di più facendo meno. Gratis.</h1>
   <div class="cta-row"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
   <div class="datebox glow">
     <div class="d">📅 <span data-cfg="dateLong">Giovedì 29 ottobre</span></div>
@@ -237,24 +246,24 @@ footer p+p{margin-top:10px}
     </form>
     <div class="ok" role="status" aria-live="polite">
       <h3>Sei dentro! 🎉</h3>
-      <p>Controlla la tua email: lì trovi il link della serata. Entra anche nel gruppo WhatsApp per i promemoria.</p>
-      <a href="#" data-cfg-href="whatsapp">Entra nel gruppo WhatsApp</a>
+      <p>Controlla la tua email: lì trovi il link della serata. Entra anche nella community WhatsApp per i promemoria.</p>
+      <a href="#" data-cfg-href="whatsapp">Entra nella community WhatsApp</a>
     </div>
-    <p class="gift"><b>IN OMAGGIO</b> per chi si iscrive: l'accesso al gruppo WhatsApp dell'evento, con i contenuti di preparazione prima della diretta.</p>
+    <p class="gift"><b>IN OMAGGIO</b> per chi si iscrive: l'accesso alla community WhatsApp dell'evento, con i contenuti di preparazione da guardare prima della diretta.</p>
   </div>
 </header>
 
 <!-- ════════ TESTIMONIANZE ════════ -->
 <section>
   <div class="wrap">
-    <h2 class="h-ital rv">Ecco cosa è successo a chi ha già lavorato con Andrea!</h2>
+    <h2 class="h-ital rv">Ecco cosa è successo a chi ha già lavorato con Andrea</h2>
     <div class="tests">
       <article class="test glow rv"><span class="tag">Caso studio</span><div class="big">Da zero a €4M l'anno</div><div class="who">Investitore Efficace</div><p class="q">Brand, community funnel e procedure costruiti da zero: oggi è leader nella formazione in finanza personale.</p></article>
-      <article class="test glow rv"><span class="tag">Caso studio</span><div class="big">Da 6K a oltre 35K al mese</div><div class="who">Evolutia</div><p class="q">In 3 mesi, da liberi professionisti ad azienda strutturata, con team, procedure e KPI.</p></article>
-      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">Da 70K a 250K l'anno</div><div class="who">Roberto C. Bortolussi</div><p class="q">Da 70.000 € l'anno a 250.000 € in 3 mesi.</p></article>
-      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">25K al mese</div><div class="who">Valerio Barsanti</div><p class="q">20.000 € già il primo mese, poi stabile sui 25.000 € al mese.</p></article>
+      <article class="test glow rv"><span class="tag">Caso studio</span><div class="big">Da 6K a oltre 35K al mese</div><div class="who">Evolutia</div><p class="q">In 3 mesi, da liberi professionisti a un'azienda strutturata, con team, procedure e KPI.</p></article>
+      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">Da 70K a 250K l'anno</div><div class="who">Roberto C. Bortolussi</div><p class="q">Da 70.000 € a 250.000 € di fatturato annuo in 3 mesi.</p></article>
+      <article class="test glow rv"><span class="tag">Testimonianza</span><div class="big">25K al mese</div><div class="who">Valerio Barsanti</div><p class="q">20.000 € già il primo mese, poi stabile intorno ai 25.000 € al mese.</p></article>
     </div>
-    <p class="fine">Risultati individuali di persone e aziende diverse: non costituiscono una promessa di guadagno.</p>
+    <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
   </div>
 </section>
 
@@ -262,8 +271,8 @@ footer p+p{margin-top:10px}
 <section style="padding-top:0">
   <div class="wrap">
     <div class="bignum rv">
-      <p>Oltre 1.500 imprenditori seguiti in Italia</p>
-      <span class="pill">dal 2018 a oggi, in consulenza individuale con Andrea</span>
+      <p>Oltre 1.500 imprenditori seguiti personalmente</p>
+      <span class="pill">in consulenza individuale con Andrea, dal 2018 a oggi</span>
     </div>
   </div>
 </section>
@@ -271,15 +280,15 @@ footer p+p{margin-top:10px}
 <!-- ════════ COSA SCOPRIRAI ════════ -->
 <section style="padding-top:0">
   <div class="narrow">
-    <h2 class="h-ital rv">✅ Cosa scoprirai durante il webinar</h2>
+    <h2 class="h-ital rv">✅ Le 4+1 cose che scoprirai durante il webinar</h2>
     <ul class="list glow rv">
       <li><span class="ck"></span><div><b>Perché il personal brand classico non vende più.</b> Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</div></li>
-      <li><span class="ck"></span><div><b>Il vero collo di bottiglia.</b> Non ti manca un'altra strategia: c'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</div></li>
-      <li><span class="ck"></span><div><b>Cosa delegare alla tecnologia nel 2026.</b> Setter, montaggio video, copy, follow-up: quali attività oggi non richiedono più una persona.</div></li>
-      <li><span class="ck"></span><div><b>Entra basso, guadagna dopo.</b> Perché vendere subito high ticket a freddo ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</div></li>
-      <li><span class="ck"></span><div><b>Un'analisi strategica gratuita.</b> Per chi la chiede, alla fine della serata: ti dico con sincerità se ha ancora senso continuare a fare quello che stai facendo.</div></li>
+      <li><span class="ck"></span><div><b>Il vero collo di bottiglia.</b> Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</div></li>
+      <li><span class="ck"></span><div><b>Cosa delegare alla tecnologia nel 2026.</b> Setter, montaggio video, copy, follow-up: quali attività oggi non hanno più bisogno di una persona.</div></li>
+      <li><span class="ck"></span><div><b>Entra basso, guadagna dopo.</b> Perché proporre subito un high ticket a chi non ti conosce ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</div></li>
+      <li><span class="ck"></span><div><b>+1: un'analisi strategica gratuita.</b> Per chi la chiede, alla fine della serata: ti dico con sincerità se ha ancora senso continuare a fare quello che stai facendo.</div></li>
     </ul>
-    <p class="theory glow rv">NON È TEORIA... È UN METODO GIÀ OPERATIVO, con <span class="r">oltre €10 milioni di fatturato annuo</span> costruiti insieme ai clienti in 18 anni di business online.</p>
+    <p class="theory glow rv">NON È TEORIA: È UN METODO GIÀ APPLICATO, con <span class="r">oltre 10 milioni di euro di fatturato annuo</span> costruiti insieme ai clienti in 18 anni di business online.</p>
   </div>
 </section>
 
@@ -295,18 +304,18 @@ footer p+p{margin-top:10px}
 <!-- ════════ TESTO LUNGO ════════ -->
 <section style="padding-top:0">
   <div class="narrow">
-    <h2 class="headline-2 rv">Hai un business online? Ecco come vendere di più facendo <span class="r">meno attività</span>, non più contenuti</h2>
+    <h2 class="headline-2 rv">Hai un business online che vende già? Ecco come vendere di più facendo <span class="r">meno attività</span>, non più contenuti</h2>
     <div class="quote rv">
-      <p>"La definizione di follia è fare la stessa cosa più e più volte e aspettarsi risultati diversi."</p>
-      <cite>ALBERT EINSTEIN</cite>
+      <p>"Puoi avere l'offerta migliore del mondo: se per farla girare devi mettere benzina in ogni pezzo, prima o poi ti fermi."</p>
+      <cite>ANDREA AUDISIO</cite>
     </div>
     <div class="letter glow rv">
-      <p>Questa è la tua occasione di cambiare le cose.</p>
+      <p>Ti dico una cosa: questa è la tua occasione per cambiare le cose.</p>
       <p><span class="r">Non</span> domani,<br><span class="r">non</span> tra un mese,<br><span class="r">non</span> tra un anno.<br><b>Oggi.</b></p>
-      <p>E puoi farlo <span class="r">gratis</span>, dedicando una sola serata.</p>
-      <p>Per capire come fanno i business che vendono di più a lavorare meno, delegando alla tecnologia <b>quello che oggi fai tu</b>.</p>
-      <p class="r">Ma la scelta rimane tua.</p>
-      <p><b>Puoi continuare a lavorare come hai sempre fatto, oppure iscriverti a <span class="r">LA MORTE DEL PERSONAL BRAND</span> oggi.</b></p>
+      <p>E puoi farlo <span class="r">gratis</span>, in una sola serata.</p>
+      <p>Ti mostro come fanno i business che vendono di più a lavorare meno: delegano alla tecnologia <b>quello che oggi fai tu</b>.</p>
+      <p class="r">Poi la scelta è tua.</p>
+      <p><b>Puoi continuare a lavorare come hai sempre fatto, oppure iscriverti oggi a <span class="r">LA MORTE DEL PERSONAL BRAND</span>.</b></p>
     </div>
   </div>
 </section>
@@ -317,13 +326,13 @@ footer p+p{margin-top:10px}
     <!-- Sostituire con foto reale di Andrea -->
     <div class="ph rv">Foto di Andrea Audisio<br><span class="todo">da inserire</span></div>
     <div class="rv">
-      <h2>Andrea Audisio, fondatore di ProfitOS, condividerà:</h2>
+      <h2>Nella serata Andrea Audisio, fondatore di ProfitOS, ti porta:</h2>
       <ul>
-        <li><span class="ck"></span><div><h3>Casi studio concreti</h3><p>Come Investitore Efficace, passata <span class="r">da zero a 4 milioni l'anno</span>, ed Evolutia, cresciuta da 6.000 a oltre 35.000 € al mese in 3 mesi.</p></div></li>
-        <li><span class="ck"></span><div><h3>Dati e risultati reali</h3><p>18 anni di business online, <span class="r">€1,5 milioni in 2 mesi</span> con un e-commerce costruito da zero e 400 clienti in 6 mesi con Consulente High Ticket.</p></div></li>
-        <li><span class="ck"></span><div><h3>Errori comuni da evitare</h3><p>I colli di bottiglia che bloccano i business online, <span class="r">anche quelli che vendono già</span>.</p></div></li>
+        <li><span class="ck"></span><div><h3>Casi studio concreti</h3><p>Come Investitore Efficace, passata <span class="r">da zero a 4 milioni di euro l'anno</span>, ed Evolutia, cresciuta da 6.000 a oltre 35.000 € al mese in 3 mesi.</p></div></li>
+        <li><span class="ck"></span><div><h3>Dati e risultati reali</h3><p>I numeri veri di 18 anni di business online: <span class="r">1,5 milioni di euro in 2 mesi</span> con un e-commerce costruito da zero e 400 clienti in 6 mesi con Consulente High Ticket.</p></div></li>
+        <li><span class="ck"></span><div><h3>Errori comuni da evitare</h3><p>I colli di bottiglia che frenano i business online, <span class="r">anche quelli che vendono già</span>.</p></div></li>
         <li><span class="ck"></span><div><h3>Strumenti pratici e replicabili</h3><p>Cosa delegare alla tecnologia e cosa tenere in mano, per lavorare meno senza vendere meno.</p></div></li>
-        <li><span class="ck"></span><div><h3>Esperienza sul campo</h3><p>Da founder, socio, COO e CMO, con progetti per brand come <span class="r">LEGO, BMW, Ducati e Alfa Romeo</span>.</p></div></li>
+        <li><span class="ck"></span><div><h3>Esperienza sul campo</h3><p>Quasi vent'anni da founder, socio, COO e CMO, con progetti per brand come <span class="r">LEGO, BMW, Ducati e Alfa Romeo</span>.</p></div></li>
       </ul>
       <div class="cta-row" style="justify-content:flex-start"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
     </div>
@@ -335,9 +344,9 @@ footer p+p{margin-top:10px}
   <div class="wrap">
     <h2 class="headline-2 rv">Cosa succede una volta iscritto all'evento?</h2>
     <div class="rows">
-      <div class="glow rv"><span class="ck"></span><span>Ti inviamo i dettagli e le istruzioni via <b>EMAIL</b> e su <b>WHATSAPP</b>.</span></div>
+      <div class="glow rv"><span class="ck"></span><span>Ti mandiamo subito i dettagli e le istruzioni via <b>EMAIL</b> e su <b>WHATSAPP</b>.</span></div>
       <div class="glow rv"><span class="ck"></span><span>Il team ti contatta per confermare la tua partecipazione, così il posto non resta vuoto.</span></div>
-      <div class="glow rv"><span class="ck"></span><span>Il giorno dell'evento basta cliccare sul link d'accesso per entrare nella diretta.</span></div>
+      <div class="glow rv"><span class="ck"></span><span>Il giorno dell'evento ti basta cliccare sul link d'accesso per entrare in diretta.</span></div>
     </div>
   </div>
 </section>
@@ -349,9 +358,9 @@ footer p+p{margin-top:10px}
     <div class="logo rv"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" loading="lazy" data-asset="logo"></div>
     <h2 class="h-plain rv" style="margin-top:24px">Cosa ricevi appena ti iscrivi?</h2>
     <div class="rows" style="text-align:left">
-      <div class="glow rv"><span class="ck"></span><span>⚡ <b>Accesso immediato</b> al gruppo WhatsApp dell'evento, con i contenuti di preparazione prima della diretta.</span></div>
+      <div class="glow rv"><span class="ck"></span><span>⚡ <b>Accesso immediato</b> alla community WhatsApp dell'evento, con i contenuti di preparazione da guardare prima della diretta.</span></div>
       <div class="glow rv"><span class="ck"></span><span><b>Il link della diretta</b> e i promemoria, via email e su WhatsApp.</span></div>
-      <div class="glow rv"><span class="ck"></span><span><b>Una chiamata di conferma</b> del team, per assicurarti il posto.</span></div>
+      <div class="glow rv"><span class="ck"></span><span><b>Una chiamata di conferma</b> dal team, per assicurarti il posto.</span></div>
       <div class="glow rv"><span class="ck"></span><span><b>L'analisi strategica gratuita</b> del tuo business, per chi la chiede alla fine della serata.</span></div>
     </div>
   </div>
@@ -367,21 +376,22 @@ footer p+p{margin-top:10px}
         <h3>GRATIS</h3>
         <span class="price">La serata in diretta, per intero</span>
         <ul>
-          <li><span class="ck"></span><span>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></span></li>
-          <li><span class="ck"></span><span>Gruppo WhatsApp dell'evento</span></li>
+          <li><span class="ck"></span><span>La diretta completa della serata</span></li>
+          <li><span class="ck"></span><span>Community WhatsApp dell'evento</span></li>
           <li><span class="ck"></span><span>Analisi strategica gratuita, su richiesta</span></li>
         </ul>
         <a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis</small></a>
       </article>
       <article class="pack glow vip rv">
         <span class="lab">Ingresso VIP</span>
-        <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
-        <span class="price">+ 1 ora di consulenza con Andrea</span>
+        <h3>VIP</h3>
+        <span class="price" data-cfg="vipPrice">Prezzo in arrivo</span>
         <ul>
           <li><span class="ck"></span><span>Tutto ciò che è incluso nello standard</span></li>
-          <li><span class="ck"></span><span><b>Consulenza individuale di un'ora con Andrea</b></span></li>
+          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
+          <li><span class="ck"></span><span>Benefit VIP <span class="todo">da definire</span></span></li>
         </ul>
-        <a class="cta" href="#" data-cfg-href="vipCheckout">Prendi il VIP a <span data-cfg="vipPrice">27 €</span><small>Con 1 ora di consulenza con Andrea</small></a>
+        <a class="cta" href="#" data-cfg-href="vipCheckout">Prendi il VIP<small>Facoltativo</small></a>
       </article>
     </div>
   </div>
@@ -404,8 +414,8 @@ footer p+p{margin-top:10px}
       </form>
       <div class="ok" role="status" aria-live="polite">
         <h3>Sei dentro! 🎉</h3>
-        <p>Controlla la tua email: lì trovi il link della serata. Entra anche nel gruppo WhatsApp per i promemoria.</p>
-        <a href="#" data-cfg-href="whatsapp">Entra nel gruppo WhatsApp</a>
+        <p>Controlla la tua email: lì trovi il link della serata. Entra anche nella community WhatsApp per i promemoria.</p>
+        <a href="#" data-cfg-href="whatsapp">Entra nella community WhatsApp</a>
       </div>
     </div>
   </div>
@@ -418,10 +428,10 @@ footer p+p{margin-top:10px}
     <div class="faq rv">
       <details><summary>A chi è rivolto l'evento?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
       <details><summary>Quanto dura l'evento?</summary><div class="a"><div><p>Una sola serata, a partire dalle <span data-cfg="time">21:00</span>. <span class="todo">durata da confermare</span></p></div></div></details>
-      <details><summary>È davvero gratuito?</summary><div class="a"><div><p>Sì, l'ingresso standard è completamente gratuito. Il VIP è facoltativo: costa 27 € e include un'ora di consulenza individuale con Andrea.</p></div></div></details>
-      <details><summary>È un evento registrato o in diretta?</summary><div class="a"><div><p>È un evento in diretta, con la possibilità di fare domande. <span class="todo">replay da confermare</span></p></div></div></details>
+      <details><summary>È davvero gratuito?</summary><div class="a"><div><p>Sì, l'ingresso standard è completamente gratuito. Il VIP è facoltativo, per chi vuole qualcosa in più.</p></div></div></details>
+      <details><summary>È un evento registrato o in diretta?</summary><div class="a"><div><p>È un evento in diretta, in cui puoi fare domande. <span class="todo">replay da confermare</span></p></div></div></details>
       <details><summary>Alla fine mi vendi qualcosa?</summary><div class="a"><div><p>Niente prezzo sparato in diretta. A chi lo chiede propongo un'analisi strategica gratuita del suo business. Se ha senso lavorare insieme, ne parliamo dopo; se non ha senso, te lo dico.</p></div></div></details>
-      <details><summary>Cosa ricevo subito dopo l'iscrizione?</summary><div class="a"><div><p>Il link della serata via email e su WhatsApp, l'accesso al gruppo WhatsApp dell'evento e una chiamata del team per confermare la tua presenza.</p></div></div></details>
+      <details><summary>Cosa ricevo subito dopo l'iscrizione?</summary><div class="a"><div><p>Il link della serata via email e su WhatsApp, l'accesso alla community WhatsApp dell'evento e una chiamata del team per confermare la tua presenza.</p></div></div></details>
     </div>
   </div>
 </section>
@@ -430,7 +440,7 @@ footer p+p{margin-top:10px}
 <section class="final c" style="padding-top:0">
   <div class="narrow">
     <h2 class="rv">Il 2026 può essere l'anno della svolta</h2>
-    <p class="rv">O continui a fare le stesse cose con gli stessi risultati... oppure decidi di <b>cambiare modello</b>.</p>
+    <p class="rv">Puoi continuare a fare le stesse cose con gli stessi risultati, oppure decidere di <b>cambiare modello</b>.</p>
     <div class="cta-row rv"><a class="cta" href="#iscrizione">Riserva il tuo posto<small>Gratis, online, in diretta</small></a></div>
     <div class="trustrow rv"><span>🎁 Ingresso gratuito</span><span>🌙 Una sola serata</span><span>🔍 Analisi gratuita</span></div>
   </div>
@@ -452,10 +462,10 @@ const CONFIG = {
   eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
   dateLong: "Giovedì 29 ottobre",
   time: "21:00",
-  vipPrice: "27 €",
+  vipPrice: null,
   vipCheckout: "#",
   whatsapp: "#",
-  ghlWebhookUrl: "https://services.leadconnectorhq.com/hooks/yfFcdqju49Ta8CnyU0nO/webhook-trigger/d6f43765-e5a2-4251-ab1f-4b34d1366a4b",                        // URL dell'Inbound Webhook del workflow GHL
+  ghlWebhookUrl: "",                        // URL dell'Inbound Webhook del workflow GHL
   thankYouUrl: "grazie/",                   // thank-you page: WhatsApp + calendario (vuoto = conferma nella pagina)
   phonePrefix: "+39"
 };
