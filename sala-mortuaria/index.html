@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#FF5A14">
 <link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
 <link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/hero-andrea-mobile.jpg" media="(max-width:760px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -387,6 +388,8 @@ footer{font-size:12px}
 .vclose::after{transform:rotate(-45deg)}
 .tvoce:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 8px)}
 @media (max-width:760px){.tvideos{grid-template-columns:1fr;gap:12px}.tvoce:last-child:nth-child(odd){width:100%}}
+/* hero mobile: Andrea dentro la prima schermata */
+.hero-photo{display:none}
 /* ───────── Responsive ───────── */
 @media (max-width:1024px){
   .stats{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -525,6 +528,17 @@ body.locked{overflow:hidden}
   .cd b{font-size:36px}
   .close-s .btn{margin-top:24px}
 }
+
+@media (max-width:760px){
+  .hero-photo{display:block;position:relative;width:100vw;height:min(92vw,360px);margin:-34px 0 0;z-index:0;overflow:hidden}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+  .hero-photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 22%,rgba(5,6,6,0) 55%,rgba(5,6,6,.85) 82%,#050606 100%)}
+  .event-logo{position:relative;z-index:1}
+  .promise{position:relative;z-index:1;margin-top:-104px;text-shadow:0 2px 14px rgba(0,0,0,.85)}
+  .event-row,.hero .ctas,.trust{position:relative;z-index:1}
+  .hero-media{display:none}
+}
 </style>
 </head>
 <body class="no-js">
@@ -537,6 +551,8 @@ body.locked{overflow:hidden}
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
+    <!-- solo mobile: Andrea col referto subito sotto il logo -->
+    <div class="hero-photo" aria-hidden="true"><picture><source media="(min-width:761px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACw="><img src="assets/hero-andrea-mobile.jpg" alt="" width="896" height="1200" fetchpriority="high" decoding="async"></picture></div>
     <h1 class="promise">In una sola serata ti mostro perché <span class="acc">oggi i contenuti non bastano più a vendere</span> e cosa fanno i business che vendono di più lavorando meno.</h1>
     <dl class="event-row">
       <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
