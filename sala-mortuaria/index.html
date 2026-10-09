@@ -579,6 +579,28 @@ body.locked{overflow:hidden}
   .event-row,.hero .ctas,.trust{position:relative;z-index:1}
   .hero-media{display:none}
 }
+
+/* ── hero v3: telefono con foto sfumata ai lati, computer a due colonne ── */
+@media (max-width:760px){
+  .hero-photo{height:min(96vw,384px);margin-top:-28px}
+  .hero-photo img{object-position:50% 10%}
+  .hero-photo::after{background:
+    linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 16%,rgba(5,6,6,0) 84%,#050606 100%),
+    linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 18%,rgba(5,6,6,0) 66%,rgba(5,6,6,.9) 88%,#050606 100%)}
+  .promise{margin-top:-64px}
+}
+@media (min-width:1000px){
+  .hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);min-height:min(calc(100dvh - 44px),940px)}
+  .hero-in{justify-content:center;padding:clamp(28px,4vh,48px) 24px clamp(36px,5vh,56px) clamp(32px,5vw,96px)}
+  .event-logo{width:min(100%,600px)}
+  .promise{max-width:28ch}
+  .hero-media{margin:0;min-height:0;height:auto}
+  .hero-media img{object-position:52% 22%;transform:none;animation:none}
+  .hero-media::after{inset:0;background:
+    linear-gradient(90deg,#050606 0%,rgba(5,6,6,.6) 12%,rgba(5,6,6,0) 34%),
+    linear-gradient(0deg,var(--bg) 0%,rgba(11,13,14,0) 20%),
+    linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 10%)}
+}
 </style>
 </head>
 <body class="no-js">
