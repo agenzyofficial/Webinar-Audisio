@@ -656,6 +656,26 @@ body.locked{overflow:hidden}
   .close{top:8px;right:8px;width:48px;height:48px}
   .close::before,.close::after{left:14px;right:14px;top:23px}
 }
+
+/* ── biglietto VIP in evidenza ── */
+.tag.vip{z-index:2}
+.tag.vip .tag-body{box-shadow:none}
+.tag.vip::after{content:"";position:absolute;inset:120px 4px 4px;border-radius:10px;z-index:-1;pointer-events:none;
+  box-shadow:0 0 50px rgba(255,90,20,.55);animation:vipglow 2.6s ease-in-out infinite}
+@keyframes vipglow{50%{box-shadow:0 0 80px rgba(255,90,20,.85)}}
+@media (min-width:761px){.tag.vip{transform:rotate(1.6deg) scale(1.06)}}
+.vip-stamp{position:absolute;z-index:3;top:46px;right:-10px;transform:rotate(8deg);background:var(--on-acc);color:var(--acc);
+  font-family:var(--sans);font-weight:900;font-style:italic;font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:8px 14px;border:2px solid var(--on-acc);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.vip-why{margin-top:14px;font-size:15.5px;line-height:1.45;font-weight:600;color:#2A1407}
+.vip-why b{font-weight:900;text-decoration:underline;text-underline-offset:3px}
+.tag-body ul.vip-list{margin-top:16px}
+.vip-list li{position:relative;padding-left:26px;color:var(--on-acc)}
+.vip-list li::before{content:"";position:absolute;left:2px;top:15px;width:12px;height:7px;border-left:2.5px solid var(--on-acc);border-bottom:2.5px solid var(--on-acc);transform:rotate(-45deg)}
+.vip-list li b{font-weight:800}
+.tag.vip .btn{font-size:16px;letter-spacing:0}
+.vip-note{display:block;text-align:center;margin-top:10px;font-size:13px;font-weight:600;color:#2A1407}
+@media (prefers-reduced-motion:reduce){.tag.vip::after{animation:none}}
+@media (max-width:760px){.vip-stamp{top:44px;right:-4px;font-size:13px}.tag.vip .btn{font-size:14.5px}}
 </style>
 </head>
 <body class="no-js">
@@ -829,7 +849,7 @@ body.locked{overflow:hidden}
 <section class="tickets" id="ingresso">
   <div class="wrap">
     <h2 class="h2 rv">Scegli come partecipare</h2>
-    <p class="lede rv">L'ingresso standard è gratuito. Con il VIP, a 27 €, hai anche un'ora a tu per tu con Andrea.</p>
+    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € in più ti siedi un'ora con Andrea a parlare del tuo business.</p>
     <div class="tags">
       <article class="tag rv">
         <div class="tag-body">
@@ -845,15 +865,20 @@ body.locked{overflow:hidden}
         </div>
       </article>
       <article class="tag vip rv">
+        <span class="vip-stamp" aria-hidden="true">Consigliato</span>
         <div class="tag-body">
           <span class="mono">Ingresso VIP</span>
           <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
-          <span class="price">+ 1 ora di consulenza con Andrea</span>
-          <ul>
-            <li>Tutto ciò che è incluso nello standard</li>
-            <li><b>Consulenza individuale di un'ora con Andrea</b></li>
+          <span class="price">+ 1 ora a tu per tu con Andrea</span>
+          <p class="vip-why">La serata ti mostra cosa non funziona. L'ora con Andrea è sul <b>tuo</b> business.</p>
+          <ul class="vip-list">
+            <li><b>Un'ora di consulenza 1 a 1 con Andrea</b>, solo tu e lui</li>
+            <li>Porti i tuoi numeri e guardate insieme dove si blocca la crescita</li>
+            <li>Domande sul tuo caso, non teoria generale</li>
+            <li>In più tutta la serata in diretta, come l'ingresso standard</li>
           </ul>
-          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Prendi il VIP a <span data-cfg="vipPrice">27 €</span></span></a>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio l'ora con Andrea · <span data-cfg="vipPrice">27 €</span></span></a>
+          <span class="vip-note">Paghi una volta sola. Niente abbonamenti.</span>
         </div>
       </article>
     </div>
