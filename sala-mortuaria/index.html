@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FF5A14">
 <link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
 <link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
-<link rel="preload" as="image" href="assets/hero-andrea-m3.jpg" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/hero-andrea-m4.jpg" media="(max-width:760px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -623,6 +623,39 @@ body.locked{overflow:hidden}
   .trust{font-size:15px}
   .when{font-size:15px}
 }
+
+/* ── ritocchi 14 ott: bordi foto morbidi, chiusura mobile, pop-up scuro ── */
+.hero-photo img{
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);
+  -webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);
+          mask-composite:intersect}
+@media (max-width:760px){
+  .close-s .bg{height:min(112vw,470px);min-height:0}
+  .close-s .bg img{object-position:66% 45%}
+  .close-s .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,13,14,0) 26%),linear-gradient(180deg,var(--bg) 0%,rgba(11,13,14,0) 14%)}
+  .close-s > .wrap{margin-top:-8px}
+}
+/* pop-up scuro, come il resto della pagina */
+.modal .panel{background:#0E1113;color:var(--fg);border:2px solid var(--acc);box-shadow:0 0 32px rgba(255,90,20,.35),0 30px 80px rgba(0,0,0,.7)}
+.panel h3{color:var(--fg)}
+.panel .pp{color:var(--fg-2)}
+.panel label{color:var(--fg)}
+.panel .consent{color:var(--fg-2)}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{background:#171C20;border-color:#2C343A;color:var(--fg)}
+.panel input::placeholder{color:#6B757D}
+.panel input:focus{border-color:var(--acc)}
+.panel .tel .pre{background:#20262B;border-color:#2C343A;color:var(--fg)}
+.close::before,.close::after{background:var(--fg)}
+.done ol{color:var(--fg-2)}
+@media (max-width:760px){
+  /* più in alto: la tastiera non copre i campi */
+  .modal{place-items:start center;padding:max(14px,env(safe-area-inset-top)) 12px 12px}
+  .modal .panel{max-height:calc(100dvh - 28px);padding:24px 18px 20px}
+  .panel h3{font-size:26px;padding-right:40px}
+  .close{top:8px;right:8px;width:48px;height:48px}
+  .close::before,.close::after{left:14px;right:14px;top:23px}
+}
 </style>
 </head>
 <body class="no-js">
@@ -636,7 +669,7 @@ body.locked{overflow:hidden}
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
     <!-- solo mobile: Andrea col referto subito sotto il logo -->
-    <div class="hero-photo" aria-hidden="true"><picture><img src="assets/hero-andrea-m3.jpg" alt="" width="896" height="1200" fetchpriority="high" decoding="async"></picture></div>
+    <div class="hero-photo" aria-hidden="true"><picture><img src="assets/hero-andrea-m4.jpg" alt="" width="896" height="1200" fetchpriority="high" decoding="async"></picture></div>
     <h1 class="promise">In una sola serata ti mostro perché <span class="acc">oggi i contenuti non bastano più a vendere</span> e cosa fanno i business che vendono di più lavorando meno.</h1>
     <dl class="event-row">
       <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
@@ -650,7 +683,7 @@ body.locked{overflow:hidden}
   </div>
   <div class="hero-media">
     <picture>
-      <source media="(max-width:760px)" srcset="assets/hero-andrea-m3.jpg">
+      <source media="(max-width:760px)" srcset="assets/hero-andrea-m4.jpg">
       <img src="assets/hero-andrea-d3.jpg" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2200" height="1228" decoding="async">
     </picture>
   </div>
