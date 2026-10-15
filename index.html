@@ -1089,6 +1089,8 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .is-cinema .tv-close{opacity:1;visibility:visible;transform:none;transition-delay:.7s,.7s,0s}
 }
 @keyframes cine-out{to{opacity:0;transform:translateY(10px)}}
+/* in modalità cinema sparisce anche l'headline, così il video sale fino al titolo; alla chiusura rientra con la sua animazione */
+@media (min-width:761px){.hero.in-cinema .headline{animation:cine-out .5s var(--ease-out) forwards;pointer-events:none}}
 @media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen,.tv-player{transition:none}.is-cinema .promise{animation:none;opacity:0}}
 
 /* FAQ: su computer a destra una scheda con Andrea, data e bottone (riempie il vuoto lasciato dalle domande) */
@@ -1910,6 +1912,7 @@ function setCinema(on) {
   if (on === heroTv.classList.contains("is-cinema")) return;
   if (on) placeCinema();
   heroTv.classList.toggle("is-cinema", on);
+  heroTv.closest(".hero").classList.toggle("in-cinema", on);
   fitTvPlayer();
 }
 addEventListener("resize", () => { if (!desk.matches) setCinema(false); else if (heroTv.classList.contains("is-cinema")) placeCinema(); });
