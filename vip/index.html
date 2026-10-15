@@ -190,6 +190,28 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
   .vbar span{font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.vbar{transition:none}}
+/* logo come nella home: si accende, poi il cartellino entra dondolando e continua a oscillare piano */
+.vlogo{position:relative}
+.vlogo picture img{position:relative;z-index:1;animation:logo-in 1400ms var(--ease-out) 150ms both}
+.vlogo .logo-tag{position:absolute;z-index:2;left:62.5%;top:61.14%;width:18.22%;height:auto;mix-blend-mode:normal;filter:drop-shadow(0 10px 12px rgba(0,0,0,.6)) drop-shadow(0 3px 4px rgba(0,0,0,.45));-webkit-mask:none;mask:none;
+  transform-origin:9.9% 0;animation:tag-in 1700ms cubic-bezier(.33,0,.3,1) 1100ms both,tag-swing 3.8s ease-in-out 2800ms infinite}
+@keyframes logo-in{
+  0%{opacity:0;transform:scale(1.14);filter:contrast(1.12) brightness(2.4) blur(14px)}
+  42%{opacity:1;transform:scale(.99);filter:contrast(1.12) brightness(1.5) blur(0)}
+  52%{filter:contrast(1.12) brightness(.5)}
+  60%{filter:contrast(1.12) brightness(1.4)}
+  70%{filter:contrast(1.12) brightness(.75)}
+  100%{opacity:1;transform:none;filter:contrast(1.12) brightness(.96)}}
+@keyframes tag-in{
+  0%{opacity:0;transform:rotate(42deg)}
+  10%{opacity:1}
+  28%{transform:rotate(-26deg)}
+  48%{transform:rotate(15deg)}
+  66%{transform:rotate(-8deg)}
+  83%{transform:rotate(3.5deg)}
+  100%{opacity:1;transform:none}}
+@keyframes tag-swing{0%,100%{transform:none}25%{transform:rotate(4deg)}75%{transform:rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){.vlogo picture img,.vlogo .logo-tag{animation:none}}
 </style>
 </head>
 <body>
@@ -199,7 +221,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 
 <header class="vhero">
   <div class="wrap">
-    <a class="vlogo" href="../" aria-label="La morte del personal brand"><img src="../assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875"></a>
+    <a class="vlogo" href="../" aria-label="La morte del personal brand"><picture><source media="(max-width:760px)" srcset="../assets/logo-evento-mobile-senza-cartellino.jpg"><img src="../assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875"></picture><img class="logo-tag" src="../assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></a>
     <span class="kick only-sales">Ingresso VIP</span>
     <span class="kick only-upsell">Un'ultima cosa, prima di andare</span>
     <h1>Il referto <span class="acc">del tuo business.</span></h1>
