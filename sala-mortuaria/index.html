@@ -783,7 +783,7 @@ body.locked{overflow:hidden}
         <canvas data-ecg aria-hidden="true"></canvas>
         <div class="mon-bpm"><span class="mono">Battiti</span><b data-bpm>72</b></div>
         <div class="mon-flat" data-flat><span class="mono">Ora del decesso</span><b>2026</b></div>
-        <button type="button" class="mon-audio" data-audio aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="w" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-audio-l>Attiva il suono</span></button>
+        <button type="button" class="mon-audio" data-audio aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="w" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-audio-l>Tocca per il suono</span></button>
       </div>
       <ul class="vitals">
         <li><span>Pubblico raggiunto</span><i><em style="--v:.82"></em></i></li>
@@ -1177,9 +1177,14 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
     g.gain.setValueAtTime(vol, t + Math.max(.02, dur - .06)); g.gain.linearRampToValueAtTime(0, t + dur);
     o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .03);
   }
-  const syncAudioBtn = () => { const on = audible(); audioBtn.setAttribute("aria-pressed", on); audioL.textContent = on ? "Suono attivo" : "Attiva il suono"; };
-  addEventListener("pointerdown", e => { unlock(); if (!audioBtn.contains(e.target)) setTimeout(syncAudioBtn, 150); }, { passive: true });
-  addEventListener("keydown", unlock);
+  const syncAudioBtn = () => {
+    const on = audible(); audioBtn.setAttribute("aria-pressed", on);
+    audioL.textContent = on ? "Suono attivo" : (soundOn ? "Tocca per il suono" : "Suono spento");
+  };
+  /* suono attivo di default: si prova subito, poi si sblocca al primo tocco o clic ovunque */
+  const unlockAny = e => { if (e && audioBtn.contains(e.target)) return; unlock(); if (ac && ac.resume) ac.resume().then(syncAudioBtn, syncAudioBtn); };
+  ["pointerdown", "pointerup", "touchend", "click", "keydown"].forEach(ev => addEventListener(ev, unlockAny, { passive: true, capture: true }));
+  try { ac = new (window.AudioContext || window.webkitAudioContext)(); ac.resume().then(syncAudioBtn, () => {}); if (ac.onstatechange === null) ac.onstatechange = syncAudioBtn; } catch (e) {}
   audioBtn.addEventListener("click", e => {
     e.stopPropagation();
     if (audioBtn.getAttribute("aria-pressed") === "true") { soundOn = false; syncAudioBtn(); return; }
