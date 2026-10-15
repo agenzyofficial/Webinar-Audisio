@@ -1217,6 +1217,25 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 /* headline e sottotitolo leggibili sopra cartellino e foto: solo ombra scura sotto le lettere */
 .hero .headline{text-shadow:0 2px 4px rgba(0,0,0,.9),0 0 18px rgba(0,0,0,.85),0 0 36px rgba(0,0,0,.6)}
 .hl-mark{text-shadow:0 2px 4px rgba(0,0,0,.85),0 0 18px rgba(0,0,0,.7),0 0 24px rgba(255,90,20,.35)}
+
+/* sottotitolo: una lineetta arancione lo separa dall'headline, testo chiaro su due righe bilanciate,
+   la parte chiave in bianco con sottolineatura arancione */
+.hl-b{position:relative;margin-top:14px;font-weight:500;line-height:1.5;color:#C9D1D6;text-wrap:balance}
+.hl-b::before{content:"";display:block;width:44px;height:2px;margin:0 auto 12px;border-radius:2px;background:var(--acc)}
+.hl-b .acc{color:var(--fg);font-weight:800;text-decoration:underline;text-decoration-color:var(--acc);text-decoration-thickness:3px;text-underline-offset:5px;text-decoration-skip-ink:none}
+@media (min-width:761px){.hl-b{max-width:46ch;margin-top:12px;font-size:clamp(16px,1.3vw,19px)}}
+@media (max-width:760px){.hl-b{font-size:15px;margin-top:10px}.hl-b::before{margin-bottom:10px}}
+
+/* ── niente neon: bordi sottili, accento arancione a sinistra e ombra scura, come gli altri box ── */
+:root{--glow:0 18px 48px rgba(0,0,0,.45)}
+.mon,.cd > div,.file,.bigcase,.case3{border:1px solid var(--line);border-left:3px solid var(--acc);box-shadow:0 18px 48px rgba(0,0,0,.45)}
+.mon{background:var(--box-fade),#05080A}
+.cd > div{background:var(--box-fade),#0B0E10}
+.bigcase{border-radius:16px;background:radial-gradient(ellipse at 15% 20%,rgba(255,90,20,.12),transparent 55%),var(--box-fade),#0B0E10}
+.case3{border-radius:16px;background:var(--box-fade),#0B0E10}
+.tvoce{border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 34px rgba(0,0,0,.5)}
+@media (hover:hover) and (pointer:fine){.tvoce:hover{border-color:rgba(255,90,20,.6);box-shadow:0 18px 40px rgba(0,0,0,.6)}}
+.modal .panel{border:1px solid var(--line);border-left:3px solid var(--acc);box-shadow:0 30px 80px rgba(0,0,0,.7)}
 </style>
 </head>
 <body class="no-js">
