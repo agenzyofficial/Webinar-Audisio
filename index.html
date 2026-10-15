@@ -1051,8 +1051,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @keyframes tag-swing{0%,100%{transform:none}25%{transform:rotate(4deg)}75%{transform:rotate(-4deg)}}
 @media (prefers-reduced-motion:reduce){.event-logo picture img,.event-logo .logo-tag{animation:none}}
 
-/* telefono: il contenitore di data e bottone non cambia nulla */
+/* telefono: il contenitore di data e bottone non cambia nulla, e la X della modalità cinema non serve */
 .hero-act{display:contents}
+.tv-close{display:none}
 
 /* desktop: proporzioni della hero (logo più piccolo, foto tagliata sotto il referto, frase sulla sfumatura);
    la sfumatura a sinistra è speculare a quella a destra rispetto al centro del gruppo Andrea + TV */
@@ -1078,6 +1079,13 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .is-cinema .tv-photo{opacity:0;transform:translateX(-18%)}
   .is-cinema .promise{animation:cine-out .6s var(--ease-out) forwards;pointer-events:none}
   .is-cinema .tv-screen{z-index:2;transform:var(--cine);background-color:transparent;box-shadow:none}
+  .tv-close{display:block;position:absolute;z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.6);cursor:pointer;
+    opacity:0;visibility:hidden;transform:scale(.8);transition:opacity .3s var(--ease-out),transform .3s var(--ease-out),visibility 0s linear .3s}
+  .tv-close::before,.tv-close::after{content:"";position:absolute;left:13px;right:13px;top:20px;height:2px;background:#fff;transform:rotate(45deg)}
+  .tv-close::after{transform:rotate(-45deg)}
+  .tv-close:hover{border-color:var(--acc)}
+  .tv-close:hover::before,.tv-close:hover::after{background:var(--acc)}
+  .is-cinema .tv-close{opacity:1;visibility:visible;transform:none;transition-delay:.7s,.7s,0s}
 }
 @keyframes cine-out{to{opacity:0;transform:translateY(10px)}}
 @media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen,.tv-player{transition:none}.is-cinema .promise{animation:none;opacity:0}}
@@ -1104,6 +1112,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         </div>
         <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
       </div>
+      <button type="button" class="tv-close" aria-label="Rimpicciolisci il video"></button>
     </div>
     <div class="hero-act">
     <dl class="event-row">
@@ -1740,7 +1749,7 @@ new ResizeObserver(fitTvPlayer).observe(tvScreen);
 
 /* Desktop: quando il visitatore avvia il video (clic sul player, non l'avvio automatico di vturb)
    la foto scivola via e la TV va al centro, più grande; a fine video torna tutto com'era */
-const heroTv = tvScreen.closest(".hero-tv"), heroLogo = document.querySelector(".event-logo"), desk = matchMedia("(min-width:761px)");
+const heroTv = tvScreen.closest(".hero-tv"), heroLogo = document.querySelector(".event-logo"), tvClose = heroTv.querySelector(".tv-close"), desk = matchMedia("(min-width:761px)");
 function placeCinema() {
   /* schermo calcolato dalla foto (non dal suo rettangolo, che durante il cinema è già trasformato) */
   const st = tvScreen.parentElement.getBoundingClientRect(), box = heroTv.getBoundingClientRect(), logo = heroLogo.getBoundingClientRect();
@@ -1748,6 +1757,10 @@ function placeCinema() {
   const top = Math.max(box.top, logo.bottom) + 12, bottom = box.bottom - 12;
   const w = Math.min(innerWidth * .72, 1000, (bottom - top) * s.w / s.h);
   tvScreen.style.setProperty("--cine", `translate(${innerWidth / 2 - (s.x + s.w / 2)}px, ${(top + bottom) / 2 - (s.y + s.h / 2)}px) scale(${w / s.w})`);
+  /* la X accanto all'angolo in alto a destra del video (16:9, intero dentro lo schermo ingrandito) */
+  const h = w * s.h / s.w, vw = Math.min(w, h * 16 / 9), vh = vw * 9 / 16;
+  tvClose.style.left = `${innerWidth / 2 + vw / 2 + 12 - box.left}px`;
+  tvClose.style.top = `${(top + bottom) / 2 - vh / 2 - box.top}px`;
 }
 function setCinema(on) {
   on = on && desk.matches;
@@ -1757,6 +1770,8 @@ function setCinema(on) {
   fitTvPlayer();
 }
 addEventListener("resize", () => { if (!desk.matches) setCinema(false); else if (heroTv.classList.contains("is-cinema")) placeCinema(); });
+tvClose.addEventListener("click", () => setCinema(false));
+addEventListener("keydown", e => { if (e.key === "Escape") setCinema(false); });
 let tvHooked = null;
 function hookTv(pl) {
   if (!pl || pl === tvHooked || typeof pl.addEventListener !== "function") return;
