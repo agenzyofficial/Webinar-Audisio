@@ -1322,7 +1322,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <div><dt class="mono">Dove</dt><dd><span class="lg">Online, in diretta</span><span class="sm">Online</span></dd></div>
     </dl>
     <div class="ctas">
-      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+      <button class="btn" data-to-tickets><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
     </div>
     </div>
     <p class="trust">Gratuito. Ricevi il link via email e su WhatsApp. Niente spam.</p>
@@ -1383,7 +1383,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <div><h3>Il referto del tuo business</h3><p>Per chi ha l'ingresso VIP: compili una scheda con i tuoi numeri e ricevi il referto scritto del tuo business. Nell'ora riservata dopo la diretta Andrea analizza dal vivo i casi più rappresentativi.</p></div>
     </div>
     <div class="after rv">
-      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+      <button class="btn" data-to-tickets><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
     </div>
   </div>
 </section>
@@ -1614,7 +1614,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <div class="faq-side-body">
         <p class="faq-side-t">Le altre domande falle a me, <span class="acc">dal vivo.</span></p>
         <p class="faq-side-d mono"><span data-cfg="dateLong">Giovedì 29 ottobre</span> · <span data-cfg="time">21:00</span> · Online</p>
-        <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+        <button class="btn" data-to-tickets><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
       </div>
     </aside>
   </div>
@@ -1632,7 +1632,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <div><b data-m>--</b><span class="mono">minuti</span></div>
       <div><b data-s>--</b><span class="mono">secondi</span></div>
     </div>
-    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    <button class="btn" data-to-tickets><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
   </div>
 </section>
 </main>
@@ -1651,7 +1651,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <div class="bar">
   <div class="wrap">
     <div class="t">La morte del personal brand<span class="mono"><span data-cfg="dateShort">Gio 29.10</span>, ore <span data-cfg="time">21:00</span><span class="left">. Mancano <span data-bar-left>--</span></span></span></div>
-    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+    <button class="btn" data-to-tickets><span class="lbl">Riserva il posto gratis</span></button>
   </div>
 </div>
 
@@ -1753,6 +1753,21 @@ if (new URLSearchParams(location.search).get("iscriviti") === "1") { open(); his
 /* con la tastiera aperta il campo attivo resta visibile */
 modal.querySelectorAll("input").forEach(i => i.addEventListener("focus", () => setTimeout(() => i.scrollIntoView({ block: "nearest" }), 300)));
 document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", open));
+/* i bottoni "Riserva il posto" fuori dai biglietti portano alla scelta tra ingresso gratuito e VIP */
+const ticketsSec = document.getElementById("ingresso");
+const goTickets = () => {
+  const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ticketsSec.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+  /* le immagini caricate durante la corsa spostano la pagina: quando lo scorrimento si ferma si corregge */
+  let t;
+  const fix = () => { clearTimeout(t); t = setTimeout(() => {
+    removeEventListener("scroll", fix);
+    const d = ticketsSec.getBoundingClientRect().top;
+    if (Math.abs(d) > 4) scrollBy({ top: d, behavior: smooth ? "smooth" : "auto" });
+  }, 160); };
+  addEventListener("scroll", fix, { passive: true }); fix();
+};
+document.querySelectorAll("[data-to-tickets]").forEach(b => b.addEventListener("click", goTickets));
 modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", close));
 addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) close(); });
 
@@ -2062,7 +2077,7 @@ hookTvInstances(); addEventListener("load", hookTvInstances);
 /* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
    quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
 const bar = document.querySelector(".bar"), heroCta = document.querySelector(".hero .ctas");
-const pageCtas = [...document.querySelectorAll("main [data-open], .hero [data-open]")];
+const pageCtas = [...document.querySelectorAll("main [data-open], main [data-to-tickets], .hero [data-to-tickets]")];
 const visible = new Set();
 let pastHero = false;
 const syncBar = () => bar.classList.toggle("show", pastHero && visible.size === 0);
