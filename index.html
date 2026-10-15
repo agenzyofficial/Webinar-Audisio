@@ -15,8 +15,8 @@
 <title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
 <meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e che cosa fare invece.">
 <meta name="theme-color" content="#FF5A14">
-<link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
-<link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/logo-evento-senza-cartellino.jpg" media="(min-width:761px)">
+<link rel="preload" as="image" href="assets/logo-evento-mobile-senza-cartellino.jpg" media="(max-width:760px)">
 <link rel="preload" as="image" href="assets/hero-andrea-tv.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -996,23 +996,55 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .panel .consent input[aria-invalid="true"]{outline:2px solid var(--acc);outline-offset:2px}
 .consent-err{color:var(--acc);font-size:13px;font-weight:700;margin-top:-4px}
 
-/* ── hero con la TV (15 ott): foto larga, video vturb dentro lo schermo ──
-   parte sotto il cartellino del logo; schermo nella foto 2000×1131: x 1316–1985, y 161–492 */
-.hero-tv{--fade-b:86%;position:relative;z-index:0;width:min(1040px,100%);margin:0 auto}
+/* ── hero con la TV (15 ott): foto a tutta larghezza dietro al cartellino, video vturb dentro lo schermo ──
+   schermo nella foto 2000×1131: x 1316–1985, y 161–492 */
+/* centrata (margini a 0: con auto un elemento più largo del contenitore parte da sinistra) e spostata a sinistra, così la TV non tocca il bordo */
+.hero-tv{--fade-b:86%;position:relative;z-index:0;left:calc(min(100vw,1700px) * -.08);width:min(100vw,1700px);margin:calc(min(680px,72vw) * -.235) 0 0}
 .tv-stage{position:relative;aspect-ratio:2000/1131}
 .tv-stage>img{position:absolute;inset:0;width:100%;height:100%;
-  -webkit-mask:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
   -webkit-mask-composite:source-in;
-          mask:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
+          mask:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
           mask-composite:intersect}
 .tv-screen{position:absolute;left:65.9%;top:14.35%;width:33.3%;height:29.1%;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
-/* il player è disegnato a 400×225 e rimpicciolito (--k, dallo script) perché i riquadri di vturb non escano dallo schermo */
-.tv-player{flex:none;width:400px;height:225px;transform:scale(var(--k,.75))}
+/* il player è disegnato a 400×225 e scalato (--k, dallo script) per riempire lo schermo */
+.tv-player{flex:none;width:400px;height:225px;transform:scale(var(--k,1))}
 @media (max-width:760px){
-  /* telefono: taglio sulla destra (da x 740) così la TV è più grande */
-  .hero-tv{--fade-b:74%;width:100vw;margin:0;overflow:hidden}
-  .tv-stage{width:158.73%;margin-left:-58.73%}
+  /* telefono: il video esce dalla foto, a tutta larghezza in una cornice da TV; sotto, Andrea */
+  .hero-tv{--fade-b:74%;left:0;width:100vw;margin:-26px 0 0;overflow:hidden}
+  .tv-stage{display:flex;flex-direction:column;aspect-ratio:auto}
+  .tv-screen{position:relative;inset:auto;order:-1;width:calc(100% - 2 * var(--gutter));height:auto;aspect-ratio:16/9;margin:6px auto 4px;
+    border:1.5px solid #3A4249;border-radius:10px;box-shadow:0 0 0 5px #0B0D0E,0 0 0 6.5px #262C31,0 18px 40px rgba(0,0,0,.7)}
+  .tv-stage>img{position:relative;inset:auto;height:min(96vw,360px);object-fit:cover;object-position:49% 0;
+    -webkit-mask:linear-gradient(90deg,transparent 0,#000 12%,#000 74%,transparent 100%),linear-gradient(180deg,transparent 0,#000 7%,#000 var(--fade-b),transparent 100%);
+    -webkit-mask-composite:source-in;
+            mask:linear-gradient(90deg,transparent 0,#000 12%,#000 74%,transparent 100%),linear-gradient(180deg,transparent 0,#000 7%,#000 var(--fade-b),transparent 100%);
+            mask-composite:intersect}
 }
+
+/* ── titolo: si accende come una lampada, il cartellino entra dondolando e poi oscilla piano ──
+   il logo non fa contesto di sovrapposizione, così il nero del logo si fonde con la foto che gli passa dietro */
+.hero .event-logo{z-index:auto;pointer-events:none}
+.event-logo picture img{position:relative;z-index:1;animation:logo-in 1400ms var(--ease-out) 150ms both}
+.event-logo .logo-tag{position:absolute;z-index:2;left:62.5%;top:61.14%;width:18.22%;height:auto;mix-blend-mode:normal;filter:none;-webkit-mask:none;mask:none;
+  transform-origin:9.9% 0;animation:tag-in 1700ms cubic-bezier(.33,0,.3,1) 1100ms both,tag-swing 3.8s ease-in-out 2800ms infinite}
+@keyframes logo-in{
+  0%{opacity:0;transform:scale(1.14);filter:contrast(1.12) brightness(2.4) blur(14px)}
+  42%{opacity:1;transform:scale(.99);filter:contrast(1.12) brightness(1.5) blur(0)}
+  52%{filter:contrast(1.12) brightness(.5)}
+  60%{filter:contrast(1.12) brightness(1.4)}
+  70%{filter:contrast(1.12) brightness(.75)}
+  100%{opacity:1;transform:none;filter:contrast(1.12) brightness(.96)}}
+@keyframes tag-in{
+  0%{opacity:0;transform:rotate(42deg)}
+  10%{opacity:1}
+  28%{transform:rotate(-26deg)}
+  48%{transform:rotate(15deg)}
+  66%{transform:rotate(-8deg)}
+  83%{transform:rotate(3.5deg)}
+  100%{opacity:1;transform:none}}
+@keyframes tag-swing{0%,100%{transform:none}25%{transform:rotate(4deg)}75%{transform:rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){.event-logo picture img,.event-logo .logo-tag{animation:none}}
 </style>
 </head>
 <body class="no-js">
@@ -1024,7 +1056,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <header class="hero">
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
-    <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
+    <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile-senza-cartellino.jpg"><img src="assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture><img class="logo-tag" src="assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></div>
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
       <div class="tv-stage">
@@ -1659,7 +1691,7 @@ function tick(){
 }
 tick(); setInterval(tick, 30000);
 
-/* Video nella TV: il player vturb (400×225) si rimpicciolisce per stare nello schermo */
+/* Video nella TV: il player vturb (400×225) si scala per riempire lo schermo */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
 new ResizeObserver(() => tvPlayer.style.setProperty("--k", Math.min(tvScreen.clientWidth / 400, tvScreen.clientHeight / 225))).observe(tvScreen);
 
