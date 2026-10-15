@@ -17,7 +17,8 @@
 <meta name="theme-color" content="#FF5A14">
 <link rel="preload" as="image" href="assets/logo-evento-senza-cartellino.jpg" media="(min-width:761px)">
 <link rel="preload" as="image" href="assets/logo-evento-mobile-senza-cartellino.jpg" media="(max-width:760px)">
-<link rel="preload" as="image" href="assets/hero-andrea-tv.webp">
+<link rel="preload" as="image" href="assets/hero-andrea-tv.webp" media="(min-width:761px)">
+<link rel="preload" as="image" href="assets/hero-andrea-notv.webp" media="(max-width:760px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -1000,9 +1001,10 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
    schermo nella foto 2000×1131: x 1316–1985, y 161–492 */
 /* margini a 0 (con auto un elemento più largo del contenitore parte da sinistra); spostata a sinistra del 17,3%
    così il gruppo Andrea + TV (x 700–1993 della foto) sta al centro dello schermo */
-.hero-tv{--fade-b:86%;position:relative;z-index:0;left:calc(min(100vw,1700px) * -.173);width:min(100vw,1700px);margin:calc(min(680px,72vw) * -.235) 0 0}
+.hero-tv{--fade-b:86%;position:relative;z-index:0;left:calc(min(100vw,1320px) * -.173);width:min(100vw,1320px);margin:calc(min(540px,44vw) * -.235) 0 0}
 .tv-stage{position:relative;aspect-ratio:2000/1131}
-.tv-stage>img{position:absolute;inset:0;width:100%;height:100%;
+.tv-stage>picture{display:block}
+.tv-photo{position:absolute;inset:0;width:100%;height:100%;
   -webkit-mask:linear-gradient(90deg,transparent 17%,#000 30%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
   -webkit-mask-composite:source-in;
           mask:linear-gradient(90deg,transparent 17%,#000 30%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
@@ -1016,7 +1018,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .tv-stage{display:flex;flex-direction:column;aspect-ratio:auto}
   .tv-screen{position:relative;inset:auto;order:-1;width:calc(100% - 2 * var(--gutter));height:auto;aspect-ratio:16/9;margin:6px auto 4px;
     border:1.5px solid #3A4249;border-radius:10px;box-shadow:0 0 0 5px #0B0D0E,0 0 0 6.5px #262C31,0 18px 40px rgba(0,0,0,.7)}
-  .tv-stage>img{position:relative;inset:auto;height:min(96vw,360px);object-fit:cover;object-position:49% 0;
+  .tv-photo{position:relative;inset:auto;height:min(96vw,360px);object-fit:cover;object-position:49% 0;
     -webkit-mask:linear-gradient(90deg,transparent 0,#000 12%,#000 74%,transparent 100%),linear-gradient(180deg,transparent 0,#000 7%,#000 var(--fade-b),transparent 100%);
     -webkit-mask-composite:source-in;
             mask:linear-gradient(90deg,transparent 0,#000 12%,#000 74%,transparent 100%),linear-gradient(180deg,transparent 0,#000 7%,#000 var(--fade-b),transparent 100%);
@@ -1046,6 +1048,25 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   100%{opacity:1;transform:none}}
 @keyframes tag-swing{0%,100%{transform:none}25%{transform:rotate(4deg)}75%{transform:rotate(-4deg)}}
 @media (prefers-reduced-motion:reduce){.event-logo picture img,.event-logo .logo-tag{animation:none}}
+
+/* telefono: il contenitore di data e bottone non cambia nulla */
+.hero-act{display:contents}
+
+/* desktop: proporzioni della hero (logo più piccolo, foto tagliata sotto il referto, frase sulla sfumatura) */
+@media (min-width:761px){
+  .hero .event-logo{width:min(540px,44vw)}
+  .hero-tv{aspect-ratio:2000/860;overflow:hidden}
+  .tv-photo{
+    -webkit-mask:linear-gradient(90deg,transparent 17%,#000 30%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
+    -webkit-mask-composite:source-in;
+            mask:linear-gradient(90deg,transparent 17%,#000 30%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
+            mask-composite:intersect}
+  .hero .promise{margin-top:-64px;max-width:44ch;font-size:clamp(24px,2vw,30px)}
+  /* data e bottone sulla stessa riga */
+  .hero-act{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px}
+  .hero .hero-act .event-row,.hero .hero-act .ctas{margin-top:0}
+  .hero .hero-act .event-row div{padding:10px clamp(14px,1.4vw,22px)}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1061,7 +1082,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
       <div class="tv-stage">
-        <img src="assets/hero-andrea-tv.webp" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2000" height="1131" fetchpriority="high" decoding="async">
+        <picture><source media="(max-width:760px)" srcset="assets/hero-andrea-notv.webp"><img class="tv-photo" src="assets/hero-andrea-tv.webp" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2000" height="1131" fetchpriority="high" decoding="async"></picture>
         <div class="tv-screen">
           <div class="tv-player">
             <vturb-smartplayer id="vid-6ad128d22b1887643f83e169" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
@@ -1070,6 +1091,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       </div>
     </div>
     <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
+    <div class="hero-act">
     <dl class="event-row">
       <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
       <div><dt class="mono">Ora</dt><dd data-cfg="time">21:00</dd></div>
@@ -1077,6 +1099,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     </dl>
     <div class="ctas">
       <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    </div>
     </div>
     <p class="trust">Gratuito. Ricevi il link via email e su WhatsApp. Niente spam.</p>
   </div>
