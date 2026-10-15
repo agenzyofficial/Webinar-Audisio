@@ -972,6 +972,20 @@ body.locked{overflow:hidden}
   .andrea .grid{align-items:start}
   .andrea .evidence{position:sticky;top:96px;align-self:start}
 }
+
+/* ── footer profitOS ── */
+footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(120px + env(safe-area-inset-bottom));color:var(--fg-3);font-size:13px;line-height:1.6}
+footer.pfoot .wrap{display:block!important;max-width:1320px}
+.pfoot p{max-width:46rem;margin-top:14px}
+.pfoot .pfoot-brand{display:flex;align-items:center;gap:12px;margin-top:0;font-weight:800;font-size:26px;letter-spacing:-.8px;color:var(--fg)}
+.pfoot .pfoot-brand img{width:32px;height:32px}
+.pfoot-links{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:22px}
+.pfoot-links a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+.pfoot .pfoot-copy{margin-top:16px}
+.panel .consent a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.panel .consent:has(input[aria-invalid="true"]){color:var(--acc)}
+.panel .consent input[aria-invalid="true"]{outline:2px solid var(--acc);outline-offset:2px}
+.consent-err{color:var(--acc);font-size:13px;font-weight:700;margin-top:-4px}
 </style>
 </head>
 <body class="no-js">
@@ -1283,11 +1297,13 @@ body.locked{overflow:hidden}
 </section>
 </main>
 
-<footer>
+<footer class="pfoot">
   <div class="wrap">
-    <span>© 2026 ProfitOS, Andrea Audisio</span>
-    <span><a href="#">Privacy policy</a> &nbsp; <a href="#">Cookie policy</a></span>
-    <span>Questo sito non fa parte di Facebook o di Meta Platforms, Inc.</span>
+    <p class="pfoot-brand"><img src="assets/monogramma.png" width="32" height="32" alt=""><span>profit<span class="acc">OS</span></span></p>
+    <p>I risultati riportati in questa pagina sono casi reali di clienti e progetti nostri. Non sono una promessa: quello che ottieni dipende dal tuo mercato, dalla tua offerta e dal lavoro che ci metti.</p>
+    <p>Questo sito non fa parte di Facebook o di Meta Platforms, Inc. e non è approvato da Meta in alcun modo. Facebook e Instagram sono marchi registrati di Meta Platforms, Inc.</p>
+    <div class="pfoot-links"><a href="https://world.ambitioned.net/terms-of-service/" target="_blank" rel="noopener">Terms</a><a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">Privacy Policy</a></div>
+    <p class="pfoot-copy">Copyright © 2026 | Ambitioned LTD - 24 Tax Suite 137 b Westlink House 981 Great West Road - Brentford (London) - United Kingdom | È vietata qualsiasi riproduzione.</p>
   </div>
 </footer>
 
@@ -1312,7 +1328,8 @@ body.locked{overflow:hidden}
       <label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Il tuo nome" required></label>
       <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
       <label>WhatsApp<span class="tel"><span class="pre" aria-hidden="true">+39</span><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
-      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto la privacy policy e voglio ricevere il link e i promemoria dell'evento.</span></label>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link e i promemoria dell'evento.</span></label>
+      <p class="consent-err" data-consent-err hidden>Per iscriverti devi accettare la privacy policy.</p>
       <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
     </form>
     <div class="done" role="status" aria-live="polite">
@@ -1407,6 +1424,8 @@ form.addEventListener("submit", async e => {
       || (i.type === "tel" && i.value.replace(/\D/g, "").length < 8);
     i.setAttribute("aria-invalid", bad); if (bad) ok = false;
   });
+  const consentErr = form.querySelector("[data-consent-err]");
+  if (consentErr) consentErr.hidden = form.privacy.checked;
   if (!ok) { form.querySelector('[aria-invalid="true"]').focus(); return; }
   const btn = form.querySelector("button"); btn.classList.add("sending"); btn.disabled = true;
   try {
@@ -1414,7 +1433,7 @@ form.addEventListener("submit", async e => {
     modal.querySelector(".panel").classList.add("ok");
   } catch (err) { btn.classList.remove("sending"); btn.disabled = false; alert("Qualcosa non è andato. Riprova tra un attimo."); }
 });
-form.querySelectorAll("input").forEach(i => i.addEventListener("input", () => i.removeAttribute("aria-invalid")));
+form.querySelectorAll("input").forEach(i => i.addEventListener(i.type === "checkbox" ? "change" : "input", () => { i.removeAttribute("aria-invalid"); if (i.type === "checkbox") { const ce = form.querySelector("[data-consent-err]"); if (ce && i.checked) ce.hidden = true; } }));
 
 /* Video testimonianze: [id Vimeo o yt:id YouTube, copertina, nome, risultato] */
 const TESTI = [

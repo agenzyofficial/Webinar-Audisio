@@ -220,6 +220,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 .mailnote{margin-top:36px;padding:16px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--fg-2);font-size:15px}
 .mailnote b{color:var(--fg)}
 @media (prefers-reduced-motion:reduce){.tag.vip::after{animation:none}}
+
+/* ── footer profitOS ── */
+footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(120px + env(safe-area-inset-bottom));color:var(--fg-3);font-size:13px;line-height:1.6}
+footer.pfoot .wrap{display:block!important;max-width:1320px}
+.pfoot p{max-width:46rem;margin-top:14px}
+.pfoot .pfoot-brand{display:flex;align-items:center;gap:12px;margin-top:0;font-weight:800;font-size:26px;letter-spacing:-.8px;color:var(--fg)}
+.pfoot .pfoot-brand img{width:32px;height:32px}
+.pfoot-links{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:22px}
+.pfoot-links a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+.pfoot .pfoot-copy{margin-top:16px}
 </style>
 </head>
 <body>
@@ -312,10 +322,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 </section>
 </main>
 
-<footer>
+<footer class="pfoot">
   <div class="wrap">
-    <span>© 2026 ProfitOS, Andrea Audisio</span>
-    <span>Questo sito non fa parte di Facebook o di Meta Platforms, Inc.</span>
+    <p class="pfoot-brand"><img src="../assets/monogramma.png" width="32" height="32" alt=""><span>profit<span class="acc">OS</span></span></p>
+    <p>I risultati riportati in questa pagina sono casi reali di clienti e progetti nostri. Non sono una promessa: quello che ottieni dipende dal tuo mercato, dalla tua offerta e dal lavoro che ci metti.</p>
+    <p>Questo sito non fa parte di Facebook o di Meta Platforms, Inc. e non è approvato da Meta in alcun modo. Facebook e Instagram sono marchi registrati di Meta Platforms, Inc.</p>
+    <div class="pfoot-links"><a href="https://world.ambitioned.net/terms-of-service/" target="_blank" rel="noopener">Terms</a><a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">Privacy Policy</a></div>
+    <p class="pfoot-copy">Copyright © 2026 | Ambitioned LTD - 24 Tax Suite 137 b Westlink House 981 Great West Road - Brentford (London) - United Kingdom | È vietata qualsiasi riproduzione.</p>
   </div>
 </footer>
 
