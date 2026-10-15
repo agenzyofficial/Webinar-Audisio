@@ -898,6 +898,36 @@ body.locked{overflow:hidden}
   .chalk-bg{width:min(760px,205vw);top:50%;transform:translate(-50%,-50%) rotate(90deg)}
   .chalk-bg .chalk{opacity:.6}
 }
+
+/* ── carosello testimonianze (sostituisce la griglia) ── */
+.tcar{max-width:1200px;margin:clamp(22px,3vw,34px) auto 0}
+.tcar-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.tcar-n{color:var(--fg-2);font-size:14px;font-weight:600}
+.tcar-n b{color:var(--acc);font-weight:900}
+.tcar-arr{display:flex;gap:8px}
+.tcar-b{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,90,20,.6);background:#0B0E10;color:var(--acc);font-size:20px;font-weight:800;cursor:pointer;transition:background-color 180ms ease,transform 180ms var(--ease-out)}
+.tcar-b:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.tcar-b:hover{background:rgba(255,90,20,.15)}}
+.proof .tvideos{display:flex!important;grid-template-columns:none!important;max-width:none;margin:0;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-padding-left:2px;padding:6px 2px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.proof .tvideos::-webkit-scrollbar{display:none}
+.proof .tvideos .tvoce{flex:0 0 calc((100% - 32px) / 3);width:auto!important;grid-column:auto!important;scroll-snap-align:start}
+.tcar-bar{position:relative;height:4px;border-radius:4px;background:#1C2226;margin-top:6px;overflow:hidden}
+.tcar-bar i{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.6);transition:left 120ms linear}
+@media (max-width:760px){
+  .proof .tvideos .tvoce{flex-basis:84%}
+  .tcar-b{width:42px;height:42px;font-size:18px}
+}
+
+/* sagoma in piedi sul lato destro (computer) */
+@media (min-width:761px){
+  .chalk-bg{left:auto;right:-90px;top:120px;width:780px;transform:rotate(90deg);transform-origin:50% 50%}
+  .chalk-bg .chalk{opacity:.85;-webkit-mask:none;mask:none}
+}
+.chalk-bg{mix-blend-mode:screen}
+.chalk-bg .chalk{mix-blend-mode:normal}
+@media (min-width:761px){.chalk-bg .chalk{-webkit-mask:radial-gradient(ellipse at center,#000 66%,transparent 80%);mask:radial-gradient(ellipse at center,#000 66%,transparent 80%)}}
+.learn{background:var(--bg)}
 </style>
 </head>
 <body class="no-js">
@@ -1026,7 +1056,12 @@ body.locked{overflow:hidden}
         <ul><li>Growlancer: 600K in 6 mesi</li><li>Digital Product Mastery: oltre 500K in 6 mesi</li><li>Alessandro Labadini, 64 anni: 20K in un mese</li><li>Sara, equilibrio intestinale: 12K il primo mese</li></ul>
       </article>
     </div>
-    <div class="tvideos" data-tvideos></div>
+    <div class="tcar">
+      <div class="tcar-top"><span class="tcar-n"><b data-tcount>21</b> testimonianze in video</span>
+        <span class="tcar-arr"><button type="button" class="tcar-b" data-tprev aria-label="Testimonianze precedenti">←</button><button type="button" class="tcar-b" data-tnext aria-label="Testimonianze successive">→</button></span></div>
+      <div class="tvideos" data-tvideos></div>
+      <div class="tcar-bar" aria-hidden="true"><i data-tbar></i></div>
+    </div>
     <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
   </div>
 </section>
@@ -1343,7 +1378,23 @@ const TESTI = [
   [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
   [704213129, "n11", "Ivan Greppi", "25.000€ al mese con la formazione sales"],
   [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"],
-  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"]
+  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"],
+  [644574623, "n02", "Pierpaolo Chiti", "Primo contratto da 8.000€, agenzia web"],
+  [644576368, "n04", "Ethel Bersanetti", "Investimento rientrato in una settimana"],
+  [644575671, "n01", "Carlo Alberto De Cesare", "Da dipendente a imprenditore"],
+  [704215770, "n05", "Morris Bottazzi", "Ha smesso di buttare soldi in sponsorizzate"],
+  [704212060, "n07", "Paolo Ronchi", "Da studente a imprenditore"],
+  [704217184, "n09", "Enrico Zangara", "Digital marketer"],
+  [644574975, "n10", "Lorenzo Savasta", "Consulente marketing per strutture ricettive"],
+  [644574829, "n13", "Marika Manetta", "Consulente branding"],
+  [644574778, "n14", "Patrizia Parca", "Consulente branding"],
+  [644576898, "n15", "Stefano De Mojà", "Consulente marketing"],
+  [644575426, "n16", "Isacco Bonardi", "Mental coach, partito da zero"],
+  ["yt:KbuyMNgxYOE", "y01", "Luca Balbarini", "Da zero al suo corso di lingua online"],
+  ["yt:saRSFjlO1dE", "y02", "Sara Gariglio", "Visibilità aziendale online"],
+  ["yt:0TU9-WK6RNI", "y03", "Franco Mastrorilli", "Cresciuto su LinkedIn"],
+  ["yt:X1WE5kxdRqQ", "y04", "Francesca e Alessandro", "Pix Around, marketing sviluppato insieme"],
+  ["yt:xc_XAdwimww", "y05", "Irina", "Studente Felice, fatturato in crescita"]
 ];
 const tBox = document.querySelector("[data-tvideos]");
 tBox.innerHTML = TESTI.map(t => `<button type="button" class="tvoce" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
@@ -1447,6 +1498,18 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
   new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { start(); o.disconnect(); } }, { threshold: .45 }).observe(sec.querySelector(".mon"));
   sec.querySelector("[data-revive]").addEventListener("click", start);
   addEventListener("resize", () => { if (!running) { size(); } });
+})();
+
+/* carosello delle testimonianze */
+(function () {
+  const box = document.querySelector("[data-tvideos]"), bar = document.querySelector("[data-tbar]");
+  document.querySelector("[data-tcount]").textContent = TESTI.length;
+  const step = () => { const c = box.querySelector(".tvoce"); return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(box).columnGap || 16) : 300; };
+  document.querySelector("[data-tprev]").addEventListener("click", () => box.scrollBy({ left: -step(), behavior: "smooth" }));
+  document.querySelector("[data-tnext]").addEventListener("click", () => box.scrollBy({ left: step(), behavior: "smooth" }));
+  const sync = () => { const max = box.scrollWidth - box.clientWidth; const p = max > 0 ? box.scrollLeft / max : 0;
+    bar.style.width = Math.max(12, (box.clientWidth / box.scrollWidth) * 100) + "%"; bar.style.left = (p * (100 - parseFloat(bar.style.width))) + "%"; };
+  box.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); sync();
 })();
 
 /* Countdown reale all'evento */
