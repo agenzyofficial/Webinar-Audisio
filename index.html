@@ -1260,6 +1260,17 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .pre-pick:focus-within{outline:2px solid var(--acc);outline-offset:-2px}
 .panel .tel .pre-altro{flex:none;width:72px;min-width:0;border-radius:0!important;border-right:0!important;text-align:center}
 .panel .tel .pre-altro[hidden]{display:none}
+
+/* Evolutiaa prima dei casi: card larga (foto a sinistra su computer); sotto il caso grande restano due card */
+.case3.case3-wide{max-width:1200px;margin:clamp(28px,4vw,44px) auto 0}
+.case3-wide + .bigcase{margin-top:18px}
+@media (min-width:761px){
+  .case3.case3-wide{display:grid;grid-template-columns:minmax(220px,300px) 1fr;column-gap:clamp(20px,3vw,36px);padding:24px 28px 24px 0;align-content:center}
+  .case3-wide .case3-ph{grid-column:1;grid-row:1 / span 4;margin:-24px 0;height:auto;min-height:260px}
+  .case3-wide .kick,.case3-wide h3,.case3-wide p,.case3-wide ul{grid-column:2}
+  .cases3{grid-template-columns:repeat(2,1fr)}
+  .cases3 .case3:last-child{grid-column:auto}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1369,7 +1380,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     </ol>
     <div class="bonus rv">
       <span class="n">+1</span>
-      <div><h3>Analisi live del tuo business</h3><p>Per chi ha l'ingresso VIP: dopo la diretta, un'ora riservata. Porti i tuoi numeri e Andrea analizza il tuo business davanti a te e ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
+      <div><h3>Il referto del tuo business</h3><p>Per chi ha l'ingresso VIP: compili una scheda con i tuoi numeri e ricevi il referto scritto del tuo business. Nell'ora riservata dopo la diretta Andrea analizza dal vivo i casi più rappresentativi.</p></div>
     </div>
     <div class="after rv">
       <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
@@ -1384,6 +1395,13 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
     <p class="lede rv">Clienti di Andrea e progetti del suo team. Te lo raccontano loro, in video.</p>
     <!-- caso studio, dalla pagina profitOS -->
+    <article class="case3 case3-wide rv">
+      <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
+      <span class="kick">Evolutiaa</span>
+      <h3>Da 6K a oltre 30K al mese in pochi mesi</h3>
+      <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30K al mese</b>.</p>
+      <ul><li>Da 6K a oltre 30K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
+    </article>
     <article class="bigcase rv">
       <figure class="bigcase-ph"><img src="assets/felipe.webp" alt="Felipe Orrego, fondatore di Investitore Efficace" width="843" height="1100" loading="lazy" decoding="async"><figcaption>Felipe Orrego<span>Investitore Efficace</span></figcaption></figure>
       <div class="bigcase-main">
@@ -1397,13 +1415,6 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       </div>
     </article>
     <div class="cases3">
-      <article class="case3 rv">
-        <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
-        <span class="kick">Evolutiaa</span>
-        <h3>Da 6K a oltre 30K al mese in pochi mesi</h3>
-        <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30K al mese</b>.</p>
-        <ul><li>Da 6K a oltre 30K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
-      </article>
       <article class="case3 rv">
         <div class="case3-ph"><img src="assets/caso-salesvalley.webp" alt="Andrea Audisio e Gianluca Manitto, SalesValley" width="633" height="800" loading="lazy" decoding="async"></div>
         <span class="kick">Il nostro caso · SalesValley</span>
@@ -1537,7 +1548,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="wrap">
     <span class="kick rv">Ingresso</span>
     <h2 class="h2 rv">Scegli come <span class="acc">partecipare</span></h2>
-    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € entri anche nell'ora riservata ai VIP dopo la diretta: porti i tuoi numeri e Andrea analizza il tuo business dal vivo.</p>
+    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € hai anche il referto scritto del tuo business e l'ora riservata ai VIP dopo la diretta.</p>
     <p class="tickets-cd mono rv"><span class="live-dot" aria-hidden="true"></span>La diretta inizia tra <span data-cd-mini>--</span></p>
     <div class="tags">
       <article class="tag rv">
@@ -1561,15 +1572,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <div class="tag-body">
           <span class="mono">Ingresso VIP</span>
           <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
-          <span class="price">+ Analisi live del tuo business</span>
-          <p class="vip-why">La serata ti mostra cosa non funziona. Nell'ora VIP Andrea guarda il <b>TUO</b> business e ti dice cosa cambiare.</p>
+          <span class="price">+ Il referto del tuo business</span>
+          <p class="vip-why">La serata ti mostra cosa non funziona. Il referto ti dice cosa non funziona nel <b>TUO</b> business, con i tuoi numeri.</p>
           <ul class="vip-list">
-            <li><b>Analisi live del tuo business</b>, con i tuoi numeri</li>
-            <li><b>Un'ora riservata ai VIP</b>, subito dopo la diretta</li>
+            <li><b>Il referto scritto del tuo business</b>, entro 48 ore</li>
+            <li><b>Un'ora riservata ai VIP dalle 22:30</b>, con analisi dal vivo dei casi più rappresentativi</li>
             <li>Replica della serata per 7 giorni</li>
             <li>Tutta la serata in diretta, come l'ingresso standard</li>
           </ul>
-          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio l'analisi live · <span data-cfg="vipPrice">27 €</span></span></a>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio il mio referto · <span data-cfg="vipPrice">27 €</span></span></a>
           <span class="vip-note">Paghi una volta sola. Niente abbonamenti.</span>
           <span class="tag-code mono" aria-hidden="true"><span>Sala 3 · VIP · N. 2910</span><i></i></span>
         </div>
@@ -1591,9 +1602,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <h2 class="h2 rv">Domande <span class="acc">frequenti</span></h2>
     <div class="faq rv">
       <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
-      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e ti dà l'ora riservata dopo la diretta, con l'analisi live del tuo business.</p></div></div></details>
+      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e include il referto scritto del tuo business e l'ora riservata dopo la diretta.</p></div></div></details>
       <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
-      <details><summary>Quanto dura?</summary><div class="a"><div><p>90 minuti. Per chi ha il VIP segue un'ora riservata.</p></div></div></details>
+      <details><summary>Quanto dura?</summary><div class="a"><div><p>90 minuti, dalle 21:00 alle 22:30. Per chi ha il VIP segue un'ora riservata, fino alle 23:30.</p></div></div></details>
       <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p>Sì, ma la replica resta online solo 48 ore e solo per chi è iscritto (per i VIP 7 giorni). Le domande però le prendo solo dal vivo.</p></div></div></details>
     </div>
     </div>
@@ -1657,15 +1668,14 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Il tuo nome" required></label>
       <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
       <label>WhatsApp<span class="tel"><span class="pre pre-pick"><span class="pre-face" aria-hidden="true" data-pre-face></span><select name="prefisso" aria-label="Prefisso internazionale"><option value="+39" selected>🇮🇹 Italia +39</option><option value="+41">🇨🇭 Svizzera +41</option><option value="+351">🇵🇹 Portogallo +351</option><option value="+44">🇬🇧 Regno Unito +44</option><option value="+34">🇪🇸 Spagna +34</option><option value="+49">🇩🇪 Germania +49</option><option value="+33">🇫🇷 Francia +33</option><option value="altro">🌍 Altro prefisso</option></select></span><input class="pre-altro" type="text" name="prefisso_altro" inputmode="tel" autocomplete="off" placeholder="+1" aria-label="Altro prefisso" hidden><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
-      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link e i promemoria dell'evento.</span></label>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link, i promemoria dell'evento ed essere contattato dal team via telefono e WhatsApp.</span></label>
       <p class="consent-err" data-consent-err hidden>Per iscriverti devi accettare la privacy policy.</p>
       <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
     </form>
     <div class="done" role="status" aria-live="polite">
       <h3>Sei dentro.</h3>
       <ol>
-        <li>Controlla la tua email: lì trovi il link della serata.</li>
-        <li>Entra nel gruppo WhatsApp per i promemoria.</li>
+        <li>Entra nel gruppo WhatsApp: il link della serata arriva lì (e anche via email).</li>
         <li>Segnati in agenda <b data-cfg="dateLong">giovedì 29 ottobre</b> alle <b data-cfg="time">21:00</b>.</li>
       </ol>
       <a class="btn" href="#" data-cfg-href="whatsapp"><span class="lbl">Entra nel gruppo WhatsApp</span></a>
@@ -1738,6 +1748,8 @@ const open = () => {
   if (finePointer) setTimeout(() => modal.querySelector("input")?.focus(), 60);
 };
 const close = () => { modal.classList.remove("open"); document.body.classList.remove("locked"); if (finePointer) lastFocus?.focus(); };
+/* arrivo da "Preferisco l'ingresso gratuito" nella pagina VIP: si apre subito il modulo */
+if (new URLSearchParams(location.search).get("iscriviti") === "1") { open(); history.replaceState(null, "", location.pathname + location.hash); }
 /* con la tastiera aperta il campo attivo resta visibile */
 modal.querySelectorAll("input").forEach(i => i.addEventListener("focus", () => setTimeout(() => i.scrollIntoView({ block: "nearest" }), 300)));
 document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", open));

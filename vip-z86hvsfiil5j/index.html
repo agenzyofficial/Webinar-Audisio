@@ -288,6 +288,56 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .cd b{font-size:40px;line-height:1}
 .cd span{display:block;margin-top:6px;color:var(--fg-2)}
 @media (max-width:760px){.cd{grid-template-columns:repeat(4,1fr);gap:8px}.cd b{font-size:30px}}
+
+/* ── scheda VIP (passo 1) ── */
+.scheda{padding:clamp(56px,8vw,96px) 0 clamp(40px,6vw,64px)}
+.scheda .wrap{max-width:780px}
+.step-l{display:inline-block;color:var(--acc);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.scheda-intro{color:var(--fg-2);margin-top:12px;font-size:16.5px}
+.sform{margin-top:24px;display:grid;gap:18px}
+.sform fieldset{border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;padding:18px 20px 20px;display:grid;gap:14px;
+  background:linear-gradient(90deg,rgba(255,90,20,.07),rgba(255,90,20,0) 40%),#0B0E10}
+.sform legend{padding:0 8px;margin-left:-8px;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+.sform label,.sform .flabel{display:grid;gap:6px;font-weight:600;font-size:15px;color:var(--fg)}
+.sform .opt{font-weight:400;color:var(--fg-3)}
+.sform input[type=text],.sform input[type=email],.sform input[type=tel],.sform input[type=number],.sform select,.sform textarea{
+  width:100%;min-height:50px;padding:12px 14px;border-radius:10px;border:1.5px solid #2C343A;background:#14181B;color:var(--fg);font:inherit;font-size:16px;font-weight:500}
+.sform textarea{min-height:88px;resize:vertical}
+.sform select{-webkit-appearance:none;appearance:none;padding-right:36px;
+  background:#14181B url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23A6B0B6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center/11px 8px}
+.sform input:focus,.sform select:focus,.sform textarea:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
+.sform [aria-invalid="true"]{border-color:var(--acc)!important;box-shadow:0 0 0 1px var(--acc)}
+.sform .field.two{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.sform .field.two .flabel{grid-column:1 / -1}
+.sform .field.two label{font-weight:500;color:var(--fg-2);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex!important;cursor:pointer}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:999px;border:1.5px solid #2C343A;background:#14181B;font-weight:600;font-size:14.5px;color:var(--fg-2)}
+.chip input:checked + span{border-color:var(--acc);background:rgba(255,90,20,.14);color:var(--fg)}
+.chip input:focus-visible + span{outline:2px solid var(--acc);outline-offset:2px}
+.chips.bad .chip span{border-color:var(--acc)}
+.sform .tel{display:flex}
+.sform .tel input[type=tel]{border-radius:0 10px 10px 0;flex:1;min-width:0}
+.pre-pick{position:relative;display:flex;align-items:center;flex:none;border:1.5px solid #2C343A;border-right:0;border-radius:10px 0 0 10px;background:#20262B;cursor:pointer}
+.pre-face{display:flex;align-items:center;gap:7px;padding:0 26px 0 11px;height:100%;font-weight:600;font-size:16px;white-space:nowrap;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23A6B0B6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center/10px 7px}
+.pre-face svg{width:21px;height:15px;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
+.pre-pick select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.pre-pick:focus-within{outline:2px solid var(--acc);outline-offset:-2px}
+.sform .pre-altro{flex:none;width:72px;min-width:0;border-radius:0!important;border-right:0!important;text-align:center}
+.sform .pre-altro[hidden]{display:none}
+.sform .consent{display:flex!important;grid-template-columns:none;align-items:flex-start;gap:10px;font-weight:400;font-size:13.5px;color:var(--fg-2);line-height:1.5}
+.sform .consent input{width:20px;height:20px;margin-top:1px;flex:none;accent-color:var(--acc)}
+.sform .consent a{color:var(--acc)}
+.sform-err{color:var(--acc);font-weight:700;font-size:14px}
+.sform .btn{width:100%;min-height:60px}
+.sform .btn.sending .lbl{opacity:.6}
+.sform-ok{margin-top:24px;padding:24px;border:1px solid rgba(91,227,138,.4);border-left:3px solid #5BE38A;border-radius:12px;background:#0F1A12}
+.sform-ok h3{font-weight:800;font-style:italic;font-size:26px;color:#CDEBD5}
+.sform-ok p{color:#CDEBD5;margin-top:6px}
+.bar [hidden]{display:none!important}
+@media (max-width:560px){.sform fieldset{padding:16px 14px 18px}.sform .field.two{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -299,25 +349,70 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <span class="ok mono"><span>Ingresso VIP confermato</span></span>
     <div class="event-logo"><img src="../assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></div>
     <h1>Sei <span class="acc">VIP.</span></h1>
-    <p class="lede">Hai la serata in diretta e l'<b>analisi live del tuo business</b>: un'ora riservata ai VIP, subito dopo la diretta. Non devi prenotare niente: orario e link te li mandiamo noi.</p>
-    <span class="vip-chip">Ingresso VIP · 1 ora con Andrea</span>
+    <p class="lede">Hai la serata in diretta e il <b>referto del tuo business</b>. Ora compila la scheda: è da lì che parte il referto.</p>
+    <span class="vip-chip">Ingresso VIP · Referto + ora riservata</span>
     <div class="progress" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
     <span class="progress-l mono">Pagamento fatto · mancano 3 passi</span>
   </div>
 </header>
 
 <main>
-<!-- ════════ PASSO 1: WHATSAPP ════════ -->
+<!-- ════════ PASSO 1: LA SCHEDA (il più importante: il referto parte da qui) ════════ -->
+<section class="scheda" id="scheda">
+  <div class="wrap">
+    <span class="step-l mono">Passo 1 · Il più importante</span>
+    <h2 class="h2">Compila <span class="acc">la scheda</span></h2>
+    <p class="scheda-intro">Compila entro mercoledì 28 ottobre alle 23:59. Senza la scheda non possiamo prepararti il referto.</p>
+    <form class="sform" novalidate data-scheda>
+      <fieldset>
+        <legend>I tuoi dati</legend>
+        <label>Nome e cognome<input type="text" name="nome" autocomplete="name" autocapitalize="words" required></label>
+        <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="La stessa usata per pagare" required></label>
+        <label>WhatsApp<span class="tel"><span class="pre-pick"><span class="pre-face" aria-hidden="true" data-pre-face></span><select name="prefisso" aria-label="Prefisso internazionale"><option value="+39" selected>🇮🇹 Italia +39</option><option value="+41">🇨🇭 Svizzera +41</option><option value="+351">🇵🇹 Portogallo +351</option><option value="+44">🇬🇧 Regno Unito +44</option><option value="+34">🇪🇸 Spagna +34</option><option value="+49">🇩🇪 Germania +49</option><option value="+33">🇫🇷 Francia +33</option><option value="altro">🌍 Altro prefisso</option></select></span><input class="pre-altro" type="text" name="prefisso_altro" inputmode="tel" autocomplete="off" placeholder="+1" aria-label="Altro prefisso" hidden><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" placeholder="333 123 4567" required></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>I tuoi numeri</legend>
+        <label>1. Fatturato mensile medio degli ultimi 3 mesi
+          <select name="fatturato_mensile" required><option value="" selected disabled>Scegli</option><option>meno di 3K</option><option>3-10K</option><option>10-30K</option><option>30-100K</option><option>oltre 100K</option></select></label>
+        <label>2. Offerta principale e prezzo<input type="text" name="offerta_prezzo" placeholder="Es. percorso di coaching, 1.500 €" required></label>
+        <div class="field" role="group" aria-labelledby="canali-l"><span class="flabel" id="canali-l">3. Da dove arrivano oggi i clienti</span>
+          <div class="chips" data-canali>
+            <label class="chip"><input type="checkbox" name="canali" value="contenuti organici"><span>Contenuti organici</span></label>
+            <label class="chip"><input type="checkbox" name="canali" value="ads"><span>Ads</span></label>
+            <label class="chip"><input type="checkbox" name="canali" value="passaparola"><span>Passaparola</span></label>
+            <label class="chip"><input type="checkbox" name="canali" value="collaborazioni"><span>Collaborazioni</span></label>
+            <label class="chip"><input type="checkbox" name="canali" value="altro"><span>Altro</span></label>
+          </div></div>
+        <div class="field two"><span class="flabel">4. Call di vendita al mese</span>
+          <label>Quante ne fai<input type="number" name="call_mese" min="0" inputmode="numeric" required></label>
+          <label>Quante ne chiudi<input type="number" name="call_chiuse" min="0" inputmode="numeric" required></label></div>
+        <label>5. Ore a settimana che passi sul business<input type="number" name="ore_settimana" min="0" inputmode="numeric" required></label>
+        <label>6. Chi lavora con te
+          <select name="team" required><option value="" selected disabled>Scegli</option><option>nessuno</option><option>freelance</option><option>team interno</option></select></label>
+        <label>7. Cosa passa ancora solo da te<textarea name="solo_da_te" rows="3" required></textarea></label>
+        <label>8. Cosa hai già provato a cambiare<textarea name="gia_provato" rows="3" required></textarea></label>
+        <label>9. Obiettivo a 6 mesi<input type="text" name="obiettivo_6_mesi" required></label>
+        <label>10. Link al tuo profilo Instagram o sito <span class="opt">(facoltativo)</span><input type="text" name="link_profilo" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="instagram.com/..."></label>
+      </fieldset>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link, i promemoria dell'evento ed essere contattato dal team via telefono e WhatsApp.</span></label>
+      <p class="sform-err" data-sform-err hidden>Controlla i campi evidenziati: mancano delle risposte.</p>
+      <button class="btn" type="submit"><span class="lbl">Invia la scheda</span></button>
+    </form>
+    <div class="sform-ok" data-scheda-ok hidden role="status"><h3>Scheda ricevuta.</h3><p>Il referto ti arriva entro 48 ore dalla diretta.</p></div>
+  </div>
+</section>
+
+<!-- ════════ PASSO 2: WHATSAPP ════════ -->
 <section class="step1">
   <div class="wrap">
     <article class="tag vip">
       <div class="tag-body">
-        <span class="mono">Passo 1 · Il più importante</span>
+        <span class="mono">Passo 2</span>
         <h2>Entra nel gruppo WhatsApp</h2>
-        <p>È lì che ti mandiamo il link della serata e quello della sessione VIP con Andrea. Se non sei nel gruppo, rischi di non trovarli.</p>
+        <p>È lì che ti mandiamo il link della serata e quello dell'ora VIP. Se non sei nel gruppo, rischi di non trovarli.</p>
         <ul>
           <li>Il link per entrare alla serata</li>
-          <li>Orario e link dell'ora VIP con Andrea</li>
+          <li>Il link dell'ora VIP, dalle 22:30</li>
           <li>I promemoria, così non perdi niente</li>
         </ul>
         <a class="btn dark" href="#" data-wa target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg> Entra nel gruppo</a>
@@ -330,11 +425,11 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <!-- ════════ PASSI 2 E 3 ════════ -->
 <section class="next">
   <div class="wrap">
-    <span class="kick">Gli ultimi passi</span>
-    <h2 class="h2">Poi, altre <span class="acc">due cose</span></h2>
+    <span class="kick">L'ultimo passo</span>
+    <h2 class="h2">Poi, <span class="acc">segnati la serata</span></h2>
     <div class="rail">
       <div class="stop">
-        <span class="mono">Passo 2</span>
+        <span class="mono">Passo 3</span>
         <div class="stop-card">
         <h3>Segnati la serata</h3>
         <dl class="event-row">
@@ -350,21 +445,6 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         </div>
         </div>
       </div>
-      <div class="stop">
-        <span class="mono">Passo 3</span>
-        <div class="stop-card">
-        <h3>Prepara i tuoi numeri</h3>
-        <p>Nell'ora VIP Andrea analizza il tuo business dal vivo. Con i numeri pronti, l'analisi rende di più. Spunta quello che hai già pronto.</p>
-        <ul class="prep" data-prep>
-          <li><i></i><span><b>Quanto fatturi al mese</b>, anche a spanne</span></li>
-          <li><i></i><span><b>Da dove arrivano oggi i clienti</b>: contenuti, ads, passaparola</span></li>
-          <li><i></i><span><b>Quanto ti costa trovarli</b>, in soldi e in tempo</span></li>
-          <li><i></i><span><b>Quante ore a settimana</b> passi sul business</span></li>
-          <li><i></i><span><b>La cosa che vorresti smettere di fare tu</b>, da domani</span></li>
-        </ul>
-        <p class="prep-count" data-prep-count>0 su 5 pronti</p>
-        </div>
-      </div>
     </div>
     <p class="mailnote">Ti abbiamo mandato via email <b>la ricevuta del pagamento</b> e i dettagli della serata. Se non la trovi, guarda in Promozioni o in Spam.</p>
   </div>
@@ -375,7 +455,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="bg"><img src="../assets/obitorio-chiusura.jpg" alt="" loading="lazy" width="2200" height="1228"></div>
   <div class="wrap">
     <h2 class="h2">Ci vediamo <span class="acc">giovedì sera.</span></h2>
-    <p>La serata con tutti e la tua analisi live con Andrea. <span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>, online.</p>
+    <p>La serata con tutti alle 21:00, l'ora VIP dalle 22:30. <span data-cfg="dateLong">Giovedì 29 ottobre</span>, online.</p>
     <div class="cd" data-cd aria-label="Tempo che manca alla serata">
       <div><b data-d>--</b><span class="mono">giorni</span></div>
       <div><b data-h>--</b><span class="mono">ore</span></div>
@@ -399,8 +479,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <!-- Barra fissa: ricorda il gruppo WhatsApp finché non ci clicchi -->
 <div class="bar">
   <div class="wrap">
-    <div class="t">Manca il gruppo WhatsApp<span class="mono">I link della serata e della sessione VIP arrivano lì</span></div>
-    <a class="btn" href="#" data-wa target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg> Entra nel gruppo</a>
+    <div class="t" data-bar-t>Manca la scheda<span class="mono">Il referto parte da lì</span></div>
+    <a class="btn" href="#scheda" data-bar-scheda>Compila</a>
+    <a class="btn" data-bar-wa hidden href="#" data-wa target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg> Entra nel gruppo</a>
   </div>
 </div>
 <script>
@@ -408,13 +489,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 const CONFIG = {
   variant: "B",
   eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
-  durationMin: 120,                         // durata in minuti, DA CONFERMARE
+  durationMin: 150,                         // serata 21:00-22:30 + ora VIP fino alle 23:30
   dateLong: "Giovedì 29 ottobre",
   dateMobile: "Gio 29 ott",
   time: "21:00",
   title: "La morte del personal brand · Webinar con Andrea Audisio",
   liveUrl: "",                              // link della diretta (Zoom ecc.), facoltativo: finisce nell'evento del calendario
-  whatsapp: "https://chat.whatsapp.com/LW5iXlvIy4nLgDdkp6jcz8"                             // link della community WhatsApp
+  whatsapp: "https://chat.whatsapp.com/LW5iXlvIy4nLgDdkp6jcz8",                            // link della community WhatsApp
+  ghlWebhookUrl: "https://services.leadconnectorhq.com/hooks/yfFcdqju49Ta8CnyU0nO/webhook-trigger/d6f43765-e5a2-4251-ab1f-4b34d1366a4b", // stesso webhook dell'iscrizione
+  phonePrefix: "+39"
 };
 
 document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
@@ -422,7 +505,7 @@ document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.data
 /* Calendario */
 const start = new Date(CONFIG.eventISO), end = new Date(start.getTime() + CONFIG.durationMin * 60000);
 const z = d => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-const details = "Webinar con Andrea Audisio (ingresso VIP).\n" +
+const details = "Webinar con Andrea Audisio (ingresso VIP): serata 21:00-22:30, ora VIP 22:30-23:30.\n" +
   (CONFIG.liveUrl ? "Link della diretta: " + CONFIG.liveUrl + "\n" : "Il link della diretta arriva via email e nella community WhatsApp.\n") +
   (CONFIG.whatsapp && CONFIG.whatsapp !== "#" ? "Community WhatsApp: " + CONFIG.whatsapp : "");
 const where = CONFIG.liveUrl || "Online";
@@ -452,35 +535,99 @@ if (pick.hasAttribute("download")) calMain.setAttribute("download", pick.getAttr
 calMain.textContent = apple ? "Aggiungi al calendario" : "Aggiungi a Google Calendar";
 pick.hidden = true;
 
-/* WhatsApp + barra fissa: resta finché non clicchi "entra nel gruppo" */
+/* Prefisso WhatsApp con bandiera (come nel modulo della landing) */
+const form = document.querySelector("[data-scheda]");
+const prefSel = form.querySelector('[name="prefisso"]'), prefAlt = form.querySelector('[name="prefisso_altro"]'), prefFace = form.querySelector("[data-pre-face]");
+const FLAGS = {
+  "+39": '<rect width="7" height="15" fill="#009246"/><rect x="7" width="7" height="15" fill="#fff"/><rect x="14" width="7" height="15" fill="#CE2B37"/>',
+  "+41": '<rect width="21" height="15" fill="#DA291C"/><rect x="9" y="3" width="3" height="9" fill="#fff"/><rect x="6" y="6" width="9" height="3" fill="#fff"/>',
+  "+351": '<rect width="21" height="15" fill="#FF0000"/><rect width="8.4" height="15" fill="#006600"/><circle cx="8.4" cy="7.5" r="3" fill="#FFE000"/><circle cx="8.4" cy="7.5" r="1.9" fill="#FF0000"/>',
+  "+44": '<rect width="21" height="15" fill="#012169"/><path d="M0 0l21 15M21 0L0 15" stroke="#fff" stroke-width="3"/><path d="M0 0l21 15M21 0L0 15" stroke="#C8102E" stroke-width="1.2"/><path d="M10.5 0v15M0 7.5h21" stroke="#fff" stroke-width="5"/><path d="M10.5 0v15M0 7.5h21" stroke="#C8102E" stroke-width="3"/>',
+  "+34": '<rect width="21" height="15" fill="#AA151B"/><rect y="3.75" width="21" height="7.5" fill="#F1BF00"/>',
+  "+49": '<rect width="21" height="5" fill="#000"/><rect y="5" width="21" height="5" fill="#DD0000"/><rect y="10" width="21" height="5" fill="#FFCE00"/>',
+  "+33": '<rect width="7" height="15" fill="#0055A4"/><rect x="7" width="7" height="15" fill="#fff"/><rect x="14" width="7" height="15" fill="#EF4135"/>',
+  "altro": '<rect width="21" height="15" fill="#20262B"/><circle cx="10.5" cy="7.5" r="5.2" fill="none" stroke="#A6B0B6" stroke-width="1.2"/><path d="M5.3 7.5h10.4M10.5 2.3c2.4 2.8 2.4 7.6 0 10.4M10.5 2.3c-2.4 2.8-2.4 7.6 0 10.4" fill="none" stroke="#A6B0B6" stroke-width="1"/>'
+};
+const drawPrefix = () => { const v = prefSel.value; prefFace.innerHTML = `<svg viewBox="0 0 21 15" aria-hidden="true">${FLAGS[v] || FLAGS.altro}</svg><span>${v === "altro" ? "Altro" : v}</span>`; };
+drawPrefix();
+prefSel.addEventListener("change", () => {
+  drawPrefix();
+  const altro = prefSel.value === "altro";
+  prefAlt.hidden = !altro; prefAlt.required = altro; prefAlt.removeAttribute("aria-invalid");
+  if (altro) prefAlt.focus();
+});
+
+/* Email già nota (se il link la passa) */
+const qsEmail = new URLSearchParams(location.search).get("email");
+if (qsEmail) form.email.value = qsEmail;
+
+/* Scheda: stesso webhook GHL dell'iscrizione, collegata all'email (e al pagamento Whop se c'è) */
+const schedaOk = document.querySelector("[data-scheda-ok]"), schedaErr = form.querySelector("[data-sform-err]");
+let schedaDone = false;
+try { schedaDone = localStorage.getItem("pbm-vip-scheda") === "1"; } catch (e) {}
+const showSchedaDone = () => { form.hidden = true; schedaOk.hidden = false; };
+if (schedaDone) showSchedaDone();
+const canali = [...form.querySelectorAll('[name="canali"]')];
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  let ok = true;
+  form.querySelectorAll("input[required], select[required], textarea[required]").forEach(i => {
+    const bad = i.type === "checkbox" ? !i.checked : !String(i.value).trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value))
+      || (i.type === "tel" && i.value.replace(/\D/g, "").length < 8);
+    i.setAttribute("aria-invalid", bad); if (bad) ok = false;
+  });
+  const noCanali = !canali.some(c => c.checked);
+  form.querySelector("[data-canali]").classList.toggle("bad", noCanali); if (noCanali) ok = false;
+  schedaErr.hidden = ok;
+  if (!ok) { (form.querySelector('[aria-invalid="true"]') || form.querySelector("[data-canali] input")).focus(); return; }
+  const btn = form.querySelector('button[type="submit"]'); btn.classList.add("sending"); btn.disabled = true;
+  const raw = Object.fromEntries(new FormData(form));
+  const d = {};
+  const name = (raw.nome || "").trim();
+  d.full_name = name; d.first_name = name.split(/\s+/)[0] || ""; d.last_name = name.split(/\s+/).slice(1).join(" ");
+  d.email = (raw.email || "").trim();
+  let ph = (raw.telefono || "").replace(/[^\d+]/g, "");
+  const pre = "+" + String(raw.prefisso === "altro" ? raw.prefisso_altro || "" : raw.prefisso || CONFIG.phonePrefix || "+39").replace(/\D/g, "");
+  if (ph.startsWith("00")) ph = "+" + ph.slice(2);
+  else if (ph && !ph.startsWith("+")) ph = (pre.length > 1 ? pre : CONFIG.phonePrefix || "+39") + (pre !== "+39" ? ph.replace(/^0/, "") : ph);
+  d.phone = ph;
+  d.variante = CONFIG.variant; d.evento = "La morte del personal brand"; d.tipo = "scheda_vip"; d.privacy = raw.privacy ? "si" : "no";
+  ["fatturato_mensile", "offerta_prezzo", "call_mese", "call_chiuse", "ore_settimana", "team", "solo_da_te", "gia_provato", "obiettivo_6_mesi", "link_profilo"].forEach(k => { d[k] = (raw[k] || "").trim(); });
+  d.canali_clienti = canali.filter(c => c.checked).map(c => c.value).join(", ");
+  const qs = new URLSearchParams(location.search);
+  if (qs.get("payment")) d.whop_payment = qs.get("payment");
+  d.page_url = location.href.split("#")[0];
+  try { if (CONFIG.ghlWebhookUrl) await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (err) {}
+  schedaDone = true;
+  try { localStorage.setItem("pbm-vip-scheda", "1"); } catch (err) {}
+  showSchedaDone(); syncBar();
+  schedaOk.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+form.querySelectorAll("input, select, textarea").forEach(i => i.addEventListener(i.type === "checkbox" ? "change" : "input", () => { i.removeAttribute("aria-invalid"); if (i.name === "canali") form.querySelector("[data-canali]").classList.remove("bad"); }));
+
+/* WhatsApp + barra fissa: prima chiede la scheda, dopo l'invio il gruppo (finché non ci entri) */
 const waLinks = document.querySelectorAll("[data-wa]"), bar = document.querySelector(".bar");
-let waDone = false;
+const barT = bar.querySelector("[data-bar-t]"), barScheda = bar.querySelector("[data-bar-scheda]"), barWa = bar.querySelector("[data-bar-wa]");
+let waDone = false, schedaVisible = false, waVisible = false;
 try { waDone = localStorage.getItem("pbm-wa") === "1"; } catch (e) {}
+function syncBar() {
+  if (!schedaDone) {
+    barT.innerHTML = 'Manca la scheda<span class="mono">Il referto parte da lì</span>';
+    barScheda.hidden = false; barWa.hidden = true;
+    bar.classList.toggle("show", !schedaVisible);
+  } else {
+    barT.innerHTML = 'Manca il gruppo WhatsApp<span class="mono">I link della serata e dell\'ora VIP arrivano lì</span>';
+    barScheda.hidden = true; barWa.hidden = false;
+    bar.classList.toggle("show", !waDone && !waVisible);
+  }
+}
 waLinks.forEach(a => {
   a.href = CONFIG.whatsapp || "#";
-  a.addEventListener("click", () => { waDone = true; bar.classList.remove("show"); try { localStorage.setItem("pbm-wa", "1"); } catch (e) {} });
+  a.addEventListener("click", () => { waDone = true; try { localStorage.setItem("pbm-wa", "1"); } catch (e) {} syncBar(); });
 });
-new IntersectionObserver(([e]) => bar.classList.toggle("show", !waDone && !e.isIntersecting))
-  .observe(document.querySelector(".tag [data-wa]"));
-
-/* Lista "prepara i tuoi numeri": si spunta toccando, resta salvata su questo telefono */
-const prep = [...document.querySelectorAll("[data-prep] li")], prepCount = document.querySelector("[data-prep-count]");
-let saved = [];
-try { saved = JSON.parse(localStorage.getItem("pbm-vip-prep") || "[]"); } catch (e) {}
-const syncPrep = () => {
-  const n = prep.filter(li => li.classList.contains("on")).length;
-  prepCount.textContent = n === prep.length ? "Tutto pronto. Andrea sarà contento." : n + " su " + prep.length + " pronti";
-  try { localStorage.setItem("pbm-vip-prep", JSON.stringify(prep.map(li => li.classList.contains("on")))); } catch (e) {}
-};
-prep.forEach((li, i) => {
-  li.setAttribute("role", "checkbox"); li.tabIndex = 0;
-  if (saved[i]) li.classList.add("on");
-  li.setAttribute("aria-checked", li.classList.contains("on"));
-  const t = () => { li.classList.toggle("on"); li.setAttribute("aria-checked", li.classList.contains("on")); syncPrep(); };
-  li.addEventListener("click", t);
-  li.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") { e.preventDefault(); t(); } });
-});
-syncPrep();
+new IntersectionObserver(([e]) => { schedaVisible = e.isIntersecting; syncBar(); }).observe(document.querySelector("#scheda"));
+new IntersectionObserver(([e]) => { waVisible = e.isIntersecting; syncBar(); }).observe(document.querySelector(".tag [data-wa]"));
+syncBar();
 
 /* Countdown */
 const cd = document.querySelector("[data-cd]");

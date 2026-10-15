@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#FF5A14">
 <title>Ingresso VIP · La morte del personal brand</title>
-<meta name="description" content="Analisi live del tuo business: un'ora riservata ai VIP subito dopo la diretta. Porti i tuoi numeri e Andrea Audisio analizza il tuo business dal vivo.">
+<meta name="description" content="Il referto del tuo business: compili la scheda con i tuoi numeri, ricevi il referto scritto e partecipi all'ora riservata ai VIP dopo la diretta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -125,6 +125,23 @@ body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 .pay-err{display:none;margin-top:16px;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,90,20,.5);background:rgba(255,90,20,.08);color:var(--fg);font-size:14.5px}
 .pay-failed .pay-err{display:block}
 
+/* nota "Sei dentro" (solo versione upsell) */
+.upsell-note{margin-top:14px;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;background:var(--box-fade),#0B0E10;color:var(--fg);text-align:left}
+
+/* garanzia + prova (Evolutiaa) */
+.trust2{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;align-items:stretch}
+.guar{padding:26px 24px}
+.guar .feat-ic{margin-bottom:14px}
+.guar p{color:var(--fg-2);margin-top:10px;font-size:16px}
+.proof1{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center;padding:0 22px 0 0;overflow:hidden}
+.proof1-ph{align-self:stretch;display:flex;align-items:flex-end;justify-content:center;min-height:220px;background:radial-gradient(ellipse at 50% 85%,rgba(255,90,20,.3),transparent 65%),linear-gradient(#11161A,#0B0E10)}
+.proof1-ph img{height:100%;max-height:260px;width:auto;object-fit:contain;object-position:bottom}
+.proof1 h3{font-weight:800;font-style:italic;font-size:clamp(22px,2.2vw,28px);line-height:1.15}
+.proof1 p{color:var(--fg-2);font-size:15.5px;margin-top:8px}
+.proof1 .proof1-note{color:var(--fg-3);font-size:12.5px;margin-top:10px}
+@media (max-width:900px){.trust2{grid-template-columns:1fr}}
+@media (max-width:560px){.proof1{grid-template-columns:1fr;padding:0 18px 20px}.proof1-ph{margin:0 -18px;min-height:200px}}
+
 /* faq */
 .faq{display:grid;gap:10px;margin-top:26px;max-width:860px}
 .faq details{overflow:hidden}
@@ -185,12 +202,12 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
     <a class="vlogo" href="../" aria-label="La morte del personal brand"><img src="../assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875"></a>
     <span class="kick only-sales">Ingresso VIP</span>
     <span class="kick only-upsell">Un'ultima cosa, prima di andare</span>
-    <h1>Analisi live <span class="acc">del tuo business.</span></h1>
-    <p class="lede only-sales">La serata ti mostra perché il personal brand classico ha smesso di funzionare. Nell'ora VIP, subito dopo la diretta, porti i tuoi numeri e Andrea analizza il <b>tuo</b> business davanti a te e ti dice cosa cambiare.</p>
-    <p class="lede only-upsell">Sei dentro: giovedì la serata ti mostra cosa non funziona. Ma è uguale per tutti. Con il VIP, nell'ora riservata subito dopo la diretta, porti i tuoi numeri e Andrea applica tutto al <b>tuo</b> business.</p>
+    <h1>Il referto <span class="acc">del tuo business.</span></h1>
+    <p class="lede">La serata ti mostra perché il personal brand classico ha smesso di funzionare. Il referto ti dice cosa non funziona nel <b>tuo</b>: compili una scheda con i tuoi numeri, Andrea la analizza e ricevi il referto scritto. In più, un'ora riservata ai VIP dopo la diretta.</p>
+    <p class="lede upsell-note only-upsell">Sei dentro: giovedì la serata ti mostra cosa non funziona. Ma è uguale per tutti. Con il VIP ricevi il referto scritto del tuo business, con i tuoi numeri.</p>
     <div class="vprice"><b>27 €</b><span>una volta sola</span></div>
-    <a class="btn" href="#checkout">Voglio l'analisi live <span aria-hidden="true">→</span></a>
-    <br><a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a>
+    <a class="btn" href="#checkout">Voglio il mio referto <span aria-hidden="true">→</span></a>
+    <br><a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a><a class="skip only-sales" href="../?iscriviti=1">Preferisco l'ingresso gratuito</a>
   </div>
 </header>
 
@@ -198,10 +215,10 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 <section>
   <div class="wrap">
     <span class="kick">Perché ha senso</span>
-    <h2 class="h2">La serata ti dice cosa non funziona. <span class="acc">L'analisi ti dice cosa fare tu.</span></h2>
+    <h2 class="h2">La serata ti dice cosa non funziona. <span class="acc">Il referto ti dice cosa fare tu.</span></h2>
     <div class="why-grid">
-      <div class="box"><h3>La serata è uguale per tutti. L'analisi no.</h3><p>In diretta Andrea parla a tutti. Nell'ora VIP si parla di numeri veri: il tuo fatturato, i tuoi clienti, le tue ore.</p></div>
-      <div class="box"><h3>Esci con cosa cambiare, non con un'altra lista.</h3><p>Ogni corso ti ha lasciato una lista più lunga di cose da fare. Qui porti il tuo caso e senti cosa cambiare, partendo da dove sei.</p></div>
+      <div class="box"><h3>La serata è uguale per tutti. Il referto no.</h3><p>In diretta Andrea parla a tutti. Il referto parte dai tuoi numeri veri: il tuo fatturato, i tuoi clienti, le tue ore.</p></div>
+      <div class="box"><h3>Esci con cosa cambiare, non con un'altra lista.</h3><p>Ogni corso ti ha lasciato una lista più lunga di cose da fare. Qui ricevi per iscritto cosa cambiare, partendo da dove sei.</p></div>
       <div class="box"><h3>Una risposta sincera.</h3><p>Andrea ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo. Anche quando la risposta è no.</p></div>
     </div>
   </div>
@@ -214,11 +231,11 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
     <div class="feat">
       <div class="box">
         <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 15v-4M12 15V7M17 15v-6"/></svg></span>
-        <div><h3>Analisi live del tuo business, con i tuoi numeri</h3><p>Porti i tuoi numeri e Andrea analizza il tuo business davanti a te: da dove arrivano i clienti, quanto ti costano, dove finiscono le tue ore. Ti dice <b>cosa cambiare</b> e se ha ancora senso continuare così.</p></div>
+        <div><h3>Il referto scritto del tuo business</h3><p>Dopo l'acquisto compili una scheda con i tuoi numeri. Andrea analizza da dove arrivano i clienti, quanto ti costano e dove finiscono le tue ore, e ricevi il referto scritto <b>entro 48 ore dalla diretta</b>: la causa principale del blocco, le cause secondarie e la prima cosa da cambiare. Anche quando la risposta è che non ha senso continuare così.</p></div>
       </div>
       <div class="box">
         <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
-        <div><h3>Un'ora riservata ai VIP, subito dopo la diretta</h3><p>Finita la serata non si chiude: resta in diretta solo chi ha l'ingresso VIP. <b>Un'ora in più</b>, dal vivo, dedicata ai business dei partecipanti.</p></div>
+        <div><h3>Un'ora riservata ai VIP, dalle 22:30 alle 23:30</h3><p>Finita la serata resta in diretta solo chi ha l'ingresso VIP. Andrea analizza dal vivo i casi più rappresentativi tra le schede e risponde alle domande.</p></div>
       </div>
       <div class="box">
         <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2-5"/><path d="M5 4v4h4"/><path d="M10.5 9.5v5l4-2.5z"/></svg></span>
@@ -241,8 +258,8 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
       <tbody>
         <tr><td>Serata in diretta, 90 minuti</td><td class="yes">✓</td><td class="vipc yes">✓</td></tr>
         <tr><td>Replica della serata</td><td>48 ore</td><td class="vipc">7 giorni</td></tr>
-        <tr><td>Ora riservata dopo la diretta</td><td class="no">–</td><td class="vipc yes">✓</td></tr>
-        <tr><td>Analisi live del tuo business</td><td class="no">–</td><td class="vipc yes">✓</td></tr>
+        <tr><td>Ora VIP, 22:30-23:30</td><td class="no">–</td><td class="vipc yes">✓</td></tr>
+        <tr><td>Referto scritto del tuo business</td><td class="no">–</td><td class="vipc yes">✓</td></tr>
         <tr><td>Prezzo</td><td>0 €</td><td class="vipc">27 €, una volta</td></tr>
       </tbody>
     </table>
@@ -251,9 +268,9 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 
 <section>
   <div class="wrap">
-    <span class="kick">Cosa portare</span>
-    <h2 class="h2">Con i numeri pronti <span class="acc">l'analisi rende di più</span></h2>
-    <p class="lede">Bastano anche a spanne. Più sono vicini al vero, più la risposta è utile.</p>
+    <span class="kick">La scheda</span>
+    <h2 class="h2">Cosa ti chiediamo <span class="acc">nella scheda</span></h2>
+    <p class="lede">Bastano anche a spanne. Più sono vicini al vero, più il referto è utile.</p>
     <ul class="prep">
       <li class="box"><span><b>Quanto fatturi al mese</b>, anche a spanne</span></li>
       <li class="box"><span><b>Da dove arrivano oggi i clienti</b>: contenuti, ads, passaparola</span></li>
@@ -265,10 +282,29 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 </section>
 
 <section>
+  <div class="wrap trust2">
+    <div class="box guar">
+      <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
+      <h2 class="h2">Il rischio <span class="acc">è nostro.</span></h2>
+      <p>Se dopo il referto e l'ora VIP pensi che non valessero 27 €, ci scrivi e ti rimborsiamo. Senza domande.</p>
+    </div>
+    <div class="box proof1">
+      <div class="proof1-ph"><img src="../assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
+      <div>
+        <span class="kick">Evolutiaa</span>
+        <h3>Da 6K a oltre 30K al mese.</h3>
+        <p>Andrea Finotti e Selene Barletta, Evolutiaa: fermi a circa 6.000 € al mese con tutto che passava da loro. Oggi un'azienda con team, procedure e KPI chiari.</p>
+        <p class="proof1-note">Risultati individuali, non costituiscono una promessa di guadagno.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
   <div class="wrap who">
     <figure class="who-ph"><img src="../assets/andrea-medico.jpg" alt="Andrea Audisio" width="1100" height="1375" loading="lazy" decoding="async"></figure>
     <div>
-      <span class="kick">Chi ti analizza</span>
+      <span class="kick">Chi firma il referto</span>
       <h2 class="h2">Andrea <span class="acc">Audisio</span></h2>
       <p>Da 19 anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho portato in Italia l'appointment setter e oggi con profitOS entriamo come soci operativi nei business che già vendono.</p>
       <div class="stats">
@@ -288,15 +324,15 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
       <div class="pay-err" role="alert">Il pagamento non è andato a buon fine. Puoi riprovare qui accanto.</div>
       <div class="pay-sum box">
         <ul>
-          <li><b>Analisi live del tuo business</b>, con i tuoi numeri</li>
-          <li><b>Un'ora riservata ai VIP</b>, subito dopo la diretta</li>
+          <li><b>Il referto scritto del tuo business</b>, entro 48 ore</li>
+          <li><b>Un'ora riservata ai VIP dalle 22:30</b>, con analisi dal vivo dei casi più rappresentativi</li>
           <li>Replica della serata per 7 giorni</li>
-          <li>Tutta la serata in diretta</li>
+          <li>Tutta la serata in diretta, come l'ingresso standard</li>
         </ul>
         <div class="pay-tot"><span>Totale, una volta sola</span><b>27 €</b></div>
       </div>
-      <p class="pay-note">Pagamento sicuro con Whop. Dopo il pagamento ti mandiamo orario e link dell'ora VIP: non devi prenotare niente.</p>
-      <a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a>
+      <p class="pay-note">Pagamento sicuro con Whop. Dopo il pagamento compili la scheda e ricevi il link dell'ora VIP: non devi prenotare niente.</p>
+      <a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a><a class="skip only-sales" href="../?iscriviti=1">Preferisco l'ingresso gratuito</a>
     </div>
     <div class="pay-box"><div id="whop-checkout"></div></div>
   </div>
@@ -307,11 +343,12 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
     <span class="kick">Domande</span>
     <h2 class="h2">Prima di pagare</h2>
     <div class="faq">
-      <details class="box"><summary>Cos'è l'analisi live?</summary><p>È l'ora riservata ai VIP subito dopo la diretta: porti i tuoi numeri e Andrea analizza il tuo business dal vivo, dicendoti cosa cambiare.</p></details>
-      <details class="box"><summary>Devo esserci dal vivo?</summary><p>Sì: le domande Andrea le prende solo dal vivo. La replica della serata invece la trovi per 7 giorni.</p></details>
-      <details class="box"><summary>Quanto dura?</summary><p>La serata dura 90 minuti. Per chi ha il VIP segue un'ora riservata.</p></details>
-      <details class="box"><summary>Come ricevo il link?</summary><p>Dopo il pagamento ti mandiamo orario e link via email e su WhatsApp. Non devi prenotare niente.</p></details>
+      <details class="box"><summary>Cos'è il referto?</summary><p>Un'analisi scritta del tuo business, fatta a partire dalla scheda che compili dopo l'acquisto. Ti arriva entro 48 ore dalla diretta.</p></details>
+      <details class="box"><summary>Devo esserci dal vivo?</summary><p>Per la serata e l'ora VIP sì, le domande Andrea le prende solo dal vivo. Il referto ti arriva comunque per iscritto e la replica della serata resta per 7 giorni.</p></details>
+      <details class="box"><summary>Quanto dura?</summary><p>La serata dalle 21:00 alle 22:30. L'ora VIP dalle 22:30 alle 23:30.</p></details>
+      <details class="box"><summary>Come ricevo il link?</summary><p>Dopo il pagamento ti mandiamo il link della serata e dell'ora VIP nel gruppo WhatsApp e via email.</p></details>
       <details class="box"><summary>È un abbonamento?</summary><p>No. Paghi 27 € una volta sola.</p></details>
+      <details class="box"><summary>E se non mi è servito?</summary><p>Se dopo il referto e l'ora VIP pensi che non valessero 27 €, scrivici e ti rimborsiamo.</p></details>
     </div>
   </div>
 </section>
@@ -319,8 +356,8 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 <section class="end">
   <div class="wrap">
     <h2 class="h2">Giovedì sera, <span class="acc">il tuo business sul tavolo.</span></h2>
-    <a class="btn" href="#checkout">Voglio l'analisi live · 27 €</a>
-    <br><a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a>
+    <a class="btn" href="#checkout">Voglio il mio referto · 27 €</a>
+    <br><a class="skip only-upsell" href="../conferma-kyuaazwk/">No grazie, mi basta l'ingresso gratuito</a><a class="skip only-sales" href="../?iscriviti=1">Preferisco l'ingresso gratuito</a>
   </div>
 </section>
 </main>
