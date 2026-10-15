@@ -676,6 +676,21 @@ body.locked{overflow:hidden}
 .vip-note{display:block;text-align:center;margin-top:10px;font-size:13px;font-weight:600;color:#2A1407}
 @media (prefers-reduced-motion:reduce){.tag.vip::after{animation:none}}
 @media (max-width:760px){.vip-stamp{top:44px;right:-4px;font-size:13px}.tag.vip .btn{font-size:14.5px}}
+
+/* ── mobile: bottoni coerenti e spazi ── */
+@media (max-width:760px){
+  .btn{height:60px;min-height:60px;font-size:16px;letter-spacing:.01em;padding:0 20px}
+  .hero .ctas .btn,.learn .after .btn,.close-s .btn,.tag-body .btn,.panel .btn{width:100%}
+  .bar .btn{height:54px;min-height:54px;font-size:16px}
+  .tag.vip .btn{font-size:15px}
+  .mon-again{width:auto!important;height:48px;min-height:48px;font-size:14px;padding:0 24px}
+  .points li,.bonus{grid-template-columns:30px 1fr;gap:10px}
+  .points .n,.bonus .n{font-size:28px;line-height:1.1}
+  .close-s > .wrap{padding-left:16px;padding-right:16px}
+  footer .wrap{gap:4px 16px}
+  footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 2px}
+  .faq summary{min-height:56px;display:flex;align-items:center}
+}
 </style>
 </head>
 <body class="no-js">
