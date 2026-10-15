@@ -1236,6 +1236,12 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .tvoce{border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 34px rgba(0,0,0,.5)}
 @media (hover:hover) and (pointer:fine){.tvoce:hover{border-color:rgba(255,90,20,.6);box-shadow:0 18px 40px rgba(0,0,0,.6)}}
 .modal .panel{border:1px solid var(--line);border-left:3px solid var(--acc);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+
+/* chiodo a cui è appeso lo spago dei biglietti (sta nel punto attorno a cui il cartellino dondola) */
+.tag-nail{position:absolute;z-index:3;left:50%;top:-63px;width:14px;height:14px;margin-left:-7px;border-radius:50%;
+  background:radial-gradient(circle at 35% 32%,#F4F7F9 0,#B9C2C8 32%,#6B757D 70%,#3A4148 100%);
+  box-shadow:0 3px 6px rgba(0,0,0,.65),0 0 0 1px rgba(0,0,0,.35)}
+.tag-nail::after{content:"";position:absolute;left:3px;right:3px;top:6px;height:2px;border-radius:1px;background:rgba(40,46,52,.55)}
 </style>
 </head>
 <body class="no-js">
@@ -1517,6 +1523,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <p class="tickets-cd mono rv"><span class="live-dot" aria-hidden="true"></span>La diretta inizia tra <span data-cd-mini>--</span></p>
     <div class="tags">
       <article class="tag rv">
+        <span class="tag-nail" aria-hidden="true"></span>
         <div class="tag-body">
           <span class="mono">Ingresso standard</span>
           <h3>Gratis</h3>
@@ -1531,6 +1538,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         </div>
       </article>
       <article class="tag vip rv">
+        <span class="tag-nail" aria-hidden="true"></span>
         <span class="vip-stamp" aria-hidden="true">Consigliato</span>
         <div class="tag-body">
           <span class="mono">Ingresso VIP</span>
