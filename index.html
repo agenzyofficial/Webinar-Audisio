@@ -1271,6 +1271,41 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .cases3{grid-template-columns:repeat(2,1fr)}
   .cases3 .case3:last-child{grid-column:auto}
 }
+/* telefono: hero senza la foto di Andrea, titolo sul cartellino come su computer, più aria sopra il video */
+@media (max-width:760px){
+  .hero{--lw:calc(100vw - 8px)}
+  .hero .headline{margin-top:calc(var(--lw) * -.185 + 8px)}
+  .tv-stage>picture{display:none}
+  .hero-tv{margin-top:28px}
+  .tv-screen{margin:10px auto 4px}
+  .hero-tv .promise{margin-top:16px}
+}
+@media (max-width:760px) and (max-height:700px){.hero{--lw:min(calc(100vw - 8px),calc(30vh * 2.06))}}
+
+/* telefono: il caso di Felipe prima di Evolutiaa */
+@media (max-width:760px){
+  .cases-top{display:flex;flex-direction:column;margin-top:28px}
+  .cases-top>.bigcase{order:-1;margin:0}
+  .cases-top>.case3-wide{margin:18px 0 0}
+}
+
+/* telefono: niente barra fissa in basso */
+@media (max-width:760px){
+  .bar{display:none!important}
+  footer.pfoot{padding-bottom:calc(32px + env(safe-area-inset-bottom))}
+}
+
+/* telefono: il modulo entra tutto anche sugli schermi bassi */
+@media (max-width:760px){
+  .modal{padding:12px}
+  .modal .panel{max-height:calc(100vh - 24px);max-height:calc(100svh - 24px);padding:20px 16px 16px}
+  .panel h3{font-size:24px}
+  .panel .pp{margin-top:6px;font-size:13px}
+  .panel form{gap:10px;margin-top:14px}
+  .panel label{gap:4px;font-size:13px}
+  .panel input[type=text],.panel input[type=email],.panel input[type=tel]{padding:11px 12px}
+  .panel .consent{font-size:12px;line-height:1.4}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1395,6 +1430,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
     <p class="lede rv">Clienti di Andrea e progetti del suo team. Te lo raccontano loro, in video.</p>
     <!-- caso studio, dalla pagina profitOS -->
+    <div class="cases-top">
     <article class="case3 case3-wide rv">
       <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
       <span class="kick">Evolutiaa</span>
@@ -1414,6 +1450,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <div class="to"><span>È arrivato a</span><b>oltre 4M€ l'anno</b><em>tra i riferimenti in Italia sulla finanza personale</em></div>
       </div>
     </article>
+    </div>
     <div class="cases3">
       <article class="case3 rv">
         <div class="case3-ph"><img src="assets/caso-salesvalley.webp" alt="Andrea Audisio e Gianluca Manitto, SalesValley" width="633" height="800" loading="lazy" decoding="async"></div>
