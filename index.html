@@ -1899,7 +1899,7 @@ function placeCinema() {
   const st = tvScreen.parentElement.getBoundingClientRect(), box = heroTv.getBoundingClientRect(), logo = heroLogo.getBoundingClientRect();
   const s = { x: st.left + st.width * .658, y: st.top + st.height * .1432, w: st.width * .335, h: st.height * .3333 };
   /* dal fondo delle lettere del titolo (62% dell'altezza del logo; il cartellino pende sopra al video) fino a 40 px sopra data e bottone */
-  const top = Math.max(box.top, logo.top + logo.height * .62) + 10, bottom = box.bottom - 40;
+  const top = logo.top + logo.height * .62 + 10, bottom = box.bottom - 40;
   const w = Math.min(innerWidth * .72, 1000, (bottom - top) * s.w / s.h);
   tvScreen.style.setProperty("--cine", `translate(${innerWidth / 2 - (s.x + s.w / 2)}px, ${(top + bottom) / 2 - (s.y + s.h / 2)}px) scale(${w / s.w})`);
   /* la X accanto all'angolo in alto a destra del video (16:9, intero dentro lo schermo ingrandito) */
