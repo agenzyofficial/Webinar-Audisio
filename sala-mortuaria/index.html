@@ -928,6 +928,44 @@ body.locked{overflow:hidden}
 .chalk-bg .chalk{mix-blend-mode:normal}
 @media (min-width:761px){.chalk-bg .chalk{-webkit-mask:radial-gradient(ellipse at center,#000 66%,transparent 80%);mask:radial-gradient(ellipse at center,#000 66%,transparent 80%)}}
 .learn{background:var(--bg)}
+
+/* ── timeline di Andrea che si riempie mentre scorri ── */
+.tl2::before{background:#232A2F}
+.tl2 .tl-fill{position:absolute;left:7px;top:8px;width:2px;height:0;background:var(--acc);box-shadow:0 0 12px rgba(255,90,20,.8);z-index:0;transition:height 120ms linear}
+.tl2 li{opacity:.42;transition:opacity 400ms var(--ease-out)}
+.tl2 li::before{z-index:1;transition:background-color 300ms ease,box-shadow 300ms ease,transform 300ms var(--ease-out)}
+.tl2 li.on{opacity:1}
+.tl2 li.on::before{background:var(--acc);box-shadow:0 0 14px rgba(255,90,20,.8);transform:scale(1.12)}
+@media (prefers-reduced-motion:reduce){.tl2 li{opacity:1;transition:none}.tl2 .tl-fill{display:none}}
+
+/* ── "Cosa succede dopo": segnaposto numerati delle prove al posto dei quadratini ── */
+.rail{counter-reset:prova}
+.rail::before{top:16px;height:2px;background:linear-gradient(90deg,var(--acc),rgba(255,90,20,.15))}
+.stop{counter-increment:prova;padding-top:52px}
+.stop::before{content:counter(prova);top:0;left:0;width:38px;height:34px;border:0;border-radius:0;background:var(--acc)!important;color:var(--on-acc);
+  display:grid;place-items:end center;padding-bottom:3px;font-weight:900;font-size:17px;line-height:1;
+  clip-path:polygon(50% 0,100% 100%,0 100%);box-shadow:none;filter:drop-shadow(0 0 8px rgba(255,90,20,.6))}
+@media (max-width:760px){
+  .rail::before{left:18px;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,var(--acc),rgba(255,90,20,.15))}
+  .stop{padding-top:2px;padding-left:56px;min-height:40px}
+  .stop::before{left:0;top:0}
+}
+.stop::before{width:50px;height:44px;font-size:21px;padding-bottom:4px}
+.rail::before{top:22px}
+.stop{padding-top:62px}
+@media (max-width:760px){.rail::before{left:24px}.stop{padding-top:6px;padding-left:66px;min-height:48px}}
+
+/* segnaposto delle prove: immagini vere */
+.stop::before{content:""!important;clip-path:none!important;width:58px!important;height:64px!important;padding:0!important;
+  background:url(assets/prova-1.png) center bottom/contain no-repeat!important;filter:drop-shadow(0 6px 14px rgba(255,90,20,.45))}
+.stop:nth-child(2)::before{background-image:url(assets/prova-2.png)!important}
+.stop:nth-child(3)::before{background-image:url(assets/prova-3.png)!important}
+.rail::before{top:52px!important}
+.stop{padding-top:80px!important}
+@media (max-width:760px){
+  .rail::before{top:0!important;left:28px!important}
+  .stop{padding-top:8px!important;padding-left:76px!important;min-height:70px}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1006,7 +1044,7 @@ body.locked{overflow:hidden}
     </ol>
     <div class="bonus rv">
       <span class="n">+1</span>
-      <div><h3>Un'analisi strategica del tuo business, gratis</h3><p>Per chi la chiede, alla fine della serata: ti dico con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
+      <div><h3>Un'analisi strategica del tuo business</h3><p>Per chi ha il biglietto VIP: Andrea guarda il tuo business e ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
     </div>
     <div class="after rv">
       <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
@@ -1136,6 +1174,7 @@ body.locked{overflow:hidden}
         <h2 class="h2">Chi fa <span class="acc">l'autopsia</span></h2>
         <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
         <ol class="tl2">
+          <span class="tl-fill" aria-hidden="true"></span>
           <li><span class="y">2007</span><div><h4>La partenza</h4><p>Fondo <b>Kelevra</b>, la mia prima web agency, quando Facebook in Italia è ancora in inglese e Instagram non esiste. Cresce fino a <b>circa 400 clienti</b>.</p></div></li>
           <li><span class="y">2007 · 2018</span><div><h4>Gli anni da pioniere</h4><p>Faccio advertising online quando per le aziende italiane il digitale è ancora marginale. Diversi nomi che oggi sono considerati veterani dell'online sono <b>passati dai miei programmi</b>.</p></div></li>
           <li><span class="y">2018</span><div><h4>Il primo grande salto</h4><p>Unisco Kelevra a un gruppo da <b>circa 20 milioni</b> ed entro come socio al 30%: budget oltre i 100.000 € e brand come <b>LEGO, BMW, Ducati, Alfa Romeo, Porsche e Volkswagen</b>. Entro anche in Blackship, nella formazione commerciale.</p></div></li>
@@ -1183,7 +1222,6 @@ body.locked{overflow:hidden}
           <ul>
             <li>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></li>
             <li>Gruppo WhatsApp dell'evento</li>
-            <li>Analisi strategica gratuita, su richiesta</li>
           </ul>
           <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
         </div>
@@ -1510,6 +1548,22 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
   const sync = () => { const max = box.scrollWidth - box.clientWidth; const p = max > 0 ? box.scrollLeft / max : 0;
     bar.style.width = Math.max(12, (box.clientWidth / box.scrollWidth) * 100) + "%"; bar.style.left = (p * (100 - parseFloat(bar.style.width))) + "%"; };
   box.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); sync();
+})();
+
+/* timeline di Andrea: la linea si riempie e le tappe si accendono mentre scorri */
+(function () {
+  const tl = document.querySelector(".tl2"); if (!tl) return;
+  const fill = tl.querySelector(".tl-fill"), items = [...tl.querySelectorAll("li")];
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const r = tl.getBoundingClientRect(), mark = innerHeight * .62;
+    const h = Math.max(0, Math.min(r.height - 16, mark - r.top - 8));
+    fill.style.height = h + "px";
+    items.forEach(li => li.classList.toggle("on", li.getBoundingClientRect().top + 12 < mark));
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
 })();
 
 /* Countdown reale all'evento */
