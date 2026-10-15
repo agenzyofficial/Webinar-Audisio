@@ -1058,7 +1058,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 /* desktop: proporzioni della hero (logo più piccolo, foto tagliata sotto il referto, frase sulla sfumatura);
    la sfumatura a sinistra è speculare a quella a destra rispetto al centro del gruppo Andrea + TV */
 @media (min-width:761px){
-  .hero .event-logo{width:min(600px,48vw)}
+  .hero .event-logo{width:min(760px,58vw)}
   /* min-height:0 tiene l'altezza del taglio anche quando, in modalità cinema, il contenuto può sporgere */
   .hero-tv{aspect-ratio:2000/814;min-height:0;overflow:hidden}
   .tv-photo{
@@ -1166,7 +1166,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 /* computer: headline centrata nella fascia sotto le lettere; il cartellino ci pende sopra e dove coprirebbe
    una parola le parole si allargano (varco calcolato dallo script); il sottotitolo subito sotto */
 @media (min-width:761px){
-  .hero .headline{width:min(920px,100%);max-width:none;margin-top:calc(min(600px,48vw) * -.185 + 8px)}
+  .hero .headline{width:min(920px,100%);max-width:none;margin-top:calc(min(760px,58vw) * -.185 + 8px)}
   .hl-a,.hl-pain{white-space:nowrap}
   .hl-a{font-size:clamp(17px,1.65vw,24px)}
   .hl-pain{font-size:clamp(24px,2.6vw,38px)}
@@ -1924,7 +1924,7 @@ const hlSwap = (items, from, to) => {
 /* Computer: il cartellino pende sopra le righe dell'headline; dove coprirebbe una parola si apre un varco.
    Per ogni frase si sceglie il punto di taglio tra due parole che rende il varco più piccolo possibile
    tenendo la riga centrata (lo stesso calcolo vale per tutte le combinazioni che girano) */
-const hlLines = [...hlA, ...hlP], logoTag = document.querySelector(".logo-tag");
+const hlLines = [...hlA, ...hlP], logoTag = document.querySelector(".logo-tag"), hlDesk = matchMedia("(min-width:761px)");
 hlLines.forEach(el => { el.dataset.words = el.textContent.trim(); });
 function hlRender(el, words, cut, gap){
   const mark = el.closest(".hl-rot") ? t => `<span class="hl-mark">${t}</span>` : t => t;
@@ -1936,7 +1936,7 @@ function spaceHeadline(){
   hlLines.forEach(el => {
     const words = el.dataset.words.split(" ");
     el.innerHTML = words.map(w => `<span class="hl-w">${w}</span>`).join(" ");
-    if (!desk.matches) { hlRender(el, words, 0, null); return; }
+    if (!hlDesk.matches) { hlRender(el, words, 0, null); return; }
     /* posizione del cartellino da fermo (left 62,5%, top 61,14%, largo 18,22% del logo; PNG 328×306), non quella ruotata dall'animazione */
     const lg = logoTag.parentElement.getBoundingClientRect(), tw = lg.width * .1822;
     const tag = { left: lg.left + lg.width * .625, right: lg.left + lg.width * .625 + tw, top: lg.top + lg.height * .6114, bottom: lg.top + lg.height * .6114 + tw * 306 / 328 };
