@@ -691,6 +691,32 @@ body.locked{overflow:hidden}
   footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 2px}
   .faq summary{min-height:56px;display:flex;align-items:center}
 }
+
+/* ── timeline di Andrea ── */
+.tl2{list-style:none;margin-top:28px;position:relative;display:grid;gap:22px}
+.tl2::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--acc),rgba(255,90,20,.15))}
+.tl2 li{position:relative;padding-left:34px}
+.tl2 li::before{content:"";position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;background:var(--bg-2);border:2px solid var(--acc)}
+.tl2 li.now::before{background:var(--acc);box-shadow:0 0 14px rgba(255,90,20,.7)}
+.tl2 .y{display:block;font-weight:900;font-style:italic;color:var(--acc);font-size:15px;letter-spacing:.02em}
+.tl2 h4{font-weight:800;font-style:italic;font-size:19px;line-height:1.2;margin-top:2px;color:var(--fg)}
+.tl2 p{color:var(--fg-2);font-size:15.5px;line-height:1.55;margin-top:6px}
+.tl2 p b{color:var(--fg);font-weight:600}
+/* ── FAQ ── */
+.faq{gap:10px}
+.faq details{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;transition:border-color 200ms ease,background-color 200ms ease}
+.faq details[open]{border-color:rgba(255,90,20,.55);background:#14181B;box-shadow:0 0 18px rgba(255,90,20,.12)}
+.faq summary{padding:18px 64px 18px 20px;font-weight:700;font-size:17px;line-height:1.35;min-height:60px;display:flex;align-items:center}
+.faq summary::after{right:18px;width:30px;height:30px;margin-top:-15px;border-radius:50%;border:1.5px solid rgba(255,90,20,.6);
+  background:linear-gradient(var(--acc),var(--acc)) center/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) center/2px 12px no-repeat}
+.faq details[open] summary::after{background-color:rgba(255,90,20,.12)}
+.faq .a p{padding:0 20px 20px;font-size:15.5px;line-height:1.6;color:var(--fg-2)}
+@media (max-width:760px){
+  .faq summary{padding:16px 60px 16px 18px;font-size:16.5px;min-height:58px}
+  .faq summary::after{right:14px}
+  .faq .a p{padding:0 18px 18px}
+  .tl2 h4{font-size:18px}
+}
 </style>
 </head>
 <body class="no-js">
@@ -831,18 +857,21 @@ body.locked{overflow:hidden}
       <div class="rv">
         <h2 class="h2">Chi fa l'autopsia</h2>
         <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
-        <ul class="timeline">
-          <li><span class="y">2007</span><p>Faccio advertising su Facebook quando la piattaforma è ancora in inglese. La mia agenzia passa <b>da 0 a 400 clienti</b>.</p></li>
-          <li><span class="y">2019</span><p>Divento socio al 30% di un gruppo da <b>20 milioni di fatturato</b>: progetti per LEGO, BMW, Ducati e Alfa Romeo.</p></li>
-          <li><span class="y">2018</span><p>Sono il primo in Italia a introdurre la figura dell'<b>appointment setter</b>.</p></li>
-          <li><span class="y">2025</span><p>Fondo <b>ProfitOS</b>: entriamo come soci operativi nei business che già vendono.</p></li>
-        </ul>
+        <ol class="tl2">
+          <li><span class="y">2007</span><div><h4>La partenza</h4><p>Fondo <b>Kelevra</b>, la mia prima web agency, quando Facebook in Italia è ancora in inglese e Instagram non esiste. Cresce fino a <b>circa 400 clienti</b>.</p></div></li>
+          <li><span class="y">2007 · 2018</span><div><h4>Gli anni da pioniere</h4><p>Faccio advertising online quando per le aziende italiane il digitale è ancora marginale. Diversi nomi che oggi sono considerati veterani dell'online sono <b>passati dai miei programmi</b>.</p></div></li>
+          <li><span class="y">2018</span><div><h4>Il primo grande salto</h4><p>Unisco Kelevra a un gruppo da <b>circa 20 milioni</b> ed entro come socio al 30%: budget oltre i 100.000 € e brand come <b>LEGO, BMW, Ducati, Alfa Romeo, Porsche e Volkswagen</b>. Entro anche in Blackship, nella formazione commerciale.</p></div></li>
+          <li><span class="y">2020</span><div><h4>Il lockdown</h4><p>Costruisco da zero la spesa a domicilio per un negozio di frutta e verdura di Torino: <b>circa 1,5 milioni in due mesi</b>, 3.000 spese a settimana, articoli su Corriere e Repubblica. Poi esco dalla società e riparto da zero.</p></div></li>
+          <li><span class="y">2021</span><div><h4>Consulente High Ticket</h4><p>Porto in Italia la figura dell'<b>appointment setter</b>. Circa <b>500.000 € nei primi sei mesi</b> e oltre 400 clienti.</p></div></li>
+          <li><span class="y">2021 · 2024</span><div><h4>Dentro le aziende</h4><p>Da founder, COO, CMO o temporary CEO costruisco realtà come <b>Investitore Efficace, Metodo Immobiliare, Evolutia e Studente Felice</b>. Alcune superano il milione l'anno. Nel 2024 nasce Sales Valley.</p></div></li>
+          <li class="now"><span class="y">2025</span><div><h4>ProfitOS</h4><p>Entriamo come <b>soci operativi</b> nei business che già vendono.</p></div></li>
+        </ol>
       </div>
     </div>
     <div class="stats rv">
       <div><b>18 anni</b><span>di business online, dal 2007</span></div>
       <div><b class="acc">€1,5M</b><span>in 2 mesi con un e-commerce nato in lockdown</span></div>
-      <div><b>400</b><span>clienti in 6 mesi con Consulente High Ticket</span></div>
+      <div><b>€500K</b><span>nei primi 6 mesi con Consulente High Ticket</span></div>
       <div><b>1.500+</b><span>imprenditori seguiti in consulenza individuale</span></div>
     </div>
   </div>
