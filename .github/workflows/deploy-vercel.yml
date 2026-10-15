@@ -1,0 +1,46 @@
+# Pubblica le landing su Vercel (progetto webinar-audisio) a ogni push su main.
+# Serve il secret VERCEL_TOKEN nel repository: senza, il deploy viene saltato.
+name: Deploy su Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-production
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: team_a2z5zgTq5MmIY9Z0uoXxeGyj
+  VERCEL_PROJECT_ID: prj_r5tsTiGUtnXM9Giu4GaZ5IlraY74
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Controlla il token
+        id: token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::warning::Manca il secret VERCEL_TOKEN: deploy saltato."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.token.outputs.ok == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.token.outputs.ok == 'true'
+        with:
+          node-version: 22
+
+      - name: Deploy in produzione
+        if: steps.token.outputs.ok == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx --yes vercel@64.2.0 deploy --prod --yes --token="$VERCEL_TOKEN"

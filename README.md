@@ -10,6 +10,12 @@ Tre landing per l'A/B/C test del webinar gratuito di Andrea Audisio.
 
 Ogni cartella è autonoma: `index.html` più le sue immagini in `assets/`, con percorsi relativi. Si può caricare tutto il repository o anche una sola cartella.
 
+## Pubblicazione su Vercel
+
+Le landing sono online su https://webinar-audisio.vercel.app (progetto Vercel `webinar-audisio`).
+
+A ogni push su `main` il workflow `.github/workflows/deploy-vercel.yml` pubblica in produzione. Serve il secret `VERCEL_TOKEN` in **Settings → Secrets and variables → Actions**: senza, il deploy viene saltato. Si può lanciare anche a mano da **Actions → Deploy su Vercel → Run workflow**.
+
 ## Pubblicare con GitHub Pages
 
 1. Crea un repository su GitHub e carica **tutto il contenuto di questa cartella** (anche il file `.nojekyll`), mantenendo le sottocartelle.
