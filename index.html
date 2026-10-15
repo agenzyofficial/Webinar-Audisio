@@ -1159,18 +1159,18 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 /* riga 1 bianca, riga 2 il dolore che cambia (arancione, evidenziato), riga 3 la promessa più piccola */
 .hl-a{font-weight:800;font-size:clamp(20px,1.75vw,26px);line-height:1.2}
 .hl-pain{font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,40px);line-height:1.12;color:var(--acc)}
-.hl-pain .rot-i > span{padding:0 .18em;background:linear-gradient(transparent 58%,rgba(255,90,20,.22) 58%,rgba(255,90,20,.22) 92%,transparent 92%);
+.hl-mark{padding:0 .18em;background:linear-gradient(transparent 58%,rgba(255,90,20,.22) 58%,rgba(255,90,20,.22) 92%,transparent 92%);
   -webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 0 24px rgba(255,90,20,.35)}
 .hl-b{margin-top:6px;font-weight:500;font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--fg-2);letter-spacing:0;max-width:58ch}
 .hl-b .acc{font-weight:700}
-/* computer: le prime due righe stanno nella fascia sotto le lettere, allineate a destra e finite prima del cartellino
-   (il cartellino fa da "prezzo": "…ti costa 🏷 ore in più."); la promessa centrata sotto */
+/* computer: headline centrata nella fascia sotto le lettere; il cartellino ci pende sopra e dove coprirebbe
+   una parola le parole si allargano (varco calcolato dallo script); il sottotitolo subito sotto */
 @media (min-width:761px){
   .hero .headline{width:min(920px,100%);max-width:none;margin-top:calc(min(600px,48vw) * -.185 + 8px)}
-  .hl-a,.hl-pain{align-self:flex-start;width:calc(50% + min(600px,48vw) * .125 - 14px);text-align:right;white-space:nowrap}
+  .hl-a,.hl-pain{white-space:nowrap}
   .hl-a{font-size:clamp(17px,1.65vw,24px)}
   .hl-pain{font-size:clamp(24px,2.6vw,38px)}
-  .hl-b{max-width:100%;margin-top:18px}
+  .hl-b{max-width:100%;margin-top:8px}
 }
 .hl-b{max-width:100%}
 .promise-kick{flex-wrap:wrap}
@@ -1212,6 +1212,8 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @media (max-width:760px){
   .hero-tv .promise{padding:10px 16px;margin-top:-40px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;background:var(--box-fade),rgba(11,14,16,.88)}
 }
+
+.hl-gap{display:inline-block;height:1px}
 </style>
 </head>
 <body class="no-js">
@@ -1233,11 +1235,11 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <span class="rot-i">Fai call tutto il giorno, ma ne chiudi</span>
       </span>
       <span class="hl-pain"><span class="rot hl-rot" aria-hidden="true">
-        <span class="rot-i on"><span>ore in più.</span></span>
-        <span class="rot-i"><span>il tuo tempo libero.</span></span>
-        <span class="rot-i"><span>non vendono più.</span></span>
-        <span class="rot-i"><span>passa ancora da te.</span></span>
-        <span class="rot-i"><span>una su nove.</span></span>
+        <span class="rot-i on"><span class="hl-mark">ore in più.</span></span>
+        <span class="rot-i"><span class="hl-mark">il tuo tempo libero.</span></span>
+        <span class="rot-i"><span class="hl-mark">non vendono più.</span></span>
+        <span class="rot-i"><span class="hl-mark">passa ancora da te.</span></span>
+        <span class="rot-i"><span class="hl-mark">una su nove.</span></span>
       </span></span>
       <span class="hl-b">In una serata ti mostro perché costruire il tuo personal brand <span class="acc">non è più possibile nel 2026</span>.</span>
     </h1>
@@ -1919,6 +1921,45 @@ const hlSwap = (items, from, to) => {
   setTimeout(() => items[from].classList.remove("out"), 700);
   items[to].classList.add("on");
 };
+/* Computer: il cartellino pende sopra le righe dell'headline; dove coprirebbe una parola si apre un varco.
+   Per ogni frase si sceglie il punto di taglio tra due parole che rende il varco più piccolo possibile
+   tenendo la riga centrata (lo stesso calcolo vale per tutte le combinazioni che girano) */
+const hlLines = [...hlA, ...hlP], logoTag = document.querySelector(".logo-tag");
+hlLines.forEach(el => { el.dataset.words = el.textContent.trim(); });
+function hlRender(el, words, cut, gap){
+  const mark = el.closest(".hl-rot") ? t => `<span class="hl-mark">${t}</span>` : t => t;
+  const left = words.slice(0, cut).join(" "), right = words.slice(cut).join(" ");
+  if (gap == null) { el.innerHTML = mark(words.join(" ")); return; }
+  el.innerHTML = (left ? mark(left) : "") + `<span class="hl-gap" style="width:${Math.round(gap)}px"></span>` + (right ? mark(right) : "");
+}
+function spaceHeadline(){
+  hlLines.forEach(el => {
+    const words = el.dataset.words.split(" ");
+    el.innerHTML = words.map(w => `<span class="hl-w">${w}</span>`).join(" ");
+    if (!desk.matches) { hlRender(el, words, 0, null); return; }
+    /* posizione del cartellino da fermo (left 62,5%, top 61,14%, largo 18,22% del logo; PNG 328×306), non quella ruotata dall'animazione */
+    const lg = logoTag.parentElement.getBoundingClientRect(), tw = lg.width * .1822;
+    const tag = { left: lg.left + lg.width * .625, right: lg.left + lg.width * .625 + tw, top: lg.top + lg.height * .6114, bottom: lg.top + lg.height * .6114 + tw * 306 / 328 };
+    const line = el.getBoundingClientRect();
+    if (line.bottom < tag.top || line.top > tag.bottom) { hlRender(el, words, 0, null); return; }
+    const box = el.parentElement.getBoundingClientRect(), c = box.left + box.width / 2;
+    const tL = tag.left - 10, tR = tag.right + 10;
+    const ws = [...el.querySelectorAll(".hl-w")].map(w => w.getBoundingClientRect());
+    const x0 = ws[0].left, x1 = ws[ws.length - 1].right;
+    let best = null;
+    for (let k = 0; k <= words.length; k++) {
+      const A = k === 0 ? 0 : ws[k - 1].right - x0, B = k === words.length ? 0 : x1 - ws[k].left;
+      const G = Math.max(A - B + 2 * (c - tL), 2 * (tR - c) - A + B, 0);
+      if (!best || G < best.G) best = { k, G };
+    }
+    hlRender(el, words, best.k, best.G > 0 ? best.G : null);
+  });
+}
+spaceHeadline();
+addEventListener("resize", spaceHeadline);
+if (document.fonts) document.fonts.ready.then(spaceHeadline);
+addEventListener("load", spaceHeadline);
+
 setInterval(() => {
   const [a0, p0] = HL_SEQ[hlStep];
   hlStep = (hlStep + 1) % HL_SEQ.length;
