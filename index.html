@@ -3,12 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<!-- vturb: video del webinar nella TV della hero -->
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/6ad1282c69e891c681176cab/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://license.vturb.com">
 <title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
 <meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e che cosa fare invece.">
 <meta name="theme-color" content="#FF5A14">
 <link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
 <link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
-<link rel="preload" as="image" href="assets/hero-andrea-m5.jpg" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/hero-andrea-tv.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -986,6 +995,24 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .panel .consent:has(input[aria-invalid="true"]){color:var(--acc)}
 .panel .consent input[aria-invalid="true"]{outline:2px solid var(--acc);outline-offset:2px}
 .consent-err{color:var(--acc);font-size:13px;font-weight:700;margin-top:-4px}
+
+/* ── hero con la TV (15 ott): foto larga, video vturb dentro lo schermo ──
+   parte sotto il cartellino del logo; schermo nella foto 2000×1131: x 1316–1985, y 161–492 */
+.hero-tv{--fade-b:86%;position:relative;z-index:0;width:min(1040px,100%);margin:0 auto}
+.tv-stage{position:relative;aspect-ratio:2000/1131}
+.tv-stage>img{position:absolute;inset:0;width:100%;height:100%;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
+  -webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
+          mask-composite:intersect}
+.tv-screen{position:absolute;left:65.9%;top:14.35%;width:33.3%;height:29.1%;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
+/* il player è disegnato a 400×225 e rimpicciolito (--k, dallo script) perché i riquadri di vturb non escano dallo schermo */
+.tv-player{flex:none;width:400px;height:225px;transform:scale(var(--k,.75))}
+@media (max-width:760px){
+  /* telefono: taglio sulla destra (da x 740) così la TV è più grande */
+  .hero-tv{--fade-b:74%;width:100vw;margin:0;overflow:hidden}
+  .tv-stage{width:158.73%;margin-left:-58.73%}
+}
 </style>
 </head>
 <body class="no-js">
@@ -998,8 +1025,17 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
-    <!-- solo mobile: Andrea col referto subito sotto il logo -->
-    <div class="hero-photo" aria-hidden="true"><picture><img src="assets/hero-andrea-m5.jpg" alt="" width="896" height="1200" fetchpriority="high" decoding="async"></picture></div>
+    <!-- Andrea col referto e il video del webinar dentro la TV -->
+    <div class="hero-tv">
+      <div class="tv-stage">
+        <img src="assets/hero-andrea-tv.webp" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2000" height="1131" fetchpriority="high" decoding="async">
+        <div class="tv-screen">
+          <div class="tv-player">
+            <vturb-smartplayer id="vid-6ad128d22b1887643f83e169" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+          </div>
+        </div>
+      </div>
+    </div>
     <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
     <dl class="event-row">
       <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
@@ -1622,6 +1658,10 @@ function tick(){
   left.textContent = d > 0 ? `${pl(d, "giorno", "giorni")} e ${pl(h, "ora", "ore")}` : `${pl(h, "ora", "ore")} e ${pl(mm, "minuto", "minuti")}`;
 }
 tick(); setInterval(tick, 30000);
+
+/* Video nella TV: il player vturb (400×225) si rimpicciolisce per stare nello schermo */
+const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
+new ResizeObserver(() => tvPlayer.style.setProperty("--k", Math.min(tvScreen.clientWidth / 400, tvScreen.clientHeight / 225))).observe(tvScreen);
 
 /* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
    quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
