@@ -43,9 +43,7 @@ section{padding:clamp(48px,6vw,84px) 0}
 @media (hover:hover) and (pointer:fine){.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,90,20,.55)}}
 
 /* versione upsell (arriva dall'iscrizione gratuita): solo lì si vedono la conferma e il "no grazie" */
-.only-upsell{display:none}
-.is-upsell .only-upsell{display:revert}
-.is-upsell .only-sales{display:none}
+body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 
 /* conferma iscrizione */
 .ok-bar{background:#0F1A12;border-bottom:1px solid #1E3A25;color:#CDEBD5;font-size:14.5px;font-weight:600;text-align:center;padding:12px var(--gutter)}
@@ -55,7 +53,9 @@ section{padding:clamp(48px,6vw,84px) 0}
 .vhero{padding:clamp(28px,4vw,48px) 0 clamp(40px,5vw,64px);text-align:center;position:relative;overflow:hidden;isolation:isolate}
 .vhero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 55% at 50% 30%,rgba(255,90,20,.13),transparent 70%)}
 .vlogo{display:block;width:min(340px,70vw);margin:0 auto 22px}
-.vlogo img{width:100%;mix-blend-mode:screen}
+.vlogo img{width:100%;mix-blend-mode:screen;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);mask-composite:intersect}
 .vhero .kick{justify-content:center}
 .vhero h1{font-weight:800;font-style:italic;font-size:clamp(34px,5.4vw,64px);line-height:1.06;letter-spacing:-.02em;text-wrap:balance}
 .vhero .lede{margin:18px auto 0;text-wrap:balance}
