@@ -717,6 +717,29 @@ body.locked{overflow:hidden}
   .faq .a p{padding:0 18px 18px}
   .tl2 h4{font-size:18px}
 }
+
+/* ── video testimonianze su computer: 3 sopra, 2 centrate sotto ── */
+@media (min-width:761px){
+  .proof .h2,.proof .lede,.proof .fine{text-align:center;margin-left:auto;margin-right:auto}
+  .tvideos{grid-template-columns:repeat(6,1fr);max-width:1200px;margin-left:auto;margin-right:auto;gap:22px}
+  .tvoce{grid-column:span 2}
+  .tvideos .tvoce:nth-child(4){grid-column:2 / span 2}
+  .tvideos .tvoce:nth-child(5){grid-column:4 / span 2;width:auto;justify-self:stretch}
+  .proof .fine{margin-top:26px}
+}
+
+/* suono del monitor */
+.mon-audio{position:absolute;right:10px;bottom:10px;z-index:2;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 10px;border-radius:999px;
+  border:1px solid rgba(61,245,154,.5);background:rgba(2,6,5,.85);color:#3DF59A;font-family:var(--sans);font-weight:700;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mon-audio svg{width:20px;height:20px}
+.mon-audio .w{display:none}
+.mon-audio[aria-pressed="true"] .w{display:inline}
+.mon-audio[aria-pressed="true"] .x{display:none}
+.mon-audio:not([aria-pressed="true"]){animation:audiohint 1.6s ease-in-out infinite}
+@keyframes audiohint{50%{box-shadow:0 0 16px rgba(61,245,154,.55)}}
+.monitor.dead .mon-audio{border-color:rgba(255,90,20,.6);color:var(--acc)}
+.mon-flat{right:auto}
+@media (prefers-reduced-motion:reduce){.mon-audio{animation:none!important}}
 </style>
 </head>
 <body class="no-js">
@@ -760,6 +783,7 @@ body.locked{overflow:hidden}
         <canvas data-ecg aria-hidden="true"></canvas>
         <div class="mon-bpm"><span class="mono">Battiti</span><b data-bpm>72</b></div>
         <div class="mon-flat" data-flat><span class="mono">Ora del decesso</span><b>2026</b></div>
+        <button type="button" class="mon-audio" data-audio aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="w" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-audio-l>Attiva il suono</span></button>
       </div>
       <ul class="vitals">
         <li><span>Pubblico raggiunto</span><i><em style="--v:.82"></em></i></li>
@@ -1133,11 +1157,36 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
     return g(.18, .03, .12) + g(.33, .008, -.12) + g(.36, .012, 1) + g(.395, .01, -.28) + g(.62, .05, .26);
   }
   function amp(ms) { return ms < FADE_FROM ? 1 : ms > FLAT_AT ? 0 : 1 - (ms - FADE_FROM) / (FLAT_AT - FADE_FROM); }
-  function ecg(ms) {
+  function beatAt(ms) {
     const a = amp(ms), period = 820 + (1 - a) * 900;          /* rallenta mentre muore */
     let acc = 0, k = 0; while (acc + (820 + (1 - amp(acc)) * 900) <= ms && k < 50) { acc += 820 + (1 - amp(acc)) * 900; k++; }
-    return beat((ms - acc) / period) * a;
+    return { k, p: (ms - acc) / period, a };
   }
+  function ecg(ms) { const b = beatAt(ms); return beat(b.p) * b.a; }
+
+  /* ── suono: i browser lo sbloccano solo dopo un tocco sulla pagina ── */
+  const audioBtn = sec.querySelector("[data-audio]"), audioL = sec.querySelector("[data-audio-l]");
+  let ac = null, soundOn = true, lastBeepK = -1, flatPlayed = false;
+  const unlock = () => { try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); } catch (e) {} };
+  const audible = () => soundOn && ac && ac.state === "running";
+  function tone(freq, dur, vol) {
+    if (!audible()) return;
+    const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+    o.type = "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .012);
+    g.gain.setValueAtTime(vol, t + Math.max(.02, dur - .06)); g.gain.linearRampToValueAtTime(0, t + dur);
+    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .03);
+  }
+  const syncAudioBtn = () => { const on = audible(); audioBtn.setAttribute("aria-pressed", on); audioL.textContent = on ? "Suono attivo" : "Attiva il suono"; };
+  addEventListener("pointerdown", e => { unlock(); if (!audioBtn.contains(e.target)) setTimeout(syncAudioBtn, 150); }, { passive: true });
+  addEventListener("keydown", unlock);
+  audioBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    if (audioBtn.getAttribute("aria-pressed") === "true") { soundOn = false; syncAudioBtn(); return; }
+    soundOn = true; unlock();
+    const go = () => { syncAudioBtn(); start(); };            /* riparte da capo, così senti tutto */
+    if (ac && ac.resume) ac.resume().then(go, go); else go();
+  });
   function frame(now) {
     const ms = now - t0, speed = W / 2600;                    /* lo schermo si attraversa in 2,6 s */
     const dead = ms >= FLAT_AT, base = H * .62;
@@ -1149,6 +1198,8 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
       const x = (t * speed) % W, y = base - ecg(t) * H * .48;
       if (x < lastX) { ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y); } else ctx.lineTo(x, y);
       lastX = x; lastY = y; lastMs = t;
+      const b = beatAt(t);
+      if (b.a > .05 && b.p >= .36 && b.k !== lastBeepK) { lastBeepK = b.k; tone(1040, .11, .16); }
     }
     ctx.stroke();
     ctx.shadowBlur = 0; ctx.clearRect(lastX + 2, 0, 20, H);   /* la "gomma" davanti alla linea */
@@ -1156,12 +1207,13 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
     const bpm = Math.round(72 * amp(ms)); bpmEl.textContent = dead ? "0" : bpm;
     if (ms > FADE_FROM && !sec.classList.contains("dying")) { sec.classList.add("dying"); stateEl.textContent = "Battito irregolare"; }
     if (dead && !sec.classList.contains("dead")) { sec.classList.add("dead"); stateEl.textContent = "Arresto"; }
+    if (dead && !flatPlayed) { flatPlayed = true; tone(1040, 2.6, .12); }
     if (ms < DUR + 2600) raf = requestAnimationFrame(frame); else running = false;
   }
   function start() {
     cancelAnimationFrame(raf); size(); ctx.clearRect(0, 0, W, H);
     sec.classList.remove("dying", "dead"); stateEl.textContent = "In osservazione";
-    void sec.offsetWidth; lastX = 0; lastY = H * .62; lastMs = 0; running = true;
+    void sec.offsetWidth; lastX = 0; lastY = H * .62; lastMs = 0; running = true; lastBeepK = -1; flatPlayed = false;
     if (reduce) { sec.classList.add("dying", "dead"); stateEl.textContent = "Arresto"; bpmEl.textContent = "0";
       ctx.strokeStyle = "#FF5A14"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, H * .62); ctx.lineTo(W, H * .62); ctx.stroke(); return; }
     t0 = performance.now(); raf = requestAnimationFrame(frame);
