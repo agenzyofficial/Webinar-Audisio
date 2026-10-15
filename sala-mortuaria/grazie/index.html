@@ -206,6 +206,43 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .pfoot-links{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:22px}
 .pfoot-links a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
 .pfoot .pfoot-copy{margin-top:16px}
+
+/* ── passi finali, stile landing ── */
+.next{background:radial-gradient(ellipse at 10% 0%,rgba(255,90,20,.08),transparent 55%),var(--bg-2)}
+.next .h2 .acc{text-shadow:0 0 28px rgba(255,90,20,.35)}
+.next .kick{display:inline-flex;align-items:center;gap:10px;color:var(--acc);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.next .kick::before{content:"";width:26px;height:2px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.7)}
+.rail{gap:22px;counter-reset:passo 1}
+.rail::before{left:28px;top:20px;bottom:20px;width:2px;background:linear-gradient(180deg,var(--acc),rgba(255,90,20,.12))}
+.stop{padding-left:74px}
+.stop::before{content:"";left:3px;top:6px;width:52px;height:58px;border:0;background:url(../assets/prova-2.png) center bottom/contain no-repeat!important;filter:drop-shadow(0 6px 14px rgba(255,90,20,.45))}
+.stop:nth-child(2)::before{background-image:url(../assets/prova-3.png)!important}
+.stop > .mono{display:none}
+.stop-card{border:1px solid var(--line);border-radius:16px;background:#0B0E10;padding:20px 20px 22px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.stop h3{margin-top:0;font-size:24px}
+.next .event-row{margin-top:16px}
+.next .event-row dd{font-size:21px}
+.next .cal-main{background:var(--acc);color:var(--on-acc);box-shadow:0 0 22px rgba(255,90,20,.45);font-size:16px;gap:10px}
+.next .cal-main::before{content:"";width:20px;height:20px;flex:none;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3.5' y='5' width='17' height='15.5' rx='2'/%3E%3Cpath d='M7.5 3v4M16.5 3v4M3.5 10h17'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3.5' y='5' width='17' height='15.5' rx='2'/%3E%3Cpath d='M7.5 3v4M16.5 3v4M3.5 10h17'/%3E%3C/svg%3E") center/contain no-repeat}
+.cal-alt{margin-top:14px}
+.cal-alt a{border:1px solid var(--line);border-radius:999px;padding:6px 14px;text-decoration:none;color:var(--fg-2);font-size:13px}
+.pill{display:inline-block;border:1px solid rgba(255,90,20,.6);background:rgba(255,90,20,.1);color:var(--fg);font-weight:700;border-radius:999px;padding:1px 10px;font-size:14px}
+@media (max-width:560px){
+  .stop{padding-left:62px}
+  .stop::before{width:44px;height:50px;left:2px}
+  .rail::before{left:23px}
+  .stop-card{padding:16px 14px 18px}
+  .stop h3{font-size:21px}
+}
+.rail,.stop,.stop-card{min-width:0}
+@media (max-width:560px){
+  .next .event-row dd{font-size:15.5px}
+  .next .event-row div{padding:10px 9px;min-width:0}
+  .next .event-row dt{font-size:10px;letter-spacing:.08em}
+  .next .cal-main{font-size:14.5px;padding:0 14px}
+}
 </style>
 </head>
 <body>
@@ -250,10 +287,12 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <!-- ════════ PASSI 2 E 3 ════════ -->
 <section class="next">
   <div class="wrap">
-    <h2 class="h2">Poi, altre due cose</h2>
+    <span class="kick">Gli ultimi passi</span>
+    <h2 class="h2">Poi, altre <span class="acc">due cose</span></h2>
     <div class="rail">
       <div class="stop">
         <span class="mono">Passo 2</span>
+        <div class="stop-card">
         <h3>Segnati la serata</h3>
         <dl class="event-row">
           <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
@@ -266,11 +305,14 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           <a href="#" data-ics download="la-morte-del-personal-brand.ics">Apple / iPhone</a>
           <a href="#" data-outlook target="_blank" rel="noopener">Outlook</a>
         </div>
+        </div>
       </div>
       <div class="stop">
         <span class="mono">Passo 3</span>
+        <div class="stop-card">
         <h3>Controlla l'email</h3>
-        <p>Ti abbiamo mandato la conferma con tutti i dettagli. Se non la trovi, guarda in <b>Promozioni</b> o in <b>Spam</b> e spostala nella posta principale.</p>
+        <p>Ti abbiamo mandato la conferma con tutti i dettagli. Se non la trovi, guarda in <span class="pill">Promozioni</span> o in <span class="pill">Spam</span> e spostala nella posta principale.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -323,7 +365,7 @@ const CONFIG = {
   time: "21:00",
   title: "La morte del personal brand · Webinar con Andrea Audisio",
   liveUrl: "",                              // link della diretta (Zoom ecc.), facoltativo: finisce nell'evento del calendario
-  whatsapp: "#"                             // link della community WhatsApp
+  whatsapp: "https://chat.whatsapp.com/LW5iXlvIy4nLgDdkp6jcz8"                             // link della community WhatsApp
 };
 
 document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
