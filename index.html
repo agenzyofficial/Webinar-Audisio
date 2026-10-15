@@ -667,7 +667,7 @@ body.locked{overflow:hidden}
   .close::before,.close::after{left:14px;right:14px;top:23px}
 }
 
-/* ── biglietto VIP in evidenza ── */
+/* ── ingresso VIP in evidenza ── */
 .tag.vip{z-index:2}
 .tag.vip .tag-body{box-shadow:none}
 .tag.vip::after{content:"";position:absolute;inset:120px 4px 4px;border-radius:10px;z-index:-1;pointer-events:none;
@@ -1250,6 +1250,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .hl-mark{padding:0;background:none;text-shadow:0 2px 4px rgba(0,0,0,.8),0 0 14px rgba(0,0,0,.6)}
 .hero .headline{text-shadow:0 2px 4px rgba(0,0,0,.8),0 0 14px rgba(0,0,0,.6)}
 .hl-b .acc{font-weight:700;text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* prefisso WhatsApp: bandiera + prefisso in vista, sotto un select nativo trasparente (sul telefono apre il menu di sistema) */
+.panel .tel .pre-pick{position:relative;display:flex;align-items:center;padding:0;cursor:pointer}
+.pre-face{display:flex;align-items:center;gap:7px;padding:0 26px 0 11px;height:100%;font-weight:600;font-size:16px;white-space:nowrap;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23A6B0B6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 9px center/10px 7px}
+.pre-face svg{width:21px;height:15px;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.18);flex:none}
+.pre-pick select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.pre-pick:focus-within{outline:2px solid var(--acc);outline-offset:-2px}
+.panel .tel .pre-altro{flex:none;width:72px;min-width:0;border-radius:0!important;border-right:0!important;text-align:center}
+.panel .tel .pre-altro[hidden]{display:none}
 </style>
 </head>
 <body class="no-js">
@@ -1277,7 +1287,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <span class="rot-i"><span class="hl-mark">passa ancora da te.</span></span>
         <span class="rot-i"><span class="hl-mark">una su nove.</span></span>
       </span></span>
-      <span class="hl-b">In una serata ti mostro perché costruire il tuo personal brand <span class="acc">non è più possibile nel 2026</span>.</span>
+      <span class="hl-b">In una serata ti mostro perché il personal brand classico ha smesso di funzionare e cosa lo sostituisce, per far crescere il fatturato <span class="acc">senza far crescere le tue ore</span>.</span>
     </h1>
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
@@ -1354,12 +1364,12 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <ol class="points">
       <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
       <li class="rv"><span class="n">2</span><div><h3>Il vero collo di bottiglia del tuo business</h3><p>Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</p></div></li>
-      <li class="rv"><span class="n">3</span><div><h3>Cosa delegare alla tecnologia nel 2026</h3><p>Setter, montaggio video, copy, follow-up: quali attività oggi non richiedono più una persona.</p></div></li>
+      <li class="rv"><span class="n">3</span><div><h3>Cosa delegare alla tecnologia nel 2026</h3><p>Ho portato in Italia l'appointment setter nel 2021. Oggi ti spiego perché non ti serve più: setter, montaggio video, copy e follow-up, quali attività non richiedono più una persona.</p></div></li>
       <li class="rv"><span class="n">4</span><div><h3>Entra basso, guadagna dopo</h3><p>Perché vendere subito un'offerta high ticket a freddo ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</p></div></li>
     </ol>
     <div class="bonus rv">
       <span class="n">+1</span>
-      <div><h3>Un'analisi strategica del tuo business</h3><p>Per chi ha il biglietto VIP: Andrea guarda il tuo business e ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
+      <div><h3>Analisi live del tuo business</h3><p>Per chi ha l'ingresso VIP: dopo la diretta, un'ora riservata. Porti i tuoi numeri e Andrea analizza il tuo business davanti a te e ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
     </div>
     <div class="after rv">
       <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
@@ -1372,7 +1382,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="wrap">
     <span class="kick rv">Testimonianze</span>
     <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
-    <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
+    <p class="lede rv">Clienti di Andrea e progetti del suo team. Te lo raccontano loro, in video.</p>
     <!-- caso studio, dalla pagina profitOS -->
     <article class="bigcase rv">
       <figure class="bigcase-ph"><img src="assets/felipe.webp" alt="Felipe Orrego, fondatore di Investitore Efficace" width="843" height="1100" loading="lazy" decoding="async"><figcaption>Felipe Orrego<span>Investitore Efficace</span></figcaption></figure>
@@ -1383,23 +1393,23 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       </div>
       <div class="bigcase-ft">
         <div><span>È partito da</span><b>Zero</b><em>aveva solo l'idea</em></div>
-        <div class="to"><span>È arrivato a</span><b>Leader</b><em>in Italia sulla finanza personale</em></div>
+        <div class="to"><span>È arrivato a</span><b>oltre 4M€ l'anno</b><em>tra i riferimenti in Italia sulla finanza personale</em></div>
       </div>
     </article>
     <div class="cases3">
       <article class="case3 rv">
+        <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
+        <span class="kick">Evolutiaa</span>
+        <h3>Da 6K a oltre 30K al mese in pochi mesi</h3>
+        <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30K al mese</b>.</p>
+        <ul><li>Da 6K a oltre 30K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
+      </article>
+      <article class="case3 rv">
         <div class="case3-ph"><img src="assets/caso-salesvalley.webp" alt="Andrea Audisio e Gianluca Manitto, SalesValley" width="633" height="800" loading="lazy" decoding="async"></div>
-        <span class="kick">SalesValley</span>
+        <span class="kick">Il nostro caso · SalesValley</span>
         <h3>+100 clienti B2B, dai coach alle corporate</h3>
         <p>Nata da zero e diventata in meno di un anno il punto di riferimento in Italia per l'hiring di sales e setter. Clienti che vanno dai coach alle aziende come <b>Verisure</b> ed <b>Eolo</b>.</p>
         <ul><li>Azienda e brand creati da zero</li><li>Oltre 100 clienti B2B</li><li>Team, procedure e academy interna</li></ul>
-      </article>
-      <article class="case3 rv">
-        <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
-        <span class="kick">Evolutiaa</span>
-        <h3>Da 6K a oltre 30-40K al mese in pochi mesi</h3>
-        <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30-40K al mese</b>.</p>
-        <ul><li>Da 6K a 30-40K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
       </article>
       <article class="case3 rv">
         <div class="case3-ph"><img src="assets/caso-personal-brand.webp" alt="Alcuni dei personal brand seguiti da profitOS" width="640" height="716" loading="lazy" decoding="async"></div>
@@ -1431,7 +1441,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <div class="left rv">
       <span class="kick">Referto, causa del decesso</span>
       <h2 class="h2">Non l'ha ucciso <span class="acc">l'algoritmo.</span></h2>
-      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema <b>non è la nicchia e nemmeno l'offerta</b>: probabilmente le hai già cambiate tre volte.</p>
+      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema <b>non è cosa vendi, è come è costruito il sistema che lo vende</b>. La nicchia e l'offerta probabilmente le hai già cambiate tre volte.</p>
       <div class="chart">
         <span class="chart-stamp" aria-hidden="true">Referto</span>
         <dl>
@@ -1465,7 +1475,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <span class="cause-n" aria-hidden="true">04</span>
         <div><span class="cause-k">Causa n. 4</span>
         <h3>La cura era altro lavoro.</h3>
-        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» <b>Per imparare tutto questo servono anni</b> e nel frattempo devi mangiare. Ogni corso ti ha lasciato <b>soltanto una lista più lunga di cose da fare.</b></p></div>
+        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» <b>Per imparare tutto questo servono anni</b> e nel frattempo il business deve continuare a girare, con te dentro. Ogni corso ti ha lasciato <b>soltanto una lista più lunga di cose da fare.</b></p></div>
       </article>
     </div>
   </div>
@@ -1482,26 +1492,26 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           <img src="assets/andrea-medico.jpg" alt="Andrea Audisio, il medico legale del personal brand" loading="lazy" decoding="async" width="1100" height="1375">
           <span class="stamp mono">Referto firmato</span>
         </div>
-        <figcaption class="cap mono"><span>Dott. Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
+        <figcaption class="cap mono"><span>Dott. Andrea Audisio</span><span>CEO, profitOS</span></figcaption>
       </figure>
       <div class="rv">
         <span class="kick">Il medico legale</span>
         <h2 class="h2">Chi fa <span class="acc">l'autopsia</span></h2>
-        <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
+        <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da 19 anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che un business che dipende da una persona sola è fragile.</p>
         <ol class="tl2">
           <span class="tl-fill" aria-hidden="true"></span>
           <li><span class="y">2007</span><div><h4>La partenza</h4><p>Fondo <b>Kelevra</b>, la mia prima web agency, quando Facebook in Italia è ancora in inglese e Instagram non esiste. Cresce fino a <b>circa 400 clienti</b>.</p></div></li>
           <li><span class="y">2007 · 2018</span><div><h4>Gli anni da pioniere</h4><p>Faccio advertising online quando per le aziende italiane il digitale è ancora marginale. Diversi nomi che oggi sono considerati veterani dell'online sono <b>passati dai miei programmi</b>.</p></div></li>
-          <li><span class="y">2018</span><div><h4>Il primo grande salto</h4><p>Unisco Kelevra a un gruppo da <b>circa 20 milioni</b> ed entro come socio al 30%: budget oltre i 100.000 € e brand come <b>LEGO, BMW, Ducati, Alfa Romeo, Porsche e Volkswagen</b>. Entro anche in Blackship, nella formazione commerciale.</p></div></li>
+          <li><span class="y">2018</span><div><h4>Il primo grande salto</h4><p>Unisco Kelevra a un gruppo da <b>circa 20 milioni</b> ed entro come socio al 30%, con brand come <b>LEGO, BMW, Ducati, Alfa Romeo, Porsche e Volkswagen</b>. Entro anche in Blackship, nella formazione commerciale.</p></div></li>
           <li><span class="y">2020</span><div><h4>Il lockdown</h4><p>Costruisco da zero la spesa a domicilio per un negozio di frutta e verdura di Torino: <b>circa 1,5 milioni in due mesi</b>, 3.000 spese a settimana, articoli su Corriere e Repubblica. Poi esco dalla società e riparto da zero.</p></div></li>
           <li><span class="y">2021</span><div><h4>Consulente High Ticket</h4><p>Porto in Italia la figura dell'<b>appointment setter</b>. Circa <b>500.000 € nei primi sei mesi</b> e oltre 400 clienti.</p></div></li>
           <li><span class="y">2021 · 2024</span><div><h4>Dentro le aziende</h4><p>Da founder, COO, CMO o temporary CEO costruisco realtà come <b>Investitore Efficace, Evolutiaa, Investetica, RQI, Blackship, Samuele Ferrari, Studente Felice</b> e altri big dell'infobusiness che non posso citare. Alcune superano il milione l'anno. Nel 2024 nasce Sales Valley.</p></div></li>
-          <li class="now"><span class="y">2025</span><div><h4>ProfitOS</h4><p>Entriamo come <b>soci operativi</b> nei business che già vendono.</p></div></li>
+          <li class="now"><span class="y">2025</span><div><h4>profitOS</h4><p>Entriamo come <b>soci operativi</b> nei business che già vendono.</p></div></li>
         </ol>
       </div>
     </div>
     <div class="stats rv">
-      <div><b>18 anni</b><span>di business online, dal 2007</span></div>
+      <div><b>19 anni</b><span>di business online, dal 2007</span></div>
       <div><b class="acc">€1,5M</b><span>in 2 mesi con un e-commerce nato in lockdown</span></div>
       <div><b>€500K</b><span>nei primi 6 mesi con Consulente High Ticket</span></div>
       <div><b>1.500+</b><span>imprenditori seguiti in consulenza individuale</span></div>
@@ -1516,7 +1526,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <h2 class="h2 rv">Cosa succede <span class="acc">dopo</span></h2>
     <div class="rail">
       <div class="stop rv"><span class="mono">Subito</span><h3>Ricevi il link</h3><p>Ti mandiamo subito tutti i dettagli via email e su WhatsApp.</p></div>
-      <div class="stop rv"><span class="mono">Nei giorni prima</span><h3>Ti chiama il team</h3><p>Ti chiamiamo per confermare la tua presenza, così il posto non resta vuoto.</p></div>
+      <div class="stop rv"><span class="mono">Nei giorni prima</span><h3>Ti chiama il team</h3><p>Ti chiamiamo per capire a che punto è il tuo business, così giovedì sai esattamente cosa ascoltare.</p></div>
       <div class="stop rv"><span class="mono">Giovedì, ore <span data-cfg="time">21:00</span></span><h3>Clicchi ed entri</h3><p>Basta il link. Porta i tuoi numeri: ci servono.</p></div>
     </div>
   </div>
@@ -1527,7 +1537,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="wrap">
     <span class="kick rv">Ingresso</span>
     <h2 class="h2 rv">Scegli come <span class="acc">partecipare</span></h2>
-    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € in più hai anche un'ora di domande con Andrea, riservata ai VIP, e una consulenza personalizzata sul tuo business.</p>
+    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € entri anche nell'ora riservata ai VIP dopo la diretta: porti i tuoi numeri e Andrea analizza il tuo business dal vivo.</p>
     <p class="tickets-cd mono rv"><span class="live-dot" aria-hidden="true"></span>La diretta inizia tra <span data-cd-mini>--</span></p>
     <div class="tags">
       <article class="tag rv">
@@ -1551,15 +1561,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <div class="tag-body">
           <span class="mono">Ingresso VIP</span>
           <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
-          <span class="price">+ Consulenza personalizzata</span>
-          <p class="vip-why">La serata ti mostra cosa non funziona. Con il VIP Andrea ti fa una consulenza personalizzata sul <b>tuo</b> business.</p>
+          <span class="price">+ Analisi live del tuo business</span>
+          <p class="vip-why">La serata ti mostra cosa non funziona. Nell'ora VIP Andrea guarda il <b>TUO</b> business e ti dice cosa cambiare.</p>
           <ul class="vip-list">
-            <li><b>Consulenza personalizzata di Andrea</b> sul tuo business</li>
-            <li><b>Un'ora di domande con Andrea</b>, solo per i VIP</li>
-            <li>Fai le tue domande e Andrea risponde in diretta</li>
-            <li>In più tutta la serata in diretta, come l'ingresso standard</li>
+            <li><b>Analisi live del tuo business</b>, con i tuoi numeri</li>
+            <li><b>Un'ora riservata ai VIP</b>, subito dopo la diretta</li>
+            <li>Replica della serata per 7 giorni</li>
+            <li>Tutta la serata in diretta, come l'ingresso standard</li>
           </ul>
-          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio la consulenza · <span data-cfg="vipPrice">27 €</span></span></a>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio l'analisi live · <span data-cfg="vipPrice">27 €</span></span></a>
           <span class="vip-note">Paghi una volta sola. Niente abbonamenti.</span>
           <span class="tag-code mono" aria-hidden="true"><span>Sala 3 · VIP · N. 2910</span><i></i></span>
         </div>
@@ -1568,7 +1578,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <ul class="tickets-trust rv">
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8M12 16.5V20"/></svg><span><b>Online, in diretta</b> da computer o telefono</span></li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="m4 7 8 6 8-6"/></svg><span><b>Il link ti arriva</b> via email e su WhatsApp</span></li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>VIP: paghi una volta</b>, niente abbonamenti</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span><b>Durata:</b> 90 minuti</span></li>
     </ul>
   </div>
 </section>
@@ -1581,9 +1591,10 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <h2 class="h2 rv">Domande <span class="acc">frequenti</span></h2>
     <div class="faq rv">
       <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
-      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e include un'ora di domande con Andrea, riservata ai VIP, con una consulenza personalizzata sul tuo business.</p></div></div></details>
+      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e ti dà l'ora riservata dopo la diretta, con l'analisi live del tuo business.</p></div></div></details>
       <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
-      <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p>Sì, la serata viene registrata. Ti consiglio comunque di esserci dal vivo: è lì che rispondo alle domande.</p></div></div></details>
+      <details><summary>Quanto dura?</summary><div class="a"><div><p>90 minuti. Per chi ha il VIP segue un'ora riservata.</p></div></div></details>
+      <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p>Sì, ma la replica resta online solo 48 ore e solo per chi è iscritto (per i VIP 7 giorni). Le domande però le prendo solo dal vivo.</p></div></div></details>
     </div>
     </div>
     <!-- solo computer: riempie il vuoto a destra delle domande -->
@@ -1645,7 +1656,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <form novalidate data-form>
       <label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Il tuo nome" required></label>
       <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
-      <label>WhatsApp<span class="tel"><span class="pre" aria-hidden="true">+39</span><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
+      <label>WhatsApp<span class="tel"><span class="pre pre-pick"><span class="pre-face" aria-hidden="true" data-pre-face></span><select name="prefisso" aria-label="Prefisso internazionale"><option value="+39" selected>🇮🇹 Italia +39</option><option value="+41">🇨🇭 Svizzera +41</option><option value="+351">🇵🇹 Portogallo +351</option><option value="+44">🇬🇧 Regno Unito +44</option><option value="+34">🇪🇸 Spagna +34</option><option value="+49">🇩🇪 Germania +49</option><option value="+33">🇫🇷 Francia +33</option><option value="altro">🌍 Altro prefisso</option></select></span><input class="pre-altro" type="text" name="prefisso_altro" inputmode="tel" autocomplete="off" placeholder="+1" aria-label="Altro prefisso" hidden><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
       <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link e i promemoria dell'evento.</span></label>
       <p class="consent-err" data-consent-err hidden>Per iscriverti devi accettare la privacy policy.</p>
       <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
@@ -1691,8 +1702,9 @@ async function pbmSend(raw) {
   d.last_name = name.split(/\s+/).slice(1).join(" ");
   d.email = (raw.email || "").trim();
   let ph = (raw.phone || raw.telefono || "").replace(/[^\d+]/g, "");
+  const pre = "+" + String(raw.prefisso === "altro" ? raw.prefisso_altro || "" : raw.prefisso || CONFIG.phonePrefix || "+39").replace(/\D/g, "");
   if (ph.startsWith("00")) ph = "+" + ph.slice(2);
-  else if (ph && !ph.startsWith("+")) ph = (CONFIG.phonePrefix || "+39") + ph;
+  else if (ph && !ph.startsWith("+")) ph = (pre.length > 1 ? pre : CONFIG.phonePrefix || "+39") + (pre !== "+39" ? ph.replace(/^0/, "") : ph);
   d.phone = ph;
   d.variante = CONFIG.variant;
   d.evento = "La morte del personal brand";
@@ -1750,6 +1762,29 @@ form.addEventListener("submit", async e => {
     await pbmSend(Object.fromEntries(new FormData(form)));
     modal.querySelector(".panel").classList.add("ok");
   } catch (err) { btn.classList.remove("sending"); btn.disabled = false; alert("Qualcosa non è andato. Riprova tra un attimo."); }
+});
+/* prefisso: "Altro" apre un campo libero, obbligatorio solo quando si vede */
+const prefSel = form.querySelector('[name="prefisso"]'), prefAlt = form.querySelector('[name="prefisso_altro"]'), prefFace = form.querySelector("[data-pre-face]");
+const FLAGS = {
+  "+39": '<rect width="7" height="15" fill="#009246"/><rect x="7" width="7" height="15" fill="#fff"/><rect x="14" width="7" height="15" fill="#CE2B37"/>',
+  "+41": '<rect width="21" height="15" fill="#DA291C"/><rect x="9" y="3" width="3" height="9" fill="#fff"/><rect x="6" y="6" width="9" height="3" fill="#fff"/>',
+  "+351": '<rect width="21" height="15" fill="#FF0000"/><rect width="8.4" height="15" fill="#006600"/><circle cx="8.4" cy="7.5" r="3" fill="#FFE000"/><circle cx="8.4" cy="7.5" r="1.9" fill="#FF0000"/>',
+  "+44": '<rect width="21" height="15" fill="#012169"/><path d="M0 0l21 15M21 0L0 15" stroke="#fff" stroke-width="3"/><path d="M0 0l21 15M21 0L0 15" stroke="#C8102E" stroke-width="1.2"/><path d="M10.5 0v15M0 7.5h21" stroke="#fff" stroke-width="5"/><path d="M10.5 0v15M0 7.5h21" stroke="#C8102E" stroke-width="3"/>',
+  "+34": '<rect width="21" height="15" fill="#AA151B"/><rect y="3.75" width="21" height="7.5" fill="#F1BF00"/>',
+  "+49": '<rect width="21" height="5" fill="#000"/><rect y="5" width="21" height="5" fill="#DD0000"/><rect y="10" width="21" height="5" fill="#FFCE00"/>',
+  "+33": '<rect width="7" height="15" fill="#0055A4"/><rect x="7" width="7" height="15" fill="#fff"/><rect x="14" width="7" height="15" fill="#EF4135"/>',
+  "altro": '<rect width="21" height="15" fill="#20262B"/><circle cx="10.5" cy="7.5" r="5.2" fill="none" stroke="#A6B0B6" stroke-width="1.2"/><path d="M5.3 7.5h10.4M10.5 2.3c2.4 2.8 2.4 7.6 0 10.4M10.5 2.3c-2.4 2.8-2.4 7.6 0 10.4" fill="none" stroke="#A6B0B6" stroke-width="1"/>'
+};
+const drawPrefix = () => {
+  const v = prefSel.value;
+  prefFace.innerHTML = `<svg viewBox="0 0 21 15" aria-hidden="true">${FLAGS[v] || FLAGS.altro}</svg><span>${v === "altro" ? "Altro" : v}</span>`;
+};
+drawPrefix();
+prefSel.addEventListener("change", () => {
+  drawPrefix();
+  const altro = prefSel.value === "altro";
+  prefAlt.hidden = !altro; prefAlt.required = altro; prefAlt.removeAttribute("aria-invalid");
+  if (altro) prefAlt.focus();
 });
 form.querySelectorAll("input").forEach(i => i.addEventListener(i.type === "checkbox" ? "change" : "input", () => { i.removeAttribute("aria-invalid"); if (i.type === "checkbox") { const ce = form.querySelector("[data-consent-err]"); if (ce && i.checked) ce.hidden = true; } }));
 
