@@ -1579,16 +1579,17 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
   const light = document.querySelector("[data-vlight]");
   let visible = false, hover = false, pausedUntil = 0;
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: .4 }).observe(box);
-  box.addEventListener("mouseenter", () => { hover = true; });
-  box.addEventListener("mouseleave", () => { hover = false; });
-  const pause = () => { pausedUntil = Date.now() + 6000; };
+  /* pausa al passaggio solo con un mouse vero: sul telefono il "mouse" simulato non esce mai */
+  box.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") hover = true; });
+  box.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") hover = false; });
+  const pause = () => { pausedUntil = Date.now() + 3000; };
   ["pointerdown", "touchstart", "wheel"].forEach(ev => box.addEventListener(ev, pause, { passive: true }));
   document.querySelectorAll("[data-tprev],[data-tnext]").forEach(b => b.addEventListener("click", pause));
   setInterval(() => {
     if (!visible || hover || Date.now() < pausedUntil || (light && !light.hidden) || document.hidden) return;
-    const max = box.scrollWidth - box.clientWidth;
-    if (box.scrollLeft >= max - 4) box.scrollTo({ left: 0, behavior: "smooth" });
-    else box.scrollBy({ left: step(), behavior: "smooth" });
+    const max = box.scrollWidth - box.clientWidth, st = step();
+    const next = Math.round(box.scrollLeft / st) + 1;
+    box.scrollTo({ left: box.scrollLeft >= max - 4 ? 0 : Math.min(max, next * st), behavior: "smooth" });
   }, 1400);
 })();
 
