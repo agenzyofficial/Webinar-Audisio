@@ -1010,8 +1010,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 var(--fade-b),transparent 100%);
           mask-composite:intersect}
 .tv-screen{position:absolute;left:65.8%;top:14.2%;width:33.5%;height:29.4%;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
-/* il player è disegnato a 400×225 e scalato (--k, dallo script) finché copre tutto lo schermo: lo schermo della TV è 2:1, quindi il video perde pochi pixel sopra e sotto */
-.tv-player{flex:none;width:400px;height:225px;transform:scale(var(--k,1))}
+/* il player è impaginato da vturb a 640×360 (misura da desktop, così i suoi riquadri restano in proporzione)
+   e scalato (--k, dallo script) finché copre tutto lo schermo: lo schermo della TV è 2:1, quindi il video perde pochi pixel sopra e sotto */
+.tv-player{flex:none;width:640px;height:360px;transform:scale(var(--k,.7))}
 @media (max-width:760px){
   /* telefono: il video esce dalla foto, a tutta larghezza in una cornice da TV; sotto, Andrea */
   .hero-tv{--fade-b:74%;left:0;width:100vw;margin:-26px 0 0;overflow:hidden}
@@ -1057,7 +1058,8 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
    la sfumatura a sinistra è speculare a quella a destra rispetto al centro del gruppo Andrea + TV */
 @media (min-width:761px){
   .hero .event-logo{width:min(600px,48vw)}
-  .hero-tv{aspect-ratio:2000/860;overflow:hidden}
+  /* min-height:0 tiene l'altezza del taglio anche quando, in modalità cinema, il contenuto può sporgere */
+  .hero-tv{aspect-ratio:2000/860;min-height:0;overflow:hidden}
   .tv-photo{
     -webkit-mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
     -webkit-mask-composite:source-in;
@@ -1069,7 +1071,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .hero-act{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
   .hero .hero-act .event-row,.hero .hero-act .ctas{margin-top:0}
   .hero .hero-act .event-row div{padding:10px clamp(14px,1.4vw,22px)}
+  /* video avviato: la foto scivola via, la frase sparisce, la TV va al centro più grande (--cine dallo script) */
+  .tv-photo,.tv-screen{transition:transform 1s var(--ease-out),opacity .8s var(--ease-out),box-shadow 1s var(--ease-out)}
+  .hero-tv.is-cinema{overflow:visible}
+  .is-cinema .tv-photo{opacity:0;transform:translateX(-18%)}
+  .is-cinema .promise{animation:cine-out .6s var(--ease-out) forwards;pointer-events:none}
+  .is-cinema .tv-screen{z-index:2;transform:var(--cine);box-shadow:0 0 0 1px #262C31,0 30px 80px rgba(0,0,0,.8)}
 }
+@keyframes cine-out{to{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen{transition:none}.is-cinema .promise{animation:none;opacity:0}}
 </style>
 </head>
 <body class="no-js">
@@ -1718,9 +1728,40 @@ function tick(){
 }
 tick(); setInterval(tick, 30000);
 
-/* Video nella TV: il player vturb (400×225) si scala finché copre tutto lo schermo della TV */
+/* Video nella TV: il player vturb (640×360) si scala finché copre tutto lo schermo della TV */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
-new ResizeObserver(() => tvPlayer.style.setProperty("--k", Math.max(tvScreen.clientWidth / 400, tvScreen.clientHeight / 225))).observe(tvScreen);
+new ResizeObserver(() => tvPlayer.style.setProperty("--k", Math.max(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360))).observe(tvScreen);
+
+/* Desktop: quando il visitatore avvia il video (clic sul player, non l'avvio automatico di vturb)
+   la foto scivola via e la TV va al centro, più grande; a fine video torna tutto com'era */
+const heroTv = tvScreen.closest(".hero-tv"), heroLogo = document.querySelector(".event-logo"), desk = matchMedia("(min-width:761px)");
+function placeCinema() {
+  /* schermo calcolato dalla foto (non dal suo rettangolo, che durante il cinema è già trasformato) */
+  const st = tvScreen.parentElement.getBoundingClientRect(), box = heroTv.getBoundingClientRect(), logo = heroLogo.getBoundingClientRect();
+  const s = { x: st.left + st.width * .658, y: st.top + st.height * .142, w: st.width * .335, h: st.height * .294 };
+  const top = Math.max(box.top, logo.bottom) + 12, bottom = box.bottom - 12;
+  const w = Math.min(innerWidth * .72, 1000, (bottom - top) * s.w / s.h);
+  tvScreen.style.setProperty("--cine", `translate(${innerWidth / 2 - (s.x + s.w / 2)}px, ${(top + bottom) / 2 - (s.y + s.h / 2)}px) scale(${w / s.w})`);
+}
+function setCinema(on) {
+  on = on && desk.matches;
+  if (on === heroTv.classList.contains("is-cinema")) return;
+  if (on) placeCinema();
+  heroTv.classList.toggle("is-cinema", on);
+}
+addEventListener("resize", () => { if (!desk.matches) setCinema(false); else if (heroTv.classList.contains("is-cinema")) placeCinema(); });
+let tvHooked = null;
+function hookTv(pl) {
+  if (!pl || pl === tvHooked || typeof pl.addEventListener !== "function") return;
+  tvHooked = pl;
+  /* dopo il clic vturb esce dall'anteprima muta o fa partire il video: si controlla poco dopo */
+  tvScreen.addEventListener("pointerup", () => setTimeout(() => { if (!pl.paused && !pl.inSmartAutoPlay) setCinema(true); }, 400), true);
+  pl.addEventListener("video:ended", () => setCinema(false));
+}
+document.addEventListener("player:ready", e => hookTv(e.detail && e.detail.player));
+/* se vturb era già pronto prima di questo script, lo si trova tra le istanze */
+const hookTvInstances = () => ((window.smartplayer && window.smartplayer.instances) || []).forEach(i => hookTv(i.instance));
+hookTvInstances(); addEventListener("load", hookTvInstances);
 
 /* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
    quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
