@@ -1011,7 +1011,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           mask-composite:intersect}
 .tv-screen{position:absolute;left:65.8%;top:14.2%;width:33.5%;height:29.4%;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
 /* il player è impaginato da vturb a 640×360 (misura da desktop, così i suoi riquadri restano in proporzione)
-   e scalato (--k, dallo script) finché copre tutto lo schermo: lo schermo della TV è 2:1, quindi il video perde pochi pixel sopra e sotto */
+   e scalato (--k, dallo script) per stare intero nello schermo: la TV è 2:1, quindi ai lati restano strisce nere */
 .tv-player{flex:none;width:640px;height:360px;transform:scale(var(--k,.7))}
 @media (max-width:760px){
   /* telefono: il video esce dalla foto, a tutta larghezza in una cornice da TV; sotto, Andrea */
@@ -1738,13 +1738,10 @@ function tick(){
 }
 tick(); setInterval(tick, 30000);
 
-/* Video nella TV: il player vturb (640×360) si scala finché copre tutto lo schermo della TV;
-   in modalità cinema invece sta intero, così si vedono anche i comandi in basso */
+/* Video nella TV: il player vturb (640×360) si scala per stare intero nello schermo della TV, comandi compresi;
+   lo schermo è 2:1, quindi ai lati restano due strisce nere come lo schermo spento */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
-const fitTvPlayer = () => {
-  const fit = tvScreen.closest(".is-cinema") ? Math.min : Math.max;
-  tvPlayer.style.setProperty("--k", fit(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360));
-};
+const fitTvPlayer = () => tvPlayer.style.setProperty("--k", Math.min(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360));
 new ResizeObserver(fitTvPlayer).observe(tvScreen);
 
 /* Desktop: quando il visitatore avvia il video (clic sul player, non l'avvio automatico di vturb)
@@ -1754,7 +1751,8 @@ function placeCinema() {
   /* schermo calcolato dalla foto (non dal suo rettangolo, che durante il cinema è già trasformato) */
   const st = tvScreen.parentElement.getBoundingClientRect(), box = heroTv.getBoundingClientRect(), logo = heroLogo.getBoundingClientRect();
   const s = { x: st.left + st.width * .658, y: st.top + st.height * .142, w: st.width * .335, h: st.height * .294 };
-  const top = Math.max(box.top, logo.bottom) + 12, bottom = box.bottom - 12;
+  /* dal fondo del cartellino (95,5% dell'altezza del logo) fino a 40 px sopra data e bottone */
+  const top = Math.max(box.top, logo.top + logo.height * .955) + 10, bottom = box.bottom - 40;
   const w = Math.min(innerWidth * .72, 1000, (bottom - top) * s.w / s.h);
   tvScreen.style.setProperty("--cine", `translate(${innerWidth / 2 - (s.x + s.w / 2)}px, ${(top + bottom) / 2 - (s.y + s.h / 2)}px) scale(${w / s.w})`);
   /* la X accanto all'angolo in alto a destra del video (16:9, intero dentro lo schermo ingrandito) */
