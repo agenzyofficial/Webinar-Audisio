@@ -1208,9 +1208,20 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile-senza-cartellino.jpg"><img src="assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture><img class="logo-tag" src="assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></div>
     <h1 class="headline">
-      <span class="hl-a">Vendi già, ma ogni euro in più ti costa</span>
-      <span class="hl-pain"><span class="sr-only">ore in più.</span><span class="rot hl-rot" aria-hidden="true">
+      <span class="sr-only">Vendi già, ma ogni euro in più ti costa ore in più.</span>
+      <span class="hl-a rot" aria-hidden="true">
+        <span class="rot-i on">Vendi già, ma ogni euro in più ti costa</span>
+        <span class="rot-i">Pubblichi ogni giorno, ma i contenuti</span>
+        <span class="rot-i">Rispondi a ogni DM, ma ogni cliente</span>
+        <span class="rot-i">Fai call tutto il giorno, ma ne chiudi</span>
+      </span>
+      <span class="hl-pain"><span class="rot hl-rot" aria-hidden="true">
         <span class="rot-i on"><span>ore in più.</span></span>
+        <span class="rot-i"><span>il tuo tempo libero.</span></span>
+        <span class="rot-i"><span>non vendono più.</span></span>
+        <span class="rot-i"><span>passa ancora da te.</span></span>
+        <span class="rot-i"><span>una su nove.</span></span>
+      </span></span>
         <span class="rot-i"><span>più contenuti da pubblicare.</span></span>
         <span class="rot-i"><span>più call per chiudere.</span></span>
         <span class="rot-i"><span>più DM a cui rispondere.</span></span>
@@ -1907,16 +1918,23 @@ function rotate(){
 rotBar.classList.add("run");
 setInterval(rotate, ROT_MS);
 
-/* Headline: il dolore cambia ogni 3 secondi (la frase resta sempre intera) */
-const painItems = [...document.querySelectorAll(".hl-rot .rot-i")];
-let painIdx = 0;
+/* Headline: coppie riga bianca + dolore arancione, ogni coppia è una frase intera;
+   se la riga bianca è la stessa della coppia prima resta ferma e cambia solo il dolore */
+const hlA = [...document.querySelectorAll(".hl-a .rot-i")], hlP = [...document.querySelectorAll(".hl-rot .rot-i")];
+const HL_SEQ = [[0, 0], [0, 1], [1, 2], [2, 3], [3, 4]];
+let hlStep = 0;
+const hlSwap = (items, from, to) => {
+  if (from === to) return;
+  items[from].classList.remove("on"); items[from].classList.add("out");
+  setTimeout(() => items[from].classList.remove("out"), 700);
+  items[to].classList.add("on");
+};
 setInterval(() => {
-  const prev = painItems[painIdx];
-  painIdx = (painIdx + 1) % painItems.length;
-  prev.classList.remove("on"); prev.classList.add("out");
-  setTimeout(() => prev.classList.remove("out"), 700);
-  painItems[painIdx].classList.add("on");
-}, 3000);
+  const [a0, p0] = HL_SEQ[hlStep];
+  hlStep = (hlStep + 1) % HL_SEQ.length;
+  const [a1, p1] = HL_SEQ[hlStep];
+  hlSwap(hlA, a0, a1); hlSwap(hlP, p0, p1);
+}, 3200);
 
 /* Video nella TV: il player vturb (640×360) si scala per stare intero nello schermo della TV (16:9), comandi compresi */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
