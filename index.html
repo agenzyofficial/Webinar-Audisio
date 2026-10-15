@@ -1031,7 +1031,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
    il logo non fa contesto di sovrapposizione, così il nero del logo si fonde con la foto che gli passa dietro */
 .hero .event-logo{z-index:auto;pointer-events:none}
 .event-logo picture img{position:relative;z-index:1;animation:logo-in 1400ms var(--ease-out) 150ms both}
-.event-logo .logo-tag{position:absolute;z-index:2;left:62.5%;top:61.14%;width:18.22%;height:auto;mix-blend-mode:normal;filter:none;-webkit-mask:none;mask:none;
+.event-logo .logo-tag{position:absolute;z-index:2;left:62.5%;top:61.14%;width:18.22%;height:auto;mix-blend-mode:normal;filter:drop-shadow(0 10px 12px rgba(0,0,0,.6)) drop-shadow(0 3px 4px rgba(0,0,0,.45));-webkit-mask:none;mask:none;
   transform-origin:9.9% 0;animation:tag-in 1700ms cubic-bezier(.33,0,.3,1) 1100ms both,tag-swing 3.8s ease-in-out 2800ms infinite}
 @keyframes logo-in{
   0%{opacity:0;transform:scale(1.14);filter:contrast(1.12) brightness(2.4) blur(14px)}
@@ -1078,7 +1078,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .hero-tv.is-cinema{overflow:visible}
   .is-cinema .tv-photo{opacity:0;transform:translateX(-18%)}
   .is-cinema .promise{animation:cine-out .6s var(--ease-out) forwards;pointer-events:none}
-  .is-cinema .tv-screen{z-index:3;transform:var(--cine);background-color:transparent;box-shadow:none}
+  .is-cinema .tv-screen{z-index:1;transform:var(--cine);background-color:transparent;box-shadow:none}
   .tv-close{display:block;position:absolute;z-index:4;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.6);cursor:pointer;
     opacity:0;visibility:hidden;transform:scale(.8);transition:opacity .3s var(--ease-out),transform .3s var(--ease-out),visibility 0s linear .3s}
   .tv-close::before,.tv-close::after{content:"";position:absolute;left:13px;right:13px;top:20px;height:2px;background:#fff;transform:rotate(45deg)}
@@ -1750,7 +1750,7 @@ function placeCinema() {
   /* schermo calcolato dalla foto (non dal suo rettangolo, che durante il cinema è già trasformato) */
   const st = tvScreen.parentElement.getBoundingClientRect(), box = heroTv.getBoundingClientRect(), logo = heroLogo.getBoundingClientRect();
   const s = { x: st.left + st.width * .658, y: st.top + st.height * .1432, w: st.width * .335, h: st.height * .3333 };
-  /* dal fondo delle lettere del titolo (62% dell'altezza del logo; il cartellino resta dietro al video) fino a 40 px sopra data e bottone */
+  /* dal fondo delle lettere del titolo (62% dell'altezza del logo; il cartellino pende sopra al video) fino a 40 px sopra data e bottone */
   const top = Math.max(box.top, logo.top + logo.height * .62) + 10, bottom = box.bottom - 40;
   const w = Math.min(innerWidth * .72, 1000, (bottom - top) * s.w / s.h);
   tvScreen.style.setProperty("--cine", `translate(${innerWidth / 2 - (s.x + s.w / 2)}px, ${(top + bottom) / 2 - (s.y + s.h / 2)}px) scale(${w / s.w})`);
