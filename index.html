@@ -1154,7 +1154,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 }
 
 /* headline fissa sotto il titolo (la promessa dell'evento si legge intera) */
-.hero .headline{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;margin:22px auto 0;max-width:62ch;
+.hero .headline{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:4px;margin:22px auto 0;max-width:62ch;
   font-family:var(--sans);letter-spacing:-.02em;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.9);animation:fade 700ms var(--ease-out) 300ms both}
 /* riga 1 bianca, riga 2 il dolore che cambia (arancione, evidenziato), riga 3 la promessa più piccola */
 .hl-a{font-weight:800;font-size:clamp(20px,1.75vw,26px);line-height:1.2}
@@ -1163,8 +1163,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   -webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 0 24px rgba(255,90,20,.35)}
 .hl-b{margin-top:6px;font-weight:500;font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--fg-2);letter-spacing:0;max-width:58ch}
 .hl-b .acc{font-weight:700}
-/* computer: headline centrata nella fascia sotto le lettere; il cartellino ci pende sopra e dove coprirebbe
-   una parola le parole si allargano (varco calcolato dallo script); il sottotitolo subito sotto */
+/* computer: headline centrata nella fascia sotto le lettere, sopra al cartellino; il sottotitolo subito sotto */
 @media (min-width:761px){
   .hero .headline{width:min(920px,100%);max-width:none;margin-top:calc(min(690px,53vw) * -.185 + 8px)}
   .hl-a,.hl-pain{white-space:nowrap}
@@ -1921,44 +1920,6 @@ const hlSwap = (items, from, to) => {
   setTimeout(() => items[from].classList.remove("out"), 700);
   items[to].classList.add("on");
 };
-/* Computer: il cartellino pende sopra le righe dell'headline; dove coprirebbe una parola si apre un varco.
-   Per ogni frase si sceglie il punto di taglio tra due parole che rende il varco più piccolo possibile
-   tenendo la riga centrata (lo stesso calcolo vale per tutte le combinazioni che girano) */
-const hlLines = [...hlA, ...hlP], logoTag = document.querySelector(".logo-tag"), hlDesk = matchMedia("(min-width:761px)");
-hlLines.forEach(el => { el.dataset.words = el.textContent.trim(); });
-function hlRender(el, words, cut, gap){
-  const mark = el.closest(".hl-rot") ? t => `<span class="hl-mark">${t}</span>` : t => t;
-  const left = words.slice(0, cut).join(" "), right = words.slice(cut).join(" ");
-  if (gap == null) { el.innerHTML = mark(words.join(" ")); return; }
-  el.innerHTML = (left ? mark(left) : "") + `<span class="hl-gap" style="width:${Math.round(gap)}px"></span>` + (right ? mark(right) : "");
-}
-function spaceHeadline(){
-  hlLines.forEach(el => {
-    const words = el.dataset.words.split(" ");
-    el.innerHTML = words.map(w => `<span class="hl-w">${w}</span>`).join(" ");
-    if (!hlDesk.matches) { hlRender(el, words, 0, null); return; }
-    /* posizione del cartellino da fermo (left 62,5%, top 61,14%, largo 18,22% del logo; PNG 328×306), non quella ruotata dall'animazione */
-    const lg = logoTag.parentElement.getBoundingClientRect(), tw = lg.width * .1822;
-    const tag = { left: lg.left + lg.width * .625, right: lg.left + lg.width * .625 + tw, top: lg.top + lg.height * .6114, bottom: lg.top + lg.height * .6114 + tw * 306 / 328 };
-    const line = el.getBoundingClientRect();
-    if (line.bottom < tag.top || line.top > tag.bottom) { hlRender(el, words, 0, null); return; }
-    const box = el.parentElement.getBoundingClientRect(), c = box.left + box.width / 2;
-    const tL = tag.left - 10, tR = tag.right + 10;
-    const ws = [...el.querySelectorAll(".hl-w")].map(w => w.getBoundingClientRect());
-    const x0 = ws[0].left, x1 = ws[ws.length - 1].right;
-    let best = null;
-    for (let k = 0; k <= words.length; k++) {
-      const A = k === 0 ? 0 : ws[k - 1].right - x0, B = k === words.length ? 0 : x1 - ws[k].left;
-      const G = Math.max(A - B + 2 * (c - tL), 2 * (tR - c) - A + B, 0);
-      if (!best || G < best.G) best = { k, G };
-    }
-    hlRender(el, words, best.k, best.G > 0 ? best.G : null);
-  });
-}
-spaceHeadline();
-addEventListener("resize", spaceHeadline);
-if (document.fonts) document.fonts.ready.then(spaceHeadline);
-addEventListener("load", spaceHeadline);
 
 setInterval(() => {
   const [a0, p0] = HL_SEQ[hlStep];
