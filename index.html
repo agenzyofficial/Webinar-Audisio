@@ -1015,6 +1015,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @media (max-width:760px){
   /* telefono: il video esce dalla foto, a tutta larghezza in una cornice da TV; sotto, Andrea */
   .hero-tv{--fade-b:74%;left:0;width:100vw;margin:-26px 0 0;overflow:hidden}
+  .hero-tv .promise{padding:0 var(--gutter)}
   .tv-stage{display:flex;flex-direction:column;aspect-ratio:auto}
   .tv-screen{position:relative;inset:auto;order:-1;width:calc(100% - 2 * var(--gutter));height:auto;aspect-ratio:16/9;margin:6px auto 4px;
     border:1.5px solid #3A4249;border-radius:10px;box-shadow:0 0 0 5px #0B0D0E,0 0 0 6.5px #262C31,0 18px 40px rgba(0,0,0,.7)}
@@ -1061,9 +1062,10 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     -webkit-mask-composite:source-in;
             mask:linear-gradient(90deg,transparent 17%,#000 30%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
             mask-composite:intersect}
-  .hero .promise{margin-top:-64px;max-width:44ch;font-size:clamp(24px,2vw,30px)}
+  /* la frase sta sotto la TV, larga quanto la TV */
+  .hero .promise{position:absolute;z-index:1;left:65.9%;top:46%;width:33.3%;max-width:none;margin:0;text-align:left;font-size:clamp(17px,1.55vw,24px);line-height:1.25}
   /* data e bottone sulla stessa riga */
-  .hero-act{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px}
+  .hero-act{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
   .hero .hero-act .event-row,.hero .hero-act .ctas{margin-top:0}
   .hero .hero-act .event-row div{padding:10px clamp(14px,1.4vw,22px)}
 }
@@ -1088,9 +1090,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
             <vturb-smartplayer id="vid-6ad128d22b1887643f83e169" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
           </div>
         </div>
+        <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
       </div>
     </div>
-    <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
     <div class="hero-act">
     <dl class="event-row">
       <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
