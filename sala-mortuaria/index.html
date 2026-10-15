@@ -650,8 +650,8 @@ body.locked{overflow:hidden}
 .done ol{color:var(--fg-2)}
 @media (max-width:760px){
   /* più in alto: la tastiera non copre i campi */
-  .modal{place-items:start center;padding:max(14px,env(safe-area-inset-top)) 12px 12px}
-  .modal .panel{max-height:calc(100dvh - 28px);padding:24px 18px 20px}
+  .modal{place-items:center;padding:16px}
+  .modal .panel{width:100%;max-width:420px;max-height:calc(100dvh - 32px);padding:24px 18px 20px;margin:auto}
   .panel h3{font-size:26px;padding-right:40px}
   .close{top:8px;right:8px;width:48px;height:48px}
   .close::before,.close::after{left:14px;right:14px;top:23px}
@@ -761,7 +761,7 @@ body.locked{overflow:hidden}
 .kick{display:inline-flex;align-items:center;gap:10px;color:var(--acc);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
 .kick::before{content:"";width:26px;height:2px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.7)}
 .h2 .acc{text-shadow:0 0 28px rgba(255,90,20,.35)}
-@media (min-width:761px){.proof .kick,.proof .h2{display:flex;justify-content:center}.proof .kick{width:max-content;margin-left:auto;margin-right:auto}}
+@media (min-width:761px){.proof .kick{display:flex;justify-content:center;width:max-content;margin-left:auto;margin-right:auto}.proof .h2{text-align:center}}
 /* ── referto ── */
 .report .left .kick{display:inline-flex}
 .chart{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:14px;background:#0B0E10;padding:18px 18px 8px;overflow:hidden}
@@ -788,6 +788,50 @@ body.locked{overflow:hidden}
   .chart{margin-top:20px}
 }
 .cause p b,.report .lede b{color:var(--fg);font-weight:700}
+
+/* ── caso studio Investitore Efficace ── */
+.bigcase{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(20px,3vw,40px);align-items:center;margin:clamp(28px,4vw,44px) auto 0;max-width:1200px;
+  padding:clamp(22px,3vw,40px);border-radius:18px;border:2px solid var(--acc);box-shadow:var(--glow);
+  background:radial-gradient(ellipse at 15% 20%,rgba(255,90,20,.18),transparent 55%),#090B0D}
+.bigcase .kick{margin-bottom:6px}
+.bigcase-n{font-weight:900;font-style:italic;font-size:clamp(84px,11vw,150px);line-height:.9;letter-spacing:-.04em;color:var(--fg);text-shadow:0 0 40px rgba(255,90,20,.35)}
+.bigcase-n span{color:var(--acc);font-size:.48em;margin-left:6px;letter-spacing:0}
+.bigcase-t{margin-top:14px;color:var(--fg-2);font-size:clamp(16px,1.4vw,18px);line-height:1.55;max-width:46ch}
+.bigcase-t b{color:var(--fg);font-weight:700}
+.bigcase-ft{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:0}
+.bigcase-ft > div{border:1px solid var(--line);border-radius:14px;background:#0F1316;padding:18px 16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.bigcase-ft > div.to{border-color:rgba(255,90,20,.6);background:rgba(255,90,20,.08)}
+.bigcase-ft > div + div{margin-left:34px;position:relative}
+.bigcase-ft > div + div::before{content:"→";position:absolute;left:-28px;top:50%;transform:translateY(-50%);color:var(--acc);font-weight:900;font-size:22px}
+.bigcase-ft span{color:var(--fg-3);font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.bigcase-ft b{display:block;font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,38px);line-height:1.05;margin-top:6px}
+.bigcase-ft .to b{color:var(--acc)}
+.bigcase-ft em{display:block;font-style:normal;color:var(--fg-2);font-size:13.5px;margin-top:6px;line-height:1.35}
+@media (min-width:761px){.bigcase-ft{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){
+  .bigcase{grid-template-columns:1fr;padding:22px 18px}
+  .bigcase-ft{grid-template-columns:1fr 1fr}
+  .bigcase-ft > div + div{margin-left:26px}
+  .bigcase-ft > div + div::before{left:-21px;font-size:18px}
+  .bigcase-ft > div{padding:14px 10px}
+}
+.tvideos{margin-top:clamp(18px,2.5vw,28px)}
+
+/* foto di Felipe nel caso studio */
+.bigcase{grid-template-columns:minmax(220px,300px) 1.2fr 1fr;position:relative;overflow:hidden}
+.bigcase-ph{position:relative;align-self:end;margin:-10px 0 calc(-1 * clamp(22px,3vw,40px));height:100%;min-height:320px;display:flex;align-items:flex-end;justify-content:center}
+.bigcase-ph::before{content:"";position:absolute;left:10%;right:10%;bottom:8%;height:60%;border-radius:50%;background:radial-gradient(circle,rgba(255,90,20,.45),transparent 70%);filter:blur(10px)}
+.bigcase-ph img{position:relative;width:100%;height:auto;max-height:420px;object-fit:contain;object-position:bottom;
+  -webkit-mask:linear-gradient(180deg,#000 78%,transparent);mask:linear-gradient(180deg,#000 78%,transparent)}
+.bigcase-ph figcaption{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-weight:900;font-style:italic;font-size:16px;color:var(--fg);text-shadow:0 2px 10px rgba(0,0,0,.9)}
+.bigcase-ph figcaption span{display:block;font-style:normal;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+@media (min-width:761px) and (max-width:1100px){.bigcase{grid-template-columns:minmax(200px,260px) 1fr}.bigcase-ft{grid-column:2}}
+@media (max-width:760px){
+  .bigcase{grid-template-columns:1fr}
+  .bigcase-ph{order:-1;margin:-22px -18px 0;min-height:0;height:300px;overflow:hidden}
+  .bigcase-ph img{width:auto;height:330px;max-height:none;margin-top:auto}
+  .bigcase-ph figcaption{bottom:10px}
+}
 </style>
 </head>
 <body class="no-js">
@@ -875,6 +919,19 @@ body.locked{overflow:hidden}
     <span class="kick rv">Testimonianze</span>
     <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
     <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
+    <!-- caso studio, dalla pagina profitOS -->
+    <article class="bigcase rv">
+      <figure class="bigcase-ph"><img src="assets/felipe.webp" alt="Felipe Orrego, fondatore di Investitore Efficace" width="843" height="1100" loading="lazy" decoding="async"><figcaption>Felipe Orrego<span>Investitore Efficace</span></figcaption></figure>
+      <div class="bigcase-main">
+        <span class="kick">Il caso più grande</span>
+        <p class="bigcase-n">+4<span>M€</span></p>
+        <p class="bigcase-t"><b>Investitore Efficace di Felipe Orrego.</b> L'abbiamo conosciuto quando aveva solo l'idea: brand, funnel e procedure costruiti da zero. Oggi fattura <b>oltre 4 milioni l'anno.</b></p>
+      </div>
+      <div class="bigcase-ft">
+        <div><span>È partito da</span><b>Zero</b><em>aveva solo l'idea</em></div>
+        <div class="to"><span>È arrivato a</span><b>Leader</b><em>in Italia sulla finanza personale</em></div>
+      </div>
+    </article>
     <div class="tvideos" data-tvideos></div>
     <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
   </div>
