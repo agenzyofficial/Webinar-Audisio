@@ -740,6 +740,22 @@ body.locked{overflow:hidden}
 .monitor.dead .mon-audio{border-color:rgba(255,90,20,.6);color:var(--acc)}
 .mon-flat{right:auto}
 @media (prefers-reduced-motion:reduce){.mon-audio{animation:none!important}}
+
+/* ── data/ora/luogo più grandi ── */
+.hero .event-row dt{font-size:12px;letter-spacing:.12em}
+.hero .event-row dd{font-weight:900}
+@media (max-width:760px){
+  .hero .event-row{margin-top:14px;border-width:2px}
+  .hero .event-row div{padding:12px 12px 13px}
+  .hero .event-row dt{font-size:11px}
+  .hero .event-row dd{font-size:21px;line-height:1.15;margin-top:3px}
+  .hero .promise{margin-bottom:0}
+}
+@media (min-width:761px){
+  .hero .event-row div{padding:18px clamp(22px,2.4vw,36px)}
+  .hero .event-row dt{font-size:13px}
+  .hero .event-row dd{font-size:clamp(26px,2.3vw,34px);margin-top:4px}
+}
 </style>
 </head>
 <body class="no-js">
