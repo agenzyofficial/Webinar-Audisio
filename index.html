@@ -1072,14 +1072,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .hero .hero-act .event-row,.hero .hero-act .ctas{margin-top:0}
   .hero .hero-act .event-row div{padding:10px clamp(14px,1.4vw,22px)}
   /* video avviato: la foto scivola via, la frase sparisce, la TV va al centro più grande (--cine dallo script) */
-  .tv-photo,.tv-screen{transition:transform 1s var(--ease-out),opacity .8s var(--ease-out),box-shadow 1s var(--ease-out)}
+  .tv-photo,.tv-screen{transition:transform 1s var(--ease-out),opacity .8s var(--ease-out),box-shadow 1s var(--ease-out),background-color 1s var(--ease-out)}
+  .tv-player{transition:transform 1s var(--ease-out)}
   .hero-tv.is-cinema{overflow:visible}
   .is-cinema .tv-photo{opacity:0;transform:translateX(-18%)}
   .is-cinema .promise{animation:cine-out .6s var(--ease-out) forwards;pointer-events:none}
-  .is-cinema .tv-screen{z-index:2;transform:var(--cine);box-shadow:0 0 0 1px #262C31,0 30px 80px rgba(0,0,0,.8)}
+  .is-cinema .tv-screen{z-index:2;transform:var(--cine);background-color:transparent;box-shadow:none}
 }
 @keyframes cine-out{to{opacity:0;transform:translateY(10px)}}
-@media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen{transition:none}.is-cinema .promise{animation:none;opacity:0}}
+@media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen,.tv-player{transition:none}.is-cinema .promise{animation:none;opacity:0}}
 </style>
 </head>
 <body class="no-js">
@@ -1728,9 +1729,14 @@ function tick(){
 }
 tick(); setInterval(tick, 30000);
 
-/* Video nella TV: il player vturb (640×360) si scala finché copre tutto lo schermo della TV */
+/* Video nella TV: il player vturb (640×360) si scala finché copre tutto lo schermo della TV;
+   in modalità cinema invece sta intero, così si vedono anche i comandi in basso */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
-new ResizeObserver(() => tvPlayer.style.setProperty("--k", Math.max(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360))).observe(tvScreen);
+const fitTvPlayer = () => {
+  const fit = tvScreen.closest(".is-cinema") ? Math.min : Math.max;
+  tvPlayer.style.setProperty("--k", fit(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360));
+};
+new ResizeObserver(fitTvPlayer).observe(tvScreen);
 
 /* Desktop: quando il visitatore avvia il video (clic sul player, non l'avvio automatico di vturb)
    la foto scivola via e la TV va al centro, più grande; a fine video torna tutto com'era */
@@ -1748,6 +1754,7 @@ function setCinema(on) {
   if (on === heroTv.classList.contains("is-cinema")) return;
   if (on) placeCinema();
   heroTv.classList.toggle("is-cinema", on);
+  fitTvPlayer();
 }
 addEventListener("resize", () => { if (!desk.matches) setCinema(false); else if (heroTv.classList.contains("is-cinema")) placeCinema(); });
 let tvHooked = null;
