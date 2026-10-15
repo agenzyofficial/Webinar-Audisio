@@ -5,8 +5,11 @@ Landing del webinar gratuito di Andrea Audisio: la variante **Sala mortuaria** (
 | Pagina | File | Indirizzo |
 |---|---|---|
 | Landing | `index.html` | https://webinar-audisio.vercel.app/ |
-| Grazie (iscrizione gratuita) | `grazie/index.html` | https://webinar-audisio.vercel.app/grazie/ |
-| Grazie VIP (dopo il pagamento di 27 €) | `grazie-vip/index.html` | https://webinar-audisio.vercel.app/grazie-vip/ |
+| Pagina VIP con checkout Whop | `vip/index.html` | https://www.personalbrandmorto.com/vip/ (dai bottoni VIP; dopo l'iscrizione gratuita arriva qui in versione upsell con `?da=iscrizione`) |
+| Grazie (iscrizione gratuita) | cartella `conferma-…` | dopo l'iscrizione ci porta il modulo (`thankYouUrl` in `index.html`) |
+| Grazie VIP (dopo il pagamento di 27 €) | cartella `vip-…` | si imposta solo nel checkout come pagina di ritorno |
+
+Le pagine di grazie hanno nomi non indovinabili e i vecchi `/grazie/` e `/grazie-vip/` non esistono più, così non le trova chi non si è iscritto o non ha pagato. Il nome della pagina VIP non va scritto nella landing, che chiunque può leggere.
 
 Le immagini sono in `assets/`, con percorsi relativi, e si possono usare anche dentro GoHighLevel (per esempio `https://webinar-audisio.vercel.app/assets/logo-evento.jpg`).
 

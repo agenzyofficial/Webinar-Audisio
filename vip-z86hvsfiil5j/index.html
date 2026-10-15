@@ -6,6 +6,10 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#FF5A14">
 <title>Sei VIP · La morte del personal brand</title>
+<script>
+/* ritorno dal checkout Whop: se il pagamento non è riuscito si torna alla pagina VIP */
+(function(){ var st = new URLSearchParams(location.search).get("status"); if (st && st !== "succeeded") location.replace("../vip/?pagamento=non-riuscito#checkout"); })();
+</script>
 <link rel="preload" as="image" href="../assets/logo-evento.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
