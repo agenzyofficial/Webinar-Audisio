@@ -2,32 +2,1637 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>La morte del personal brand · Landing A/B/C</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>La morte del personal brand · Webinar gratuito con Andrea Audisio</title>
+<meta name="description" content="Una sola serata, online e gratuita, con Andrea Audisio: perché oggi i contenuti non bastano più a vendere e che cosa fare invece.">
+<meta name="theme-color" content="#FF5A14">
+<link rel="preload" as="image" href="assets/logo-evento.jpg" media="(min-width:761px)">
+<link rel="preload" as="image" href="assets/logo-evento-mobile.jpg" media="(max-width:760px)">
+<link rel="preload" as="image" href="assets/hero-andrea-m5.jpg" media="(max-width:760px)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0b0d0e;--fg:#e8ecee;--fg2:#a6b0b6;--line:#262c31;--acc:#ff5a14}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;padding:48px 16px}
-  main{max-width:640px;margin:0 auto}
-  h1{font-size:28px;line-height:1.2}
-  p{color:var(--fg2);margin-top:8px}
-  ul{list-style:none;margin-top:28px;border-top:1px solid var(--line)}
-  li{border-bottom:1px solid var(--line)}
-  a{display:flex;justify-content:space-between;gap:16px;padding:18px 4px;color:var(--fg);text-decoration:none}
-  a span{color:var(--fg2);font-size:14px}
-  a:hover b{color:var(--acc)}
+:root{
+  --bg:#0B0D0E;
+  --bg-2:#111417;
+  --bg-3:#181C20;
+  --line:#262C31;
+  --fg:#E8ECEE;
+  --fg-2:#A6B0B6;
+  --fg-3:#6B757D;
+  --steel:#C8D0D5;
+  --acc:#FF5A14;
+  --acc-2:#D94608;
+  --on-acc:#0B0D0E;
+
+  --display:"Big Shoulders Display", "Arial Narrow", sans-serif;
+  --sans:"Hanken Grotesk", system-ui, sans-serif;
+  --mono:"Courier Prime", "Courier New", monospace;
+
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --gutter:clamp(16px,4vw,56px);
+  --max:1320px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--acc);color:var(--on-acc)}
+/* grana da pellicola, coerente con la foto */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.55;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono);font-size:14px;letter-spacing:.02em}
+.acc{color:var(--acc)}
+.h2{
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(44px,6.4vw,92px);line-height:1.02;letter-spacing:.005em;text-wrap:balance
+}
+.lede{color:var(--fg-2);font-size:clamp(17px,1.5vw,19px);max-width:52ch;margin-top:18px}
+
+/* ───────── Bottoni ───────── */
+.btn{
+  appearance:none;border:0;cursor:pointer;text-decoration:none;white-space:nowrap;
+  display:inline-flex;align-items:center;justify-content:center;gap:14px;
+  background:var(--acc);color:var(--on-acc);
+  font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.04em;
+  font-size:22px;line-height:1;padding:0 30px;height:62px;
+  transition:transform 160ms var(--ease-out),background-color 160ms ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn .ar{display:inline-block;transition:transform 200ms var(--ease-out)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1.5px rgba(232,236,238,.5)}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#FF6D2E}
+  .btn:hover .ar{transform:translateX(4px)}
+  .btn.ghost:hover{background:rgba(232,236,238,.08)}
+}
+.btn .lbl{transition:filter 200ms ease,opacity 200ms ease}
+.btn.sending .lbl{filter:blur(2px);opacity:.6}
+
+/* ───────── HERO: locandina centrata ───────── */
+.hero{position:relative;min-height:100dvh;display:flex;flex-direction:column;background:#050606;overflow:hidden;isolation:isolate}
+.hero-in{position:relative;z-index:2;text-align:center;padding:clamp(28px,4vh,48px) var(--gutter) 0;display:flex;flex-direction:column;align-items:center}
+.when{color:var(--fg-2);font-size:16px;font-weight:700;letter-spacing:.04em;display:inline-flex;align-items:center;gap:12px}
+.when::before,.when::after{content:"";width:28px;height:1px;background:var(--acc)}
+.prehead{text-wrap:balance;background:var(--acc);color:var(--on-acc);text-align:center;padding:11px var(--gutter);font-weight:600;font-size:clamp(14px,1.3vw,16px);line-height:1.35}
+.prehead b{font-weight:800}
+/* logo dell'evento (visual del lead magnet): su nero puro, "screen" fa sparire il nero */
+.event-logo{width:min(92vw,820px,calc(44vh * 2.06));margin-top:clamp(12px,2vh,22px)}
+.event-logo img{width:100%;height:auto;mix-blend-mode:screen;filter:contrast(1.12) brightness(.96);animation:fade 900ms var(--ease-out) 100ms both;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);
+  -webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 10%,#000 86%,transparent 100%);
+          mask-composite:intersect}
+.promise{
+  font-family:var(--sans);font-weight:700;letter-spacing:-.015em;text-wrap:balance;
+  font-size:clamp(21px,2.1vw,32px);line-height:1.25;max-width:40ch;margin-top:clamp(8px,1.6vh,18px);
+  animation:fade 700ms var(--ease-out) 300ms both
+}
+.event-row{display:grid;grid-template-columns:repeat(3,auto);margin-top:clamp(20px,3vh,30px);border:1px solid var(--line);background:rgba(17,20,23,.7);animation:fade 700ms var(--ease-out) 420ms both}
+.event-row div{padding:12px clamp(16px,2vw,28px);border-right:1px solid var(--line);text-align:left}
+.event-row div:last-child{border-right:0}
+.event-row dt{color:var(--fg-3);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.event-row dd{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(20px,1.8vw,26px);line-height:1.1;margin-top:2px}
+.trust{color:var(--fg-3);font-size:14px;margin-top:14px;animation:fade 700ms var(--ease-out) 600ms both}
+.hero .sub-unused{font-size:clamp(17px,1.4vw,20px);line-height:1.5;color:var(--fg-2);max-width:44ch;margin-top:clamp(14px,2.2vh,24px);opacity:0;animation:fade 700ms var(--ease-out) 450ms forwards}
+.hero .sub b{color:var(--fg);font-weight:600}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:clamp(18px,2.6vh,26px);opacity:0;animation:fade 700ms var(--ease-out) 600ms forwards}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* la scena sotto il titolo, ancorata in basso: si vedono sempre ring light e cartellino */
+.hero-media{position:relative;flex:1 1 auto;min-height:clamp(300px,40vh,560px);margin-top:-24px;z-index:1}
+.hero-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;transform:scale(1.05);transform-origin:50% 100%;animation:settle 2400ms var(--ease-out) forwards}
+@keyframes settle{to{transform:scale(1)}}
+.hero-media::after{content:"";position:absolute;inset:-1px 0 -2px 0;
+  background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,.6) 22%,rgba(5,6,6,0) 45%,rgba(5,6,6,0) 80%,var(--bg) 100%),
+             linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 18%,rgba(5,6,6,0) 82%,#050606 100%)}
+
+/* ───────── REFERTO ───────── */
+.report{padding:clamp(80px,11vw,160px) 0 clamp(64px,8vw,120px)}
+.report .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.report .left{position:sticky;top:48px}
+.report .left .mono{color:var(--fg-3);display:block;margin-bottom:18px}
+.causes{border-top:1px solid var(--line)}
+.cause{padding:clamp(26px,3vw,40px) 0;border-bottom:1px solid var(--line)}
+.cause h3{text-wrap:balance;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,3vw,42px);line-height:1.05;letter-spacing:.01em}
+.cause p{color:var(--fg-2);margin-top:12px;max-width:58ch}
+
+/* ───────── COSA SCOPRIRAI (bento) ───────── */
+.learn{padding:clamp(64px,8vw,120px) 0}
+.points{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,5vw,72px);margin-top:clamp(32px,5vw,52px);border-top:1px solid var(--line)}
+.points li{display:grid;grid-template-columns:56px 1fr;gap:18px;padding:clamp(24px,2.6vw,34px) 0;border-bottom:1px solid var(--line)}
+.points .n,.bonus .n{font-family:var(--display);font-weight:900;font-size:48px;line-height:1;color:var(--acc)}
+.points h3,.bonus h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(26px,2.2vw,32px);line-height:1.05;text-wrap:balance}
+.points p,.bonus p{color:var(--fg-2);margin-top:8px}
+.bonus{display:grid;grid-template-columns:56px 1fr;gap:18px;margin-top:28px;padding:clamp(22px,2.6vw,32px);background:var(--acc);color:var(--on-acc)}
+.bonus .n{color:var(--on-acc)}
+.bonus p{color:#3A1A08}
+.learn .after{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:36px}
+.learn .after .mono{color:var(--fg-3)}
+
+/* ───────── CHI FA L'AUTOPSIA ───────── */
+.andrea{padding:clamp(64px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--line)}
+.andrea .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.evidence{background:var(--bg-3);border:1px solid var(--line);padding:12px}
+.evidence .ph{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;color:var(--fg-3);
+  background:repeating-linear-gradient(-45deg,transparent 0 10px,rgba(255,255,255,.025) 10px 11px),#14181B}
+.evidence .cap{display:flex;justify-content:space-between;color:var(--fg-3);padding:12px 4px 2px}
+/* scheda del medico legale: foto fredda da obitorio, cartellino arancione */
+.coroner{border-top:3px solid var(--acc)}
+.coroner .badge-top{display:flex;justify-content:space-between;color:var(--acc);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;padding:2px 4px 10px}
+.coroner .ph{position:relative;overflow:hidden}
+.coroner .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;
+  filter:contrast(1.05)}
+/* velo freddo come la luce della sala mortuaria */
+.coroner .ph::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(11,13,14,0) 60%,rgba(11,13,14,.5))}
+.coroner .stamp{position:absolute;z-index:2;right:10px;bottom:12px;background:var(--acc);color:var(--on-acc);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:4px 8px;transform:rotate(-4deg)}
+.coroner .cap{flex-direction:column;gap:2px}
+.coroner .cap span:first-child{color:var(--fg)}
+.andrea .bio{color:var(--fg-2);margin-top:22px;max-width:60ch}
+.andrea .bio b{color:var(--fg);font-weight:600}
+.timeline{margin-top:32px;display:grid;gap:0}
+.timeline li{list-style:none;display:grid;grid-template-columns:72px 1fr;gap:18px;padding:12px 0}
+.timeline .y{font-family:var(--mono);font-weight:700;color:var(--acc)}
+.timeline p{color:var(--fg-2)}
+.timeline p b{color:var(--fg);font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(56px,7vw,96px);border-top:1px solid var(--line)}
+.stats div{padding:28px 20px 0 0}
+.stats b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(48px,5.4vw,84px);line-height:.9}
+.stats span{display:block;color:var(--fg-2);font-size:15px;margin-top:10px;max-width:22ch}
+
+/* ───────── PROVE (scroll orizzontale) ───────── */
+.proof{padding:clamp(64px,8vw,120px) 0}
+.files{display:grid;grid-template-columns:repeat(4,minmax(260px,1fr));gap:16px;margin-top:clamp(36px,5vw,56px);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
+.files::-webkit-scrollbar{display:none}
+.file{scroll-snap-align:start;background:var(--bg-2);border-top:3px solid var(--steel);padding:26px 24px 28px;display:flex;flex-direction:column;min-height:300px}
+.file .mono{color:var(--fg-3)}
+.file h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:28px;line-height:1;margin-top:10px}
+.file .big{font-family:var(--display);font-weight:900;font-size:clamp(40px,3.6vw,54px);line-height:1.02;color:var(--acc);margin-top:auto;padding-top:28px}
+.file p{color:var(--fg-2);font-size:15.5px;margin-top:10px}
+.fine{color:var(--fg-3);font-size:13px;margin-top:18px}
+
+/* ───────── BIGLIETTI = CARTELLINI ───────── */
+.tickets{padding:clamp(64px,8vw,120px) 0;background:var(--bg-2);border-top:1px solid var(--line);overflow:hidden}
+.tags{display:flex;justify-content:center;gap:clamp(24px,5vw,72px);margin-top:clamp(56px,7vw,88px);flex-wrap:wrap}
+.tag{position:relative;width:min(100%,400px);transition:transform 300ms var(--ease-out)}
+.tag:nth-child(1){transform:rotate(-2deg)}
+.tag:nth-child(2){transform:rotate(1.6deg)}
+@media (hover:hover) and (pointer:fine){.tag:hover{transform:rotate(0deg)}}
+/* lo spago */
+.tag::before{content:"";position:absolute;left:50%;top:-56px;width:1.5px;height:84px;background:linear-gradient(var(--fg-3),var(--steel));transform:translateX(-50%);z-index:2}
+.tag-body{
+  position:relative;padding:76px clamp(26px,3vw,36px) 34px;color:var(--on-acc);
+  background:var(--steel);
+  clip-path:polygon(16% 0,84% 0,100% 8%,100% 100%,0 100%,0 8%);
+  -webkit-mask:radial-gradient(circle at 50% 34px,transparent 11px,#000 12px);
+          mask:radial-gradient(circle at 50% 34px,transparent 11px,#000 12px);
+}
+.tag.vip .tag-body{background:var(--acc)}
+.tag.vip .vip-price{font-size:clamp(88px,10vw,116px);line-height:.9;letter-spacing:-.01em}
+.tag.vip .price{display:inline-block;font-family:var(--mono);font-weight:700;font-size:15px;background:var(--on-acc);color:var(--acc);padding:5px 10px;margin-top:6px}
+.tag-body .mono{display:block;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.tag-body h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(56px,6vw,76px);line-height:1;margin:12px 0 6px}
+.tag-body .price{font-family:var(--mono);font-size:16px}
+.tag-body ul{list-style:none;margin:22px 0 28px;border-top:1.5px dashed rgba(11,13,14,.35)}
+.tag-body li{padding:10px 0;border-bottom:1.5px dashed rgba(11,13,14,.35);font-size:16px;font-weight:500}
+.tag-body .btn{width:100%;background:var(--on-acc);color:var(--fg)}
+@media (hover:hover) and (pointer:fine){.tag-body .btn:hover{background:#000}}
+.todo{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;background:#F4D35E;color:#111;padding:0 5px;vertical-align:middle}
+
+/* ───────── DOPO L'ISCRIZIONE (timeline orizzontale) ───────── */
+.after-reg{padding:clamp(64px,8vw,120px) 0}
+.rail{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(36px,5vw,56px);position:relative}
+.rail::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:var(--line)}
+.stop{position:relative;padding-top:36px;padding-right:32px}
+.stop::before{content:"";position:absolute;left:0;top:0;width:15px;height:15px;background:var(--bg);border:2px solid var(--acc)}
+.stop:last-child::before{background:var(--acc)}
+.stop .mono{color:var(--acc)}
+.stop h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:1;margin-top:8px}
+.stop p{color:var(--fg-2);margin-top:10px;max-width:34ch}
+
+/* ───────── FAQ ───────── */
+.faq-s{padding:0 0 clamp(64px,8vw,120px)}
+.faq{margin-top:clamp(28px,4vw,44px);border-top:1px solid var(--line);max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:24px 48px 24px 0;font-weight:600;font-size:19px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:4px;top:50%;width:14px;height:14px;margin-top:-7px;
+  background:linear-gradient(var(--acc),var(--acc)) center/14px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) center/2px 14px no-repeat;
+  transition:transform 200ms var(--ease-out)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 240ms var(--ease-out)}
+.faq details[open] .a{grid-template-rows:1fr}
+.faq .a > div{overflow:hidden}
+.faq .a p{padding:0 0 24px;color:var(--fg-2);max-width:68ch}
+
+/* ───────── CHIUSURA ───────── */
+.close-s{position:relative;min-height:min(92dvh,860px);display:grid;align-items:center;overflow:hidden;isolation:isolate;border-top:1px solid var(--line)}
+.close-s .bg{position:absolute;inset:0;z-index:-1}
+.close-s .bg img{position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:62% 50%}
+.close-s .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,var(--bg) 38%,rgba(11,13,14,.6) 48%,rgba(11,13,14,0) 64%),linear-gradient(0deg,rgba(11,13,14,.8),transparent 30%)}
+/* testo attaccato al margine sinistro, non al contenitore centrato */
+.close-s > .wrap{max-width:none;margin:0;padding-left:clamp(24px,6vw,112px);padding-right:var(--gutter);width:100%}
+.close-s .h2{max-width:11ch}
+.close-s p{color:var(--fg-2);max-width:40ch;margin-top:20px;font-size:clamp(17px,1.5vw,19px)}
+.close-s .btn{margin-top:32px}
+.cd{display:flex;gap:28px;margin-top:36px}
+.cd b{display:block;font-family:var(--display);font-weight:900;font-size:56px;line-height:.9;font-variant-numeric:tabular-nums}
+.cd span{color:var(--fg-3)}
+
+footer{border-top:1px solid var(--line);padding:28px 0 104px;color:var(--fg-3);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ───────── BARRA FISSA ───────── */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  background:rgba(11,13,14,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  transform:translateY(110%);transition:transform 300ms var(--ease-out);
+}
+.bar.show{transform:none}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.bar .t{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:20px;line-height:1}
+.bar .t .mono{display:block;font-family:var(--mono);text-transform:none;font-weight:400;font-size:13px;color:var(--fg-2);margin-top:4px}
+.bar .btn{height:50px;font-size:19px;padding:0 22px}
+
+/* ───────── MODALE ───────── */
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;visibility:hidden}
+.modal .scrim{position:absolute;inset:0;background:rgba(5,6,7,.8);opacity:0;transition:opacity 200ms ease}
+.modal .panel{position:relative;width:min(100%,460px);background:var(--steel);color:var(--on-acc);padding:clamp(24px,4vw,36px);opacity:0;transform:scale(.96);transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out)}
+.modal.open{visibility:visible}
+.modal.open .scrim{opacity:1}
+.modal.open .panel{opacity:1;transform:none}
+.panel h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:40px;line-height:1}
+.panel .pp{font-family:var(--mono);font-size:14px;margin-top:10px;color:#2E3539}
+.panel form{display:grid;gap:14px;margin-top:22px}
+.panel label{display:grid;gap:6px;font-weight:600;font-size:14px}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{font:inherit;font-size:16px;padding:14px;border:1.5px solid #8C979E;background:#fff;color:var(--on-acc);border-radius:0;outline:none;transition:border-color 160ms ease}
+.panel input::placeholder{color:#9AA4AA}
+.panel input:focus{border-color:var(--on-acc)}
+.panel .tel{display:flex}
+.panel .tel .pre{display:grid;place-items:center;padding:0 12px;background:#E3E8EB;border:1.5px solid #8C979E;border-right:0;font-weight:600;font-size:16px}
+.panel .tel input{flex:1;min-width:0}
+.panel input[aria-invalid="true"]{border-color:var(--acc-2);box-shadow:inset 0 0 0 1px var(--acc-2)}
+.panel .consent{display:flex;gap:10px;font-weight:400;font-size:13px;color:#2E3539;align-items:flex-start}
+.panel .consent input{accent-color:var(--acc);width:16px;height:16px;margin-top:3px;flex:none}
+.panel .btn{width:100%}
+.close{position:absolute;top:6px;right:6px;width:44px;height:44px;border:0;background:none;cursor:pointer}
+.close::before,.close::after{content:"";position:absolute;left:13px;right:13px;top:21px;height:2px;background:var(--on-acc);transform:rotate(45deg)}
+.close::after{transform:rotate(-45deg)}
+.done{display:none}
+.panel.ok form,.panel.ok .intro{display:none}
+.panel.ok .done{display:block}
+.done ol{margin:16px 0 22px 18px;display:grid;gap:8px;color:#2E3539}
+
+/* ───────── Reveal ───────── */
+.rv{opacity:0;transform:translateY(14px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-media img{animation:none;transform:none}
+  .event-logo img,.promise,.event-row,.trust{animation:none}
+  .hero .sub,.hero .ctas{animation:none;opacity:1}
+  .rv{transform:none!important;transition:opacity 300ms ease!important}
+  .modal .panel{transform:none!important}
+}
+
+
+/* ───────── RESTYLE: tipografia e superfici come la variante rossa-nera ───────── */
+:root{--display:"Poppins", system-ui, sans-serif;--sans:"Poppins", system-ui, sans-serif;--mono:"Poppins", system-ui, sans-serif;
+  --glow:0 0 18px rgba(255,90,20,.45),inset 0 0 12px rgba(255,90,20,.14);--r:12px}
+body{line-height:1.6}
+.mono{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.h2{font-weight:800;font-style:italic;text-transform:none;font-size:clamp(30px,4.2vw,52px);line-height:1.12;letter-spacing:-.015em}
+.lede{font-size:clamp(16px,1.4vw,18px)}
+.btn{font-weight:800;text-transform:uppercase;letter-spacing:.01em;font-size:17px;border-radius:var(--r);box-shadow:0 0 22px rgba(255,90,20,.5)}
+@media (hover:hover) and (pointer:fine){.btn:hover{box-shadow:0 0 34px rgba(255,90,20,.7)}}
+.btn.ghost{box-shadow:inset 0 0 0 1.5px rgba(232,236,238,.5)}
+.tag-body .btn,.bar .btn{box-shadow:none}
+.prehead{font-weight:600}
+.when{font-size:13px}
+.promise{font-weight:800;letter-spacing:-.02em}
+.event-row{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);overflow:hidden;background:#050505}
+.event-row div{border-color:rgba(255,90,20,.35)}
+.event-row dd{font-weight:800;font-style:italic;text-transform:none;font-size:clamp(17px,1.6vw,21px);line-height:1.25}
+.points{border-top:0;gap:14px clamp(20px,3vw,32px)}
+.points li{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-2);padding:22px 20px}
+.points .n,.bonus .n{font-weight:900;font-style:italic;font-size:40px}
+.points h3,.bonus h3,.cause h3,.stop h3,.file h3{font-weight:800;font-style:italic;text-transform:none;letter-spacing:-.01em;line-height:1.22}
+.points h3,.bonus h3{font-size:clamp(19px,1.6vw,22px)}
+.bonus{border-radius:var(--r);box-shadow:0 0 26px rgba(255,90,20,.45)}
+.cause h3{font-size:clamp(22px,2.2vw,28px)}
+.causes{border-top:0;display:grid;gap:14px}
+.cause{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:22px 22px 24px}
+.report .left .mono{color:var(--acc)}
+.evidence{border-radius:var(--r);overflow:hidden}
+.timeline .y{font-family:var(--sans);font-weight:800;font-style:italic}
+.stats{border-top:0;gap:14px}
+.stats div{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-3);padding:20px 18px}
+.stats b{font-weight:900;font-style:italic;font-size:clamp(34px,3.6vw,54px);letter-spacing:-.02em;line-height:1}
+.file{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505}
+.file h3{font-size:20px}
+.file .big{font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,36px);line-height:1.1;letter-spacing:-.02em}
+.tag-body h3{font-weight:900;font-style:italic;text-transform:none;letter-spacing:-.02em}
+.tag-body .price{font-family:var(--sans);font-weight:600}
+.tag.vip .price{font-family:var(--sans)}
+.stop h3{font-size:22px}
+.faq{border-top:0;display:grid;gap:12px}
+.faq details{background:var(--bg-2);border:1px solid var(--line);border-radius:10px}
+.faq summary{font-weight:700;padding:18px 52px 18px 20px}
+.faq summary::after{right:20px}
+.faq .a p{padding:0 20px 18px}
+.cd b{font-weight:900;font-style:italic;font-size:48px}
+.cd span{font-size:11px}
+.bar .t{font-weight:800;font-style:italic;text-transform:none;font-size:16px}
+.bar .t .mono{font-style:normal;font-weight:600;letter-spacing:.02em;text-transform:none;font-size:12.5px}
+.modal .panel{border-radius:16px}
+.panel h3{font-weight:800;font-style:italic;text-transform:none;font-size:30px}
+.panel .pp{font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:500}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{border-radius:8px}
+.panel .tel .pre{border-radius:8px 0 0 8px}
+.panel .tel input{border-radius:0 8px 8px 0!important}
+footer{font-size:12px}
+
+.event-row .sm{display:none}
+/* hero con Andrea: il volto resta visibile, sfumatura solo ai bordi */
+.hero-media img{object-position:50% 30%}
+.hero-media::after{background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 82%,var(--bg) 100%),
+  linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 86%,#050606 100%)}
+/* chiusura: titolo su righe piene e countdown a riquadri luminosi */
+.close-s .h2{max-width:16ch}
+.cd{display:grid;grid-template-columns:repeat(3,minmax(0,116px));gap:12px;margin-top:28px}
+.cd > div{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:14px 8px 12px;text-align:center}
+.cd b{font-size:46px;line-height:1}
+.cd span{display:block;margin-top:6px;color:var(--fg-2)}
+/* video testimonianze */
+.tvideos{display:grid;grid-template-columns:repeat(2,1fr);max-width:960px;gap:16px;margin-top:clamp(28px,4vw,44px)}
+.tvoce{position:relative;display:block;width:100%;padding:0;margin:0;border:2px solid var(--acc);border-radius:var(--r);overflow:hidden;background:#000;cursor:pointer;
+  box-shadow:var(--glow);transition:transform 200ms var(--ease-out),box-shadow 200ms ease;-webkit-tap-highlight-color:transparent}
+.tvoce img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.tvoce:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.tvoce:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(255,90,20,.6)}}
+.tvoce:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.vlight{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:16px}
+.vlight[hidden]{display:none}
+.vframe{width:min(1100px,100%);aspect-ratio:16/9;background:#000;border-radius:var(--r);overflow:hidden;box-shadow:0 0 0 2px rgba(255,90,20,.6),0 30px 100px rgba(0,0,0,.8)}
+.vframe iframe{display:block;width:100%;height:100%;border:0}
+.vclose{position:absolute;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.6);cursor:pointer}
+.vclose::before,.vclose::after{content:"";position:absolute;left:14px;right:14px;top:22px;height:2px;background:#fff;transform:rotate(45deg)}
+.vclose::after{transform:rotate(-45deg)}
+.tvoce:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;width:calc(50% - 8px)}
+@media (max-width:760px){.tvideos{grid-template-columns:1fr;gap:12px}.tvoce:last-child:nth-child(odd){width:100%}}
+/* hero mobile: Andrea dentro la prima schermata */
+.hero-photo{display:none}
+/* monitor cardiaco */
+.monitor{padding:clamp(56px,8vw,110px) 0 clamp(40px,6vw,80px);border-top:1px solid var(--line)}
+.monitor .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);align-items:center}
+.mon{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#030404;padding:14px}
+.mon-top{display:flex;justify-content:space-between;gap:12px;color:var(--fg-3);font-size:11px;padding:2px 2px 12px}
+.mon-rec{color:#3DF59A;display:inline-flex;align-items:center;gap:8px}
+.mon-rec::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.monitor.dead .mon-rec{color:var(--acc)}
+.mon-screen{position:relative;height:clamp(150px,22vw,220px);border-radius:8px;overflow:hidden;
+  background:linear-gradient(rgba(61,245,154,.05) 1px,transparent 1px) 0 0/100% 22px,linear-gradient(90deg,rgba(61,245,154,.05) 1px,transparent 1px) 0 0/22px 100%,#020605}
+.mon-screen canvas{position:absolute;inset:0;width:100%;height:100%}
+.mon-bpm{position:absolute;top:10px;right:12px;text-align:right;color:#3DF59A;text-shadow:0 0 12px rgba(61,245,154,.6)}
+.mon-bpm .mono{display:block;font-size:10px;color:rgba(61,245,154,.7)}
+.mon-bpm b{font-weight:900;font-style:italic;font-size:clamp(34px,4vw,46px);line-height:1;font-variant-numeric:tabular-nums}
+.monitor.dead .mon-bpm{color:var(--acc);text-shadow:0 0 12px rgba(255,90,20,.6)}
+.monitor.dead .mon-bpm .mono{color:rgba(255,90,20,.7)}
+.mon-flat{position:absolute;left:14px;bottom:10px;opacity:0;transform:translateY(6px);transition:opacity 500ms var(--ease-out),transform 500ms var(--ease-out)}
+.mon-flat .mono{display:block;font-size:10px;color:var(--fg-3)}
+.mon-flat b{font-weight:900;font-style:italic;font-size:26px;color:var(--acc);line-height:1}
+.monitor.dead .mon-flat{opacity:1;transform:none}
+.vitals{list-style:none;display:grid;gap:10px;margin-top:14px}
+.vitals li{display:grid;grid-template-columns:1fr 1.1fr;gap:12px;align-items:center;font-size:13px;color:var(--fg-2)}
+.vitals i{display:block;height:8px;border-radius:4px;background:#14191C;overflow:hidden}
+.vitals em{display:block;height:100%;width:calc(var(--v) * 100%);border-radius:4px;background:#3DF59A;box-shadow:0 0 10px rgba(61,245,154,.5);
+  transition:width 3.4s cubic-bezier(.4,0,.6,1),background-color .8s ease 2.6s}
+.monitor.dying .vitals em{width:3%;background:var(--acc)}
+.mon-copy .h2{max-width:13ch}
+.mon-copy .lede{margin-top:14px}
+.mon-again{margin-top:22px;opacity:0;pointer-events:none;transition:opacity 400ms ease}
+.monitor.dead .mon-again{opacity:1;pointer-events:auto}
+@media (max-width:760px){
+  .monitor .wrap{grid-template-columns:1fr;gap:24px}
+  .monitor{padding:44px 0 40px}
+  .mon{padding:12px}
+  .mon-screen{height:150px}
+  .mon-copy .h2{max-width:none}
+  .mon-again{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.vitals em{transition:none}.mon-rec::before{animation:none}}
+/* ───────── Responsive ───────── */
+@media (max-width:1024px){
+  .stats{grid-template-columns:1fr 1fr;row-gap:28px}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .hero{min-height:0}
+  .hero-in{padding-top:22px}
+  .event-logo{width:calc(100vw - 8px)}
+  .hero .ctas{width:100%}
+  .event-row{grid-template-columns:1fr 1fr;width:100%}
+  .event-row div:nth-child(2){border-right:0}
+  .event-row div:nth-child(3){grid-column:1 / -1;border-top:1px solid var(--line)}
+  .bar .t{display:none}
+  .bar .btn{width:100%}
+    .when{font-size:14px;gap:8px}
+  .when::before,.when::after{width:14px}
+  .hero-media{min-height:0;height:auto;aspect-ratio:3/4;margin-top:-36px}
+  .hero .ctas .btn{flex:1 1 100%}
+  .report .grid,.andrea .grid{grid-template-columns:1fr}
+  .report .left{position:static}
+  .tag:nth-child(1),.tag:nth-child(2){transform:none}
+  .tags{gap:72px}
+  .files{grid-template-columns:1fr;overflow:visible;gap:12px}
+  .file{min-height:0}
+  .file .big{padding-top:18px}
+  .rail{grid-template-columns:1fr;gap:28px}
+  .points{grid-template-columns:1fr}
+  .points li,.bonus{grid-template-columns:40px 1fr;gap:14px}
+  .points .n,.bonus .n{font-size:38px}
+  .rail::before{left:7px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .stop{padding-top:0;padding-left:36px}
+  .evidence{max-width:260px}
+  .close-s{display:block;min-height:0;padding-bottom:64px}
+  .close-s .bg{position:relative;inset:auto;height:56svh;min-height:340px}
+  .close-s .bg img{width:100%;object-position:72% 50%}
+  .close-s .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,13,14,0) 45%)}
+  .close-s > .wrap{margin-top:-40px;position:relative}
+  .bar .t .left{display:none}
+  .bar .t{font-size:17px}
+  .bar .btn{font-size:17px;padding:0 16px}
+
+  /* ── Ottimizzazione mobile ── */
+  /* grana senza blend: stessa texture, niente ricalcolo a ogni scroll */
+  body::after{mix-blend-mode:normal;opacity:.35}
+  .prehead{font-size:14px;padding:9px 16px}
+  /* hero: CTA visibile anche su schermi da 667px */
+  .hero-in{padding-top:16px}
+  .when{font-size:12px;letter-spacing:.02em}
+  .event-logo{margin-top:6px}
+  .promise{font-size:20px;line-height:1.28;margin-top:6px}
+  .event-row{grid-template-columns:1.5fr 1fr 1.2fr;margin-top:16px}
+  .event-row div{padding:9px 10px;border-right:1px solid var(--line)!important}
+  .event-row div:nth-child(3){grid-column:auto;border-top:0;border-right:0!important}
+  .event-row dt{font-size:11px}
+  .event-row dd{font-size:17px}
+  .hero .ctas{margin-top:14px}
+  .btn{height:58px;font-size:20px;padding:0 20px}
+  .trust{font-size:13px;margin-top:10px;padding:0 8px}
+  .hero-media{aspect-ratio:4/5}
+  /* sezioni più corte */
+  .learn,.proof,.andrea,.tickets,.after-reg{padding:56px 0}
+  .report{padding:56px 0}
+  .faq-s{padding-bottom:56px}
+  .h2{font-size:clamp(40px,11vw,52px)}
+  .lede{font-size:16px;margin-top:12px}
+  .points{margin-top:24px}
+  .points li{padding:20px 0}
+  .learn .after{margin-top:24px}
+  .learn .after .btn,.close-s .btn{width:100%}
+  .cause{padding:22px 0}
+  .cause h3{font-size:28px}
+  .andrea .grid{gap:28px}
+  .evidence{max-width:none}
+  .andrea .bio{margin-top:14px}
+  .timeline{margin-top:20px}
+  .timeline li{grid-template-columns:52px 1fr;gap:12px;padding:8px 0}
+  .stats{margin-top:40px}
+  .stats div{padding-top:20px}
+  .stats span{font-size:14px}
+  .files{margin-top:28px}
+  .file{padding:20px 18px 22px}
+  .file h3{font-size:24px}
+  .tags{margin-top:64px;gap:64px}
+  .tag-body{padding-top:68px}
+  .tag-body h3{font-size:56px}
+  .faq summary{font-size:17px;padding:20px 40px 20px 0}
+  .cd{gap:22px;margin-top:24px}
+  .cd b{font-size:46px}
+  footer{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  /* modulo: al centro dello schermo, scorre se la tastiera lo restringe */
+  .modal{place-items:center;padding:16px}
+  .modal .panel{width:100%;max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;padding:28px 20px 22px}
+  .panel h3{font-size:34px}
+  .panel form{gap:12px;margin-top:18px}
+}
+@media (max-width:760px) and (max-height:700px){
+  .event-logo{width:min(calc(100vw - 8px),calc(30vh * 2.06))}
+  .promise{font-size:18px}
+}
+body.locked{overflow:hidden}
+@media (max-width:760px){
+  .h2{font-size:clamp(27px,7.6vw,34px)}
+  .btn{font-size:15.5px}
+  .event-row{grid-template-columns:1.25fr .85fr 1fr}
+  .event-row .lg{display:none}
+  .event-row .sm{display:inline}
+  .event-row dd{font-size:16px;white-space:nowrap}
+  .event-row div{padding:10px 12px}
+  .hero-media{aspect-ratio:3/4;margin-top:-10px}
+  .event-row dt{font-size:10px}
+  .promise{font-size:19px}
+  .points li{padding:18px 16px}
+  .points h3,.bonus h3{font-size:18px}
+  .points .n,.bonus .n{font-size:30px}
+  .cause{padding:18px 18px 20px}
+  .cause h3{font-size:21px}
+  .stats div{padding:16px 14px}
+  .stats b{font-size:32px}
+  .file h3{font-size:18px}
+  .file .big{font-size:28px}
+  .tag-body h3{font-size:46px}
+  .stop h3{font-size:20px}
+  .cd b{font-size:38px}
+  .panel h3{font-size:26px}
+  .modal .panel{border-radius:16px}
+}
+
+
+@media (max-width:760px){
+  .close-s .bg{height:44svh;min-height:280px}
+  .close-s > .wrap{margin-top:-56px}
+  .close-s .h2{max-width:none;font-size:clamp(28px,8vw,34px)}
+  .close-s p{font-size:16px;margin-top:14px}
+  .cd{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+  .cd b{font-size:36px}
+  .close-s .btn{margin-top:24px}
+}
+
+@media (max-width:760px){
+  .hero-photo{display:block;position:relative;width:100vw;height:min(92vw,360px);margin:-34px 0 0;z-index:0;overflow:hidden}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+  .hero-photo::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 22%,rgba(5,6,6,0) 55%,rgba(5,6,6,.85) 82%,#050606 100%)}
+  .event-logo{position:relative;z-index:1}
+  .promise{position:relative;z-index:1;margin-top:-104px;text-shadow:0 2px 14px rgba(0,0,0,.85)}
+  .event-row,.hero .ctas,.trust{position:relative;z-index:1}
+  .hero-media{display:none}
+}
+
+/* ── hero v3: telefono con foto sfumata ai lati, computer a due colonne ── */
+@media (max-width:760px){
+  .hero-photo{height:min(96vw,384px);margin-top:-28px}
+  .hero-photo img{object-position:50% 10%}
+  .hero-photo::after{background:
+    linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 16%,rgba(5,6,6,0) 84%,#050606 100%),
+    linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 18%,rgba(5,6,6,0) 66%,rgba(5,6,6,.9) 88%,#050606 100%)}
+  .promise{margin-top:-64px}
+}
+
+/* computer: stessa struttura del telefono, foto tra logo e frase */
+@media (min-width:761px){
+  .hero{min-height:0}
+  .hero-media{display:none}
+  .event-logo{width:min(450px,56vw)}
+  .hero-photo{display:block;position:relative;width:min(470px,100%);height:clamp(300px,40vh,400px);margin:-26px auto 0;z-index:0;overflow:hidden}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 9%}
+  .hero-photo::after{content:"";position:absolute;inset:0;background:
+    linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 20%,rgba(5,6,6,0) 80%,#050606 100%),
+    linear-gradient(180deg,#050606 0%,rgba(5,6,6,0) 16%,rgba(5,6,6,0) 70%,rgba(5,6,6,.9) 90%,#050606 100%)}
+  .event-logo,.event-row,.hero .ctas,.trust{position:relative;z-index:1}
+  .promise{position:relative;z-index:1;margin-top:-46px;font-size:clamp(21px,1.9vw,28px);text-shadow:0 2px 16px rgba(0,0,0,.9)}
+  .event-row{margin-top:18px}
+  .hero .ctas{margin-top:16px}
+  .hero-in{padding-top:clamp(16px,2.4vh,28px)}
+  .hero-in{padding-bottom:clamp(36px,5vh,56px)}
+}
+
+/* computer: hero più grande */
+@media (min-width:761px){
+  .event-logo{width:min(680px,72vw)}
+  .hero-photo{width:min(640px,100%);height:clamp(420px,56vh,600px);margin-top:-34px}
+  .hero-photo img{object-position:50% 8%}
+  .promise{font-size:clamp(26px,2.3vw,36px);max-width:30ch;margin-top:-70px}
+  .event-row{margin-top:24px}
+  .event-row div{padding:14px clamp(20px,2vw,30px)}
+  .event-row dt{font-size:12px}
+  .event-row dd{font-size:clamp(20px,1.7vw,24px)}
+  .hero .ctas{margin-top:22px}
+  .hero .ctas .btn{height:70px;font-size:20px;padding:0 40px}
+  .trust{font-size:15px}
+  .when{font-size:15px}
+}
+
+/* ── ritocchi 14 ott: bordi foto morbidi, chiusura mobile, pop-up scuro ── */
+.hero-photo img{
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);
+  -webkit-mask-composite:source-in;
+          mask:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 100%);
+          mask-composite:intersect}
+@media (max-width:760px){
+  .close-s .bg{height:min(112vw,470px);min-height:0}
+  .close-s .bg img{object-position:50% 50%}
+  .close-s .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(11,13,14,0) 26%),linear-gradient(180deg,var(--bg) 0%,rgba(11,13,14,0) 14%)}
+  .close-s > .wrap{margin-top:-8px}
+}
+/* pop-up scuro, come il resto della pagina */
+.modal .panel{background:#0E1113;color:var(--fg);border:2px solid var(--acc);box-shadow:0 0 32px rgba(255,90,20,.35),0 30px 80px rgba(0,0,0,.7)}
+.panel h3{color:var(--fg)}
+.panel .pp{color:var(--fg-2)}
+.panel label{color:var(--fg)}
+.panel .consent{color:var(--fg-2)}
+.panel input[type=text],.panel input[type=email],.panel input[type=tel]{background:#171C20;border-color:#2C343A;color:var(--fg)}
+.panel input::placeholder{color:#6B757D}
+.panel input:focus{border-color:var(--acc)}
+.panel .tel .pre{background:#20262B;border-color:#2C343A;color:var(--fg)}
+.close::before,.close::after{background:var(--fg)}
+.done ol{color:var(--fg-2)}
+@media (max-width:760px){
+  /* più in alto: la tastiera non copre i campi */
+  .modal{place-items:center;padding:16px}
+  .modal .panel{width:100%;max-width:420px;max-height:calc(100dvh - 32px);padding:24px 18px 20px;margin:auto}
+  .panel h3{font-size:26px;padding-right:40px}
+  .close{top:8px;right:8px;width:48px;height:48px}
+  .close::before,.close::after{left:14px;right:14px;top:23px}
+}
+
+/* ── biglietto VIP in evidenza ── */
+.tag.vip{z-index:2}
+.tag.vip .tag-body{box-shadow:none}
+.tag.vip::after{content:"";position:absolute;inset:120px 4px 4px;border-radius:10px;z-index:-1;pointer-events:none;
+  box-shadow:0 0 50px rgba(255,90,20,.55);animation:vipglow 2.6s ease-in-out infinite}
+@keyframes vipglow{50%{box-shadow:0 0 80px rgba(255,90,20,.85)}}
+@media (min-width:761px){.tag.vip{transform:rotate(1.6deg) scale(1.06)}}
+.vip-stamp{position:absolute;z-index:3;top:46px;right:-10px;transform:rotate(8deg);background:var(--on-acc);color:var(--acc);
+  font-family:var(--sans);font-weight:900;font-style:italic;font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:8px 14px;border:2px solid var(--on-acc);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.vip-why{margin-top:14px;font-size:15.5px;line-height:1.45;font-weight:600;color:#2A1407}
+.vip-why b{font-weight:900;text-decoration:underline;text-underline-offset:3px}
+.tag-body ul.vip-list{margin-top:16px}
+.vip-list li{position:relative;padding-left:26px;color:var(--on-acc)}
+.vip-list li::before{content:"";position:absolute;left:2px;top:15px;width:12px;height:7px;border-left:2.5px solid var(--on-acc);border-bottom:2.5px solid var(--on-acc);transform:rotate(-45deg)}
+.vip-list li b{font-weight:800}
+.tag.vip .btn{font-size:16px;letter-spacing:0}
+.vip-note{display:block;text-align:center;margin-top:10px;font-size:13px;font-weight:600;color:#2A1407}
+@media (prefers-reduced-motion:reduce){.tag.vip::after{animation:none}}
+@media (max-width:760px){.vip-stamp{top:44px;right:-4px;font-size:13px}.tag.vip .btn{font-size:14.5px}}
+
+/* ── mobile: bottoni coerenti e spazi ── */
+@media (max-width:760px){
+  .btn{height:60px;min-height:60px;font-size:16px;letter-spacing:.01em;padding:0 20px}
+  .hero .ctas .btn,.learn .after .btn,.close-s .btn,.tag-body .btn,.panel .btn{width:100%}
+  .bar .btn{height:54px;min-height:54px;font-size:16px}
+  .tag.vip .btn{font-size:15px}
+  .mon-again{width:auto!important;height:48px;min-height:48px;font-size:14px;padding:0 24px}
+  .points li,.bonus{grid-template-columns:30px 1fr;gap:10px}
+  .points .n,.bonus .n{font-size:28px;line-height:1.1}
+  .close-s > .wrap{padding-left:16px;padding-right:16px}
+  footer .wrap{gap:4px 16px}
+  footer a{display:inline-flex;align-items:center;min-height:44px;padding:0 2px}
+  .faq summary{min-height:56px;display:flex;align-items:center}
+}
+
+/* ── timeline di Andrea ── */
+.tl2{list-style:none;margin-top:28px;position:relative;display:grid;gap:22px}
+.tl2::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--acc),rgba(255,90,20,.15))}
+.tl2 li{position:relative;padding-left:34px}
+.tl2 li::before{content:"";position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;background:var(--bg-2);border:2px solid var(--acc)}
+.tl2 li.now::before{background:var(--acc);box-shadow:0 0 14px rgba(255,90,20,.7)}
+.tl2 .y{display:block;font-weight:900;font-style:italic;color:var(--acc);font-size:15px;letter-spacing:.02em}
+.tl2 h4{font-weight:800;font-style:italic;font-size:19px;line-height:1.2;margin-top:2px;color:var(--fg)}
+.tl2 p{color:var(--fg-2);font-size:15.5px;line-height:1.55;margin-top:6px}
+.tl2 p b{color:var(--fg);font-weight:600}
+/* ── FAQ ── */
+.faq{gap:10px}
+.faq details{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;transition:border-color 200ms ease,background-color 200ms ease}
+.faq details[open]{border-color:rgba(255,90,20,.55);background:#14181B;box-shadow:0 0 18px rgba(255,90,20,.12)}
+.faq summary{padding:18px 64px 18px 20px;font-weight:700;font-size:17px;line-height:1.35;min-height:60px;display:flex;align-items:center}
+.faq summary::after{right:18px;width:30px;height:30px;margin-top:-15px;border-radius:50%;border:1.5px solid rgba(255,90,20,.6);
+  background:linear-gradient(var(--acc),var(--acc)) center/12px 2px no-repeat,linear-gradient(var(--acc),var(--acc)) center/2px 12px no-repeat}
+.faq details[open] summary::after{background-color:rgba(255,90,20,.12)}
+.faq .a p{padding:0 20px 20px;font-size:15.5px;line-height:1.6;color:var(--fg-2)}
+@media (max-width:760px){
+  .faq summary{padding:16px 60px 16px 18px;font-size:16.5px;min-height:58px}
+  .faq summary::after{right:14px}
+  .faq .a p{padding:0 18px 18px}
+  .tl2 h4{font-size:18px}
+}
+
+/* ── video testimonianze su computer: 3 sopra, 2 centrate sotto ── */
+@media (min-width:761px){
+  .proof .h2,.proof .lede,.proof .fine{text-align:center;margin-left:auto;margin-right:auto}
+  .tvideos{grid-template-columns:repeat(6,1fr);max-width:1200px;margin-left:auto;margin-right:auto;gap:22px}
+  .tvoce{grid-column:span 2}
+  .tvideos .tvoce:nth-child(4){grid-column:2 / span 2}
+  .tvideos .tvoce:nth-child(5){grid-column:4 / span 2;width:auto;justify-self:stretch}
+  .proof .fine{margin-top:26px}
+}
+
+/* suono del monitor */
+.mon-audio{position:absolute;right:10px;bottom:10px;z-index:2;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 10px;border-radius:999px;
+  border:1px solid rgba(61,245,154,.5);background:rgba(2,6,5,.85);color:#3DF59A;font-family:var(--sans);font-weight:700;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mon-audio svg{width:20px;height:20px}
+.mon-audio .w{display:none}
+.mon-audio[aria-pressed="true"] .w{display:inline}
+.mon-audio[aria-pressed="true"] .x{display:none}
+.mon-audio:not([aria-pressed="true"]){animation:audiohint 1.6s ease-in-out infinite}
+@keyframes audiohint{50%{box-shadow:0 0 16px rgba(61,245,154,.55)}}
+.monitor.dead .mon-audio{border-color:rgba(255,90,20,.6);color:var(--acc)}
+.mon-flat{right:auto}
+@media (prefers-reduced-motion:reduce){.mon-audio{animation:none!important}}
+
+/* ── data/ora/luogo più grandi ── */
+.hero .event-row dt{font-size:12px;letter-spacing:.12em}
+.hero .event-row dd{font-weight:900}
+@media (max-width:760px){
+  .hero .event-row{margin-top:14px;border-width:2px}
+  .hero .event-row div{padding:12px 12px 13px}
+  .hero .event-row dt{font-size:11px}
+  .hero .event-row dd{font-size:21px;line-height:1.15;margin-top:3px}
+  .hero .promise{margin-bottom:0}
+}
+@media (min-width:761px){
+  .hero .event-row div{padding:18px clamp(22px,2.4vw,36px)}
+  .hero .event-row dt{font-size:13px}
+  .hero .event-row dd{font-size:clamp(26px,2.3vw,34px);margin-top:4px}
+}
+
+/* ── titoli di sezione ── */
+.kick{display:inline-flex;align-items:center;gap:10px;color:var(--acc);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.kick::before{content:"";width:26px;height:2px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.7)}
+.h2 .acc{text-shadow:0 0 28px rgba(255,90,20,.35)}
+@media (min-width:761px){.proof .kick{display:flex;justify-content:center;width:max-content;margin-left:auto;margin-right:auto}.proof .h2{text-align:center}}
+/* ── referto ── */
+.report .left .kick{display:inline-flex}
+.chart{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:14px;background:#0B0E10;padding:18px 18px 8px;overflow:hidden}
+.chart dl{display:grid;gap:0}
+.chart dl div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #2A3238}
+.chart dl div:last-child{border-bottom:0}
+.chart dt{color:var(--fg-3);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.chart dd{font-weight:800;font-style:italic;font-size:16px}
+.chart-stamp{position:absolute;right:-6px;top:10px;transform:rotate(12deg);border:2.5px solid rgba(255,90,20,.75);color:rgba(255,90,20,.85);
+  font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.12em;font-size:13px;padding:4px 12px;border-radius:6px;opacity:.9}
+.chart{padding-top:52px}
+.chart::before{content:"Cartella clinica";position:absolute;left:18px;top:18px;color:var(--fg-2);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.chart::after{content:"";position:absolute;left:18px;right:18px;top:44px;height:1px;background:var(--line)}
+.chart-stamp{top:12px;right:14px;transform:rotate(6deg);font-size:12px;padding:3px 10px}
+.causes{gap:14px}
+.cause{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--acc);
+  border-radius:12px;box-shadow:none;background:linear-gradient(90deg,rgba(255,90,20,.07),rgba(255,90,20,0) 40%),#0B0E10;padding:22px 22px 24px 18px}
+.cause-n{font-weight:900;font-style:italic;font-size:46px;line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(255,90,20,.85)}
+.cause-k{display:block;color:var(--fg-3);font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.cause h3{margin-top:0}
+@media (max-width:760px){
+  .cause{grid-template-columns:44px 1fr;gap:12px;padding:18px 16px 20px 14px}
+  .cause-n{font-size:34px}
+  .chart{margin-top:20px}
+}
+.cause p b,.report .lede b{color:var(--fg);font-weight:700}
+
+/* ── caso studio Investitore Efficace ── */
+.bigcase{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(20px,3vw,40px);align-items:center;margin:clamp(28px,4vw,44px) auto 0;max-width:1200px;
+  padding:clamp(22px,3vw,40px);border-radius:18px;border:2px solid var(--acc);box-shadow:var(--glow);
+  background:radial-gradient(ellipse at 15% 20%,rgba(255,90,20,.18),transparent 55%),#090B0D}
+.bigcase .kick{margin-bottom:6px}
+.bigcase-n{font-weight:900;font-style:italic;font-size:clamp(84px,11vw,150px);line-height:.9;letter-spacing:-.04em;color:var(--fg);text-shadow:0 0 40px rgba(255,90,20,.35)}
+.bigcase-n span{color:var(--acc);font-size:.48em;margin-left:6px;letter-spacing:0}
+.bigcase-t{margin-top:14px;color:var(--fg-2);font-size:clamp(16px,1.4vw,18px);line-height:1.55;max-width:46ch}
+.bigcase-t b{color:var(--fg);font-weight:700}
+.bigcase-ft{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:0}
+.bigcase-ft > div{border:1px solid var(--line);border-radius:14px;background:#0F1316;padding:18px 16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.bigcase-ft > div.to{border-color:rgba(255,90,20,.6);background:rgba(255,90,20,.08)}
+.bigcase-ft > div + div{margin-left:34px;position:relative}
+.bigcase-ft > div + div::before{content:"→";position:absolute;left:-28px;top:50%;transform:translateY(-50%);color:var(--acc);font-weight:900;font-size:22px}
+.bigcase-ft span{color:var(--fg-3);font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.bigcase-ft b{display:block;font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,38px);line-height:1.05;margin-top:6px}
+.bigcase-ft .to b{color:var(--acc)}
+.bigcase-ft em{display:block;font-style:normal;color:var(--fg-2);font-size:13.5px;margin-top:6px;line-height:1.35}
+@media (min-width:761px){.bigcase-ft{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){
+  .bigcase{grid-template-columns:1fr;padding:22px 18px}
+  .bigcase-ft{grid-template-columns:1fr 1fr}
+  .bigcase-ft > div + div{margin-left:26px}
+  .bigcase-ft > div + div::before{left:-21px;font-size:18px}
+  .bigcase-ft > div{padding:14px 10px}
+}
+.tvideos{margin-top:clamp(18px,2.5vw,28px)}
+
+/* foto di Felipe nel caso studio */
+.bigcase{grid-template-columns:minmax(220px,300px) 1.2fr 1fr;position:relative;overflow:hidden}
+.bigcase-ph{position:relative;align-self:end;margin:-10px 0 calc(-1 * clamp(22px,3vw,40px));height:100%;min-height:320px;display:flex;align-items:flex-end;justify-content:center}
+.bigcase-ph::before{content:"";position:absolute;left:10%;right:10%;bottom:8%;height:60%;border-radius:50%;background:radial-gradient(circle,rgba(255,90,20,.45),transparent 70%);filter:blur(10px)}
+.bigcase-ph img{position:relative;width:100%;height:auto;max-height:420px;object-fit:contain;object-position:bottom;
+  -webkit-mask:linear-gradient(180deg,#000 78%,transparent);mask:linear-gradient(180deg,#000 78%,transparent)}
+.bigcase-ph figcaption{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-weight:900;font-style:italic;font-size:16px;color:var(--fg);text-shadow:0 2px 10px rgba(0,0,0,.9)}
+.bigcase-ph figcaption span{display:block;font-style:normal;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+@media (min-width:761px) and (max-width:1100px){.bigcase{grid-template-columns:minmax(200px,260px) 1fr}.bigcase-ft{grid-column:2}}
+@media (max-width:760px){
+  .bigcase{grid-template-columns:1fr}
+  .bigcase-ph{order:-1;margin:-22px -18px 0;min-height:0;height:300px;overflow:hidden}
+  .bigcase-ph img{width:auto;height:330px;max-height:none;margin-top:auto}
+  .bigcase-ph figcaption{bottom:10px}
+}
+
+/* ── altri casi studio profitOS ── */
+.cases3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1200px;margin:18px auto 0}
+.case3{display:flex;flex-direction:column;border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:16px;background:#0B0E10;padding:0 20px 22px;overflow:hidden}
+.case3-ph{position:relative;margin:0 -20px 16px;height:230px;display:flex;align-items:flex-end;justify-content:center;
+  background:radial-gradient(ellipse at 50% 85%,rgba(255,90,20,.32),transparent 65%),linear-gradient(#11161A,#0B0E10)}
+.case3-ph img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom;
+  -webkit-mask:linear-gradient(180deg,#000 80%,transparent);mask:linear-gradient(180deg,#000 80%,transparent)}
+.case3 .kick{margin-bottom:6px}
+.case3 h3{font-weight:800;font-style:italic;font-size:21px;line-height:1.2;letter-spacing:-.01em}
+.case3 p{color:var(--fg-2);font-size:15px;line-height:1.55;margin-top:10px}
+.case3 p b{color:var(--fg);font-weight:700}
+.case3 ul{list-style:none;margin-top:14px;display:grid;gap:8px;border-top:1px dashed #2A3238;padding-top:14px}
+.case3 li{position:relative;padding-left:24px;font-size:14.5px;color:var(--fg)}
+.case3 li::before{content:"";position:absolute;left:2px;top:6px;width:11px;height:6px;border-left:2.5px solid var(--acc);border-bottom:2.5px solid var(--acc);transform:rotate(-45deg)}
+@media (max-width:1000px){.cases3{grid-template-columns:1fr 1fr}.case3:last-child{grid-column:1 / -1}}
+@media (max-width:760px){.cases3{grid-template-columns:1fr;gap:14px}.case3:last-child{grid-column:auto}.case3-ph{height:210px}}
+@media (min-width:761px){.proof .case3 .kick,.proof .bigcase .kick{margin-left:0;margin-right:0;justify-content:flex-start}}
+
+/* ── cartellini che dondolano appesi allo spago ── */
+.tags .tag{--r:0deg;--s:1;transform-origin:50% -56px;animation:sway 3.4s ease-in-out infinite}
+.tags .tag.vip{animation-duration:3.9s;animation-delay:-1.2s}
+@media (min-width:761px){.tags .tag:not(.vip){--r:-2deg}.tags .tag.vip{--r:1.6deg;--s:1.06}}
+@keyframes sway{0%,100%{transform:rotate(calc(var(--r) - 2.2deg)) scale(var(--s))}50%{transform:rotate(calc(var(--r) + 2.2deg)) scale(var(--s))}}
+@media (hover:hover) and (pointer:fine){.tags .tag:hover{animation-play-state:paused}}
+@media (prefers-reduced-motion:reduce){.tags .tag{animation:none}}
+
+/* ── sagoma col gesso accanto a "Cosa scoprirai" ── */
+.learn-head{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.learn-head > div{flex:1 1 auto}
+.chalk{flex:0 0 auto;width:clamp(260px,30vw,400px);height:auto;margin-right:-10px}
+.chalk{mix-blend-mode:screen;-webkit-mask:radial-gradient(ellipse at center,#000 62%,transparent 78%);mask:radial-gradient(ellipse at center,#000 62%,transparent 78%)}
+@media (max-width:760px){
+  .learn-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .chalk{width:min(78vw,300px);align-self:center;margin:4px 0 -6px}
+}
+
+/* ── hover dei bottoni ── */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-18deg);transition:left 650ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){
+  .btn{transition:transform 220ms var(--ease-out),box-shadow 220ms ease,background-color 220ms ease,color 220ms ease}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,90,20,.55),0 0 0 1px rgba(255,255,255,.08)}
+  .btn:hover::after{left:120%}
+  .btn:hover .ar{transform:translateX(6px)}
+  .btn.ghost:hover{background:rgba(255,90,20,.1);color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--acc),0 8px 24px rgba(255,90,20,.25)}
+  .tag-body .btn:hover{background:#000;color:var(--acc);box-shadow:0 10px 26px rgba(0,0,0,.45)}
+  .bar .btn:hover{box-shadow:0 6px 20px rgba(255,90,20,.6)}
+  .btn:active{transform:translateY(0) scale(.98)}
+}
+@media (prefers-reduced-motion:reduce){.btn::after{display:none}.btn:hover{transform:none}}
+@media (max-width:760px){.hero-photo{height:min(90vw,356px)}.hero .promise{font-size:19px;line-height:1.26}}
+
+/* ── sagoma grande dietro le schede di "Cosa scoprirai" ── */
+.learn{position:relative;overflow:hidden;isolation:isolate}
+.learn > .wrap{position:relative;z-index:1}
+.learn-head{display:block}
+.chalk-bg{position:absolute;z-index:0;left:50%;top:52%;transform:translate(-50%,-50%);width:min(1300px,115vw);pointer-events:none}
+.chalk-bg .chalk{display:block;width:100%;height:auto;margin:0;opacity:.75;mix-blend-mode:screen;
+  -webkit-mask:radial-gradient(ellipse at center,#000 60%,transparent 76%);mask:radial-gradient(ellipse at center,#000 60%,transparent 76%)}
+.learn .points li{background:rgba(17,20,23,.72);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+@media (max-width:760px){
+  .chalk-bg{width:min(760px,205vw);top:50%;transform:translate(-50%,-50%) rotate(90deg)}
+  .chalk-bg .chalk{opacity:.6}
+}
+
+/* ── carosello testimonianze (sostituisce la griglia) ── */
+.tcar{max-width:1200px;margin:clamp(22px,3vw,34px) auto 0}
+.tcar-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.tcar-n{color:var(--fg-2);font-size:14px;font-weight:600}
+.tcar-n b{color:var(--acc);font-weight:900}
+.tcar-arr{display:flex;gap:8px}
+.tcar-b{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,90,20,.6);background:#0B0E10;color:var(--acc);font-size:20px;font-weight:800;cursor:pointer;transition:background-color 180ms ease,transform 180ms var(--ease-out)}
+.tcar-b:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.tcar-b:hover{background:rgba(255,90,20,.15)}}
+.proof .tvideos{display:flex!important;grid-template-columns:none!important;max-width:none;margin:0;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-padding-left:2px;padding:6px 2px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.proof .tvideos::-webkit-scrollbar{display:none}
+.proof .tvideos .tvoce{flex:0 0 calc((100% - 32px) / 3);width:auto!important;grid-column:auto!important;scroll-snap-align:start}
+.tcar-bar{position:relative;height:4px;border-radius:4px;background:#1C2226;margin-top:6px;overflow:hidden}
+.tcar-bar i{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.6);transition:left 120ms linear}
+@media (max-width:760px){
+  .proof .tvideos .tvoce{flex-basis:84%}
+  .tcar-b{width:42px;height:42px;font-size:18px}
+}
+
+/* sagoma in piedi sul lato destro (computer) */
+@media (min-width:761px){
+  .chalk-bg{left:auto;right:-90px;top:72px;width:780px;transform:rotate(90deg);transform-origin:50% 50%}
+  .chalk-bg .chalk{opacity:.85;-webkit-mask:none;mask:none}
+}
+.chalk-bg{mix-blend-mode:screen}
+.chalk-bg .chalk{mix-blend-mode:normal}
+@media (min-width:761px){.chalk-bg .chalk{-webkit-mask:radial-gradient(ellipse at center,#000 66%,transparent 80%);mask:radial-gradient(ellipse at center,#000 66%,transparent 80%)}}
+.learn{background:var(--bg)}
+
+/* ── timeline di Andrea che si riempie mentre scorri ── */
+.tl2::before{background:#232A2F}
+.tl2 .tl-fill{position:absolute;left:7px;top:8px;width:2px;height:0;background:var(--acc);box-shadow:0 0 12px rgba(255,90,20,.8);z-index:0;transition:height 120ms linear}
+.tl2 li{opacity:.42;transition:opacity 400ms var(--ease-out)}
+.tl2 li::before{z-index:1;transition:background-color 300ms ease,box-shadow 300ms ease,transform 300ms var(--ease-out)}
+.tl2 li.on{opacity:1}
+.tl2 li.on::before{background:var(--acc);box-shadow:0 0 14px rgba(255,90,20,.8);transform:scale(1.12)}
+@media (prefers-reduced-motion:reduce){.tl2 li{opacity:1;transition:none}.tl2 .tl-fill{display:none}}
+
+/* ── "Cosa succede dopo": segnaposto numerati delle prove al posto dei quadratini ── */
+.rail{counter-reset:prova}
+.rail::before{top:16px;height:2px;background:linear-gradient(90deg,var(--acc),rgba(255,90,20,.15))}
+.stop{counter-increment:prova;padding-top:52px}
+.stop::before{content:counter(prova);top:0;left:0;width:38px;height:34px;border:0;border-radius:0;background:var(--acc)!important;color:var(--on-acc);
+  display:grid;place-items:end center;padding-bottom:3px;font-weight:900;font-size:17px;line-height:1;
+  clip-path:polygon(50% 0,100% 100%,0 100%);box-shadow:none;filter:drop-shadow(0 0 8px rgba(255,90,20,.6))}
+@media (max-width:760px){
+  .rail::before{left:18px;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,var(--acc),rgba(255,90,20,.15))}
+  .stop{padding-top:2px;padding-left:56px;min-height:40px}
+  .stop::before{left:0;top:0}
+}
+.stop::before{width:50px;height:44px;font-size:21px;padding-bottom:4px}
+.rail::before{top:22px}
+.stop{padding-top:62px}
+@media (max-width:760px){.rail::before{left:24px}.stop{padding-top:6px;padding-left:66px;min-height:48px}}
+
+/* segnaposto delle prove: immagini vere */
+.stop::before{content:""!important;clip-path:none!important;width:58px!important;height:64px!important;padding:0!important;
+  background:url(assets/prova-1.png) center bottom/contain no-repeat!important;filter:drop-shadow(0 6px 14px rgba(255,90,20,.45))}
+.stop:nth-child(2)::before{background-image:url(assets/prova-2.png)!important}
+.stop:nth-child(3)::before{background-image:url(assets/prova-3.png)!important}
+.rail::before{top:52px!important}
+.stop{padding-top:80px!important}
+@media (max-width:760px){
+  .rail::before{top:0!important;left:28px!important}
+  .stop{padding-top:8px!important;padding-left:76px!important;min-height:70px}
+}
+
+/* foto di Andrea che scende insieme alla timeline (computer) */
+@media (min-width:761px){
+  .andrea .grid{align-items:start}
+  .andrea .evidence{position:sticky;top:96px;align-self:start}
+}
+
+/* ── footer profitOS ── */
+footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(120px + env(safe-area-inset-bottom));color:var(--fg-3);font-size:13px;line-height:1.6}
+footer.pfoot .wrap{display:block!important;max-width:1320px}
+.pfoot p{max-width:46rem;margin-top:14px}
+.pfoot .pfoot-brand{display:flex;align-items:center;gap:12px;margin-top:0;font-weight:800;font-size:26px;letter-spacing:-.8px;color:var(--fg)}
+.pfoot .pfoot-brand img{width:32px;height:32px}
+.pfoot-links{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:22px}
+.pfoot-links a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+.pfoot .pfoot-copy{margin-top:16px}
+.panel .consent a{color:var(--acc);text-decoration:underline;text-underline-offset:2px}
+.panel .consent:has(input[aria-invalid="true"]){color:var(--acc)}
+.panel .consent input[aria-invalid="true"]{outline:2px solid var(--acc);outline-offset:2px}
+.consent-err{color:var(--acc);font-size:13px;font-weight:700;margin-top:-4px}
 </style>
 </head>
-<body>
+<body class="no-js">
+
+<!-- ════════ PRE-HEAD (qualifica il pubblico) ════════ -->
+<div class="prehead">Hai un personal brand che <b>vende già</b>, ma passa ancora tutto da te?</div>
+
+<!-- ════════ HERO: logo evento + promessa + data + una sola CTA ════════ -->
+<header class="hero">
+  <div class="hero-in">
+    <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
+    <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile.jpg"><img src="assets/logo-evento.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture></div>
+    <!-- solo mobile: Andrea col referto subito sotto il logo -->
+    <div class="hero-photo" aria-hidden="true"><picture><img src="assets/hero-andrea-m5.jpg" alt="" width="896" height="1200" fetchpriority="high" decoding="async"></picture></div>
+    <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
+    <dl class="event-row">
+      <div><dt class="mono">Quando</dt><dd><span class="lg" data-cfg="dateLong">Giovedì 29 ottobre</span><span class="sm" data-cfg="dateMobile">Gio 29 ott</span></dd></div>
+      <div><dt class="mono">Ora</dt><dd data-cfg="time">21:00</dd></div>
+      <div><dt class="mono">Dove</dt><dd><span class="lg">Online, in diretta</span><span class="sm">Online</span></dd></div>
+    </dl>
+    <div class="ctas">
+      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    </div>
+    <p class="trust">Gratuito. Ricevi il link via email e su WhatsApp. Niente spam.</p>
+  </div>
+  <div class="hero-media">
+    <picture>
+      <source media="(max-width:760px)" srcset="assets/hero-andrea-m5.jpg">
+      <img src="assets/hero-andrea-d3.jpg" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2200" height="1228" decoding="async">
+    </picture>
+  </div>
+</header>
+
 <main>
-  <h1>La morte del personal brand</h1>
-  <p>Webinar gratuito con Andrea Audisio. Tre landing per l'A/B/C test.</p>
-  <ul>
-    <li><a href="sala-mortuaria/"><b>Sala mortuaria</b><span>variante B</span></a></li>
-    <li><a href="rossa-nera/"><b>Rossa e nera</b><span>variante C</span></a></li>
-    <li><a href="necrologio/"><b>Necrologio</b><span>variante A</span></a></li>
-  </ul>
+<!-- ════════ MONITOR: il personal brand va in arresto (animato) ════════ -->
+<section class="monitor" data-monitor>
+  <div class="wrap">
+    <div class="mon">
+      <div class="mon-top mono"><span>Sala 3 · Paziente: Personal Brand</span><span class="mon-rec" data-mon-state>In osservazione</span></div>
+      <div class="mon-screen">
+        <canvas data-ecg aria-hidden="true"></canvas>
+        <div class="mon-bpm"><span class="mono">Battiti</span><b data-bpm>72</b></div>
+        <div class="mon-flat" data-flat><span class="mono">Ora del decesso</span><b>2026</b></div>
+        <button type="button" class="mon-audio" data-audio aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="w" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="x" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span data-audio-l>Tocca per il suono</span></button>
+      </div>
+      <ul class="vitals">
+        <li><span>Pubblico raggiunto</span><i><em style="--v:.82"></em></i></li>
+        <li><span>Contatti dai contenuti</span><i><em style="--v:.74"></em></i></li>
+        <li><span>Fiducia del pubblico</span><i><em style="--v:.88"></em></i></li>
+        <li><span>Il tuo tempo libero</span><i><em style="--v:.46"></em></i></li>
+      </ul>
+    </div>
+    <div class="mon-copy">
+      <h2 class="h2">Il personal brand classico <span class="acc">è morto.</span></h2>
+      <p class="lede">Non l'hai ucciso tu. Giovedì sera ti mostro cosa l'ha ucciso e cosa lo sostituisce.</p>
+      <button type="button" class="btn ghost mon-again" data-revive>Rianima <span aria-hidden="true">↺</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ COSA SCOPRIRAI (benefici) ════════ -->
+<section class="learn">
+  <div class="chalk-bg" aria-hidden="true"><img class="chalk" src="assets/sagoma-gesso.jpg" alt="" width="1100" height="738" loading="lazy" decoding="async"></div>
+  <div class="wrap">
+    <div class="learn-head">
+      <div>
+        <span class="kick rv">Il programma</span>
+        <h2 class="h2 rv">Cosa scoprirai in <span class="acc">questa serata</span></h2>
+      </div>
+    </div>
+    <ol class="points">
+      <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
+      <li class="rv"><span class="n">2</span><div><h3>Il vero collo di bottiglia del tuo business</h3><p>Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</p></div></li>
+      <li class="rv"><span class="n">3</span><div><h3>Cosa delegare alla tecnologia nel 2026</h3><p>Setter, montaggio video, copy, follow-up: quali attività oggi non richiedono più una persona.</p></div></li>
+      <li class="rv"><span class="n">4</span><div><h3>Entra basso, guadagna dopo</h3><p>Perché vendere subito un'offerta high ticket a freddo ti costringe a fare nove call per chiuderne una, e che cosa fare invece.</p></div></li>
+    </ol>
+    <div class="bonus rv">
+      <span class="n">+1</span>
+      <div><h3>Un'analisi strategica del tuo business</h3><p>Per chi ha il biglietto VIP: Andrea guarda il tuo business e ti dice con sincerità se ha ancora senso continuare a fare quello che stai facendo.</p></div>
+    </div>
+    <div class="after rv">
+      <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ LE PROVE (5 video testimonianze dalla optin profitOS) ════════ -->
+<section class="proof">
+  <div class="wrap">
+    <span class="kick rv">Testimonianze</span>
+    <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
+    <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
+    <!-- caso studio, dalla pagina profitOS -->
+    <article class="bigcase rv">
+      <figure class="bigcase-ph"><img src="assets/felipe.webp" alt="Felipe Orrego, fondatore di Investitore Efficace" width="843" height="1100" loading="lazy" decoding="async"><figcaption>Felipe Orrego<span>Investitore Efficace</span></figcaption></figure>
+      <div class="bigcase-main">
+        <span class="kick">Il caso più grande</span>
+        <p class="bigcase-n">+4<span>M€</span></p>
+        <p class="bigcase-t"><b>Investitore Efficace di Felipe Orrego.</b> L'abbiamo conosciuto quando aveva solo l'idea: brand, funnel e procedure costruiti da zero. Oggi fattura <b>oltre 4 milioni l'anno.</b></p>
+      </div>
+      <div class="bigcase-ft">
+        <div><span>È partito da</span><b>Zero</b><em>aveva solo l'idea</em></div>
+        <div class="to"><span>È arrivato a</span><b>Leader</b><em>in Italia sulla finanza personale</em></div>
+      </div>
+    </article>
+    <div class="cases3">
+      <article class="case3 rv">
+        <div class="case3-ph"><img src="assets/caso-salesvalley.webp" alt="Andrea Audisio e Gianluca Manitto, SalesValley" width="633" height="800" loading="lazy" decoding="async"></div>
+        <span class="kick">SalesValley</span>
+        <h3>+100 clienti B2B, dai coach alle corporate</h3>
+        <p>Nata da zero e diventata in meno di un anno il punto di riferimento in Italia per l'hiring di sales e setter. Clienti che vanno dai coach alle aziende come <b>Verisure</b> ed <b>Eolo</b>.</p>
+        <ul><li>Azienda e brand creati da zero</li><li>Oltre 100 clienti B2B</li><li>Team, procedure e academy interna</li></ul>
+      </article>
+      <article class="case3 rv">
+        <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
+        <span class="kick">Evolutiaa</span>
+        <h3>Da 6K a oltre 30-40K al mese in pochi mesi</h3>
+        <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30-40K al mese</b>.</p>
+        <ul><li>Da 6K a 30-40K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
+      </article>
+      <article class="case3 rv">
+        <div class="case3-ph"><img src="assets/caso-personal-brand.webp" alt="Alcuni dei personal brand seguiti da profitOS" width="640" height="716" loading="lazy" decoding="async"></div>
+        <span class="kick">Personal brand</span>
+        <h3>Entrate stabili, non hype</h3>
+        <p>Profili già competenti trasformati in business con entrate mensili stabili: <b>offerte chiare, funnel puliti, CRM, vendite e delivery</b>.</p>
+        <ul><li>Growlancer: 600K in 6 mesi</li><li>Digital Product Mastery: oltre 500K in 6 mesi</li><li>Alessandro Labadini, 64 anni: 20K in un mese</li><li>Sara, equilibrio intestinale: 12K il primo mese</li></ul>
+      </article>
+    </div>
+    <div class="tcar">
+      <div class="tcar-top"><span class="tcar-n"><b data-tcount>21</b> testimonianze in video</span>
+        <span class="tcar-arr"><button type="button" class="tcar-b" data-tprev aria-label="Testimonianze precedenti">←</button><button type="button" class="tcar-b" data-tnext aria-label="Testimonianze successive">→</button></span></div>
+      <div class="tvideos" data-tvideos></div>
+      <div class="tcar-bar" aria-hidden="true"><i data-tbar></i></div>
+    </div>
+    <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
+  </div>
+</section>
+
+<!-- Lettore video delle testimonianze -->
+<div class="vlight" data-vlight hidden>
+  <div class="vframe"><iframe title="Testimonianza" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+  <button type="button" class="vclose" aria-label="Chiudi il video" data-vclose></button>
+</div>
+
+<!-- ════════ REFERTO ════════ -->
+<section class="report">
+  <div class="wrap grid">
+    <div class="left rv">
+      <span class="kick">Referto, causa del decesso</span>
+      <h2 class="h2">Non l'ha ucciso <span class="acc">l'algoritmo.</span></h2>
+      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema <b>non è la nicchia e nemmeno l'offerta</b>: probabilmente le hai già cambiate tre volte.</p>
+      <div class="chart">
+        <span class="chart-stamp" aria-hidden="true">Referto</span>
+        <dl>
+          <div><dt>Paziente</dt><dd>Personal Brand</dd></div>
+          <div><dt>Età</dt><dd>2016 – 2026</dd></div>
+          <div><dt>Esito</dt><dd class="acc">Decesso</dd></div>
+          <div><dt>Cause trovate</dt><dd>4</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="causes">
+      <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">01</span>
+        <div><span class="cause-k">Causa n. 1</span>
+        <h3>La barriera è crollata.</h3>
+        <p>Mettere la faccia e fare contenuti oggi è facile, <b>quindi lo fanno tutti</b>. È come aprire una pizzeria in una città che ne ha cento: <b>per quanto tu sia bravo, anche gli altri lo sono.</b></p></div>
+      </article>
+      <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">02</span>
+        <div><span class="cause-k">Causa n. 2</span>
+        <h3>Nessuno si fida più.</h3>
+        <p>Reel, podcast, screenshot dei bonifici, Dubai: <b>la gente ha già visto tutto</b> e ci è cascata almeno una volta. Oggi <b>il personal brand perfetto ottiene l'effetto contrario.</b></p></div>
+      </article>
+      <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">03</span>
+        <div><span class="cause-k">Causa n. 3</span>
+        <h3>Il collante sei tu.</h3>
+        <p>Contenuti, stories, DM, follow-up, funnel, email, call, numeri: <b>tutto passa da te.</b> Puoi avere l'offerta migliore del mondo: se per farla girare devi mettere benzina in ogni pezzo, <b>prima o poi ti fermi.</b></p></div>
+      </article>
+      <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">04</span>
+        <div><span class="cause-k">Causa n. 4</span>
+        <h3>La cura era altro lavoro.</h3>
+        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» <b>Per imparare tutto questo servono anni</b> e nel frattempo devi mangiare. Ogni corso ti ha lasciato <b>soltanto una lista più lunga di cose da fare.</b></p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHI FA L'AUTOPSIA ════════ -->
+<section class="andrea">
+  <div class="wrap">
+    <div class="grid">
+      <figure class="evidence coroner rv">
+        <div class="badge-top mono"><span>Medico legale</span><span>Sala 3</span></div>
+        <!-- Foto generata con il Soul ID di Andrea (Higgsfield) -->
+        <div class="ph">
+          <img src="assets/andrea-medico.jpg" alt="Andrea Audisio, il medico legale del personal brand" loading="lazy" decoding="async" width="1100" height="1375">
+          <span class="stamp mono">Referto firmato</span>
+        </div>
+        <figcaption class="cap mono"><span>Dott. Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
+      </figure>
+      <div class="rv">
+        <span class="kick">Il medico legale</span>
+        <h2 class="h2">Chi fa <span class="acc">l'autopsia</span></h2>
+        <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
+        <ol class="tl2">
+          <span class="tl-fill" aria-hidden="true"></span>
+          <li><span class="y">2007</span><div><h4>La partenza</h4><p>Fondo <b>Kelevra</b>, la mia prima web agency, quando Facebook in Italia è ancora in inglese e Instagram non esiste. Cresce fino a <b>circa 400 clienti</b>.</p></div></li>
+          <li><span class="y">2007 · 2018</span><div><h4>Gli anni da pioniere</h4><p>Faccio advertising online quando per le aziende italiane il digitale è ancora marginale. Diversi nomi che oggi sono considerati veterani dell'online sono <b>passati dai miei programmi</b>.</p></div></li>
+          <li><span class="y">2018</span><div><h4>Il primo grande salto</h4><p>Unisco Kelevra a un gruppo da <b>circa 20 milioni</b> ed entro come socio al 30%: budget oltre i 100.000 € e brand come <b>LEGO, BMW, Ducati, Alfa Romeo, Porsche e Volkswagen</b>. Entro anche in Blackship, nella formazione commerciale.</p></div></li>
+          <li><span class="y">2020</span><div><h4>Il lockdown</h4><p>Costruisco da zero la spesa a domicilio per un negozio di frutta e verdura di Torino: <b>circa 1,5 milioni in due mesi</b>, 3.000 spese a settimana, articoli su Corriere e Repubblica. Poi esco dalla società e riparto da zero.</p></div></li>
+          <li><span class="y">2021</span><div><h4>Consulente High Ticket</h4><p>Porto in Italia la figura dell'<b>appointment setter</b>. Circa <b>500.000 € nei primi sei mesi</b> e oltre 400 clienti.</p></div></li>
+          <li><span class="y">2021 · 2024</span><div><h4>Dentro le aziende</h4><p>Da founder, COO, CMO o temporary CEO costruisco realtà come <b>Investitore Efficace, Evolutiaa, Investetica, RQI, Blackship, Samuele Ferrari, Studente Felice</b> e altri big dell'infobusiness che non posso citare. Alcune superano il milione l'anno. Nel 2024 nasce Sales Valley.</p></div></li>
+          <li class="now"><span class="y">2025</span><div><h4>ProfitOS</h4><p>Entriamo come <b>soci operativi</b> nei business che già vendono.</p></div></li>
+        </ol>
+      </div>
+    </div>
+    <div class="stats rv">
+      <div><b>18 anni</b><span>di business online, dal 2007</span></div>
+      <div><b class="acc">€1,5M</b><span>in 2 mesi con un e-commerce nato in lockdown</span></div>
+      <div><b>€500K</b><span>nei primi 6 mesi con Consulente High Ticket</span></div>
+      <div><b>1.500+</b><span>imprenditori seguiti in consulenza individuale</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DOPO L'ISCRIZIONE ════════ -->
+<section class="after-reg">
+  <div class="wrap">
+    <span class="kick rv">Dopo l'iscrizione</span>
+    <h2 class="h2 rv">Cosa succede <span class="acc">dopo</span></h2>
+    <div class="rail">
+      <div class="stop rv"><span class="mono">Subito</span><h3>Ricevi il link</h3><p>Ti mandiamo subito tutti i dettagli via email e su WhatsApp.</p></div>
+      <div class="stop rv"><span class="mono">Nei giorni prima</span><h3>Ti chiama il team</h3><p>Ti chiamiamo per confermare la tua presenza, così il posto non resta vuoto.</p></div>
+      <div class="stop rv"><span class="mono">Giovedì, ore <span data-cfg="time">21:00</span></span><h3>Clicchi ed entri</h3><p>Basta il link. Porta i tuoi numeri: ci servono.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ INGRESSO ════════ -->
+<section class="tickets" id="ingresso">
+  <div class="wrap">
+    <span class="kick rv">Ingresso</span>
+    <h2 class="h2 rv">Scegli come <span class="acc">partecipare</span></h2>
+    <p class="lede rv">L'ingresso standard è gratuito. Con 27 € in più hai anche un'ora di domande con Andrea, riservata ai VIP, e una consulenza personalizzata sul tuo business.</p>
+    <div class="tags">
+      <article class="tag rv">
+        <div class="tag-body">
+          <span class="mono">Ingresso standard</span>
+          <h3>Gratis</h3>
+          <span class="price">La serata in diretta, per intero</span>
+          <ul>
+            <li>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></li>
+            <li>Gruppo WhatsApp dell'evento</li>
+          </ul>
+          <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+        </div>
+      </article>
+      <article class="tag vip rv">
+        <span class="vip-stamp" aria-hidden="true">Consigliato</span>
+        <div class="tag-body">
+          <span class="mono">Ingresso VIP</span>
+          <h3 class="vip-price" data-cfg="vipPrice">27 €</h3>
+          <span class="price">+ Consulenza personalizzata</span>
+          <p class="vip-why">La serata ti mostra cosa non funziona. Con il VIP Andrea ti fa una consulenza personalizzata sul <b>tuo</b> business.</p>
+          <ul class="vip-list">
+            <li><b>Consulenza personalizzata di Andrea</b> sul tuo business</li>
+            <li><b>Un'ora di domande con Andrea</b>, solo per i VIP</li>
+            <li>Fai le tue domande e Andrea risponde in diretta</li>
+            <li>In più tutta la serata in diretta, come l'ingresso standard</li>
+          </ul>
+          <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio la consulenza · <span data-cfg="vipPrice">27 €</span></span></a>
+          <span class="vip-note">Paghi una volta sola. Niente abbonamenti.</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section class="faq-s">
+  <div class="wrap">
+    <span class="kick rv">FAQ</span>
+    <h2 class="h2 rv">Domande <span class="acc">frequenti</span></h2>
+    <div class="faq rv">
+      <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
+      <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e include un'ora di domande con Andrea, riservata ai VIP, con una consulenza personalizzata sul tuo business.</p></div></div></details>
+      <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
+      <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p>Sì, la serata viene registrata. Ti consiglio comunque di esserci dal vivo: è lì che rispondo alle domande.</p></div></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHIUSURA ════════ -->
+<section class="close-s">
+  <div class="bg"><picture><source media="(max-width:760px)" srcset="assets/obitorio-chiusura-m2.jpg"><img src="assets/obitorio-chiusura.jpg" alt="" loading="lazy" decoding="async" width="2200" height="1228"></picture></div>
+  <div class="wrap rv">
+    <h2 class="h2">Il riconoscimento è <span class="acc">giovedì sera.</span></h2>
+    <p>Vieni a scoprire che cosa l'ha ucciso e che cosa lo sostituisce. <span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>, online.</p>
+    <div class="cd" data-cd aria-label="Tempo che manca alla serata">
+      <div><b data-d>--</b><span class="mono">giorni</span></div>
+      <div><b data-h>--</b><span class="mono">ore</span></div>
+      <div><b data-m>--</b><span class="mono">minuti</span></div>
+    </div>
+    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+  </div>
+</section>
 </main>
+
+<footer class="pfoot">
+  <div class="wrap">
+    <p class="pfoot-brand"><img src="assets/monogramma.png" width="32" height="32" alt=""><span>profit<span class="acc">OS</span></span></p>
+    <p>I risultati riportati in questa pagina sono casi reali di clienti e progetti nostri. Non sono una promessa: quello che ottieni dipende dal tuo mercato, dalla tua offerta e dal lavoro che ci metti.</p>
+    <p>Questo sito non fa parte di Facebook o di Meta Platforms, Inc. e non è approvato da Meta in alcun modo. Facebook e Instagram sono marchi registrati di Meta Platforms, Inc.</p>
+    <div class="pfoot-links"><a href="https://world.ambitioned.net/terms-of-service/" target="_blank" rel="noopener">Terms</a><a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">Privacy Policy</a></div>
+    <p class="pfoot-copy">Copyright © 2026 | Ambitioned LTD - 24 Tax Suite 137 b Westlink House 981 Great West Road - Brentford (London) - United Kingdom | È vietata qualsiasi riproduzione.</p>
+  </div>
+</footer>
+
+<!-- Barra fissa: compare dopo l'hero -->
+<div class="bar">
+  <div class="wrap">
+    <div class="t">La morte del personal brand<span class="mono"><span data-cfg="dateShort">Gio 29.10</span>, ore <span data-cfg="time">21:00</span><span class="left">. Mancano <span data-bar-left>--</span></span></span></div>
+    <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+  </div>
+</div>
+
+<!-- Modale iscrizione -->
+<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" data-modal>
+  <div class="scrim" data-close></div>
+  <div class="panel">
+    <button class="close" aria-label="Chiudi" data-close></button>
+    <div class="intro">
+      <h3 id="m-title">Riserva il posto</h3>
+      <p class="pp"><span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>. Online e gratuito.</p>
+    </div>
+    <form novalidate data-form>
+      <label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Il tuo nome" required></label>
+      <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
+      <label>WhatsApp<span class="tel"><span class="pre" aria-hidden="true">+39</span><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
+      <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link e i promemoria dell'evento.</span></label>
+      <p class="consent-err" data-consent-err hidden>Per iscriverti devi accettare la privacy policy.</p>
+      <button class="btn" type="submit"><span class="lbl">Conferma</span></button>
+    </form>
+    <div class="done" role="status" aria-live="polite">
+      <h3>Sei dentro.</h3>
+      <ol>
+        <li>Controlla la tua email: lì trovi il link della serata.</li>
+        <li>Entra nel gruppo WhatsApp per i promemoria.</li>
+        <li>Segnati in agenda <b data-cfg="dateLong">giovedì 29 ottobre</b> alle <b data-cfg="time">21:00</b>.</li>
+      </ol>
+      <a class="btn" href="#" data-cfg-href="whatsapp"><span class="lbl">Entra nel gruppo WhatsApp</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ CONFIG: stessi valori della variante A ═══ */
+const CONFIG = {
+  variant: "B",
+  eventISO: "2026-10-29T21:00:00+01:00",   // DA CONFERMARE
+  dateLong: "Giovedì 29 ottobre",
+  dateShort: "Gio 29.10",
+  dateMobile: "Gio 29 ott",
+  time: "21:00",
+  vipPrice: "27 €",
+  vipCheckout: "#",                         // link di pagamento VIP; dopo il pagamento rimanda a: .../grazie-vip/
+  whatsapp: "https://chat.whatsapp.com/LW5iXlvIy4nLgDdkp6jcz8",
+  ghlWebhookUrl: "https://services.leadconnectorhq.com/hooks/yfFcdqju49Ta8CnyU0nO/webhook-trigger/d6f43765-e5a2-4251-ab1f-4b34d1366a4b",                        // URL dell'Inbound Webhook del workflow GHL
+  thankYouUrl: "grazie/",                   // thank-you page: WhatsApp + calendario (vuoto = conferma nella pagina)
+  phonePrefix: "+39"
+};
+
+/* ── Invio a GoHighLevel (Inbound Webhook) ──────────────────────────────
+   Manda nome, email, telefono, variante, UTM e fbclid. La risposta del webhook
+   non è leggibile dal browser (no-cors): l'arrivo del contatto si verifica in GHL. */
+const pbmQS = new URLSearchParams(location.search);
+async function pbmSend(raw) {
+  const d = {};
+  const name = (raw.full_name || raw.nome || raw.first_name || "").trim();
+  d.full_name = name;
+  d.first_name = name.split(/\s+/)[0] || "";
+  d.last_name = name.split(/\s+/).slice(1).join(" ");
+  d.email = (raw.email || "").trim();
+  let ph = (raw.phone || raw.telefono || "").replace(/[^\d+]/g, "");
+  if (ph.startsWith("00")) ph = "+" + ph.slice(2);
+  else if (ph && !ph.startsWith("+")) ph = (CONFIG.phonePrefix || "+39") + ph;
+  d.phone = ph;
+  d.variante = CONFIG.variant;
+  d.evento = "La morte del personal brand";
+  d.privacy = raw.privacy ? "si" : "no";
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k => { if (pbmQS.get(k)) d[k] = pbmQS.get(k); });
+  d.page_url = location.href.split("#")[0];
+  if (CONFIG.ghlWebhookUrl) {
+    try { await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (e) {}
+  } else {
+    await new Promise(r => setTimeout(r, 400));
+  }
+  if (window.fbq) fbq("track", "CompleteRegistration", { content_name: "webinar_pb_morto", variant: CONFIG.variant });
+  if (CONFIG.thankYouUrl) { location.href = CONFIG.thankYouUrl; return new Promise(() => {}); }
+}
+
+document.body.classList.remove("no-js");
+document.querySelectorAll("[data-cfg]").forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
+document.querySelectorAll("[data-cfg-href]").forEach(el => { el.href = CONFIG[el.dataset.cfgHref] || "#"; });
+
+/* Reveal allo scroll, una volta */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -60px 0px" });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* Modale */
+const modal = document.querySelector("[data-modal]");
+let lastFocus = null;
+/* su telefono niente focus automatico: la tastiera coprirebbe il modulo prima che lo veda */
+const finePointer = matchMedia("(pointer:fine)").matches;
+const open = () => {
+  lastFocus = document.activeElement; modal.classList.add("open"); document.body.classList.add("locked");
+  if (finePointer) setTimeout(() => modal.querySelector("input")?.focus(), 60);
+};
+const close = () => { modal.classList.remove("open"); document.body.classList.remove("locked"); if (finePointer) lastFocus?.focus(); };
+/* con la tastiera aperta il campo attivo resta visibile */
+modal.querySelectorAll("input").forEach(i => i.addEventListener("focus", () => setTimeout(() => i.scrollIntoView({ block: "nearest" }), 300)));
+document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", open));
+modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", close));
+addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) close(); });
+
+/* Form */
+const form = modal.querySelector("[data-form]");
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  let ok = true;
+  form.querySelectorAll("input[required]").forEach(i => {
+    const bad = i.type === "checkbox" ? !i.checked : !i.value.trim() || (i.type === "email" && !/^\S+@\S+\.\S+$/.test(i.value))
+      || (i.type === "tel" && i.value.replace(/\D/g, "").length < 8);
+    i.setAttribute("aria-invalid", bad); if (bad) ok = false;
+  });
+  const consentErr = form.querySelector("[data-consent-err]");
+  if (consentErr) consentErr.hidden = form.privacy.checked;
+  if (!ok) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+  const btn = form.querySelector("button"); btn.classList.add("sending"); btn.disabled = true;
+  try {
+    await pbmSend(Object.fromEntries(new FormData(form)));
+    modal.querySelector(".panel").classList.add("ok");
+  } catch (err) { btn.classList.remove("sending"); btn.disabled = false; alert("Qualcosa non è andato. Riprova tra un attimo."); }
+});
+form.querySelectorAll("input").forEach(i => i.addEventListener(i.type === "checkbox" ? "change" : "input", () => { i.removeAttribute("aria-invalid"); if (i.type === "checkbox") { const ce = form.querySelector("[data-consent-err]"); if (ce && i.checked) ce.hidden = true; } }));
+
+/* Video testimonianze: [id Vimeo o yt:id YouTube, copertina, nome, risultato] */
+const TESTI = [
+  [803151377, "n06", "Davide Strada e Riccardo Bianchi", "35.000€ al mese con le attività locali"],
+  [707795644, "n03", "Valerio Barsanti", "25.000€ al mese, formazione finanziaria"],
+  [704213129, "n11", "Ivan Greppi", "25.000€ al mese con la formazione sales"],
+  [655532481, "n08", "Lorenzo Bignami", "20.000€ al mese con i consulenti fiscali"],
+  [704218814, "n12", "Riccardo D'Amici", "15.000€ al mese, consulenza legale"],
+  [644574623, "n02", "Pierpaolo Chiti", "Primo contratto da 8.000€, agenzia web"],
+  [644576368, "n04", "Ethel Bersanetti", "Investimento rientrato in una settimana"],
+  [644575671, "n01", "Carlo Alberto De Cesare", "Da dipendente a imprenditore"],
+  [704215770, "n05", "Morris Bottazzi", "Ha smesso di buttare soldi in sponsorizzate"],
+  [704212060, "n07", "Paolo Ronchi", "Da studente a imprenditore"],
+  [704217184, "n09", "Enrico Zangara", "Digital marketer"],
+  [644574975, "n10", "Lorenzo Savasta", "Consulente marketing per strutture ricettive"],
+  [644574829, "n13", "Marika Manetta", "Consulente branding"],
+  [644574778, "n14", "Patrizia Parca", "Consulente branding"],
+  [644576898, "n15", "Stefano De Mojà", "Consulente marketing"],
+  [644575426, "n16", "Isacco Bonardi", "Mental coach, partito da zero"],
+  ["yt:KbuyMNgxYOE", "y01", "Luca Balbarini", "Da zero al suo corso di lingua online"],
+  ["yt:saRSFjlO1dE", "y02", "Sara Gariglio", "Visibilità aziendale online"],
+  ["yt:0TU9-WK6RNI", "y03", "Franco Mastrorilli", "Cresciuto su LinkedIn"],
+  ["yt:X1WE5kxdRqQ", "y04", "Francesca e Alessandro", "Pix Around, marketing sviluppato insieme"],
+  ["yt:xc_XAdwimww", "y05", "Irina", "Studente Felice, fatturato in crescita"]
+];
+const tBox = document.querySelector("[data-tvideos]");
+tBox.innerHTML = TESTI.map(t => `<button type="button" class="tvoce" data-video="${t[0]}" aria-label="Guarda la testimonianza di ${t[2]}: ${t[3]}"><img src="assets/testimonianze/${t[1]}.webp" alt="${t[2]}, ${t[3]}" width="720" height="405" loading="lazy" decoding="async"></button>`).join("");
+const vLight = document.querySelector("[data-vlight]"), vFrame = vLight.querySelector("iframe");
+function vOpen(id) {
+  vFrame.src = String(id).startsWith("yt:")
+    ? "https://www.youtube-nocookie.com/embed/" + id.slice(3) + "?autoplay=1&rel=0&modestbranding=1&playsinline=1"
+    : "https://player.vimeo.com/video/" + id + "?autoplay=1&title=0&byline=0&portrait=0&dnt=1&playsinline=1";
+  vLight.hidden = false; document.body.classList.add("locked");
+}
+function vClose() { vLight.hidden = true; vFrame.src = ""; document.body.classList.remove("locked"); }
+tBox.addEventListener("click", e => { const b = e.target.closest(".tvoce"); if (b) vOpen(b.dataset.video); });
+vLight.querySelector("[data-vclose]").addEventListener("click", vClose);
+vLight.addEventListener("click", e => { if (e.target === vLight) vClose(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vClose(); });
+
+/* Monitor cardiaco: battito che rallenta, si appiattisce, "Rianima" lo riparte */
+(function () {
+  const sec = document.querySelector("[data-monitor]"); if (!sec) return;
+  const cv = sec.querySelector("[data-ecg]"), ctx = cv.getContext("2d");
+  const bpmEl = sec.querySelector("[data-bpm]"), stateEl = sec.querySelector("[data-mon-state]");
+  const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let W = 0, H = 0, dpr = 1, raf = 0, t0 = 0, lastX = 0, lastY = 0, lastMs = 0, running = false;
+  const DUR = 7000, FADE_FROM = 2600, FLAT_AT = 6000;
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  /* forma di un battito, fase 0..1 */
+  function beat(p) {
+    const g = (c, w, a) => a * Math.exp(-((p - c) ** 2) / (2 * w * w));
+    return g(.18, .03, .12) + g(.33, .008, -.12) + g(.36, .012, 1) + g(.395, .01, -.28) + g(.62, .05, .26);
+  }
+  function amp(ms) { return ms < FADE_FROM ? 1 : ms > FLAT_AT ? 0 : 1 - (ms - FADE_FROM) / (FLAT_AT - FADE_FROM); }
+  function beatAt(ms) {
+    const a = amp(ms), period = 820 + (1 - a) * 900;          /* rallenta mentre muore */
+    let acc = 0, k = 0; while (acc + (820 + (1 - amp(acc)) * 900) <= ms && k < 50) { acc += 820 + (1 - amp(acc)) * 900; k++; }
+    return { k, p: (ms - acc) / period, a };
+  }
+  function ecg(ms) { const b = beatAt(ms); return beat(b.p) * b.a; }
+
+  /* ── suono: i browser lo sbloccano solo dopo un tocco sulla pagina ── */
+  const audioBtn = sec.querySelector("[data-audio]"), audioL = sec.querySelector("[data-audio-l]");
+  let ac = null, soundOn = true, lastBeepK = -1, flatPlayed = false;
+  const unlock = () => { try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === "suspended") ac.resume(); } catch (e) {} };
+  const audible = () => soundOn && ac && ac.state === "running";
+  function tone(freq, dur, vol) {
+    if (!audible()) return;
+    const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime;
+    o.type = "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + .012);
+    g.gain.setValueAtTime(vol, t + Math.max(.02, dur - .06)); g.gain.linearRampToValueAtTime(0, t + dur);
+    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .03);
+  }
+  const syncAudioBtn = () => {
+    const on = audible(); audioBtn.setAttribute("aria-pressed", on);
+    audioL.textContent = on ? "Suono attivo" : (soundOn ? "Tocca per il suono" : "Suono spento");
+  };
+  /* suono attivo di default: si prova subito, poi si sblocca al primo tocco o clic ovunque */
+  const unlockAny = e => { if (e && audioBtn.contains(e.target)) return; unlock(); if (ac && ac.resume) ac.resume().then(syncAudioBtn, syncAudioBtn); };
+  ["pointerdown", "pointerup", "touchend", "click", "keydown"].forEach(ev => addEventListener(ev, unlockAny, { passive: true, capture: true }));
+  try { ac = new (window.AudioContext || window.webkitAudioContext)(); ac.resume().then(syncAudioBtn, () => {}); if (ac.onstatechange === null) ac.onstatechange = syncAudioBtn; } catch (e) {}
+  audioBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    if (audioBtn.getAttribute("aria-pressed") === "true") { soundOn = false; syncAudioBtn(); return; }
+    soundOn = true; unlock();
+    const go = () => { syncAudioBtn(); start(); };            /* riparte da capo, così senti tutto */
+    if (ac && ac.resume) ac.resume().then(go, go); else go();
+  });
+  function frame(now) {
+    const ms = now - t0, speed = W / 2600;                    /* lo schermo si attraversa in 2,6 s */
+    const dead = ms >= FLAT_AT, base = H * .62;
+    ctx.strokeStyle = dead ? "#FF5A14" : "#3DF59A"; ctx.lineWidth = 2.2; ctx.lineJoin = "round";
+    ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.moveTo(lastX, lastY);
+    /* disegna a passi di 3 ms: i picchi non si perdono anche se il telefono scatta */
+    for (let t = lastMs + 3; t <= ms; t += 3) {
+      const x = (t * speed) % W, y = base - ecg(t) * H * .48;
+      if (x < lastX) { ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y); } else ctx.lineTo(x, y);
+      lastX = x; lastY = y; lastMs = t;
+      const b = beatAt(t);
+      if (b.a > .05 && b.p >= .36 && b.k !== lastBeepK) { lastBeepK = b.k; tone(1040, .11, .16); }
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0; ctx.clearRect(lastX + 2, 0, 20, H);   /* la "gomma" davanti alla linea */
+    if (lastX + 22 > W) ctx.clearRect(0, 0, lastX + 22 - W, H);
+    const bpm = Math.round(72 * amp(ms)); bpmEl.textContent = dead ? "0" : bpm;
+    if (ms > FADE_FROM && !sec.classList.contains("dying")) { sec.classList.add("dying"); stateEl.textContent = "Battito irregolare"; }
+    if (dead && !sec.classList.contains("dead")) { sec.classList.add("dead"); stateEl.textContent = "Arresto"; }
+    if (dead && !flatPlayed) { flatPlayed = true; tone(1040, 2.6, .12); }
+    if (ms < DUR + 2600) raf = requestAnimationFrame(frame); else running = false;
+  }
+  function start() {
+    cancelAnimationFrame(raf); size(); ctx.clearRect(0, 0, W, H);
+    sec.classList.remove("dying", "dead"); stateEl.textContent = "In osservazione";
+    void sec.offsetWidth; lastX = 0; lastY = H * .62; lastMs = 0; running = true; lastBeepK = -1; flatPlayed = false;
+    if (reduce) { sec.classList.add("dying", "dead"); stateEl.textContent = "Arresto"; bpmEl.textContent = "0";
+      ctx.strokeStyle = "#FF5A14"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, H * .62); ctx.lineTo(W, H * .62); ctx.stroke(); return; }
+    t0 = performance.now(); raf = requestAnimationFrame(frame);
+  }
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { start(); o.disconnect(); } }, { threshold: .45 }).observe(sec.querySelector(".mon"));
+  sec.querySelector("[data-revive]").addEventListener("click", start);
+  addEventListener("resize", () => { if (!running) { size(); } });
+})();
+
+/* carosello delle testimonianze */
+(function () {
+  const box = document.querySelector("[data-tvideos]"), bar = document.querySelector("[data-tbar]");
+  document.querySelector("[data-tcount]").textContent = TESTI.length;
+  const step = () => { const c = box.querySelector(".tvoce"); return c ? c.getBoundingClientRect().width + parseFloat(getComputedStyle(box).columnGap || 16) : 300; };
+  document.querySelector("[data-tprev]").addEventListener("click", () => box.scrollBy({ left: -step(), behavior: "smooth" }));
+  document.querySelector("[data-tnext]").addEventListener("click", () => box.scrollBy({ left: step(), behavior: "smooth" }));
+  const sync = () => { const max = box.scrollWidth - box.clientWidth; const p = max > 0 ? box.scrollLeft / max : 0;
+    bar.style.width = Math.max(12, (box.clientWidth / box.scrollWidth) * 100) + "%"; bar.style.left = (p * (100 - parseFloat(bar.style.width))) + "%"; };
+  box.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); sync();
+
+  /* scorre da solo: si ferma se ci passi sopra, se lo tocchi, se è aperto un video o se non è sullo schermo */
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const light = document.querySelector("[data-vlight]");
+  let visible = false, hover = false, pausedUntil = 0;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: .4 }).observe(box);
+  /* pausa al passaggio solo con un mouse vero: sul telefono il "mouse" simulato non esce mai */
+  box.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") hover = true; });
+  box.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") hover = false; });
+  const pause = () => { pausedUntil = Date.now() + 3000; };
+  ["pointerdown", "touchstart", "wheel"].forEach(ev => box.addEventListener(ev, pause, { passive: true }));
+  document.querySelectorAll("[data-tprev],[data-tnext]").forEach(b => b.addEventListener("click", pause));
+  setInterval(() => {
+    if (!visible || hover || Date.now() < pausedUntil || (light && !light.hidden) || document.hidden) return;
+    const max = box.scrollWidth - box.clientWidth, st = step();
+    const next = Math.round(box.scrollLeft / st) + 1;
+    box.scrollTo({ left: box.scrollLeft >= max - 4 ? 0 : Math.min(max, next * st), behavior: "smooth" });
+  }, 1400);
+})();
+
+/* timeline di Andrea: la linea si riempie e le tappe si accendono mentre scorri */
+(function () {
+  const tl = document.querySelector(".tl2"); if (!tl) return;
+  const fill = tl.querySelector(".tl-fill"), items = [...tl.querySelectorAll("li")];
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const r = tl.getBoundingClientRect(), mark = innerHeight * .62;
+    const h = Math.max(0, Math.min(r.height - 16, mark - r.top - 8));
+    fill.style.height = h + "px";
+    items.forEach(li => li.classList.toggle("on", li.getBoundingClientRect().top + 12 < mark));
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+
+/* Countdown reale all'evento */
+const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]");
+function tick(){
+  const ms = new Date(CONFIG.eventISO) - new Date();
+  if (ms <= 0) { cd.innerHTML = '<b style="font-size:32px">In diretta ora</b>'; left.textContent = "0 minuti"; return; }
+  const m = Math.floor(ms / 60000), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60;
+  cd.querySelector("[data-d]").textContent = d;
+  cd.querySelector("[data-h]").textContent = String(h).padStart(2, "0");
+  cd.querySelector("[data-m]").textContent = String(mm).padStart(2, "0");
+  const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  left.textContent = d > 0 ? `${pl(d, "giorno", "giorni")} e ${pl(h, "ora", "ore")}` : `${pl(h, "ora", "ore")} e ${pl(mm, "minuto", "minuti")}`;
+}
+tick(); setInterval(tick, 30000);
+
+/* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
+   quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
+const bar = document.querySelector(".bar"), heroCta = document.querySelector(".hero .ctas");
+const pageCtas = [...document.querySelectorAll("main [data-open], .hero [data-open]")];
+const visible = new Set();
+let pastHero = false;
+const syncBar = () => bar.classList.toggle("show", pastHero && visible.size === 0);
+new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; syncBar(); }).observe(heroCta);
+const ctaIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)); syncBar(); });
+pageCtas.forEach(b => ctaIO.observe(b));
+</script>
 </body>
 </html>

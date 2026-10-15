@@ -1,0 +1,9 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/sala-mortuaria", "destination": "/", "permanent": true },
+    { "source": "/sala-mortuaria/:path*", "destination": "/:path*", "permanent": true },
+    { "source": "/rossa-nera/:path*", "destination": "/", "permanent": false },
+    { "source": "/necrologio/:path*", "destination": "/", "permanent": false }
+  ]
+}

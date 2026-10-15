@@ -1,41 +1,28 @@
 # La morte del personal brand · landing webinar
 
-Tre landing per l'A/B/C test del webinar gratuito di Andrea Audisio.
+Landing del webinar gratuito di Andrea Audisio: la variante **Sala mortuaria** (nero e arancione, arriva al CRM come variante B). Le varianti A (Necrologio) e C (Rossa e nera) sono state tolte e restano nella cronologia git.
 
-| Cartella | Landing | Variante (arriva al CRM) |
+| Pagina | File | Indirizzo |
 |---|---|---|
-| `sala-mortuaria/` | Sala mortuaria, nero e arancione | B |
-| `rossa-nera/` | Rossa e nera, struttura Realix | C |
-| `necrologio/` | Necrologio color carta, Personal Brand barrato | A |
+| Landing | `index.html` | https://webinar-audisio.vercel.app/ |
+| Grazie (iscrizione gratuita) | `grazie/index.html` | https://webinar-audisio.vercel.app/grazie/ |
+| Grazie VIP (dopo il pagamento di 27 €) | `grazie-vip/index.html` | https://webinar-audisio.vercel.app/grazie-vip/ |
 
-Ogni cartella è autonoma: `index.html` più le sue immagini in `assets/`, con percorsi relativi. Si può caricare tutto il repository o anche una sola cartella.
+Le immagini sono in `assets/`, con percorsi relativi, e si possono usare anche dentro GoHighLevel (per esempio `https://webinar-audisio.vercel.app/assets/logo-evento.jpg`).
 
 ## Pubblicazione su Vercel
 
-Le landing sono online su https://webinar-audisio.vercel.app (progetto Vercel `webinar-audisio`).
+Progetto Vercel `webinar-audisio`. `vercel.json` rimanda i vecchi indirizzi `/sala-mortuaria/…` alle pagine nuove e `/rossa-nera/` e `/necrologio/` alla home.
 
 A ogni push su `main` il workflow `.github/workflows/deploy-vercel.yml` pubblica in produzione. Serve il secret `VERCEL_TOKEN` in **Settings → Secrets and variables → Actions**: senza, il deploy viene saltato. Si può lanciare anche a mano da **Actions → Deploy su Vercel → Run workflow**.
 
-## Pubblicare con GitHub Pages
-
-1. Crea un repository su GitHub e carica **tutto il contenuto di questa cartella** (anche il file `.nojekyll`), mantenendo le sottocartelle.
-   - Dal sito: **Add file → Upload files** e trascina le cartelle.
-   - Oppure da terminale: `git init`, `git add .`, `git commit -m "landing"`, `git push`.
-2. Vai in **Settings → Pages**: Source **Deploy from a branch**, branch `main`, cartella `/ (root)`. Salva.
-3. Dopo un minuto le landing sono online a questi indirizzi:
-   - `https://TUO-UTENTE.github.io/NOME-REPO/sala-mortuaria/`
-   - `https://TUO-UTENTE.github.io/NOME-REPO/rossa-nera/`
-   - `https://TUO-UTENTE.github.io/NOME-REPO/necrologio/`
-
-Le immagini sono raggiungibili anche singolarmente, per esempio `https://TUO-UTENTE.github.io/NOME-REPO/sala-mortuaria/assets/logo-evento.jpg`. Puoi usare questi URL anche dentro GoHighLevel.
-
 ## Collegare i form a GoHighLevel
 
-In fondo a ogni `index.html` c'è il blocco `CONFIG`:
+In fondo a `index.html` c'è il blocco `CONFIG`:
 
 | Campo | Cosa mettere |
 |---|---|
-| `ghlWebhookUrl` | URL del trigger **Inbound Webhook** di un workflow GHL (uno solo per tutte e tre) |
+| `ghlWebhookUrl` | URL del trigger **Inbound Webhook** di un workflow GHL |
 | `thankYouUrl` | URL della thank-you page (facoltativo: se vuoto, la conferma appare nella pagina) |
 | `eventISO`, `dateLong`, `dateShort`, `time` | Data e ora definitive (ora: giovedì 29 ottobre 2026, 21:00, **da confermare**) |
 | `vipPrice`, `vipCheckout` | Prezzo e link di pagamento del VIP |
@@ -51,12 +38,11 @@ Nel workflow GHL:
 2. Mappa i campi con **Create/Update Contact**.
 3. Aggiungi il tag `variante-{{inboundWebhookRequest.variante}}`.
 
-Meta Pixel: inserisci il codice del Pixel nell'`<head>` di ogni `index.html`. Le pagine inviano già `CompleteRegistration` con il parametro `variant`.
+Meta Pixel: inserisci il codice del Pixel nell'`<head>` di `index.html`. La pagina invia già `CompleteRegistration` con il parametro `variant`.
 
 ## Da completare nel testo
 
 Nella pagina sono evidenziati in giallo:
 - benefit del VIP;
 - replay sì o no;
-- durata della serata (rossa e nera);
 - foto di Andrea, oggi un riquadro segnaposto.
