@@ -1089,6 +1089,19 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 }
 @keyframes cine-out{to{opacity:0;transform:translateY(10px)}}
 @media (prefers-reduced-motion:reduce){.tv-photo,.tv-screen,.tv-player{transition:none}.is-cinema .promise{animation:none;opacity:0}}
+
+/* FAQ: su computer a destra una scheda con Andrea, data e bottone (riempie il vuoto lasciato dalle domande) */
+.faq-side{display:none}
+@media (min-width:1024px){
+  .faq-grid{display:grid;grid-template-columns:minmax(0,880px) minmax(280px,360px);justify-content:space-between;gap:clamp(32px,4vw,64px);align-items:start}
+  .faq-side{display:block;position:sticky;top:96px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-2);box-shadow:0 0 0 1px rgba(255,90,20,.08),0 24px 60px rgba(0,0,0,.45)}
+  .faq-side img{display:block;width:100%;aspect-ratio:4/4.2;object-fit:cover;object-position:50% 18%;
+    -webkit-mask:linear-gradient(180deg,#000 62%,transparent 100%);mask:linear-gradient(180deg,#000 62%,transparent 100%)}
+  .faq-side-body{padding:0 24px 24px;margin-top:-56px;position:relative}
+  .faq-side-t{font-weight:800;font-size:24px;line-height:1.2;letter-spacing:-.01em}
+  .faq-side-d{margin-top:10px;color:var(--fg-2);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+  .faq-side .btn{width:100%;margin-top:18px;justify-content:center}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1384,7 +1397,8 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 
 <!-- ════════ FAQ ════════ -->
 <section class="faq-s">
-  <div class="wrap">
+  <div class="wrap faq-grid">
+    <div class="faq-main">
     <span class="kick rv">FAQ</span>
     <h2 class="h2 rv">Domande <span class="acc">frequenti</span></h2>
     <div class="faq rv">
@@ -1393,6 +1407,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <details><summary>Perché una sola serata?</summary><div class="a"><div><p>Perché il tuo tempo è esattamente il problema di cui parliamo. Una cosa chiara si spiega in una sera.</p></div></div></details>
       <details><summary>Ci sarà la registrazione?</summary><div class="a"><div><p>Sì, la serata viene registrata. Ti consiglio comunque di esserci dal vivo: è lì che rispondo alle domande.</p></div></div></details>
     </div>
+    </div>
+    <!-- solo computer: riempie il vuoto a destra delle domande -->
+    <aside class="faq-side rv">
+      <img src="assets/hero-andrea-m5.jpg" alt="Andrea Audisio col referto del personal brand" loading="lazy" decoding="async" width="896" height="1200">
+      <div class="faq-side-body">
+        <p class="faq-side-t">Le altre domande falle a me, <span class="acc">dal vivo.</span></p>
+        <p class="faq-side-d mono"><span data-cfg="dateLong">Giovedì 29 ottobre</span> · <span data-cfg="time">21:00</span> · Online</p>
+        <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
+      </div>
+    </aside>
   </div>
 </section>
 
