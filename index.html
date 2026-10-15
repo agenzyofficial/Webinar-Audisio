@@ -1134,6 +1134,22 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .faq details{background:var(--box-fade),#0B0E10}
 .faq details[open]{border-color:rgba(255,90,20,.55);border-left-color:var(--acc);background:linear-gradient(90deg,rgba(255,90,20,.12),rgba(255,90,20,0) 45%),#0B0E10}
 .faq-side{background:var(--box-fade),#0B0E10}
+
+/* data e bottone della hero nello stile dei box: niente alone, bordo sinistro arancione, sfumatura */
+.hero .event-row{border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;box-shadow:none;background:var(--box-fade),rgba(11,14,16,.88)}
+.hero .event-row div{border-color:var(--line)}
+@media (min-width:761px){
+  /* computer: un'unica barra con Quando, Ora, Dove e il bottone alla stessa altezza */
+  .hero-act{align-items:stretch;gap:0;padding:8px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;
+    background:var(--box-fade),rgba(11,14,16,.88);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .hero .hero-act .event-row{border:0;border-radius:0;background:none}
+  .hero .hero-act .event-row div{display:flex;flex-direction:column;justify-content:center;padding:4px 24px;border-right:1px solid var(--line)!important}
+  .hero .hero-act .event-row dt{font-size:11px}
+  .hero .hero-act .event-row dd{font-size:clamp(19px,1.6vw,23px);margin-top:3px}
+  .hero .hero-act .ctas{margin:0 0 0 8px;align-items:stretch}
+  .hero .hero-act .ctas .btn{height:auto;min-height:58px;font-size:17px;padding:0 30px}
+  .hero .trust{margin-top:12px}
+}
 </style>
 </head>
 <body class="no-js">
