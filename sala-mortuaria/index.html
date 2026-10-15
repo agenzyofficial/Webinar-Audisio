@@ -1554,6 +1554,23 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
   const sync = () => { const max = box.scrollWidth - box.clientWidth; const p = max > 0 ? box.scrollLeft / max : 0;
     bar.style.width = Math.max(12, (box.clientWidth / box.scrollWidth) * 100) + "%"; bar.style.left = (p * (100 - parseFloat(bar.style.width))) + "%"; };
   box.addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); sync();
+
+  /* scorre da solo: si ferma se ci passi sopra, se lo tocchi, se è aperto un video o se non è sullo schermo */
+  if (matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const light = document.querySelector("[data-vlight]");
+  let visible = false, hover = false, pausedUntil = 0;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: .4 }).observe(box);
+  box.addEventListener("mouseenter", () => { hover = true; });
+  box.addEventListener("mouseleave", () => { hover = false; });
+  const pause = () => { pausedUntil = Date.now() + 6000; };
+  ["pointerdown", "touchstart", "wheel"].forEach(ev => box.addEventListener(ev, pause, { passive: true }));
+  document.querySelectorAll("[data-tprev],[data-tnext]").forEach(b => b.addEventListener("click", pause));
+  setInterval(() => {
+    if (!visible || hover || Date.now() < pausedUntil || (light && !light.hidden) || document.hidden) return;
+    const max = box.scrollWidth - box.clientWidth;
+    if (box.scrollLeft >= max - 4) box.scrollTo({ left: 0, behavior: "smooth" });
+    else box.scrollBy({ left: step(), behavior: "smooth" });
+  }, 3500);
 })();
 
 /* timeline di Andrea: la linea si riempie e le tappe si accendono mentre scorri */
