@@ -1012,7 +1012,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .tv-screen{position:absolute;left:65.8%;top:14.2%;width:33.5%;height:29.4%;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}
 /* il player è impaginato da vturb a 640×360 (misura da desktop, così i suoi riquadri restano in proporzione)
    e scalato (--k, dallo script) per stare intero nello schermo: la TV è 2:1, quindi ai lati restano strisce nere */
-.tv-player{flex:none;width:640px;height:360px;transform:scale(var(--k,.7))}
+.tv-player{flex:none;width:640px;height:360px;transform:scale(var(--k,.6))}
 @media (max-width:760px){
   /* telefono: il video esce dalla foto, a tutta larghezza in una cornice da TV; sotto, Andrea */
   .hero-tv{--fade-b:74%;left:0;width:100vw;margin:-26px 0 0;overflow:hidden}
@@ -1742,7 +1742,7 @@ tick(); setInterval(tick, 30000);
    lo schermo è 2:1, quindi ai lati restano due strisce nere come lo schermo spento */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
 const fitTvPlayer = () => tvPlayer.style.setProperty("--k", Math.min(tvScreen.clientWidth / 640, tvScreen.clientHeight / 360));
-new ResizeObserver(fitTvPlayer).observe(tvScreen);
+fitTvPlayer(); new ResizeObserver(fitTvPlayer).observe(tvScreen);
 
 /* Desktop: quando il visitatore avvia il video (clic sul player, non l'avvio automatico di vturb)
    la foto scivola via e la TV va al centro, più grande; a fine video torna tutto com'era */
