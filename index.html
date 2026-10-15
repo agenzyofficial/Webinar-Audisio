@@ -1163,7 +1163,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   -webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 0 24px rgba(255,90,20,.35)}
 .hl-b{margin-top:6px;font-weight:500;font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--fg-2);letter-spacing:0;max-width:58ch}
 .hl-b .acc{font-weight:700}
-@media (min-width:761px){.hero .headline{max-width:min(920px,100%)}.hl-b{max-width:none}}
+/* computer: le prime due righe stanno nella fascia sotto le lettere, allineate a destra e finite prima del cartellino
+   (il cartellino fa da "prezzo": "…ti costa 🏷 ore in più."); la promessa centrata sotto */
+@media (min-width:761px){
+  .hero .headline{width:min(920px,100%);max-width:none;margin-top:calc(min(600px,48vw) * -.185 + 8px)}
+  .hl-a,.hl-pain{align-self:flex-start;width:calc(50% + min(600px,48vw) * .125 - 14px);text-align:right;white-space:nowrap}
+  .hl-a{font-size:clamp(17px,1.65vw,24px)}
+  .hl-pain{font-size:clamp(24px,2.6vw,38px)}
+  .hl-b{max-width:100%;margin-top:18px}
+}
+.hl-b{max-width:100%}
 .promise-kick{flex-wrap:wrap}
 .promise-kick .sep{color:var(--fg-3)}
 @media (max-width:760px){
@@ -1195,6 +1204,14 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .tickets-trust b{color:var(--fg);font-weight:700}
 .tickets-trust svg{flex:none;width:26px;height:26px;fill:none;stroke:var(--acc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 @media (max-width:760px){.tickets-trust{grid-template-columns:1fr;gap:10px}.tickets-cd{font-size:12px}}
+
+/* sotto il player solo il countdown live */
+.hero .promise .promise-kick{margin:0;font-size:13px;flex-wrap:nowrap}
+.hero .promise [data-cd-mini]{margin-left:4px;font-size:clamp(18px,1.6vw,24px);font-weight:800;letter-spacing:.03em}
+@media (min-width:761px){.hero .promise{width:auto;padding:12px 18px 12px 16px}}
+@media (max-width:760px){
+  .hero-tv .promise{padding:10px 16px;margin-top:-40px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;background:var(--box-fade),rgba(11,14,16,.88)}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1227,7 +1244,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <span class="rot-i"><span>più DM a cui rispondere.</span></span>
         <span class="rot-i"><span>il tuo tempo libero.</span></span>
       </span></span>
-      <span class="hl-b">In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</span>
+      <span class="hl-b">In una serata ti mostro perché costruire il tuo personal brand <span class="acc">non è più possibile nel 2026</span>.</span>
     </h1>
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
@@ -1239,14 +1256,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           </div>
         </div>
         <div class="promise">
-          <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span><span>Live tra <span data-cd-mini>--</span></span><span class="sep" aria-hidden="true">·</span><span>In questa serata</span></p>
-          <p class="promise-h"><span class="rot" aria-hidden="true">
-            <span class="rot-i on">Perché il personal brand classico <span class="acc">non vende più.</span></span>
-            <span class="rot-i">Il vero <span class="acc">collo di bottiglia</span> del tuo business.</span>
-            <span class="rot-i">Cosa <span class="acc">delegare alla tecnologia</span> nel 2026.</span>
-            <span class="rot-i">Entra basso, <span class="acc">guadagna dopo.</span></span>
-          </span></p>
-          <span class="rot-bar" aria-hidden="true"><i></i></span>
+          <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span>Live tra <span data-cd-mini>--</span></p>
         </div>
       </div>
       <button type="button" class="tv-close" aria-label="Rimpicciolisci il video"></button>
@@ -1902,21 +1912,6 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
-/* Frasi sotto il video: cambiano ogni 4 secondi, con la barretta che si riempie */
-const rotItems = [...document.querySelectorAll(".promise .rot-i")], rotBar = document.querySelector(".rot-bar");
-const ROT_MS = 4000;
-let rotIdx = 0;
-rotBar.style.setProperty("--rot-ms", ROT_MS + "ms");
-function rotate(){
-  const prev = rotItems[rotIdx];
-  rotIdx = (rotIdx + 1) % rotItems.length;
-  prev.classList.remove("on"); prev.classList.add("out");
-  setTimeout(() => prev.classList.remove("out"), 700);
-  rotItems[rotIdx].classList.add("on");
-  rotBar.classList.remove("run"); void rotBar.offsetWidth; rotBar.classList.add("run");
-}
-rotBar.classList.add("run");
-setInterval(rotate, ROT_MS);
 
 /* Headline: coppie riga bianca + dolore arancione, ogni coppia è una frase intera;
    se la riga bianca è la stessa della coppia prima resta ferma e cambia solo il dolore */
