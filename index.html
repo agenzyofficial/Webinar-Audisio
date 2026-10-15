@@ -1001,7 +1001,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
    schermo nella foto 2000×1131: x 1316–1985, y 162–538 (TV allungata a 16:9 perché il video la riempia senza bande né tagli) */
 /* margini a 0 (con auto un elemento più largo del contenitore parte da sinistra); spostata a sinistra del 17,3%
    così il gruppo Andrea + TV (x 700–1993 della foto) sta al centro dello schermo */
-.hero-tv{--fade-b:86%;position:relative;z-index:auto;left:calc(min(100vw,1320px) * -.173);width:min(100vw,1320px);margin:calc(min(600px,48vw) * -.235) 0 0}
+.hero-tv{--fade-b:86%;position:relative;z-index:auto;left:calc(min(100vw,1320px) * -.173);width:min(100vw,1320px);margin:-80px 0 0}
 .tv-stage{position:relative;aspect-ratio:2000/1131}
 .tv-stage>picture{display:block}
 .tv-photo{position:absolute;inset:0;width:100%;height:100%;
@@ -1060,11 +1060,11 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @media (min-width:761px){
   .hero .event-logo{width:min(600px,48vw)}
   /* min-height:0 tiene l'altezza del taglio anche quando, in modalità cinema, il contenuto può sporgere */
-  .hero-tv{aspect-ratio:2000/860;min-height:0;overflow:hidden}
+  .hero-tv{aspect-ratio:2000/814;min-height:0;overflow:hidden}
   .tv-photo{
-    -webkit-mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
+    -webkit-mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 72%);
     -webkit-mask-composite:source-in;
-            mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
+            mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 72%);
             mask-composite:intersect}
   /* la frase sta sotto la TV, larga quanto la TV */
   .hero .promise{position:absolute;z-index:1;left:65.8%;top:50%;width:33.5%;max-width:none;margin:0;text-align:left;font-size:clamp(18px,1.7vw,26px);line-height:1.22;
@@ -1150,6 +1150,38 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .hero .hero-act .ctas .btn{height:auto;min-height:58px;font-size:17px;padding:0 30px}
   .hero .trust{margin-top:12px}
 }
+
+/* headline fissa sotto il titolo (la promessa dell'evento si legge intera) */
+.hero .headline{position:relative;z-index:2;margin:4px auto 0;max-width:62ch;font-family:var(--sans);font-weight:800;letter-spacing:-.02em;line-height:1.24;
+  font-size:clamp(19px,1.7vw,25px);text-wrap:balance;text-shadow:0 2px 16px rgba(0,0,0,.9);animation:fade 700ms var(--ease-out) 300ms both}
+.promise-kick{flex-wrap:wrap}
+.promise-kick .sep{color:var(--fg-3)}
+@media (max-width:760px){
+  .hero .headline{font-size:18px;line-height:1.28;margin-top:2px;max-width:none}
+  .hero-tv{margin-top:6px}
+}
+
+/* ── biglietti più ricchi: acciaio spazzolato, spunte, etichetta con codice a barre, countdown, garanzie ── */
+.tickets{background:radial-gradient(50% 45% at 62% 58%,rgba(255,90,20,.10),transparent 70%),var(--bg-2)}
+.tickets-cd{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:8px 14px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;
+  background:var(--box-fade),#0B0E10;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.tickets-cd [data-cd-mini]{color:var(--fg);font-variant-numeric:tabular-nums}
+.tag:not(.vip) .tag-body{background:
+  linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,0) 32%),
+  repeating-linear-gradient(90deg,rgba(0,0,0,.03) 0 1px,rgba(255,255,255,.03) 1px 3px),
+  linear-gradient(135deg,#DDE3E7,#AEB8BF 55%,#CDD4D9)}
+.tag-body ul.tick-list{margin-top:18px}
+.tick-list li,.vip-list li{position:relative;padding-left:26px}
+.tick-list li::before{content:"";position:absolute;left:2px;top:15px;width:12px;height:7px;border-left:2.5px solid var(--on-acc);border-bottom:2.5px solid var(--on-acc);transform:rotate(-45deg)}
+.tick-list li b{font-weight:800}
+.tag-code{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:22px;padding-top:14px;border-top:1.5px dashed rgba(11,13,14,.35);
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--on-acc);opacity:.7}
+.tag-code i{flex:none;width:92px;height:24px;background:repeating-linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px,currentColor 4px 5px,transparent 5px 8px,currentColor 8px 11px,transparent 11px 12px,currentColor 12px 13px,transparent 13px 16px)}
+.tickets-trust{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:980px;margin:clamp(40px,5vw,64px) auto 0}
+.tickets-trust li{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;background:var(--box-fade),#0B0E10;color:var(--fg-2);font-size:14.5px;line-height:1.35}
+.tickets-trust b{color:var(--fg);font-weight:700}
+.tickets-trust svg{flex:none;width:26px;height:26px;fill:none;stroke:var(--acc);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:760px){.tickets-trust{grid-template-columns:1fr;gap:10px}.tickets-cd{font-size:12px}}
 </style>
 </head>
 <body class="no-js">
@@ -1162,6 +1194,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile-senza-cartellino.jpg"><img src="assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture><img class="logo-tag" src="assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></div>
+    <h1 class="headline">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
       <div class="tv-stage">
@@ -1172,13 +1205,13 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           </div>
         </div>
         <div class="promise">
-          <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span>Live tra <span data-cd-mini>--</span></p>
-          <h1 class="promise-h"><span class="sr-only">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e come crescere senza lavorare il doppio.</span><span class="rot" aria-hidden="true">
-            <span class="rot-i on">Vendi già, ma ogni euro in più <span class="acc">ti costa ore in più.</span></span>
-            <span class="rot-i">I contenuti, da soli, <span class="acc">non bastano più.</span></span>
-            <span class="rot-i">In una serata ti mostro come crescere <span class="acc">senza lavorare il doppio.</span></span>
-            <span class="rot-i">Il personal brand classico <span class="acc">è morto.</span></span>
-          </span></h1>
+          <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span><span>Live tra <span data-cd-mini>--</span></span><span class="sep" aria-hidden="true">·</span><span>In questa serata</span></p>
+          <p class="promise-h"><span class="rot" aria-hidden="true">
+            <span class="rot-i on">Perché il personal brand classico <span class="acc">non vende più.</span></span>
+            <span class="rot-i">Il vero <span class="acc">collo di bottiglia</span> del tuo business.</span>
+            <span class="rot-i">Cosa <span class="acc">delegare alla tecnologia</span> nel 2026.</span>
+            <span class="rot-i">Entra basso, <span class="acc">guadagna dopo.</span></span>
+          </span></p>
           <span class="rot-bar" aria-hidden="true"><i></i></span>
         </div>
       </div>
@@ -1418,17 +1451,20 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <span class="kick rv">Ingresso</span>
     <h2 class="h2 rv">Scegli come <span class="acc">partecipare</span></h2>
     <p class="lede rv">L'ingresso standard è gratuito. Con 27 € in più hai anche un'ora di domande con Andrea, riservata ai VIP, e una consulenza personalizzata sul tuo business.</p>
+    <p class="tickets-cd mono rv"><span class="live-dot" aria-hidden="true"></span>La diretta inizia tra <span data-cd-mini>--</span></p>
     <div class="tags">
       <article class="tag rv">
         <div class="tag-body">
           <span class="mono">Ingresso standard</span>
           <h3>Gratis</h3>
           <span class="price">La serata in diretta, per intero</span>
-          <ul>
-            <li>Diretta di <span data-cfg="dateLong">giovedì 29 ottobre</span></li>
-            <li>Gruppo WhatsApp dell'evento</li>
+          <ul class="tick-list">
+            <li>Diretta di <b><span data-cfg="dateLong">giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span></b></li>
+            <li>Link e promemoria via <b>email e WhatsApp</b></li>
+            <li>Accesso al <b>gruppo WhatsApp</b> dell'evento</li>
           </ul>
           <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span></button>
+          <span class="tag-code mono" aria-hidden="true"><span>Sala 3 · N. 2910</span><i></i></span>
         </div>
       </article>
       <article class="tag vip rv">
@@ -1446,9 +1482,15 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
           </ul>
           <a class="btn" href="#" data-cfg-href="vipCheckout"><span class="lbl">Voglio la consulenza · <span data-cfg="vipPrice">27 €</span></span></a>
           <span class="vip-note">Paghi una volta sola. Niente abbonamenti.</span>
+          <span class="tag-code mono" aria-hidden="true"><span>Sala 3 · VIP · N. 2910</span><i></i></span>
         </div>
       </article>
     </div>
+    <ul class="tickets-trust rv">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8M12 16.5V20"/></svg><span><b>Online, in diretta</b> da computer o telefono</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="m4 7 8 6 8-6"/></svg><span><b>Il link ti arriva</b> via email e su WhatsApp</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>VIP: paghi una volta</b>, niente abbonamenti</span></li>
+    </ul>
   </div>
 </section>
 
@@ -1807,20 +1849,20 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
 })();
 
 /* Countdown reale all'evento: in fondo, nella barra e piccolo sotto il video */
-const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]"), cdMini = document.querySelector("[data-cd-mini]");
+const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]"), cdMinis = document.querySelectorAll("[data-cd-mini]");
 const pad = n => String(n).padStart(2, "0");
 function tick(){
   const ms = new Date(CONFIG.eventISO) - new Date();
   if (ms <= 0) {
     cd.innerHTML = '<b style="font-size:32px">In diretta ora</b>'; left.textContent = "0 minuti";
-    cdMini.parentNode.lastChild.textContent = ""; cdMini.textContent = "in corso"; return;
+    cdMinis.forEach(el => { el.textContent = "adesso"; }); return;
   }
   const sec = Math.floor(ms / 1000), m = Math.floor(sec / 60), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60, ss = sec % 60;
   cd.querySelector("[data-d]").textContent = d;
   cd.querySelector("[data-h]").textContent = pad(h);
   cd.querySelector("[data-m]").textContent = pad(mm);
   cd.querySelector("[data-s]").textContent = pad(ss);
-  cdMini.textContent = `${d > 0 ? d + "g " : ""}${pad(h)}:${pad(mm)}:${pad(ss)}`;
+  cdMinis.forEach(el => { el.textContent = `${d > 0 ? d + "g " : ""}${pad(h)}:${pad(mm)}:${pad(ss)}`; });
   const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
   left.textContent = d > 0 ? `${pl(d, "giorno", "giorni")} e ${pl(h, "ora", "ore")}` : `${pl(h, "ora", "ore")} e ${pl(mm, "minuto", "minuti")}`;
 }
