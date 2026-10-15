@@ -1154,12 +1154,22 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 }
 
 /* headline fissa sotto il titolo (la promessa dell'evento si legge intera) */
-.hero .headline{position:relative;z-index:2;margin:4px auto 0;max-width:62ch;font-family:var(--sans);font-weight:800;letter-spacing:-.02em;line-height:1.24;
-  font-size:clamp(19px,1.7vw,25px);text-wrap:balance;text-shadow:0 2px 16px rgba(0,0,0,.9);animation:fade 700ms var(--ease-out) 300ms both}
+.hero .headline{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;margin:22px auto 0;max-width:62ch;
+  font-family:var(--sans);letter-spacing:-.02em;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.9);animation:fade 700ms var(--ease-out) 300ms both}
+/* riga 1 bianca, riga 2 il dolore che cambia (arancione, evidenziato), riga 3 la promessa più piccola */
+.hl-a{font-weight:800;font-size:clamp(20px,1.75vw,26px);line-height:1.2}
+.hl-pain{font-weight:900;font-style:italic;font-size:clamp(28px,2.6vw,40px);line-height:1.12;color:var(--acc)}
+.hl-pain .rot-i > span{padding:0 .18em;background:linear-gradient(transparent 58%,rgba(255,90,20,.22) 58%,rgba(255,90,20,.22) 92%,transparent 92%);
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;text-shadow:0 0 24px rgba(255,90,20,.35)}
+.hl-b{margin-top:6px;font-weight:500;font-size:clamp(15px,1.15vw,17px);line-height:1.45;color:var(--fg-2);letter-spacing:0;max-width:58ch}
+.hl-b .acc{font-weight:700}
 .promise-kick{flex-wrap:wrap}
 .promise-kick .sep{color:var(--fg-3)}
 @media (max-width:760px){
-  .hero .headline{font-size:18px;line-height:1.28;margin-top:2px;max-width:none}
+  .hero .headline{margin-top:16px;max-width:none;gap:2px}
+  .hl-a{font-size:18px}
+  .hl-pain{font-size:25px}
+  .hl-b{font-size:14.5px;margin-top:6px}
   .hero-tv{margin-top:6px}
 }
 
@@ -1196,7 +1206,17 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile-senza-cartellino.jpg"><img src="assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture><img class="logo-tag" src="assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></div>
-    <h1 class="headline">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
+    <h1 class="headline">
+      <span class="hl-a">Vendi già, ma ogni euro in più ti costa</span>
+      <span class="hl-pain"><span class="sr-only">ore in più.</span><span class="rot hl-rot" aria-hidden="true">
+        <span class="rot-i on"><span>ore in più.</span></span>
+        <span class="rot-i"><span>più contenuti da pubblicare.</span></span>
+        <span class="rot-i"><span>più call per chiudere.</span></span>
+        <span class="rot-i"><span>più DM a cui rispondere.</span></span>
+        <span class="rot-i"><span>il tuo tempo libero.</span></span>
+      </span></span>
+      <span class="hl-b">In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</span>
+    </h1>
     <!-- Andrea col referto e il video del webinar dentro la TV -->
     <div class="hero-tv">
       <div class="tv-stage">
@@ -1871,7 +1891,7 @@ function tick(){
 tick(); setInterval(tick, 1000);
 
 /* Frasi sotto il video: cambiano ogni 4 secondi, con la barretta che si riempie */
-const rotItems = [...document.querySelectorAll(".rot-i")], rotBar = document.querySelector(".rot-bar");
+const rotItems = [...document.querySelectorAll(".promise .rot-i")], rotBar = document.querySelector(".rot-bar");
 const ROT_MS = 4000;
 let rotIdx = 0;
 rotBar.style.setProperty("--rot-ms", ROT_MS + "ms");
@@ -1885,6 +1905,17 @@ function rotate(){
 }
 rotBar.classList.add("run");
 setInterval(rotate, ROT_MS);
+
+/* Headline: il dolore cambia ogni 3 secondi (la frase resta sempre intera) */
+const painItems = [...document.querySelectorAll(".hl-rot .rot-i")];
+let painIdx = 0;
+setInterval(() => {
+  const prev = painItems[painIdx];
+  painIdx = (painIdx + 1) % painItems.length;
+  prev.classList.remove("on"); prev.classList.add("out");
+  setTimeout(() => prev.classList.remove("out"), 700);
+  painItems[painIdx].classList.add("on");
+}, 3000);
 
 /* Video nella TV: il player vturb (640×360) si scala per stare intero nello schermo della TV (16:9), comandi compresi */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
