@@ -124,7 +124,7 @@ body::after{
              linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 18%,rgba(5,6,6,0) 82%,#050606 100%)}
 
 /* ───────── REFERTO ───────── */
-.report{padding:clamp(56px,6vw,96px) 0 clamp(48px,5vw,76px)}
+.report{padding:clamp(40px,4vw,64px) 0 clamp(36px,3.5vw,56px)}
 .report .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
 .report .left{position:sticky;top:48px}
 .report .left .mono{color:var(--fg-3);display:block;margin-bottom:18px}
@@ -134,7 +134,7 @@ body::after{
 .cause p{color:var(--fg-2);margin-top:12px;max-width:58ch}
 
 /* ───────── COSA SCOPRIRAI (bento) ───────── */
-.learn{padding:clamp(48px,5vw,76px) 0}
+.learn{padding:clamp(36px,3.5vw,56px) 0}
 .points{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(32px,5vw,72px);margin-top:clamp(32px,5vw,52px);border-top:1px solid var(--line)}
 .points li{display:grid;grid-template-columns:56px 1fr;gap:18px;padding:clamp(24px,2.6vw,34px) 0;border-bottom:1px solid var(--line)}
 .points .n,.bonus .n{font-family:var(--display);font-weight:900;font-size:48px;line-height:1;color:var(--acc)}
@@ -147,7 +147,7 @@ body::after{
 .learn .after .mono{color:var(--fg-3)}
 
 /* ───────── CHI FA L'AUTOPSIA ───────── */
-.andrea{padding:clamp(48px,5vw,76px) 0;background:var(--bg-2);border-top:1px solid var(--line)}
+.andrea{padding:clamp(36px,3.5vw,56px) 0;background:var(--bg-2);border-top:1px solid var(--line)}
 .andrea .grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
 .evidence{background:var(--bg-3);border:1px solid var(--line);padding:12px}
 .evidence .ph{aspect-ratio:4/5;display:grid;place-items:center;text-align:center;color:var(--fg-3);
@@ -178,7 +178,7 @@ body::after{
 .stats span{display:block;color:var(--fg-2);font-size:15px;margin-top:10px;max-width:22ch}
 
 /* ───────── PROVE (scroll orizzontale) ───────── */
-.proof{padding:clamp(48px,5vw,76px) 0}
+.proof{padding:clamp(36px,3.5vw,56px) 0}
 .files{display:grid;grid-template-columns:repeat(4,minmax(260px,1fr));gap:16px;margin-top:clamp(36px,5vw,56px);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
 .files::-webkit-scrollbar{display:none}
 .file{scroll-snap-align:start;background:var(--bg-2);border-top:3px solid var(--steel);padding:26px 24px 28px;display:flex;flex-direction:column;min-height:300px}
@@ -189,7 +189,7 @@ body::after{
 .fine{color:var(--fg-3);font-size:13px;margin-top:18px}
 
 /* ───────── BIGLIETTI = CARTELLINI ───────── */
-.tickets{padding:clamp(48px,5vw,76px) 0;background:var(--bg-2);border-top:1px solid var(--line);overflow:hidden}
+.tickets{padding:clamp(36px,3.5vw,56px) 0;background:var(--bg-2);border-top:1px solid var(--line);overflow:hidden}
 .tags{display:flex;justify-content:center;gap:clamp(24px,5vw,72px);margin-top:clamp(56px,7vw,88px);flex-wrap:wrap}
 .tag{position:relative;width:min(100%,400px);transition:transform 300ms var(--ease-out)}
 .tag:nth-child(1){transform:rotate(-2deg)}
@@ -217,7 +217,7 @@ body::after{
 .todo{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;background:#F4D35E;color:#111;padding:0 5px;vertical-align:middle}
 
 /* ───────── DOPO L'ISCRIZIONE (timeline orizzontale) ───────── */
-.after-reg{padding:clamp(48px,5vw,76px) 0}
+.after-reg{padding:clamp(36px,3.5vw,56px) 0}
 .rail{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(36px,5vw,56px);position:relative}
 .rail::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:var(--line)}
 .stop{position:relative;padding-top:36px;padding-right:32px}
@@ -228,7 +228,7 @@ body::after{
 .stop p{color:var(--fg-2);margin-top:10px;max-width:34ch}
 
 /* ───────── FAQ ───────── */
-.faq-s{padding:clamp(48px,5vw,76px) 0}
+.faq-s{padding:clamp(36px,3.5vw,56px) 0}
 .faq{margin-top:clamp(28px,4vw,44px);border-top:1px solid var(--line);max-width:880px}
 .faq details{border-bottom:1px solid var(--line)}
 .faq summary{list-style:none;cursor:pointer;padding:24px 48px 24px 0;font-weight:600;font-size:19px;position:relative}
@@ -377,7 +377,7 @@ footer{font-size:12px}
   linear-gradient(90deg,#050606 0%,rgba(5,6,6,0) 14%,rgba(5,6,6,0) 86%,#050606 100%)}
 /* chiusura: titolo su righe piene e countdown a riquadri luminosi */
 .close-s .h2{max-width:16ch}
-.cd{display:grid;grid-template-columns:repeat(3,minmax(0,116px));gap:12px;margin-top:28px}
+.cd{display:grid;grid-template-columns:repeat(4,minmax(0,116px));gap:12px;margin-top:28px}
 .cd > div{border:2px solid var(--acc);border-radius:var(--r);box-shadow:var(--glow);background:#050505;padding:14px 8px 12px;text-align:center}
 .cd b{font-size:46px;line-height:1}
 .cd span{display:block;margin-top:6px;color:var(--fg-2)}
@@ -574,8 +574,8 @@ body.locked{overflow:hidden}
   .close-s > .wrap{margin-top:-56px}
   .close-s .h2{max-width:none;font-size:clamp(28px,8vw,34px)}
   .close-s p{font-size:16px;margin-top:14px}
-  .cd{grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
-  .cd b{font-size:36px}
+  .cd{grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
+  .cd b{font-size:32px}
   .close-s .btn{margin-top:24px}
 }
 
@@ -1067,7 +1067,8 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
             mask:linear-gradient(90deg,transparent 34%,#000 46%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 9%,#000 60%,transparent 76%);
             mask-composite:intersect}
   /* la frase sta sotto la TV, larga quanto la TV */
-  .hero .promise{position:absolute;z-index:1;left:65.8%;top:50%;width:33.5%;max-width:none;margin:0;text-align:left;font-size:clamp(17px,1.55vw,24px);line-height:1.25}
+  .hero .promise{position:absolute;z-index:1;left:65.8%;top:50%;width:33.5%;max-width:none;margin:0;text-align:left;font-size:clamp(18px,1.7vw,26px);line-height:1.22;
+    padding:14px 18px 16px;border-left:3px solid var(--acc);border-radius:0 12px 12px 0;background:linear-gradient(90deg,rgba(5,6,6,.82),rgba(5,6,6,.45));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:none}
   /* data e bottone sulla stessa riga */
   .hero-act{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
   .hero .hero-act .event-row,.hero .hero-act .ctas{margin-top:0}
@@ -1102,6 +1103,27 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .faq-side-d{margin-top:10px;color:var(--fg-2);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
   .faq-side .btn{width:100%;margin-top:18px;justify-content:center}
 }
+
+/* scritta sotto il video: sottopancia da TV con countdown e frasi che cambiano */
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.promise-kick{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);text-shadow:none}
+.promise-kick [data-cd-mini]{color:var(--fg);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);flex:none;animation:live-dot 1.6s ease-out infinite}
+@keyframes live-dot{0%{box-shadow:0 0 0 0 rgba(255,90,20,.65)}100%{box-shadow:0 0 0 10px rgba(255,90,20,0)}}
+.promise-h{font:inherit;letter-spacing:inherit;margin:0}
+.rot{display:grid}
+.rot-i{grid-area:1 / 1;opacity:0;transform:translateY(14px);filter:blur(6px);transition:opacity .55s var(--ease-out),transform .55s var(--ease-out),filter .55s var(--ease-out)}
+.rot-i.on{opacity:1;transform:none;filter:none}
+.rot-i.out{opacity:0;transform:translateY(-14px);filter:blur(6px)}
+.rot-bar{display:block;height:2px;margin-top:12px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden}
+.rot-bar i{display:block;height:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)}
+.rot-bar.run i{animation:rot-bar var(--rot-ms,4s) linear forwards}
+@keyframes rot-bar{to{transform:scaleX(1)}}
+@media (max-width:760px){
+  .promise-kick{justify-content:center}
+  .rot-bar{width:120px;margin:12px auto 0}
+}
+@media (prefers-reduced-motion:reduce){.rot-i{transition:opacity .2s linear;transform:none!important;filter:none!important}.live-dot{animation:none}.rot-bar.run i{animation:none}}
 </style>
 </head>
 <body class="no-js">
@@ -1123,7 +1145,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
             <vturb-smartplayer id="vid-6ad128d22b1887643f83e169" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
           </div>
         </div>
-        <h1 class="promise">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e <span class="acc">come crescere senza lavorare il doppio</span>.</h1>
+        <div class="promise">
+          <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span>Live tra <span data-cd-mini>--</span></p>
+          <h1 class="promise-h"><span class="sr-only">Vendi già, ma ogni euro in più ti costa ore in più. In una serata ti mostro perché i contenuti non bastano più e come crescere senza lavorare il doppio.</span><span class="rot" aria-hidden="true">
+            <span class="rot-i on">Vendi già, ma ogni euro in più <span class="acc">ti costa ore in più.</span></span>
+            <span class="rot-i">I contenuti, da soli, <span class="acc">non bastano più.</span></span>
+            <span class="rot-i">In una serata ti mostro come crescere <span class="acc">senza lavorare il doppio.</span></span>
+            <span class="rot-i">Il personal brand classico <span class="acc">è morto.</span></span>
+          </span></h1>
+          <span class="rot-bar" aria-hidden="true"><i></i></span>
+        </div>
       </div>
       <button type="button" class="tv-close" aria-label="Rimpicciolisci il video"></button>
     </div>
@@ -1430,6 +1461,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
       <div><b data-d>--</b><span class="mono">giorni</span></div>
       <div><b data-h>--</b><span class="mono">ore</span></div>
       <div><b data-m>--</b><span class="mono">minuti</span></div>
+      <div><b data-s>--</b><span class="mono">secondi</span></div>
     </div>
     <button class="btn" data-open><span class="lbl">Riserva il posto gratis</span> <span class="ar" aria-hidden="true">→</span></button>
   </div>
@@ -1748,19 +1780,41 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !vLight.hidden) vCl
   addEventListener("resize", update); update();
 })();
 
-/* Countdown reale all'evento */
-const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]");
+/* Countdown reale all'evento: in fondo, nella barra e piccolo sotto il video */
+const cd = document.querySelector("[data-cd]"), left = document.querySelector("[data-bar-left]"), cdMini = document.querySelector("[data-cd-mini]");
+const pad = n => String(n).padStart(2, "0");
 function tick(){
   const ms = new Date(CONFIG.eventISO) - new Date();
-  if (ms <= 0) { cd.innerHTML = '<b style="font-size:32px">In diretta ora</b>'; left.textContent = "0 minuti"; return; }
-  const m = Math.floor(ms / 60000), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60;
+  if (ms <= 0) {
+    cd.innerHTML = '<b style="font-size:32px">In diretta ora</b>'; left.textContent = "0 minuti";
+    cdMini.parentNode.lastChild.textContent = ""; cdMini.textContent = "in corso"; return;
+  }
+  const sec = Math.floor(ms / 1000), m = Math.floor(sec / 60), d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60, ss = sec % 60;
   cd.querySelector("[data-d]").textContent = d;
-  cd.querySelector("[data-h]").textContent = String(h).padStart(2, "0");
-  cd.querySelector("[data-m]").textContent = String(mm).padStart(2, "0");
+  cd.querySelector("[data-h]").textContent = pad(h);
+  cd.querySelector("[data-m]").textContent = pad(mm);
+  cd.querySelector("[data-s]").textContent = pad(ss);
+  cdMini.textContent = `${d > 0 ? d + "g " : ""}${pad(h)}:${pad(mm)}:${pad(ss)}`;
   const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
   left.textContent = d > 0 ? `${pl(d, "giorno", "giorni")} e ${pl(h, "ora", "ore")}` : `${pl(h, "ora", "ore")} e ${pl(mm, "minuto", "minuti")}`;
 }
-tick(); setInterval(tick, 30000);
+tick(); setInterval(tick, 1000);
+
+/* Frasi sotto il video: cambiano ogni 4 secondi, con la barretta che si riempie */
+const rotItems = [...document.querySelectorAll(".rot-i")], rotBar = document.querySelector(".rot-bar");
+const ROT_MS = 4000;
+let rotIdx = 0;
+rotBar.style.setProperty("--rot-ms", ROT_MS + "ms");
+function rotate(){
+  const prev = rotItems[rotIdx];
+  rotIdx = (rotIdx + 1) % rotItems.length;
+  prev.classList.remove("on"); prev.classList.add("out");
+  setTimeout(() => prev.classList.remove("out"), 700);
+  rotItems[rotIdx].classList.add("on");
+  rotBar.classList.remove("run"); void rotBar.offsetWidth; rotBar.classList.add("run");
+}
+rotBar.classList.add("run");
+setInterval(rotate, ROT_MS);
 
 /* Video nella TV: il player vturb (640×360) si scala per stare intero nello schermo della TV (16:9), comandi compresi */
 const tvScreen = document.querySelector(".tv-screen"), tvPlayer = tvScreen.querySelector(".tv-player");
