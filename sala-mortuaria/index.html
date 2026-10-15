@@ -885,6 +885,19 @@ body.locked{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){.btn::after{display:none}.btn:hover{transform:none}}
 @media (max-width:760px){.hero-photo{height:min(90vw,356px)}.hero .promise{font-size:19px;line-height:1.26}}
+
+/* ── sagoma grande dietro le schede di "Cosa scoprirai" ── */
+.learn{position:relative;overflow:hidden;isolation:isolate}
+.learn > .wrap{position:relative;z-index:1}
+.learn-head{display:block}
+.chalk-bg{position:absolute;z-index:0;left:50%;top:52%;transform:translate(-50%,-50%);width:min(1300px,115vw);pointer-events:none}
+.chalk-bg .chalk{display:block;width:100%;height:auto;margin:0;opacity:.75;mix-blend-mode:screen;
+  -webkit-mask:radial-gradient(ellipse at center,#000 60%,transparent 76%);mask:radial-gradient(ellipse at center,#000 60%,transparent 76%)}
+.learn .points li{background:rgba(17,20,23,.72);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+@media (max-width:760px){
+  .chalk-bg{width:min(760px,205vw);top:50%;transform:translate(-50%,-50%) rotate(90deg)}
+  .chalk-bg .chalk{opacity:.6}
+}
 </style>
 </head>
 <body class="no-js">
@@ -947,13 +960,13 @@ body.locked{overflow:hidden}
 
 <!-- ════════ COSA SCOPRIRAI (benefici) ════════ -->
 <section class="learn">
+  <div class="chalk-bg" aria-hidden="true"><img class="chalk" src="assets/sagoma-gesso.jpg" alt="" width="1100" height="738" loading="lazy" decoding="async"></div>
   <div class="wrap">
     <div class="learn-head">
       <div>
         <span class="kick rv">Il programma</span>
         <h2 class="h2 rv">Cosa scoprirai in <span class="acc">questa serata</span></h2>
       </div>
-      <img class="chalk" src="assets/sagoma-gesso.jpg" alt="Sagoma di un corpo disegnata col gesso arancione, come sulla scena di un crimine" width="1100" height="738" loading="lazy" decoding="async">
     </div>
     <ol class="points">
       <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
