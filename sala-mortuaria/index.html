@@ -756,6 +756,38 @@ body.locked{overflow:hidden}
   .hero .event-row dt{font-size:13px}
   .hero .event-row dd{font-size:clamp(26px,2.3vw,34px);margin-top:4px}
 }
+
+/* ── titoli di sezione ── */
+.kick{display:inline-flex;align-items:center;gap:10px;color:var(--acc);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.kick::before{content:"";width:26px;height:2px;background:var(--acc);box-shadow:0 0 10px rgba(255,90,20,.7)}
+.h2 .acc{text-shadow:0 0 28px rgba(255,90,20,.35)}
+@media (min-width:761px){.proof .kick,.proof .h2{display:flex;justify-content:center}.proof .kick{width:max-content;margin-left:auto;margin-right:auto}}
+/* ── referto ── */
+.report .left .kick{display:inline-flex}
+.chart{position:relative;margin-top:26px;border:1px solid var(--line);border-radius:14px;background:#0B0E10;padding:18px 18px 8px;overflow:hidden}
+.chart dl{display:grid;gap:0}
+.chart dl div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #2A3238}
+.chart dl div:last-child{border-bottom:0}
+.chart dt{color:var(--fg-3);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.chart dd{font-weight:800;font-style:italic;font-size:16px}
+.chart-stamp{position:absolute;right:-6px;top:10px;transform:rotate(12deg);border:2.5px solid rgba(255,90,20,.75);color:rgba(255,90,20,.85);
+  font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.12em;font-size:13px;padding:4px 12px;border-radius:6px;opacity:.9}
+.chart{padding-top:52px}
+.chart::before{content:"Cartella clinica";position:absolute;left:18px;top:18px;color:var(--fg-2);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.chart::after{content:"";position:absolute;left:18px;right:18px;top:44px;height:1px;background:var(--line)}
+.chart-stamp{top:12px;right:14px;transform:rotate(6deg);font-size:12px;padding:3px 10px}
+.causes{gap:14px}
+.cause{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:start;border:1px solid var(--line);border-left:3px solid var(--acc);
+  border-radius:12px;box-shadow:none;background:linear-gradient(90deg,rgba(255,90,20,.07),rgba(255,90,20,0) 40%),#0B0E10;padding:22px 22px 24px 18px}
+.cause-n{font-weight:900;font-style:italic;font-size:46px;line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(255,90,20,.85)}
+.cause-k{display:block;color:var(--fg-3);font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.cause h3{margin-top:0}
+@media (max-width:760px){
+  .cause{grid-template-columns:44px 1fr;gap:12px;padding:18px 16px 20px 14px}
+  .cause-n{font-size:34px}
+  .chart{margin-top:20px}
+}
+.cause p b,.report .lede b{color:var(--fg);font-weight:700}
 </style>
 </head>
 <body class="no-js">
@@ -819,7 +851,8 @@ body.locked{overflow:hidden}
 <!-- ════════ COSA SCOPRIRAI (benefici) ════════ -->
 <section class="learn">
   <div class="wrap">
-    <h2 class="h2 rv">Cosa scoprirai in questa serata</h2>
+    <span class="kick rv">Il programma</span>
+    <h2 class="h2 rv">Cosa scoprirai in <span class="acc">questa serata</span></h2>
     <ol class="points">
       <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
       <li class="rv"><span class="n">2</span><div><h3>Il vero collo di bottiglia del tuo business</h3><p>Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</p></div></li>
@@ -839,7 +872,8 @@ body.locked{overflow:hidden}
 <!-- ════════ LE PROVE (5 video testimonianze dalla optin profitOS) ════════ -->
 <section class="proof">
   <div class="wrap">
-    <h2 class="h2 rv">Le prove</h2>
+    <span class="kick rv">Testimonianze</span>
+    <h2 class="h2 rv">Le <span class="acc">prove</span></h2>
     <p class="lede rv">Clienti di Andrea e del suo team. Te lo raccontano loro, in video.</p>
     <div class="tvideos" data-tvideos></div>
     <p class="fine">Sono risultati individuali di persone e aziende diverse e non costituiscono una promessa di guadagno.</p>
@@ -856,26 +890,43 @@ body.locked{overflow:hidden}
 <section class="report">
   <div class="wrap grid">
     <div class="left rv">
-      <span class="mono">Referto, causa del decesso</span>
-      <h2 class="h2">Non l'ha ucciso l'algoritmo.</h2>
-      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema non è la nicchia e nemmeno l'offerta: probabilmente le hai già cambiate tre volte.</p>
+      <span class="kick">Referto, causa del decesso</span>
+      <h2 class="h2">Non l'ha ucciso <span class="acc">l'algoritmo.</span></h2>
+      <p class="lede">Se il tuo business online vende già ma resta fermo sugli stessi numeri, il problema <b>non è la nicchia e nemmeno l'offerta</b>: probabilmente le hai già cambiate tre volte.</p>
+      <div class="chart">
+        <span class="chart-stamp" aria-hidden="true">Referto</span>
+        <dl>
+          <div><dt>Paziente</dt><dd>Personal Brand</dd></div>
+          <div><dt>Età</dt><dd>2016 – 2026</dd></div>
+          <div><dt>Esito</dt><dd class="acc">Decesso</dd></div>
+          <div><dt>Cause trovate</dt><dd>4</dd></div>
+        </dl>
+      </div>
     </div>
     <div class="causes">
       <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">01</span>
+        <div><span class="cause-k">Causa n. 1</span>
         <h3>La barriera è crollata.</h3>
-        <p>Mettere la faccia e fare contenuti oggi è facile, quindi lo fanno tutti. È come aprire una pizzeria in una città che ne ha cento: per quanto tu sia bravo, anche gli altri lo sono.</p>
+        <p>Mettere la faccia e fare contenuti oggi è facile, <b>quindi lo fanno tutti</b>. È come aprire una pizzeria in una città che ne ha cento: <b>per quanto tu sia bravo, anche gli altri lo sono.</b></p></div>
       </article>
       <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">02</span>
+        <div><span class="cause-k">Causa n. 2</span>
         <h3>Nessuno si fida più.</h3>
-        <p>Reel, podcast, screenshot dei bonifici, Dubai: la gente ha già visto tutto e ci è cascata almeno una volta. Oggi il personal brand perfetto ottiene l'effetto contrario.</p>
+        <p>Reel, podcast, screenshot dei bonifici, Dubai: <b>la gente ha già visto tutto</b> e ci è cascata almeno una volta. Oggi <b>il personal brand perfetto ottiene l'effetto contrario.</b></p></div>
       </article>
       <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">03</span>
+        <div><span class="cause-k">Causa n. 3</span>
         <h3>Il collante sei tu.</h3>
-        <p>Contenuti, stories, DM, follow-up, funnel, email, call, numeri: tutto passa da te. Puoi avere l'offerta migliore del mondo: se per farla girare devi mettere benzina in ogni pezzo, prima o poi ti fermi.</p>
+        <p>Contenuti, stories, DM, follow-up, funnel, email, call, numeri: <b>tutto passa da te.</b> Puoi avere l'offerta migliore del mondo: se per farla girare devi mettere benzina in ogni pezzo, <b>prima o poi ti fermi.</b></p></div>
       </article>
       <article class="cause rv">
+        <span class="cause-n" aria-hidden="true">04</span>
+        <div><span class="cause-k">Causa n. 4</span>
         <h3>La cura era altro lavoro.</h3>
-        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» Per imparare tutto questo servono anni e nel frattempo devi mangiare. Ogni corso ti ha lasciato soltanto una lista più lunga di cose da fare.</p>
+        <p>«Ti serve un sistema, impara a delegare, diventa imprenditore.» <b>Per imparare tutto questo servono anni</b> e nel frattempo devi mangiare. Ogni corso ti ha lasciato <b>soltanto una lista più lunga di cose da fare.</b></p></div>
       </article>
     </div>
   </div>
@@ -895,7 +946,8 @@ body.locked{overflow:hidden}
         <figcaption class="cap mono"><span>Dott. Andrea Audisio</span><span>CEO, ProfitOS</span></figcaption>
       </figure>
       <div class="rv">
-        <h2 class="h2">Chi fa l'autopsia</h2>
+        <span class="kick">Il medico legale</span>
+        <h2 class="h2">Chi fa <span class="acc">l'autopsia</span></h2>
         <p class="bio">Ho aperto la mia prima azienda a 18 anni, contro tutti. Da quasi vent'anni costruisco business, miei e degli altri, come <b>founder, socio, COO, CMO e partner operativo</b>. Ho vinto e mi sono anche bruciato: un socio a cui avevo insegnato tutto mi ha clonato il business. Da lì ho capito che i processi valgono più della fiducia cieca.</p>
         <ol class="tl2">
           <li><span class="y">2007</span><div><h4>La partenza</h4><p>Fondo <b>Kelevra</b>, la mia prima web agency, quando Facebook in Italia è ancora in inglese e Instagram non esiste. Cresce fino a <b>circa 400 clienti</b>.</p></div></li>
@@ -920,7 +972,8 @@ body.locked{overflow:hidden}
 <!-- ════════ DOPO L'ISCRIZIONE ════════ -->
 <section class="after-reg">
   <div class="wrap">
-    <h2 class="h2 rv">Cosa succede dopo</h2>
+    <span class="kick rv">Dopo l'iscrizione</span>
+    <h2 class="h2 rv">Cosa succede <span class="acc">dopo</span></h2>
     <div class="rail">
       <div class="stop rv"><span class="mono">Subito</span><h3>Ricevi il link</h3><p>Ti mandiamo subito tutti i dettagli via email e su WhatsApp.</p></div>
       <div class="stop rv"><span class="mono">Nei giorni prima</span><h3>Ti chiama il team</h3><p>Ti chiamiamo per confermare la tua presenza, così il posto non resta vuoto.</p></div>
@@ -932,7 +985,8 @@ body.locked{overflow:hidden}
 <!-- ════════ INGRESSO ════════ -->
 <section class="tickets" id="ingresso">
   <div class="wrap">
-    <h2 class="h2 rv">Scegli come partecipare</h2>
+    <span class="kick rv">Ingresso</span>
+    <h2 class="h2 rv">Scegli come <span class="acc">partecipare</span></h2>
     <p class="lede rv">L'ingresso standard è gratuito. Con 27 € in più resti con Andrea un'ora in più dopo la serata, nella sessione riservata ai VIP: fai le tue domande e approfondisci il tuo caso.</p>
     <div class="tags">
       <article class="tag rv">
@@ -972,7 +1026,8 @@ body.locked{overflow:hidden}
 <!-- ════════ FAQ ════════ -->
 <section class="faq-s">
   <div class="wrap">
-    <h2 class="h2 rv">Domande</h2>
+    <span class="kick rv">FAQ</span>
+    <h2 class="h2 rv">Domande <span class="acc">frequenti</span></h2>
     <div class="faq rv">
       <details><summary>A chi è rivolto?</summary><div class="a"><div><p>A coach, consulenti, formatori, creator e professionisti che hanno già un business online che vende e che si sono accorti che tutto passa da loro. Se hai solo un'idea e non hai ancora venduto, non è per te.</p></div></div></details>
       <details><summary>È davvero gratis?</summary><div class="a"><div><p>Sì. L'ingresso standard è gratuito. Il VIP è facoltativo: costa 27 € e include un'ora in più con Andrea dopo la serata, riservata ai VIP, per fare domande e approfondire.</p></div></div></details>
