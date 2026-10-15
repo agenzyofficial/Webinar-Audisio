@@ -1124,6 +1124,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .rot-bar{width:120px;margin:12px auto 0}
 }
 @media (prefers-reduced-motion:reduce){.rot-i{transition:opacity .2s linear;transform:none!important;filter:none!important}.live-dot{animation:none}.rot-bar.run i{animation:none}}
+
+/* tutti i box scuri come le cause 01 02 03: bordo sinistro arancione e sfumatura arancione da sinistra */
+:root{--box-fade:linear-gradient(90deg,rgba(255,90,20,.07),rgba(255,90,20,0) 40%)}
+.learn .points li,.chart,.stats div,.faq details,.faq-side{border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px}
+.learn .points li{background:var(--box-fade),rgba(11,14,16,.85)}
+.chart{background:var(--box-fade),#0B0E10}
+.stats div{background:var(--box-fade),#0B0E10}
+.faq details{background:var(--box-fade),#0B0E10}
+.faq details[open]{border-color:rgba(255,90,20,.55);border-left-color:var(--acc);background:linear-gradient(90deg,rgba(255,90,20,.12),rgba(255,90,20,0) 45%),#0B0E10}
+.faq-side{background:var(--box-fade),#0B0E10}
 </style>
 </head>
 <body class="no-js">
