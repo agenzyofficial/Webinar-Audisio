@@ -858,6 +858,32 @@ body.locked{overflow:hidden}
 @keyframes sway{0%,100%{transform:rotate(calc(var(--r) - 2.2deg)) scale(var(--s))}50%{transform:rotate(calc(var(--r) + 2.2deg)) scale(var(--s))}}
 @media (hover:hover) and (pointer:fine){.tags .tag:hover{animation-play-state:paused}}
 @media (prefers-reduced-motion:reduce){.tags .tag{animation:none}}
+
+/* ── sagoma col gesso accanto a "Cosa scoprirai" ── */
+.learn-head{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.learn-head > div{flex:1 1 auto}
+.chalk{flex:0 0 auto;width:clamp(260px,30vw,400px);height:auto;margin-right:-10px}
+.chalk{mix-blend-mode:screen;-webkit-mask:radial-gradient(ellipse at center,#000 62%,transparent 78%);mask:radial-gradient(ellipse at center,#000 62%,transparent 78%)}
+@media (max-width:760px){
+  .learn-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .chalk{width:min(78vw,300px);align-self:center;margin:4px 0 -6px}
+}
+
+/* ── hover dei bottoni ── */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-18deg);transition:left 650ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){
+  .btn{transition:transform 220ms var(--ease-out),box-shadow 220ms ease,background-color 220ms ease,color 220ms ease}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,90,20,.55),0 0 0 1px rgba(255,255,255,.08)}
+  .btn:hover::after{left:120%}
+  .btn:hover .ar{transform:translateX(6px)}
+  .btn.ghost:hover{background:rgba(255,90,20,.1);color:var(--acc);box-shadow:inset 0 0 0 1.5px var(--acc),0 8px 24px rgba(255,90,20,.25)}
+  .tag-body .btn:hover{background:#000;color:var(--acc);box-shadow:0 10px 26px rgba(0,0,0,.45)}
+  .bar .btn:hover{box-shadow:0 6px 20px rgba(255,90,20,.6)}
+  .btn:active{transform:translateY(0) scale(.98)}
+}
+@media (prefers-reduced-motion:reduce){.btn::after{display:none}.btn:hover{transform:none}}
 </style>
 </head>
 <body class="no-js">
@@ -921,8 +947,13 @@ body.locked{overflow:hidden}
 <!-- ════════ COSA SCOPRIRAI (benefici) ════════ -->
 <section class="learn">
   <div class="wrap">
-    <span class="kick rv">Il programma</span>
-    <h2 class="h2 rv">Cosa scoprirai in <span class="acc">questa serata</span></h2>
+    <div class="learn-head">
+      <div>
+        <span class="kick rv">Il programma</span>
+        <h2 class="h2 rv">Cosa scoprirai in <span class="acc">questa serata</span></h2>
+      </div>
+      <img class="chalk" src="assets/sagoma-gesso.jpg" alt="Sagoma di un corpo disegnata col gesso arancione, come sulla scena di un crimine" width="1100" height="738" loading="lazy" decoding="async">
+    </div>
     <ol class="points">
       <li class="rv"><span class="n">1</span><div><h3>Perché il personal brand classico non vende più</h3><p>Che cosa è cambiato davvero e perché oggi più contenuti non significano più vendite.</p></div></li>
       <li class="rv"><span class="n">2</span><div><h3>Il vero collo di bottiglia del tuo business</h3><p>Non ti manca un'altra strategia. C'è un punto preciso che blocca tutto e, molto spesso, quel punto sei tu.</p></div></li>
