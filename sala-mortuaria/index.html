@@ -850,6 +850,14 @@ body.locked{overflow:hidden}
 @media (max-width:1000px){.cases3{grid-template-columns:1fr 1fr}.case3:last-child{grid-column:1 / -1}}
 @media (max-width:760px){.cases3{grid-template-columns:1fr;gap:14px}.case3:last-child{grid-column:auto}.case3-ph{height:210px}}
 @media (min-width:761px){.proof .case3 .kick,.proof .bigcase .kick{margin-left:0;margin-right:0;justify-content:flex-start}}
+
+/* ── cartellini che dondolano appesi allo spago ── */
+.tags .tag{--r:0deg;--s:1;transform-origin:50% -56px;animation:sway 3.4s ease-in-out infinite}
+.tags .tag.vip{animation-duration:3.9s;animation-delay:-1.2s}
+@media (min-width:761px){.tags .tag:not(.vip){--r:-2deg}.tags .tag.vip{--r:1.6deg;--s:1.06}}
+@keyframes sway{0%,100%{transform:rotate(calc(var(--r) - 2.2deg)) scale(var(--s))}50%{transform:rotate(calc(var(--r) + 2.2deg)) scale(var(--s))}}
+@media (hover:hover) and (pointer:fine){.tags .tag:hover{animation-play-state:paused}}
+@media (prefers-reduced-motion:reduce){.tags .tag{animation:none}}
 </style>
 </head>
 <body class="no-js">
