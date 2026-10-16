@@ -42,6 +42,7 @@ Nel workflow GHL:
 2. Mappa i campi con **Create/Update Contact**.
 3. Aggiungi il tag `variante-{{inboundWebhookRequest.variante}}`.
 4. Ramo If/Else su `inboundWebhookRequest.ticket` uguale a `vip` → tag `vip`. Arriva con `tipo=acquisto_vip` appena chi si è iscritto gratis paga su Whop, e con `tipo=scheda_vip` quando un VIP manda la scheda.
+5. La scheda VIP (`tipo=scheda_vip`) arriva anche tutta in un solo campo, `scheda_testo`, con domande e risposte su più righe: mappalo su un campo personalizzato di tipo testo lungo.
 
 Meta Pixel: inserisci il codice del Pixel nell'`<head>` di `index.html`. La pagina invia già `CompleteRegistration` con il parametro `variant`.
 

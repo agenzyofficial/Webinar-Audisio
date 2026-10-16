@@ -648,6 +648,25 @@ form.addEventListener("submit", async e => {
   d.canali_clienti = canali.filter(c => c.checked).map(c => c.value).join(", ");
   const qs = new URLSearchParams(location.search);
   if (qs.get("payment")) d.whop_payment = qs.get("payment");
+  /* tutta la scheda in un solo testo, da mettere in un campo "testo lungo" del contatto in GHL */
+  d.scheda_testo = [
+    "SCHEDA VIP · La morte del personal brand",
+    "Nome: " + d.full_name,
+    "Email: " + d.email,
+    "WhatsApp: " + d.phone,
+    d.whop_payment ? "Pagamento Whop: " + d.whop_payment : null,
+    "",
+    "1. Fatturato mensile medio (ultimi 3 mesi): " + d.fatturato_mensile,
+    "2. Offerta principale e prezzo: " + d.offerta_prezzo,
+    "3. Da dove arrivano oggi i clienti: " + d.canali_clienti,
+    "4. Call di vendita al mese: " + d.call_mese + " fatte, " + d.call_chiuse + " chiuse",
+    "5. Ore a settimana sul business: " + d.ore_settimana,
+    "6. Chi lavora con te: " + d.team,
+    "7. Cosa passa ancora solo da te: " + d.solo_da_te,
+    "8. Cosa hai già provato a cambiare: " + d.gia_provato,
+    "9. Obiettivo a 6 mesi: " + d.obiettivo_6_mesi,
+    "10. Profilo Instagram o sito: " + (d.link_profilo || "-")
+  ].filter(l => l !== null).join("\n");
   d.page_url = location.href.split("#")[0];
   try { if (CONFIG.ghlWebhookUrl) await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (err) {}
   schedaDone = true;
