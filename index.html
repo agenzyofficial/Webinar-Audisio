@@ -865,7 +865,7 @@ body.locked{overflow:hidden}
 .tags .tag{--r:0deg;--s:1;transform-origin:50% -56px;animation:sway 3.4s ease-in-out infinite}
 .tags .tag.vip{animation-duration:3.9s;animation-delay:-1.2s}
 @media (min-width:761px){.tags .tag:not(.vip){--r:-2deg}.tags .tag.vip{--r:1.6deg;--s:1.06}}
-@keyframes sway{0%,100%{transform:rotate(calc(var(--r) - 2.2deg)) scale(var(--s))}50%{transform:rotate(calc(var(--r) + 2.2deg)) scale(var(--s))}}
+@keyframes sway{0%,100%{transform:rotate(calc(var(--r) - var(--amp,2.2deg))) scale(var(--s))}50%{transform:rotate(calc(var(--r) + var(--amp,2.2deg))) scale(var(--s))}}
 @media (hover:hover) and (pointer:fine){.tags .tag:hover{animation-play-state:paused}}
 @media (prefers-reduced-motion:reduce){.tags .tag{animation:none}}
 
@@ -1310,6 +1310,16 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .hl-b.hl-b-top{display:block;max-width:min(920px,100%);margin:14px auto 0;text-shadow:0 2px 4px rgba(0,0,0,.8),0 0 14px rgba(0,0,0,.6)}
   .hl-b-top::before{display:none}
 }
+/* telefono: i biglietti oscillano meno e sono un filo più stretti, così il fondo non esce mai dallo schermo */
+@media (max-width:760px){
+  .tags .tag{--amp:1.2deg;width:min(100% - 16px,400px)}
+}
+/* iPhone: niente scorrimento di lato, né della pagina né del modulo */
+html,body{overflow-x:clip}
+.modal{touch-action:pan-y;overscroll-behavior:contain}
+.modal .panel{overflow-x:hidden;touch-action:pan-y}
+.modal .panel *{max-width:100%}
+.panel .tel{min-width:0}
 </style>
 </head>
 <body class="no-js">
