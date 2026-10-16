@@ -81,6 +81,9 @@ main::before{content:"";position:absolute;inset:0 0 auto;height:420px;z-index:-1
 .btn svg{width:22px;height:22px;fill:currentColor;flex:none}
 
 .box p.pizza{margin-top:12px;color:var(--fg);font-weight:600}
+.box p.guar{display:flex;gap:10px;align-items:flex-start;text-align:left;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;font-size:15px;line-height:1.4;color:var(--fg-2)}
+.box p.guar b{color:var(--fg)}
+.guar svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* biglietto standard: bianco, si distingue dal VIP arancione ma si vede bene */
 .box.std{border-left-color:var(--fg-2);background:linear-gradient(90deg,rgba(232,236,238,.05),rgba(232,236,238,0) 40%),#0B0E10}
 .box.std .kick{color:var(--fg-2)}
@@ -140,7 +143,9 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
       <span class="kick">Biglietto VIP</span>
       <h2>Vuoi il referto del tuo <span class="acc">business?</span></h2>
       <p>Con il biglietto VIP, oltre alla serata, ricevi il <b>referto scritto del tuo business</b>, fatto sui tuoi numeri, e resti nell'<b>ora riservata ai VIP</b> dopo la diretta.</p>
+      <p>La serata è uguale per tutti. Il referto no: ti dice <b>cosa non funziona nel tuo business</b> e da dove ripartire.</p>
       <p class="pizza">Costa come un'analisi del sangue: <b>eviterei di perderlo.</b></p>
+      <p class="guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Soddisfatti o rimborsati.</b> Se il referto e l'ora VIP non ti servono, ti ridiamo tutto. Senza domande.</span></p>
       <a class="btn" href="../vip/?da=accesso">Scopri cos'hai con il VIP <span aria-hidden="true">→</span></a>
     </section>
 
