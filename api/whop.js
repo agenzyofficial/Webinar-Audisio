@@ -1,12 +1,13 @@
 /* Whop → GHL.
-   Whop chiama questo indirizzo quando si attiva un'iscrizione (webhook "membership.activated").
+   Whop chiama questo indirizzo a ogni pagamento riuscito (webhook "payment.succeeded").
    Se è il Biglietto VIP, il cliente va allo stesso webhook GHL del sito con ticket = vip,
    così arriva in GHL anche chi paga senza essersi iscritto gratis dallo stesso browser.
-   Il telefono arriva dalla domanda obbligatoria "Numero WhatsApp" del checkout (custom_field_responses).
-   Gestisce anche "payment.succeeded", ma su Whop va attivato un solo evento, sennò l'acquisto arriva due volte.
+   Il telefono è la risposta alla domanda obbligatoria "Numero WhatsApp" del checkout: non è nel pagamento,
+   sta nell'iscrizione, e la leggiamo con WHOP_API_KEY (senza chiave l'acquisto arriva lo stesso, senza telefono).
+   Gestisce anche "membership.activated", ma su Whop va attivato un solo evento, sennò l'acquisto arriva due volte.
    Se su Vercel c'è WHOP_WEBHOOK_SECRET (il "Secret" del webhook su Whop) la firma viene controllata. */
 const crypto = require("crypto");
-const { cleanPhone, phoneFromAnswers, splitName } = require("./_telefono.js");
+const { cleanPhone, phoneFromAnswers, splitName, answersFromWhop } = require("./_telefono.js");
 
 const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/yfFcdqju49Ta8CnyU0nO/webhook-trigger/d6f43765-e5a2-4251-ab1f-4b34d1366a4b";
 const WHOP_ACCOUNT = "biz_EcRBCCmpcWE0SL";
@@ -60,7 +61,8 @@ module.exports = async (req, res) => {
   const isMembership = type === "membership.activated";
   const user = p.user || {};
   const name = splitName(user.name || (p.billing_address && p.billing_address.name));
-  const phone = phoneFromAnswers(p.custom_field_responses) || cleanPhone(p.customer_phone || (p.member && p.member.phone) || (p.membership && p.membership.phone_number));
+  let phone = phoneFromAnswers(p.custom_field_responses) || cleanPhone(p.customer_phone || (p.member && p.member.phone) || (p.membership && p.membership.phone_number));
+  if (!phone && !isMembership && p.membership && p.membership.id) phone = phoneFromAnswers(await answersFromWhop(p.membership.id));
   const body = new URLSearchParams({
     full_name: name.full_name,
     first_name: name.first_name,

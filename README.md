@@ -41,10 +41,10 @@ Nel workflow GHL:
 1. Usa **Fetch Sample Requests** dopo un'iscrizione di prova.
 2. Mappa i campi con **Create/Update Contact**.
 3. Aggiungi il tag `variante-{{inboundWebhookRequest.variante}}`.
-4. Ramo If/Else su `inboundWebhookRequest.ticket` uguale a `vip` → tag `vip`. Arriva con `tipo=acquisto_vip` dal webhook di Whop (`api/whop.js`, evento `membership.activated`) a ogni acquisto del Biglietto VIP, con il telefono preso dalla domanda obbligatoria "Numero WhatsApp" del checkout, e con `tipo=scheda_vip` quando un VIP manda la scheda.
-
-Whop su Vercel: `WHOP_API_KEY` (chiave API dell'account Whop) serve ad `api/whop-cliente.js`, che dopo il pagamento compila e blocca nome, cognome, email e WhatsApp nella scheda VIP. `WHOP_WEBHOOK_SECRET` (facoltativa) attiva il controllo della firma del webhook.
+4. Ramo If/Else su `inboundWebhookRequest.ticket` uguale a `vip` → tag `vip`. Arriva con `tipo=acquisto_vip` dal webhook di Whop (`api/whop.js`, evento `payment.succeeded`) a ogni acquisto del Biglietto VIP, con il telefono preso dalla domanda obbligatoria "Numero WhatsApp" del checkout (letta dall'iscrizione con `WHOP_API_KEY`), e con `tipo=scheda_vip` quando un VIP manda la scheda.
 5. La scheda VIP (`tipo=scheda_vip`) arriva anche tutta in un solo campo, `scheda_testo`, con domande e risposte su più righe: mappalo su un campo personalizzato di tipo testo lungo.
+
+Whop su Vercel: `WHOP_API_KEY` (chiave API dell'account Whop) serve ad `api/whop.js` per leggere il numero WhatsApp e ad `api/whop-cliente.js`, che dopo il pagamento compila e blocca nome, cognome, email e WhatsApp nella scheda VIP. `WHOP_WEBHOOK_SECRET` (facoltativa) attiva il controllo della firma del webhook.
 
 Meta Pixel: inserisci il codice del Pixel nell'`<head>` di `index.html`. La pagina invia già `CompleteRegistration` con il parametro `variant`.
 

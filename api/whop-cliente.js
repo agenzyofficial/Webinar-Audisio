@@ -2,7 +2,7 @@
    così la scheda arriva già compilata e bloccata. Chiamata: /api/whop-cliente/?payment=pay_…
    Serve WHOP_API_KEY su Vercel (chiave API dell'account Whop). Risponde solo per il Biglietto VIP
    e per pagamenti delle ultime 48 ore. */
-const { cleanPhone, phoneFromAnswers, splitName } = require("./_telefono.js");
+const { cleanPhone, phoneFromAnswers, splitName, answersFromWhop } = require("./_telefono.js");
 
 const VIP_PRODUCT = "prod_vULKxWqiBAuZF";
 const API = "https://api.whop.com/api/v1";
@@ -33,9 +33,7 @@ module.exports = async (req, res) => {
     const when = Date.parse(pay.paid_at || pay.created_at || "");
     if (!when || Date.now() - when > 48 * 3600 * 1000) return send(res, 404, { error: "pagamento vecchio" });
 
-    let answers = [];
-    const memId = pay.membership && pay.membership.id;
-    if (memId) { try { answers = (await get("/memberships/" + memId)).custom_field_responses || []; } catch (e) {} }
+    const answers = await answersFromWhop(pay.membership && pay.membership.id);
 
     const user = pay.user || {};
     const name = splitName(user.name || (pay.billing_address && pay.billing_address.name));
