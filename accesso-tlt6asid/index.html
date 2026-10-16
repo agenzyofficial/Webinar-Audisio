@@ -104,6 +104,19 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
   .btn.btn-wa{font-size:14.5px;letter-spacing:0;gap:8px;padding:0 12px}
 }
 @media (prefers-reduced-motion:reduce){.vlogo picture img,.vlogo .logo-tag{animation:none}.btn{transition:none}}
+/* i due biglietti: uno sotto l'altro sul telefono, affiancati da computer */
+.choices .box{margin-top:0}
+.choices{margin-top:22px}
+.choices .box + .box{margin-top:16px}
+@media (min-width:761px){
+  .wrap{max-width:980px}
+  .alert{max-width:680px;margin:0 auto}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+  .choices .box + .box{margin-top:0}
+  .choices .box{display:flex;flex-direction:column;align-items:center;padding:28px 26px}
+  .choices .box p{margin-bottom:22px}
+  .choices .btn{margin-top:auto;width:100%;padding:0 18px}
+}
 </style>
 </head>
 <body>
@@ -119,6 +132,7 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
       <h1>Prima di darti l'accesso al gruppo WhatsApp, <span class="acc">leggi qui.</span></h1>
     </div>
 
+    <div class="choices">
     <section class="box vip">
       <span class="kick">Biglietto VIP</span>
       <h2>Vuoi il referto del tuo <span class="acc">business?</span></h2>
@@ -128,10 +142,11 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
 
     <section class="box std" id="gruppo">
       <span class="kick">Biglietto standard</span>
-      <h2>Prosegui con lo <span class="std-acc">standard</span></h2>
-      <p>Tieni l'ingresso gratuito alla serata. Nel prossimo passo entri nel <b>gruppo WhatsApp</b>, dove arriva il link della diretta.</p>
+      <h2>Prosegui con lo <span class="std-acc">standard</span> ed entra nel gruppo <span style="color:var(--wa)">WhatsApp</span></h2>
+      <p>Tieni l'ingresso gratuito alla serata. Nel <b>gruppo WhatsApp</b> arriva il link della diretta, insieme ai promemoria.</p>
       <a class="btn btn-std" href="../conferma-kyuaazwk/">Prosegui con lo standard <span aria-hidden="true">→</span></a>
     </section>
+    </div>
   </div>
 </main>
 
