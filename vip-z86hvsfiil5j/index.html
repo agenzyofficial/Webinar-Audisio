@@ -362,6 +362,10 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   100%{opacity:1;transform:none}}
 @keyframes tag-swing{0%,100%{transform:none}25%{transform:rotate(4deg)}75%{transform:rotate(-4deg)}}
 @media (prefers-reduced-motion:reduce){.event-logo picture img,.event-logo .logo-tag{animation:none}}
+/* scheda: nome e cognome affiancati */
+.sform .name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sform .name-row label{min-width:0}
+.sform .name-row input{width:100%;min-width:0}
 </style>
 <!-- Whop Pixel -->
 <script>!function(w,d,s,u,n,a,b){if(w[n])return;a=w[n]={q:[],t:+new Date,s:[],o:u,track:function(){a.q.push([+new Date].concat([].slice.call(arguments)))},setScope:function(){a.s=[].slice.call(arguments).filter(function(x){return typeof x==="string"});a.q.push([+new Date,"setScope"].concat(a.s))},scope:function(){var c=[].slice.call(arguments);return{track:function(){a.q.push([+new Date].concat([].slice.call(arguments)).concat([{__scope:c}]))}}}};b=d.createElement(s);b.async=1;b.src=u+"/s.js";d.getElementsByTagName(s)[0].parentNode.insertBefore(b,d.getElementsByTagName(s)[0])}(window,document,"script","https://t.whop.tw","whop");whop.setScope("biz_EcRBCCmpcWE0SL");whop.track("page");</script>
@@ -392,7 +396,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <form class="sform" novalidate data-scheda>
       <fieldset>
         <legend>I tuoi dati</legend>
-        <label>Nome e cognome<input type="text" name="nome" autocomplete="name" autocapitalize="words" required></label>
+        <div class="name-row"><label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" required></label><label>Cognome<input type="text" name="cognome" autocomplete="family-name" autocapitalize="words" required></label></div>
         <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="La stessa usata per pagare" required></label>
         <label>WhatsApp<span class="tel"><span class="pre-pick"><span class="pre-face" aria-hidden="true" data-pre-face></span><select name="prefisso" aria-label="Prefisso internazionale"><option value="+39" selected>🇮🇹 Italia +39</option><option value="+41">🇨🇭 Svizzera +41</option><option value="+351">🇵🇹 Portogallo +351</option><option value="+44">🇬🇧 Regno Unito +44</option><option value="+34">🇪🇸 Spagna +34</option><option value="+49">🇩🇪 Germania +49</option><option value="+33">🇫🇷 Francia +33</option><option value="altro">🌍 Altro prefisso</option></select></span><input class="pre-altro" type="text" name="prefisso_altro" inputmode="tel" autocomplete="off" placeholder="+1" aria-label="Altro prefisso" hidden><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" placeholder="333 123 4567" required></span></label>
       </fieldset>
@@ -591,7 +595,9 @@ if (qsEmail) form.email.value = qsEmail;
 let lead = null;
 try { lead = JSON.parse(localStorage.getItem("pbm-lead") || "null"); } catch (e) {}
 if (lead) {
-  if (lead.full_name && !form.nome.value) form.nome.value = lead.full_name;
+  const lf = lead.first_name || (lead.full_name || "").split(/\s+/)[0] || "", ll = lead.last_name || (lead.full_name || "").split(/\s+/).slice(1).join(" ");
+  if (lf && !form.nome.value) form.nome.value = lf;
+  if (ll && !form.cognome.value) form.cognome.value = ll;
   if (lead.email && !form.email.value) form.email.value = lead.email;
   const pre = [...form.prefisso.options].map(o => o.value).filter(v => v.startsWith("+")).sort((x, y) => y.length - x.length).find(v => (lead.phone || "").startsWith(v));
   if (pre && !form.telefono.value) { form.prefisso.value = pre; form.prefisso.dispatchEvent(new Event("change")); form.telefono.value = lead.phone.slice(pre.length); }
@@ -605,7 +611,7 @@ if (payId && lead && (lead.email || lead.phone) && CONFIG.ghlWebhookUrl) {
   try { sent = localStorage.getItem("pbm-vip-acquisto"); } catch (e) {}
   if (sent !== payId) {
     const nm = lead.full_name || "";
-    const d = { full_name: nm, first_name: nm.split(/\s+/)[0] || "", last_name: nm.split(/\s+/).slice(1).join(" "), email: lead.email || "", phone: lead.phone || "",
+    const d = { full_name: nm, first_name: lead.first_name || nm.split(/\s+/)[0] || "", last_name: lead.last_name || nm.split(/\s+/).slice(1).join(" "), email: lead.email || "", phone: lead.phone || "",
       variante: CONFIG.variant, evento: "La morte del personal brand", ticket: "vip", tipo: "acquisto_vip", whop_payment: payId,
       whop_status: new URLSearchParams(location.search).get("status") || "", page_url: location.href.split("#")[0] };
     fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) })
@@ -635,8 +641,8 @@ form.addEventListener("submit", async e => {
   const btn = form.querySelector('button[type="submit"]'); btn.classList.add("sending"); btn.disabled = true;
   const raw = Object.fromEntries(new FormData(form));
   const d = {};
-  const name = (raw.nome || "").trim();
-  d.full_name = name; d.first_name = name.split(/\s+/)[0] || ""; d.last_name = name.split(/\s+/).slice(1).join(" ");
+  const first = (raw.nome || "").trim(), last = (raw.cognome || "").trim();
+  d.full_name = [first, last].filter(Boolean).join(" "); d.first_name = first; d.last_name = last;
   d.email = (raw.email || "").trim();
   let ph = (raw.telefono || "").replace(/[^\d+]/g, "");
   const pre = "+" + String(raw.prefisso === "altro" ? raw.prefisso_altro || "" : raw.prefisso || CONFIG.phonePrefix || "+39").replace(/\D/g, "");

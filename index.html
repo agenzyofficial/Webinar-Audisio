@@ -1320,6 +1320,10 @@ html,body{overflow-x:clip}
 .modal .panel{overflow-x:hidden;touch-action:pan-y}
 .modal .panel *{max-width:100%}
 .panel .tel{min-width:0}
+/* popup: nome e cognome affiancati */
+.panel .name-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.panel .name-row label{min-width:0}
+.panel .name-row input{width:100%;min-width:0}
 </style>
 <!-- Whop Pixel -->
 <script>!function(w,d,s,u,n,a,b){if(w[n])return;a=w[n]={q:[],t:+new Date,s:[],o:u,track:function(){a.q.push([+new Date].concat([].slice.call(arguments)))},setScope:function(){a.s=[].slice.call(arguments).filter(function(x){return typeof x==="string"});a.q.push([+new Date,"setScope"].concat(a.s))},scope:function(){var c=[].slice.call(arguments);return{track:function(){a.q.push([+new Date].concat([].slice.call(arguments)).concat([{__scope:c}]))}}}};b=d.createElement(s);b.async=1;b.src=u+"/s.js";d.getElementsByTagName(s)[0].parentNode.insertBefore(b,d.getElementsByTagName(s)[0])}(window,document,"script","https://t.whop.tw","whop");whop.setScope("biz_EcRBCCmpcWE0SL");whop.track("page");</script>
@@ -1719,7 +1723,7 @@ html,body{overflow-x:clip}
       <p class="pp"><span data-cfg="dateLong">Giovedì 29 ottobre</span>, ore <span data-cfg="time">21:00</span>. Online e gratuito.</p>
     </div>
     <form novalidate data-form>
-      <label>Nome e cognome<input type="text" name="nome" autocomplete="name" autocapitalize="words" enterkeyhint="next" placeholder="Nome e cognome" required></label>
+      <div class="name-row"><label>Nome<input type="text" name="nome" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" placeholder="Nome" required></label><label>Cognome<input type="text" name="cognome" autocomplete="family-name" autocapitalize="words" enterkeyhint="next" placeholder="Cognome" required></label></div>
       <label>Email<input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="nome@email.it" required></label>
       <label>WhatsApp<span class="tel"><span class="pre pre-pick"><span class="pre-face" aria-hidden="true" data-pre-face></span><select name="prefisso" aria-label="Prefisso internazionale"><option value="+39" selected>🇮🇹 Italia +39</option><option value="+41">🇨🇭 Svizzera +41</option><option value="+351">🇵🇹 Portogallo +351</option><option value="+44">🇬🇧 Regno Unito +44</option><option value="+34">🇪🇸 Spagna +34</option><option value="+49">🇩🇪 Germania +49</option><option value="+33">🇫🇷 Francia +33</option><option value="altro">🌍 Altro prefisso</option></select></span><input class="pre-altro" type="text" name="prefisso_altro" inputmode="tel" autocomplete="off" placeholder="+1" aria-label="Altro prefisso" hidden><input type="tel" name="telefono" autocomplete="tel-national" inputmode="tel" enterkeyhint="done" placeholder="333 123 4567" required></span></label>
       <label class="consent"><input type="checkbox" name="privacy" required><span>Ho letto e accetto la <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">privacy policy</a> e voglio ricevere il link, i promemoria dell'evento ed essere contattato dal team via telefono e WhatsApp.</span></label>
@@ -1760,10 +1764,12 @@ const CONFIG = {
 const pbmQS = new URLSearchParams(location.search);
 async function pbmSend(raw) {
   const d = {};
-  const name = (raw.full_name || raw.nome || raw.first_name || "").trim();
+  /* nome e cognome arrivano da due campi separati: a GHL vanno sia insieme sia divisi */
+  const first = (raw.nome || raw.first_name || "").trim(), last = (raw.cognome || raw.last_name || "").trim();
+  const name = (raw.full_name || [first, last].filter(Boolean).join(" ")).trim();
   d.full_name = name;
-  d.first_name = name.split(/\s+/)[0] || "";
-  d.last_name = name.split(/\s+/).slice(1).join(" ");
+  d.first_name = first || name.split(/\s+/)[0] || "";
+  d.last_name = last || name.split(/\s+/).slice(1).join(" ");
   d.email = (raw.email || "").trim();
   let ph = (raw.phone || raw.telefono || "").replace(/[^\d+]/g, "");
   const pre = "+" + String(raw.prefisso === "altro" ? raw.prefisso_altro || "" : raw.prefisso || CONFIG.phonePrefix || "+39").replace(/\D/g, "");
@@ -1777,7 +1783,7 @@ async function pbmSend(raw) {
   ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k => { if (pbmQS.get(k)) d[k] = pbmQS.get(k); });
   d.page_url = location.href.split("#")[0];
   /* se poi compra il VIP, la pagina di grazie VIP usa questi dati per dire a GHL chi è (restano solo nel suo browser) */
-  try { localStorage.setItem("pbm-lead", JSON.stringify({ full_name: d.full_name, email: d.email, phone: d.phone })); } catch (e) {}
+  try { localStorage.setItem("pbm-lead", JSON.stringify({ full_name: d.full_name, first_name: d.first_name, last_name: d.last_name, email: d.email, phone: d.phone })); } catch (e) {}
   if (CONFIG.ghlWebhookUrl) {
     try { await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (e) {}
   } else {
