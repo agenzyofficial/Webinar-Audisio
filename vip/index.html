@@ -436,6 +436,8 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 /* versione upsell se arriva dall'iscrizione gratuita; messaggio se il pagamento non è andato */
 const qs = new URLSearchParams(location.search);
 document.body.classList.toggle("is-upsell", qs.get("da") === "iscrizione");
+/* arriva dalla pagina dopo l'iscrizione: chi non compra torna al gruppo WhatsApp invece di reiscriversi */
+if (qs.get("da") === "accesso") document.querySelectorAll(".skip.only-sales").forEach(a => { a.href = "../accesso-tlt6asid/#gruppo"; a.textContent = "No grazie, torno al gruppo WhatsApp"; });
 if (qs.get("pagamento") === "non-riuscito") document.querySelector(".pay").classList.add("pay-failed");
 
 /* barra in basso: compare dopo l'hero, sparisce quando il pagamento è a schermo */

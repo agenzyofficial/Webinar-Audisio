@@ -6,7 +6,8 @@ Landing del webinar gratuito di Andrea Audisio: la variante **Sala mortuaria** (
 |---|---|---|
 | Landing | `index.html` | https://webinar-audisio.vercel.app/ |
 | Pagina VIP con checkout Whop | `vip/index.html` | https://www.personalbrandmorto.com/vip/ (dai bottoni VIP; dopo l'iscrizione gratuita arriva qui in versione upsell con `?da=iscrizione`) |
-| Grazie (iscrizione gratuita) | cartella `conferma-…` | dopo l'iscrizione ci porta il modulo (`thankYouUrl` in `index.html`) |
+| Dopo l'iscrizione gratuita | cartella `accesso-…` | pagina corta: avviso, biglietto VIP (porta a `/vip/`) e gruppo WhatsApp; ci porta il modulo (`thankYouUrl` in `index.html`) |
+| Grazie (iscrizione gratuita) | cartella `conferma-…` | calendario e passi; ci si arriva da "Segnati la serata in calendario" |
 | Grazie VIP (dopo il pagamento di 27 €) | cartella `vip-…` | si imposta solo nel checkout come pagina di ritorno |
 
 Le pagine di grazie hanno nomi non indovinabili e i vecchi `/grazie/` e `/grazie-vip/` non esistono più, così non le trova chi non si è iscritto o non ha pagato. Il nome della pagina VIP non va scritto nella landing, che chiunque può leggere.
