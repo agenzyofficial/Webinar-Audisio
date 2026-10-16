@@ -1761,8 +1761,11 @@ async function pbmSend(raw) {
   d.variante = CONFIG.variant;
   d.evento = "La morte del personal brand";
   d.privacy = raw.privacy ? "si" : "no";
+  d.ticket = "gratuito";
   ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","fbclid","gclid"].forEach(k => { if (pbmQS.get(k)) d[k] = pbmQS.get(k); });
   d.page_url = location.href.split("#")[0];
+  /* se poi compra il VIP, la pagina di grazie VIP usa questi dati per dire a GHL chi è (restano solo nel suo browser) */
+  try { localStorage.setItem("pbm-lead", JSON.stringify({ full_name: d.full_name, email: d.email, phone: d.phone })); } catch (e) {}
   if (CONFIG.ghlWebhookUrl) {
     try { await fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) }); } catch (e) {}
   } else {

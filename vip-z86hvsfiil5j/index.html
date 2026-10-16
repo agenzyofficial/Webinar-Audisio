@@ -584,6 +584,31 @@ prefSel.addEventListener("change", () => {
 const qsEmail = new URLSearchParams(location.search).get("email");
 if (qsEmail) form.email.value = qsEmail;
 
+/* Chi si è iscritto gratis da questo browser: nome, email e WhatsApp già compilati */
+let lead = null;
+try { lead = JSON.parse(localStorage.getItem("pbm-lead") || "null"); } catch (e) {}
+if (lead) {
+  if (lead.full_name && !form.nome.value) form.nome.value = lead.full_name;
+  if (lead.email && !form.email.value) form.email.value = lead.email;
+  const pre = [...form.prefisso.options].map(o => o.value).filter(v => v.startsWith("+")).sort((x, y) => y.length - x.length).find(v => (lead.phone || "").startsWith(v));
+  if (pre && !form.telefono.value) { form.prefisso.value = pre; form.prefisso.dispatchEvent(new Event("change")); form.telefono.value = lead.phone.slice(pre.length); }
+}
+
+/* Acquisto VIP: appena torna da Whop lo diciamo a GHL sullo stesso webhook (ticket = vip), una volta sola per pagamento.
+   Funziona per chi si è iscritto gratis da questo browser; gli altri arrivano in GHL quando mandano la scheda. */
+const payId = new URLSearchParams(location.search).get("payment");
+if (payId && lead && (lead.email || lead.phone) && CONFIG.ghlWebhookUrl) {
+  let sent = null;
+  try { sent = localStorage.getItem("pbm-vip-acquisto"); } catch (e) {}
+  if (sent !== payId) {
+    const nm = lead.full_name || "";
+    const d = { full_name: nm, first_name: nm.split(/\s+/)[0] || "", last_name: nm.split(/\s+/).slice(1).join(" "), email: lead.email || "", phone: lead.phone || "",
+      variante: CONFIG.variant, evento: "La morte del personal brand", ticket: "vip", tipo: "acquisto_vip", whop_payment: payId, page_url: location.href.split("#")[0] };
+    fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) })
+      .then(() => { try { localStorage.setItem("pbm-vip-acquisto", payId); } catch (e) {} }).catch(() => {});
+  }
+}
+
 /* Scheda: stesso webhook GHL dell'iscrizione, collegata all'email (e al pagamento Whop se c'è) */
 const schedaOk = document.querySelector("[data-scheda-ok]"), schedaErr = form.querySelector("[data-sform-err]");
 let schedaDone = false;
@@ -614,7 +639,7 @@ form.addEventListener("submit", async e => {
   if (ph.startsWith("00")) ph = "+" + ph.slice(2);
   else if (ph && !ph.startsWith("+")) ph = (pre.length > 1 ? pre : CONFIG.phonePrefix || "+39") + (pre !== "+39" ? ph.replace(/^0/, "") : ph);
   d.phone = ph;
-  d.variante = CONFIG.variant; d.evento = "La morte del personal brand"; d.tipo = "scheda_vip"; d.privacy = raw.privacy ? "si" : "no";
+  d.variante = CONFIG.variant; d.evento = "La morte del personal brand"; d.tipo = "scheda_vip"; d.ticket = "vip"; d.privacy = raw.privacy ? "si" : "no";
   ["fatturato_mensile", "offerta_prezzo", "call_mese", "call_chiuse", "ore_settimana", "team", "solo_da_te", "gia_provato", "obiettivo_6_mesi", "link_profilo"].forEach(k => { d[k] = (raw[k] || "").trim(); });
   d.canali_clienti = canali.filter(c => c.checked).map(c => c.value).join(", ");
   const qs = new URLSearchParams(location.search);
