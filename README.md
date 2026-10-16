@@ -33,13 +33,14 @@ In fondo a `index.html` c'è il blocco `CONFIG`:
 
 Il form invia questi campi:
 - `full_name`, `first_name`, `last_name`, `email`, `phone` (formato +39…)
-- `variante`, `evento`, `privacy`
+- `variante`, `evento`, `privacy`, `ticket` (`gratuito` per l'iscrizione, `vip` per chi compra i 27 €)
 - `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `fbclid`, `page_url`
 
 Nel workflow GHL:
 1. Usa **Fetch Sample Requests** dopo un'iscrizione di prova.
 2. Mappa i campi con **Create/Update Contact**.
 3. Aggiungi il tag `variante-{{inboundWebhookRequest.variante}}`.
+4. Ramo If/Else su `inboundWebhookRequest.ticket` uguale a `vip` → tag `vip`. Arriva con `tipo=acquisto_vip` appena chi si è iscritto gratis paga su Whop, e con `tipo=scheda_vip` quando un VIP manda la scheda.
 
 Meta Pixel: inserisci il codice del Pixel nell'`<head>` di `index.html`. La pagina invia già `CompleteRegistration` con il parametro `variant`.
 
