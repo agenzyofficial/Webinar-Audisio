@@ -1263,7 +1263,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 
 /* Evolutiaa prima dei casi: card larga (foto a sinistra su computer); sotto il caso grande restano due card */
 .case3.case3-wide{max-width:1200px;margin:clamp(28px,4vw,44px) auto 0}
-.case3-wide + .bigcase{margin-top:18px}
+.bigcase + .case3-wide{margin-top:18px}
 @media (min-width:761px){
   .case3.case3-wide{display:grid;grid-template-columns:minmax(220px,300px) 1fr;column-gap:clamp(20px,3vw,36px);padding:24px 28px 24px 0;align-content:center}
   .case3-wide .case3-ph{grid-column:1;grid-row:1 / span 4;margin:-24px 0;height:auto;min-height:260px}
@@ -1282,12 +1282,6 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 }
 @media (max-width:760px) and (max-height:700px){.hero{--lw:min(calc(100vw - 8px),calc(30vh * 2.06))}}
 
-/* telefono: il caso di Felipe prima di Evolutiaa */
-@media (max-width:760px){
-  .cases-top{display:flex;flex-direction:column;margin-top:28px}
-  .cases-top>.bigcase{order:-1;margin:0}
-  .cases-top>.case3-wide{margin:18px 0 0}
-}
 
 /* vturb aggiunge in fondo alla pagina uno spazio vuoto per il suo mini player: lo togliamo */
 .vturb-mini-player-page-spacer{display:none!important}
@@ -1309,6 +1303,13 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   .panel input[type=text],.panel input[type=email],.panel input[type=tel]{padding:11px 12px}
   .panel .consent{font-size:12px;line-height:1.4}
 }
+/* computer: la subheadline sta sopra il titolo; quella dentro l'h1 resta per il telefono */
+.hl-b-top{display:none}
+@media (min-width:761px){
+  .hero .headline .hl-b{display:none}
+  .hl-b.hl-b-top{display:block;margin:14px auto 0;text-shadow:0 2px 4px rgba(0,0,0,.8),0 0 14px rgba(0,0,0,.6)}
+  .hl-b-top::before{display:none}
+}
 </style>
 </head>
 <body class="no-js">
@@ -1320,6 +1321,7 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 <header class="hero">
   <div class="hero-in">
     <span class="when mono"><span>Webinar gratuito con Andrea Audisio</span></span>
+    <p class="hl-b hl-b-top">In una serata ti mostro perché il personal brand classico ha smesso di funzionare e cosa lo sostituisce, per far crescere il fatturato <span class="acc">senza far crescere le tue ore</span>.</p>
     <div class="event-logo"><picture><source media="(max-width:760px)" srcset="assets/logo-evento-mobile-senza-cartellino.jpg"><img src="assets/logo-evento-senza-cartellino.jpg" alt="La morte del personal brand" width="1800" height="875" fetchpriority="high"></picture><img class="logo-tag" src="assets/cartellino.png" alt="" width="328" height="306" aria-hidden="true"></div>
     <h1 class="headline">
       <span class="sr-only">Vendi già, ma ogni euro in più ti costa ore in più.</span>
@@ -1434,13 +1436,6 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
     <p class="lede rv">Clienti di Andrea e progetti del suo team. Te lo raccontano loro, in video.</p>
     <!-- caso studio, dalla pagina profitOS -->
     <div class="cases-top">
-    <article class="case3 case3-wide rv">
-      <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
-      <span class="kick">Evolutiaa</span>
-      <h3>Da 6K a oltre 30K al mese in pochi mesi</h3>
-      <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30K al mese</b>.</p>
-      <ul><li>Da 6K a oltre 30K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
-    </article>
     <article class="bigcase rv">
       <figure class="bigcase-ph"><img src="assets/felipe.webp" alt="Felipe Orrego, fondatore di Investitore Efficace" width="843" height="1100" loading="lazy" decoding="async"><figcaption>Felipe Orrego<span>Investitore Efficace</span></figcaption></figure>
       <div class="bigcase-main">
@@ -1452,6 +1447,13 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
         <div><span>È partito da</span><b>Zero</b><em>aveva solo l'idea</em></div>
         <div class="to"><span>È arrivato a</span><b>oltre 4M€ l'anno</b><em>tra i riferimenti in Italia sulla finanza personale</em></div>
       </div>
+    </article>
+    <article class="case3 case3-wide rv">
+      <div class="case3-ph"><img src="assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
+      <span class="kick">Evolutiaa</span>
+      <h3>Da 6K a oltre 30K al mese in pochi mesi</h3>
+      <p>Andrea Finotti e Selene Barletta: liberi professionisti fermi a circa 6.000 € al mese. Oggi un'azienda con team, procedure e KPI chiari, <b>stabilmente sopra i 30K al mese</b>.</p>
+      <ul><li>Da 6K a oltre 30K al mese ricorrenti</li><li>Procedure interne e dashboard KPI</li><li>Lanci gestiti, con margini più alti</li></ul>
     </article>
     </div>
     <div class="cases3">
