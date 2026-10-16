@@ -1321,6 +1321,8 @@ html,body{overflow-x:clip}
 .modal .panel *{max-width:100%}
 .panel .tel{min-width:0}
 </style>
+<!-- Whop Pixel -->
+<script>!function(w,d,s,u,n,a,b){if(w[n])return;a=w[n]={q:[],t:+new Date,s:[],o:u,track:function(){a.q.push([+new Date].concat([].slice.call(arguments)))},setScope:function(){a.s=[].slice.call(arguments).filter(function(x){return typeof x==="string"});a.q.push([+new Date,"setScope"].concat(a.s))},scope:function(){var c=[].slice.call(arguments);return{track:function(){a.q.push([+new Date].concat([].slice.call(arguments)).concat([{__scope:c}]))}}}};b=d.createElement(s);b.async=1;b.src=u+"/s.js";d.getElementsByTagName(s)[0].parentNode.insertBefore(b,d.getElementsByTagName(s)[0])}(window,document,"script","https://t.whop.tw","whop");whop.setScope("biz_EcRBCCmpcWE0SL");whop.track("page");</script>
 </head>
 <body class="no-js">
 
@@ -1782,6 +1784,8 @@ async function pbmSend(raw) {
     await new Promise(r => setTimeout(r, 400));
   }
   if (window.fbq) fbq("track", "CompleteRegistration", { content_name: "webinar_pb_morto", variant: CONFIG.variant });
+  /* Whop Pixel: la pagina dopo l'iscrizione registra l'evento una volta sola (vedi accesso-…) */
+  try { sessionStorage.setItem("pbm-reg", Date.now().toString(36) + Math.random().toString(36).slice(2, 8)); } catch (e) {}
   if (CONFIG.thankYouUrl) { location.href = CONFIG.thankYouUrl; return new Promise(() => {}); }
 }
 
