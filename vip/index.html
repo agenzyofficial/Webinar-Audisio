@@ -135,7 +135,8 @@ body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 .guar p{color:var(--fg-2);margin-top:10px;font-size:16px}
 .guar p b{color:var(--fg)}
 .hero-guar,.pay-guar{display:flex;gap:10px;align-items:center;font-size:15px;line-height:1.4;color:var(--fg-2)}
-.hero-guar{justify-content:center;margin:14px auto 4px;max-width:440px}
+.hero-guar{width:fit-content;max-width:100%;margin:20px auto 8px;padding:12px 20px;border:1.5px solid rgba(255,90,20,.6);background:rgba(255,90,20,.12);border-radius:16px;font-size:17px;color:var(--fg);text-align:left}
+.vhero .hero-guar svg{width:26px;height:26px}
 .pay-guar{align-items:flex-start;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px}
 .hero-guar b,.pay-guar b{color:var(--fg)}
 .hero-guar svg,.pay-guar svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -260,7 +261,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
     <p class="lede upsell-note only-upsell">Sei dentro: giovedì la serata ti mostra cosa non funziona. Ma è uguale per tutti. Con il VIP ricevi il referto scritto del tuo business, con i tuoi numeri.</p>
     <div class="vprice"><b>27 €</b><span>una volta sola</span></div>
     <a class="btn" href="#checkout">Voglio il mio referto <span aria-hidden="true">→</span></a>
-    <p class="hero-guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Soddisfatti o rimborsati.</b> Se non ti serve, ti ridiamo i 27 €.</span></p>
+    <p class="hero-guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Soddisfatti o rimborsati.</b> Se non ti serve, ti ridiamo i 27&nbsp;€.</span></p>
     <a class="skip only-upsell" href="#gruppo">No grazie, vado al gruppo WhatsApp ↓</a><a class="skip only-sales" href="../?iscriviti=1">Preferisco l'ingresso gratuito</a>
   </div>
 </header>
@@ -341,7 +342,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
       <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
       <span class="kick">Garanzia</span>
       <h2 class="h2">Soddisfatti <span class="acc">o rimborsati.</span></h2>
-      <p>Prendi il VIP, compili la scheda, ricevi il referto e partecipi all'ora riservata. Se alla fine pensi che non valessero 27 €, ci scrivi un messaggio e ti rimborsiamo tutti i 27 €.</p>
+      <p>Prendi il VIP, compili la scheda, ricevi il referto e partecipi all'ora riservata. Se alla fine pensi che non valessero 27&nbsp;€, ci scrivi un messaggio e ti rimborsiamo tutti i 27&nbsp;€.</p>
       <p><b>Senza domande e senza dover spiegare perché.</b> Il rischio è tutto nostro.</p>
     </div>
     <div class="box proof1">
@@ -387,7 +388,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
         </ul>
         <div class="pay-tot"><span>Totale, una volta sola</span><b>27 €</b></div>
       </div>
-      <p class="pay-guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Garanzia soddisfatti o rimborsati.</b> Se dopo il referto e l'ora VIP pensi che non valessero 27 €, ti rimborsiamo tutto. Senza domande.</span></p>
+      <p class="pay-guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Garanzia soddisfatti o rimborsati.</b> Se dopo il referto e l'ora VIP pensi che non valessero 27&nbsp;€, ti rimborsiamo tutto. Senza domande.</span></p>
       <p class="pay-note">Pagamento sicuro con Whop. Dopo il pagamento compili la scheda e ricevi il link dell'ora VIP: non devi prenotare niente.</p>
       <a class="skip only-upsell" href="#gruppo">No grazie, vado al gruppo WhatsApp ↓</a><a class="skip only-sales" href="../?iscriviti=1">Preferisco l'ingresso gratuito</a>
     </div>
@@ -405,7 +406,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
       <details class="box"><summary>Quanto dura?</summary><p>La serata dalle 21:00 alle 22:30. L'ora VIP dalle 22:30 alle 23:30.</p></details>
       <details class="box"><summary>Come ricevo il link?</summary><p>Dopo il pagamento ti mandiamo il link della serata e dell'ora VIP nel gruppo WhatsApp e via email.</p></details>
       <details class="box"><summary>È un abbonamento?</summary><p>No. Paghi 27 € una volta sola.</p></details>
-      <details class="box"><summary>E se non mi è servito?</summary><p>Ti rimborsiamo. Se dopo il referto e l'ora VIP pensi che non valessero 27 €, ci scrivi e ti ridiamo tutto. Senza domande e senza dover spiegare perché.</p></details>
+      <details class="box"><summary>E se non mi è servito?</summary><p>Ti rimborsiamo. Se dopo il referto e l'ora VIP pensi che non valessero 27&nbsp;€, ci scrivi e ti ridiamo tutto. Senza domande e senza dover spiegare perché.</p></details>
     </div>
   </div>
 </section>
