@@ -603,21 +603,7 @@ if (lead) {
   if (pre && !form.telefono.value) { form.prefisso.value = pre; form.prefisso.dispatchEvent(new Event("change")); form.telefono.value = lead.phone.slice(pre.length); }
 }
 
-/* Acquisto VIP: appena torna da Whop lo diciamo a GHL sullo stesso webhook (ticket = vip), una volta sola per pagamento.
-   Funziona per chi si è iscritto gratis da questo browser; gli altri arrivano in GHL quando mandano la scheda. */
-const payId = new URLSearchParams(location.search).get("payment");
-if (payId && lead && (lead.email || lead.phone) && CONFIG.ghlWebhookUrl) {
-  let sent = null;
-  try { sent = localStorage.getItem("pbm-vip-acquisto"); } catch (e) {}
-  if (sent !== payId) {
-    const nm = lead.full_name || "";
-    const d = { full_name: nm, first_name: lead.first_name || nm.split(/\s+/)[0] || "", last_name: lead.last_name || nm.split(/\s+/).slice(1).join(" "), email: lead.email || "", phone: lead.phone || "",
-      variante: CONFIG.variant, evento: "La morte del personal brand", ticket: "vip", tipo: "acquisto_vip", whop_payment: payId,
-      whop_status: new URLSearchParams(location.search).get("status") || "", page_url: location.href.split("#")[0] };
-    fetch(CONFIG.ghlWebhookUrl, { method: "POST", mode: "no-cors", body: new URLSearchParams(d) })
-      .then(() => { try { localStorage.setItem("pbm-vip-acquisto", payId); } catch (e) {} }).catch(() => {});
-  }
-}
+/* L'acquisto VIP arriva a GHL solo dal webhook di Whop (api/whop.js), non da questa pagina, così non arriva due volte. */
 
 /* Scheda: stesso webhook GHL dell'iscrizione, collegata all'email (e al pagamento Whop se c'è) */
 const schedaOk = document.querySelector("[data-scheda-ok]"), schedaErr = form.querySelector("[data-sform-err]");
