@@ -161,6 +161,8 @@ main h1{margin-top:6px;font-weight:800;font-style:italic;font-size:clamp(30px,6v
     plan: "plan_k8pkmELI1NIUP",
     returnUrl: thanks,
     locale: "it",
+    /* pagamento senza passaggi esterni: Whop non usa returnUrl, quindi mandiamo noi alla pagina di grazie */
+    onComplete: p => { if (p && p.result === "payment" && p.paymentId) location.href = thanks + "?payment=" + encodeURIComponent(p.paymentId) + "&status=succeeded"; },
   });
   checkout.create("checkout").mount("#whop-checkout");
 </script>

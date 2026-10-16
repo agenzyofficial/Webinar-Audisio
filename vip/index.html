@@ -460,6 +460,8 @@ new IntersectionObserver(es => { groupVisible = es[0].isIntersecting; syncBar();
     plan: "plan_kFy3q8RKekb7p",
     returnUrl: thanks,
     locale: "it",
+    /* pagamento senza passaggi esterni: Whop non usa returnUrl, quindi mandiamo noi alla pagina di grazie */
+    onComplete: p => { if (p && p.result === "payment" && p.paymentId) location.href = thanks + "?payment=" + encodeURIComponent(p.paymentId) + "&status=succeeded"; },
   });
   checkout.create("checkout").mount("#whop-checkout");
 </script>

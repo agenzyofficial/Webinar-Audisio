@@ -1,9 +1,12 @@
 /* Whop → GHL.
-   Whop chiama questo indirizzo a ogni pagamento riuscito (webhook "payment.succeeded").
+   Whop chiama questo indirizzo quando si attiva un'iscrizione (webhook "membership.activated").
    Se è il Biglietto VIP, il cliente va allo stesso webhook GHL del sito con ticket = vip,
    così arriva in GHL anche chi paga senza essersi iscritto gratis dallo stesso browser.
+   Il telefono arriva dalla domanda obbligatoria "Numero WhatsApp" del checkout (custom_field_responses).
+   Gestisce anche "payment.succeeded", ma su Whop va attivato un solo evento, sennò l'acquisto arriva due volte.
    Se su Vercel c'è WHOP_WEBHOOK_SECRET (il "Secret" del webhook su Whop) la firma viene controllata. */
 const crypto = require("crypto");
+const { cleanPhone, phoneFromAnswers, splitName } = require("./_telefono.js");
 
 const GHL_WEBHOOK = "https://services.leadconnectorhq.com/hooks/yfFcdqju49Ta8CnyU0nO/webhook-trigger/d6f43765-e5a2-4251-ab1f-4b34d1366a4b";
 const WHOP_ACCOUNT = "biz_EcRBCCmpcWE0SL";
@@ -46,30 +49,35 @@ module.exports = async (req, res) => {
   let event;
   try { event = JSON.parse(raw.toString("utf8")); } catch (e) { return reply(res, 400, "json non valido"); }
 
+  const type = event.type;
+  if (type !== "membership.activated" && type !== "payment.succeeded") return reply(res, 200, "evento ignorato");
+
   const p = event.data || {};
   const account = event.account_id || event.company_id || (p.company && p.company.id) || "";
-  if (event.type !== "payment.succeeded") return reply(res, 200, "evento ignorato");
   if (account && account !== WHOP_ACCOUNT) return reply(res, 200, "altro account");
   if (p.product && p.product.id && p.product.id !== VIP_PRODUCT) return reply(res, 200, "altro prodotto");
 
+  const isMembership = type === "membership.activated";
   const user = p.user || {};
-  const name = String(user.name || (p.billing_address && p.billing_address.name) || "").trim();
-  const parts = name.split(/\s+/).filter(Boolean);
+  const name = splitName(user.name || (p.billing_address && p.billing_address.name));
+  const phone = phoneFromAnswers(p.custom_field_responses) || cleanPhone(p.customer_phone || (p.member && p.member.phone) || (p.membership && p.membership.phone_number));
   const body = new URLSearchParams({
-    full_name: name,
-    first_name: parts[0] || "",
-    last_name: parts.slice(1).join(" "),
+    full_name: name.full_name,
+    first_name: name.first_name,
+    last_name: name.last_name,
     email: String(user.email || "").trim(),
-    phone: String(p.customer_phone || (p.member && p.member.phone) || "").trim(),
+    phone,
     variante: "B",
     evento: "La morte del personal brand",
     ticket: "vip",
     tipo: "acquisto_vip",
     fonte: "whop_webhook",
-    whop_payment: p.id || "",
+    whop_evento: type,
+    whop_payment: isMembership ? "" : (p.id || ""),
+    whop_membership: isMembership ? (p.id || "") : ((p.membership && p.membership.id) || ""),
     whop_status: p.status || "",
     whop_plan: (p.plan && p.plan.id) || "",
-    whop_amount: p.total != null ? String(p.total) : "",
+    whop_amount: isMembership ? String(p.initial_price_paid || "") : (p.total != null ? String(p.total) : ""),
     whop_currency: p.currency || ""
   });
   if (!body.get("email") && !body.get("phone")) return reply(res, 200, "senza email né telefono");

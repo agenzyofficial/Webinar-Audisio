@@ -309,6 +309,9 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
   background:#14181B url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23A6B0B6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center/11px 8px}
 .sform input:focus,.sform select:focus,.sform textarea:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
 .sform [aria-invalid="true"]{border-color:var(--acc)!important;box-shadow:0 0 0 1px var(--acc)}
+.sform input.locked{opacity:.7;cursor:not-allowed}
+.sform input.locked:focus{outline:none}
+.pre-pick.locked{pointer-events:none;opacity:.7}
 .sform .field.two{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
 .sform .field.two .flabel{grid-column:1 / -1}
 .sform .field.two label{font-weight:500;color:var(--fg-2);font-size:14px}
@@ -602,6 +605,23 @@ if (lead) {
   const pre = [...form.prefisso.options].map(o => o.value).filter(v => v.startsWith("+")).sort((x, y) => y.length - x.length).find(v => (lead.phone || "").startsWith(v));
   if (pre && !form.telefono.value) { form.prefisso.value = pre; form.prefisso.dispatchEvent(new Event("change")); form.telefono.value = lead.phone.slice(pre.length); }
 }
+
+/* Dopo il pagamento Whop: nome, cognome, email e WhatsApp presi dal pagamento, già compilati e non modificabili */
+const payQs = new URLSearchParams(location.search).get("payment");
+const lockField = el => { el.readOnly = true; el.classList.add("locked"); el.removeAttribute("aria-invalid"); };
+if (payQs) fetch("/api/whop-cliente/?payment=" + encodeURIComponent(payQs)).then(r => r.ok ? r.json() : null).then(c => {
+  if (!c) return;
+  if (c.first_name) { form.nome.value = c.first_name; lockField(form.nome); }
+  if (c.last_name) { form.cognome.value = c.last_name; lockField(form.cognome); }
+  if (c.email) { form.email.value = c.email; lockField(form.email); }
+  if (c.phone) {
+    const pick = form.querySelector(".pre-pick");
+    const pre = [...prefSel.options].map(o => o.value).filter(v => v.startsWith("+")).sort((x, y) => y.length - x.length).find(v => c.phone.startsWith(v));
+    if (pre) { prefSel.value = pre; prefSel.dispatchEvent(new Event("change")); form.telefono.value = c.phone.slice(pre.length); }
+    else { pick.style.display = "none"; form.telefono.value = c.phone; }
+    pick.classList.add("locked"); prefSel.tabIndex = -1; lockField(form.telefono);
+  }
+}).catch(() => {});
 
 /* L'acquisto VIP arriva a GHL solo dal webhook di Whop (api/whop.js), non da questa pagina, così non arriva due volte. */
 
