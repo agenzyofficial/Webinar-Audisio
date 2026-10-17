@@ -64,6 +64,10 @@ body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 .vprice span{color:var(--fg-2);font-size:15px;font-weight:500}
 .vhero .btn{margin-top:22px}
 .skip{display:inline-block;margin-top:16px;color:var(--fg-3);font-size:14px;text-underline-offset:3px}
+/* arriva dalla pagina dopo l'iscrizione: "torna indietro" è un pulsante vero, non un link piccolo */
+.skip.skip-back{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;margin-top:14px;padding:0 24px;border:1.5px solid rgba(232,236,238,.4);border-radius:12px;background:rgba(232,236,238,.05);color:var(--fg);font-size:16px;font-weight:700;text-decoration:none;transition:background-color 160ms ease,border-color 160ms ease}
+@media (hover:hover) and (pointer:fine){.skip.skip-back:hover{background:rgba(232,236,238,.1);border-color:rgba(232,236,238,.7)}}
+@media (max-width:560px){.skip.skip-back{display:flex;width:100%}}
 .skip:hover{color:var(--fg-2)}
 
 /* perché ha senso */
@@ -432,7 +436,7 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 const qs = new URLSearchParams(location.search);
 document.body.classList.toggle("is-upsell", qs.get("da") === "iscrizione");
 /* arriva dalla pagina dopo l'iscrizione: chi non compra torna al gruppo WhatsApp invece di reiscriversi */
-if (qs.get("da") === "accesso") document.querySelectorAll(".skip.only-sales").forEach(a => { a.href = "../accesso-tlt6asid/#gruppo"; a.textContent = "No grazie, torno al gruppo WhatsApp"; });
+if (qs.get("da") === "accesso") document.querySelectorAll(".skip.only-sales").forEach(a => { a.href = "../accesso-tlt6asid/#gruppo"; a.classList.add("skip-back"); a.innerHTML = '<span aria-hidden="true">←</span> No grazie, torna indietro'; });
 if (qs.get("pagamento") === "non-riuscito") document.querySelector(".pay").classList.add("pay-failed");
 
 /* barra in basso: compare dopo l'hero, sparisce quando il pagamento è a schermo */
