@@ -104,7 +104,8 @@ dialog.leave::backdrop{background:rgba(5,6,7,.8);-webkit-backdrop-filter:blur(3p
 .leave p b{color:var(--fg)}
 .leave p.pizza{color:var(--fg);font-weight:600}
 .leave p.last{padding:10px 14px;border:1px solid rgba(255,90,20,.5);border-radius:10px;background:rgba(255,90,20,.12);color:var(--fg)}
-.leave .btn{width:100%;margin-top:18px}
+.leave .btn{width:100%;margin-top:18px;line-height:1.25;text-align:center}
+.leave .nw{white-space:nowrap}
 .leave .btn.btn-ghost{min-height:50px;margin-top:10px;background:transparent;color:var(--fg-2);box-shadow:none;border:1px solid var(--line);font-size:14.5px;text-transform:none;font-weight:600}
 @media (hover:hover) and (pointer:fine){.leave .btn.btn-ghost:hover{transform:none;box-shadow:none;color:var(--fg)}}
 /* biglietto standard: bianco, si distingue dal VIP arancione ma si vede bene */
@@ -201,7 +202,7 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     <p>Con lo standard vedi la serata come tutti gli altri. Con il VIP ricevi il <b>referto scritto del tuo business</b>, fatto sui tuoi numeri, e resti nell'<b>ora riservata ai VIP</b>.</p>
     <p class="pizza">Costa come un'analisi del sangue: <b>eviterei di perderlo.</b></p>
     <p class="last"><b>Non avrai più questa occasione:</b> al prossimo lancio non costerà 27&nbsp;€.</p>
-    <a class="btn" href="../vip/?da=accesso">Mi hai convinto, voglio il VIP <span aria-hidden="true">→</span></a>
+    <a class="btn" href="../vip/?da=accesso"><span>Mi hai convinto, <span class="nw">voglio il VIP</span></span> <span aria-hidden="true">→</span></a>
     <a class="btn btn-ghost" href="../conferma-kyuaazwk/">Sì, proseguo con lo standard</a>
   </div>
 </dialog>
