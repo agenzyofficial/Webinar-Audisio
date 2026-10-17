@@ -1286,6 +1286,22 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @media (max-width:760px) and (max-height:700px){.hero{--lw:min(calc(100vw - 8px),calc(30vh * 2.06))}}
 
 
+/* telefono: scorrendo, il video resta piccolo in basso a destra (il nostro, non il mini player di vturb);
+   .tv-slot tiene il suo posto nella pagina così niente salta, la X lo chiude finché non torni al video */
+.tv-slot,.tv-mini-x{display:none}
+@media (max-width:760px){
+  .tv-slot{order:-1;width:calc(100% - 2 * var(--gutter));aspect-ratio:16/9;margin:6px auto 4px}
+  .hero.has-mini{z-index:60}
+  .hero.has-mini .tv-slot{display:block}
+  .tv-screen.is-mini{position:fixed;top:auto;left:auto;right:calc(10px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));
+    width:min(50vw,220px);margin:0;z-index:60;border-color:rgba(255,90,20,.75);border-radius:10px;
+    box-shadow:0 0 0 3px #0B0D0E,0 16px 36px rgba(0,0,0,.75);animation:tv-mini-in 260ms var(--ease-out)}
+  .tv-screen.is-mini .tv-mini-x{display:flex;align-items:center;justify-content:center;position:absolute;z-index:5;top:5px;right:5px;width:26px;height:26px;
+    border:0;border-radius:50%;background:rgba(11,13,14,.85);color:#fff;font:600 17px/1 var(--sans,system-ui);cursor:pointer}
+}
+@keyframes tv-mini-in{from{opacity:0;transform:translateY(18px) scale(.9)}}
+@media (prefers-reduced-motion:reduce){.tv-screen.is-mini{animation:none}}
+
 /* vturb aggiunge in fondo alla pagina uno spazio vuoto per il suo mini player: lo togliamo */
 .vturb-mini-player-page-spacer{display:none!important}
 
@@ -1362,10 +1378,12 @@ html,body{overflow-x:clip}
     <div class="hero-tv">
       <div class="tv-stage">
         <picture><source media="(max-width:760px)" srcset="assets/hero-andrea-notv.webp"><img class="tv-photo" src="assets/hero-andrea-tv.webp" alt="Andrea Audisio, medico legale, con il referto del personal brand" width="2000" height="1131" fetchpriority="high" decoding="async"></picture>
+        <div class="tv-slot" aria-hidden="true"></div>
         <div class="tv-screen">
           <div class="tv-player">
             <vturb-smartplayer id="vid-6ad128d22b1887643f83e169" style="display: block; margin: 0 auto; width: 100%; "><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer> <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/3624e535-0ed0-45c2-9694-b04d72b2e7f6/players/6ad128d22b1887643f83e169/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
           </div>
+          <button type="button" class="tv-mini-x" aria-label="Chiudi il video piccolo">×</button>
         </div>
         <div class="promise">
           <p class="promise-kick mono"><span class="live-dot" aria-hidden="true"></span>Live tra <span data-cd-mini>--</span></p>
@@ -2150,6 +2168,24 @@ document.addEventListener("player:ready", e => hookTv(e.detail && e.detail.playe
 /* se vturb era già pronto prima di questo script, lo si trova tra le istanze */
 const hookTvInstances = () => ((window.smartplayer && window.smartplayer.instances) || []).forEach(i => hookTv(i.instance));
 hookTvInstances(); addEventListener("load", hookTvInstances);
+
+/* Telefono: quando il video esce dallo schermo scorrendo, resta piccolo in basso a destra.
+   Il posto del video resta occupato da .tv-slot, quindi la pagina non salta; la X lo chiude finché non torni al video */
+const tvSlot = document.querySelector(".tv-slot"), tvMiniX = tvScreen.querySelector(".tv-mini-x"), heroBox = tvScreen.closest(".hero"), phone = matchMedia("(max-width:760px)");
+let tvMini = false, tvMiniOff = false, tvMiniRaf = 0;
+function syncTvMini() {
+  tvMiniRaf = 0;
+  const out = (tvMini ? tvSlot : tvScreen).getBoundingClientRect().bottom < 0;
+  if (!out) tvMiniOff = false;
+  const on = phone.matches && out && !tvMiniOff;
+  if (on === tvMini) return;
+  tvMini = on;
+  heroBox.classList.toggle("has-mini", on);
+  tvScreen.classList.toggle("is-mini", on);
+}
+addEventListener("scroll", () => { if (!tvMiniRaf) tvMiniRaf = requestAnimationFrame(syncTvMini); }, { passive: true });
+phone.addEventListener("change", syncTvMini);
+tvMiniX.addEventListener("click", e => { e.stopPropagation(); tvMiniOff = true; syncTvMini(); });
 
 /* Barra: compare quando l'hero esce dallo schermo e si toglie di mezzo
    quando c'è già un altro bottone "Riserva" a schermo, così non ne vedi due insieme */
