@@ -128,9 +128,8 @@ body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 /* nota "Sei dentro" (solo versione upsell) */
 .upsell-note{margin-top:14px;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;background:var(--box-fade),#0B0E10;color:var(--fg);text-align:left}
 
-/* garanzia + prova (Evolutiaa) */
-.trust2{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;align-items:stretch}
-.guar{padding:26px 24px}
+/* garanzia */
+.guar{padding:26px 24px;max-width:760px;margin:0 auto}
 .guar .feat-ic{margin-bottom:14px}
 .guar p{color:var(--fg-2);margin-top:10px;font-size:16px}
 .guar p b{color:var(--fg)}
@@ -140,14 +139,6 @@ body:not(.is-upsell) .only-upsell,.is-upsell .only-sales{display:none!important}
 .pay-guar{align-items:flex-start;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px}
 .hero-guar b,.pay-guar b{color:var(--fg)}
 .hero-guar svg,.pay-guar svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.proof1{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center;padding:0 22px 0 0;overflow:hidden}
-.proof1-ph{align-self:stretch;display:flex;align-items:flex-end;justify-content:center;min-height:220px;background:radial-gradient(ellipse at 50% 85%,rgba(255,90,20,.3),transparent 65%),linear-gradient(#11161A,#0B0E10)}
-.proof1-ph img{height:100%;max-height:260px;width:auto;object-fit:contain;object-position:bottom}
-.proof1 h3{font-weight:800;font-style:italic;font-size:clamp(22px,2.2vw,28px);line-height:1.15}
-.proof1 p{color:var(--fg-2);font-size:15.5px;margin-top:8px}
-.proof1 .proof1-note{color:var(--fg-3);font-size:12.5px;margin-top:10px}
-@media (max-width:900px){.trust2{grid-template-columns:1fr}}
-@media (max-width:560px){.proof1{grid-template-columns:1fr;padding:0 18px 20px}.proof1-ph{margin:0 -18px;min-height:200px}}
 
 /* faq */
 .faq{display:grid;gap:10px;margin-top:26px;max-width:860px}
@@ -337,22 +328,13 @@ footer.pfoot{border-top:1px solid var(--line);padding:44px 0 calc(110px + env(sa
 </section>
 
 <section>
-  <div class="wrap trust2">
+  <div class="wrap">
     <div class="box guar">
       <span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
       <span class="kick">Garanzia</span>
       <h2 class="h2">Soddisfatti <span class="acc">o rimborsati.</span></h2>
       <p>Prendi il VIP, compili la scheda, ricevi il referto e partecipi all'ora riservata. Se alla fine pensi che non valessero 27&nbsp;€, ci scrivi un messaggio e ti rimborsiamo tutti i 27&nbsp;€.</p>
       <p><b>Senza domande e senza dover spiegare perché.</b> Il rischio è tutto nostro.</p>
-    </div>
-    <div class="box proof1">
-      <div class="proof1-ph"><img src="../assets/caso-evolutiaa.webp" alt="Andrea Finotti e Selene Barletta, Evolutiaa" width="640" height="753" loading="lazy" decoding="async"></div>
-      <div>
-        <span class="kick">Evolutiaa</span>
-        <h3>Da 6K a oltre 30K al mese.</h3>
-        <p>Andrea Finotti e Selene Barletta, Evolutiaa: fermi a circa 6.000 € al mese con tutto che passava da loro. Oggi un'azienda con team, procedure e KPI chiari.</p>
-        <p class="proof1-note">Risultati individuali, non costituiscono una promessa di guadagno.</p>
-      </div>
     </div>
   </div>
 </section>
