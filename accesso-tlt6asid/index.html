@@ -81,9 +81,32 @@ main::before{content:"";position:absolute;inset:0 0 auto;height:420px;z-index:-1
 .btn svg{width:22px;height:22px;fill:currentColor;flex:none}
 
 .box p.pizza{margin-top:12px;color:var(--fg);font-weight:600}
-.box p.guar{display:flex;gap:10px;align-items:flex-start;text-align:left;margin-top:14px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;font-size:15px;line-height:1.4;color:var(--fg-2)}
-.box p.guar b{color:var(--fg)}
-.guar svg{width:22px;height:22px;flex:none;fill:none;stroke:var(--acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* garanzia: cartellino arancione appeso sotto il biglietto VIP, dondola piano */
+.guar-tag{display:flex;justify-content:center}
+.guar-swing{position:relative;width:min(88%,310px);padding-top:30px;transform-origin:50% 0;animation:guar-swing 4.2s ease-in-out infinite;
+  filter:drop-shadow(0 16px 22px rgba(0,0,0,.6)) drop-shadow(0 0 28px rgba(255,90,20,.35))}
+.guar-swing::before{content:"";position:absolute;z-index:2;top:0;left:50%;width:2px;height:50px;margin-left:-1px;border-radius:2px;background:linear-gradient(#6B757D,#C9D0D4)}
+.guar-card{position:relative;padding:36px 22px 22px;background:var(--acc);color:var(--on-acc);text-align:center;clip-path:polygon(18% 0,82% 0,100% 15%,100% 100%,0 100%,0 15%)}
+.guar-card::before{content:"";position:absolute;top:13px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--bg)}
+.guar-card svg{display:block;width:34px;height:34px;margin:0 auto 6px;fill:none;stroke:var(--on-acc);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.guar-card b{display:block;font-weight:900;font-style:italic;font-size:23px;line-height:1.1;text-transform:uppercase;letter-spacing:-.01em}
+.guar-card span{display:block;margin-top:8px;font-size:15px;line-height:1.45;font-weight:600}
+@keyframes guar-swing{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+/* popup "sei sicuro?" prima dello standard */
+dialog.leave{margin:auto;width:min(460px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:16px;background:#0E1114;color:var(--fg);text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.7);overflow:auto}
+dialog.leave[open]{animation:leave-in 260ms var(--ease-out)}
+dialog.leave::backdrop{background:rgba(5,6,7,.8);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+@keyframes leave-in{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.leave-in{position:relative;padding:28px 22px 22px}
+.leave-x{position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;background:transparent;color:var(--fg-2);font:inherit;font-size:28px;line-height:1;cursor:pointer}
+.leave h2{margin-top:14px;font-weight:800;font-style:italic;font-size:clamp(24px,6.4vw,30px);line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+.leave p{margin-top:12px;color:var(--fg-2);font-size:16px;line-height:1.5;text-wrap:balance}
+.leave p b{color:var(--fg)}
+.leave p.pizza{color:var(--fg);font-weight:600}
+.leave p.last{padding:10px 14px;border:1px solid rgba(255,90,20,.5);border-radius:10px;background:rgba(255,90,20,.12);color:var(--fg)}
+.leave .btn{width:100%;margin-top:18px}
+.leave .btn.btn-ghost{min-height:50px;margin-top:10px;background:transparent;color:var(--fg-2);box-shadow:none;border:1px solid var(--line);font-size:14.5px;text-transform:none;font-weight:600}
+@media (hover:hover) and (pointer:fine){.leave .btn.btn-ghost:hover{transform:none;box-shadow:none;color:var(--fg)}}
 /* biglietto standard: bianco, si distingue dal VIP arancione ma si vede bene */
 .box.std{border-left-color:var(--fg-2);background:linear-gradient(90deg,rgba(232,236,238,.05),rgba(232,236,238,0) 40%),#0B0E10}
 .box.std .kick{color:var(--fg-2)}
@@ -107,16 +130,19 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
   .box{padding:22px 16px}
   .btn.btn-wa{font-size:14.5px;letter-spacing:0;gap:8px;padding:0 12px}
 }
-@media (prefers-reduced-motion:reduce){.vlogo picture img,.vlogo .logo-tag{animation:none}.btn{transition:none}}
+@media (prefers-reduced-motion:reduce){.vlogo picture img,.vlogo .logo-tag,.guar-swing,dialog.leave[open]{animation:none}.btn{transition:none}}
 /* i due biglietti: uno sotto l'altro sul telefono, affiancati da computer */
 .choices .box{margin-top:0}
 .choices{margin-top:22px}
-.choices .box + .box{margin-top:16px}
+.choices .box + .box,.choices .guar-tag + .box{margin-top:22px}
 @media (min-width:761px){
   .wrap{max-width:980px}
   .alert{max-width:680px;margin:0 auto}
-  .choices{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
-  .choices .box + .box{margin-top:0}
+  .choices{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;row-gap:0;align-items:stretch}
+  .choices .box + .box,.choices .guar-tag + .box{margin-top:0}
+  .choices .vip{grid-column:1;grid-row:1}
+  .choices .std{grid-column:2;grid-row:1}
+  .choices .guar-tag{grid-column:1;grid-row:2}
   .choices .box{display:flex;flex-direction:column;align-items:center;padding:28px 26px}
   .choices .box p:last-of-type{margin-bottom:22px}
   .choices .btn{margin-top:auto;width:100%;padding:0 18px}
@@ -145,19 +171,41 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
       <p>Con il biglietto VIP, oltre alla serata, ricevi il <b>referto scritto del tuo business</b>, fatto sui tuoi numeri, e resti nell'<b>ora riservata ai VIP</b> dopo la diretta.</p>
       <p>La serata è uguale per tutti. Il referto no: ti dice <b>cosa non funziona nel tuo business</b> e da dove ripartire.</p>
       <p class="pizza">Costa come un'analisi del sangue: <b>eviterei di perderlo.</b></p>
-      <p class="guar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span><b>Soddisfatti o rimborsati.</b> Se il referto e l'ora VIP non ti servono, ti ridiamo tutto. Senza domande.</span></p>
       <a class="btn" href="../vip/?da=accesso">Scopri cos'hai con il VIP <span aria-hidden="true">→</span></a>
     </section>
+
+    <div class="guar-tag">
+      <div class="guar-swing">
+        <div class="guar-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>
+          <b>Soddisfatti o rimborsati</b>
+          <span>Se il referto e l'ora VIP non ti servono, ti ridiamo tutto. Senza domande.</span>
+        </div>
+      </div>
+    </div>
 
     <section class="box std" id="gruppo">
       <span class="kick">Biglietto standard</span>
       <h2>Prosegui con lo <span class="std-acc">standard</span> ed ottieni il <span class="acc">link di partecipazione</span></h2>
       <p>Tieni l'ingresso gratuito alla serata. Nel <b>gruppo WhatsApp</b> arriva il link della diretta, insieme ai promemoria.</p>
-      <a class="btn btn-std" href="../conferma-kyuaazwk/">Prosegui con lo standard <span aria-hidden="true">→</span></a>
+      <a class="btn btn-std" href="../conferma-kyuaazwk/" data-std>Prosegui con lo standard <span aria-hidden="true">→</span></a>
     </section>
     </div>
   </div>
 </main>
+
+<dialog class="leave" id="sicuro" aria-labelledby="sicuro-t">
+  <div class="leave-in">
+    <button class="leave-x" type="button" aria-label="Chiudi" data-leave-close>×</button>
+    <span class="alert-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 1 21h22L12 2zm0 5 7.5 13h-15L12 7zm-1 4v4h2v-4h-2zm0 5v2h2v-2h-2z"/></svg>Aspetta</span>
+    <h2 id="sicuro-t">Sei sicuro di perdere il <span class="acc">referto</span> del tuo business?</h2>
+    <p>Con lo standard vedi la serata come tutti gli altri. Con il VIP ricevi il <b>referto scritto del tuo business</b>, fatto sui tuoi numeri, e resti nell'<b>ora riservata ai VIP</b>.</p>
+    <p class="pizza">Costa come un'analisi del sangue: <b>eviterei di perderlo.</b></p>
+    <p class="last"><b>Non avrai più questa occasione:</b> al prossimo lancio non costerà 27&nbsp;€.</p>
+    <a class="btn" href="../vip/?da=accesso">No, voglio il VIP <span aria-hidden="true">→</span></a>
+    <a class="btn btn-ghost" href="../conferma-kyuaazwk/">Sì, proseguo con lo standard</a>
+  </div>
+</dialog>
 
 <footer>
   <div class="wrap">
@@ -168,6 +216,15 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
 </footer>
 
 <script>
+/* "Prosegui con lo standard": prima chiede se è sicuro di rinunciare al VIP */
+(function () {
+  var dlg = document.getElementById("sicuro"), std = document.querySelector("[data-std]");
+  if (!dlg || !std || typeof dlg.showModal !== "function") return;
+  std.addEventListener("click", function (e) { e.preventDefault(); dlg.showModal(); });
+  dlg.querySelector("[data-leave-close]").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+})();
+
 /* Whop Pixel: chi arriva qui dal modulo conta come registrazione completata, una volta sola */
 try { var reg = sessionStorage.getItem("pbm-reg"); if (reg && window.whop) { whop.track("complete_registration", { event_id: "reg_" + reg }); sessionStorage.removeItem("pbm-reg"); } } catch (e) {}
 </script>
