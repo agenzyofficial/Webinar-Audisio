@@ -2131,8 +2131,15 @@ function setCinema(on) {
 addEventListener("resize", () => { if (!desk.matches) setCinema(false); else if (heroTv.classList.contains("is-cinema")) placeCinema(); });
 tvClose.addEventListener("click", () => setCinema(false));
 addEventListener("keydown", e => { if (e.key === "Escape") setCinema(false); });
+/* Mini player di vturb (attivo nelle impostazioni del player): dentro la TV scalata non riesce a staccarsi,
+   così appena il video esce dallo schermo si accende e si spegne di continuo e la pagina sfarfalla. Qui lo spegniamo. */
+function noMiniPlayer(pl) {
+  const mp = pl && pl.__config && pl.__config.miniPlayer;
+  if (mp) { mp.active = false; mp.autoEnableOnScroll = false; }
+}
 let tvHooked = null;
 function hookTv(pl) {
+  noMiniPlayer(pl);
   if (!pl || pl === tvHooked || typeof pl.addEventListener !== "function") return;
   tvHooked = pl;
   /* dopo il clic vturb esce dall'anteprima muta o fa partire il video: si controlla poco dopo */
