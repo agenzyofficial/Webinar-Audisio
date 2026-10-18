@@ -1286,21 +1286,29 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 @media (max-width:760px) and (max-height:700px){.hero{--lw:min(calc(100vw - 8px),calc(30vh * 2.06))}}
 
 
-/* telefono: scorrendo, il video resta piccolo in basso a destra (il nostro, non il mini player di vturb);
-   .tv-slot tiene il suo posto nella pagina così niente salta, la X lo chiude finché non torni al video */
+/* scorrendo, il video resta piccolo in basso a destra (il nostro, non il mini player di vturb); la X lo chiude finché non torni al video.
+   .tv-slot segna il posto del video nella pagina: da telefono lo tiene occupato così niente salta, da computer è solo il riferimento */
 .tv-slot,.tv-mini-x{display:none}
+.hero.has-mini{z-index:60}
+.tv-screen.is-mini{position:fixed;top:auto;left:auto;margin:0;z-index:60;min-height:0;aspect-ratio:auto;transition:none;
+  border:1.5px solid rgba(255,90,20,.75);border-radius:10px;box-shadow:0 0 0 3px #0B0D0E,0 16px 36px rgba(0,0,0,.75);animation:tv-mini-in 260ms var(--ease-out)}
+.tv-screen.is-mini .tv-mini-x{display:flex;align-items:center;justify-content:center;position:absolute;z-index:5;top:5px;right:5px;width:26px;height:26px;
+  border:0;border-radius:50%;background:rgba(11,13,14,.85);color:#fff;font:600 17px/1 var(--sans,system-ui);cursor:pointer}
 @media (max-width:760px){
   .tv-slot{order:-1;width:calc(100% - 2 * var(--gutter));aspect-ratio:16/9;margin:6px auto 4px}
   /* Safari su iPhone taglia un elemento fisso se un contenitore sopra ha overflow:hidden e un suo livello:
      col video piccolo attivo l'hero e la TV non tagliano (lo stesso che fa vturb col suo mini player) */
-  .hero.has-mini{z-index:60;overflow:visible}
+  .hero.has-mini{overflow:visible}
   .hero.has-mini .hero-tv{overflow:visible}
   .hero.has-mini .tv-slot{display:block}
-  .tv-screen.is-mini{position:fixed;top:auto;left:auto;right:calc(10px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));
-    width:min(50vw,220px);height:calc(min(50vw,220px) * .5625);min-height:0;aspect-ratio:auto;margin:0;z-index:60;border-color:rgba(255,90,20,.75);border-radius:10px;
-    box-shadow:0 0 0 3px #0B0D0E,0 16px 36px rgba(0,0,0,.75);animation:tv-mini-in 260ms var(--ease-out)}
-  .tv-screen.is-mini .tv-mini-x{display:flex;align-items:center;justify-content:center;position:absolute;z-index:5;top:5px;right:5px;width:26px;height:26px;
-    border:0;border-radius:50%;background:rgba(11,13,14,.85);color:#fff;font:600 17px/1 var(--sans,system-ui);cursor:pointer}
+  .tv-screen.is-mini{right:calc(10px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));width:min(50vw,220px);height:calc(min(50vw,220px) * .5625)}
+}
+@media (min-width:761px){
+  .tv-slot{display:block;position:absolute;left:65.8%;top:14.32%;width:33.5%;height:33.33%;visibility:hidden;pointer-events:none}
+  /* sopra la barra "Riserva il posto" quando c'è (--bar-h dallo script) */
+  .tv-screen.is-mini{right:24px;bottom:24px;width:min(30vw,400px);height:calc(min(30vw,400px) * .5625);transform:none}
+  body.bar-on .tv-screen.is-mini{bottom:calc(var(--bar-h,72px) + 16px)}
+  .tv-screen.is-mini .tv-mini-x{top:8px;right:8px;width:32px;height:32px;font-size:20px}
 }
 @keyframes tv-mini-in{from{opacity:0;transform:translateY(18px) scale(.9)}}
 @media (prefers-reduced-motion:reduce){.tv-screen.is-mini{animation:none}}
@@ -2164,7 +2172,8 @@ function hookTv(pl) {
   if (!pl || pl === tvHooked || typeof pl.addEventListener !== "function") return;
   tvHooked = pl;
   /* dopo il clic vturb esce dall'anteprima muta o fa partire il video: si controlla poco dopo */
-  tvScreen.addEventListener("pointerup", () => setTimeout(() => { if (!pl.paused && !pl.inSmartAutoPlay) setCinema(true); }, 400), true);
+  /* non col video piccolo in basso (né sulla sua X): lì il clic serve solo a far partire il video */
+  tvScreen.addEventListener("pointerup", e => { if (e.target.closest(".tv-mini-x")) return; setTimeout(() => { if (!pl.paused && !pl.inSmartAutoPlay && !tvMini) setCinema(true); }, 400); }, true);
   pl.addEventListener("video:ended", () => setCinema(false));
 }
 document.addEventListener("player:ready", e => hookTv(e.detail && e.detail.player));
@@ -2172,17 +2181,18 @@ document.addEventListener("player:ready", e => hookTv(e.detail && e.detail.playe
 const hookTvInstances = () => ((window.smartplayer && window.smartplayer.instances) || []).forEach(i => hookTv(i.instance));
 hookTvInstances(); addEventListener("load", hookTvInstances);
 
-/* Telefono: quando il video esce dallo schermo scorrendo, resta piccolo in basso a destra.
-   Il posto del video resta occupato da .tv-slot, quindi la pagina non salta; la X lo chiude finché non torni al video */
+/* Quando il video esce dallo schermo scorrendo, resta piccolo in basso a destra (telefono e computer); la X lo chiude finché non torni al video.
+   Da telefono il posto del video resta occupato da .tv-slot, quindi la pagina non salta; da computer .tv-slot segna dov'era il video nella TV */
 const tvSlot = document.querySelector(".tv-slot"), tvMiniX = tvScreen.querySelector(".tv-mini-x"), heroBox = tvScreen.closest(".hero"), phone = matchMedia("(max-width:760px)");
 let tvMini = false, tvMiniOff = false, tvMiniRaf = 0;
 function syncTvMini() {
   tvMiniRaf = 0;
-  const out = (tvMini ? tvSlot : tvScreen).getBoundingClientRect().bottom < 0;
+  const out = (tvMini || !phone.matches ? tvSlot : tvScreen).getBoundingClientRect().bottom < 0;
   if (!out) tvMiniOff = false;
-  const on = phone.matches && out && !tvMiniOff;
+  const on = out && !tvMiniOff;
   if (on === tvMini) return;
   tvMini = on;
+  if (on) setCinema(false);
   heroBox.classList.toggle("has-mini", on);
   tvScreen.classList.toggle("is-mini", on);
 }
@@ -2196,7 +2206,12 @@ const bar = document.querySelector(".bar"), heroCta = document.querySelector(".h
 const pageCtas = [...document.querySelectorAll("main [data-open], main [data-to-tickets], .hero [data-to-tickets]")];
 const visible = new Set();
 let pastHero = false;
-const syncBar = () => bar.classList.toggle("show", pastHero && visible.size === 0);
+const syncBar = () => {
+  const show = pastHero && visible.size === 0;
+  bar.classList.toggle("show", show);
+  document.body.classList.toggle("bar-on", show);
+  document.documentElement.style.setProperty("--bar-h", bar.offsetHeight + "px");
+};
 new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; syncBar(); }).observe(heroCta);
 const ctaIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)); syncBar(); });
 pageCtas.forEach(b => ctaIO.observe(b));
