@@ -1291,7 +1291,10 @@ footer.pfoot .wrap{display:block!important;max-width:1320px}
 .tv-slot,.tv-mini-x{display:none}
 @media (max-width:760px){
   .tv-slot{order:-1;width:calc(100% - 2 * var(--gutter));aspect-ratio:16/9;margin:6px auto 4px}
-  .hero.has-mini{z-index:60}
+  /* Safari su iPhone taglia un elemento fisso se un contenitore sopra ha overflow:hidden e un suo livello:
+     col video piccolo attivo l'hero e la TV non tagliano (lo stesso che fa vturb col suo mini player) */
+  .hero.has-mini{z-index:60;overflow:visible}
+  .hero.has-mini .hero-tv{overflow:visible}
   .hero.has-mini .tv-slot{display:block}
   .tv-screen.is-mini{position:fixed;top:auto;left:auto;right:calc(10px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));
     width:min(50vw,220px);height:calc(min(50vw,220px) * .5625);min-height:0;aspect-ratio:auto;margin:0;z-index:60;border-color:rgba(255,90,20,.75);border-radius:10px;
