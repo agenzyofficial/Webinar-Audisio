@@ -48,6 +48,15 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .waiting b{font-size:clamp(18px,3.6vw,26px);font-weight:800;font-style:italic}
 .waiting .cd{font-size:clamp(30px,7vw,54px);font-weight:900;letter-spacing:.02em;font-variant-numeric:tabular-nums}
 .waiting span{color:var(--fg-2);font-size:14px}
+/* musica d'attesa: tastino in alto a destra del conto alla rovescia (sparisce con lui) */
+.music{position:absolute;top:10px;right:10px;display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px 0 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;
+  background:rgba(11,13,14,.72);color:var(--fg);font:600 13px var(--sans);cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.music.on{border-color:rgba(255,90,20,.65)}
+.music svg{width:18px;height:18px;fill:currentColor;flex:none}
+.music .ico-on,.music.on .ico-off{display:none}
+.music.on .ico-on{display:block}
+.waiting .music span{color:inherit;font-size:13px}
+@media (max-width:520px){.music{top:8px;right:8px;width:38px;min-height:38px;padding:0;justify-content:center}.waiting .music span{display:none}}
 /* bottone della call: compare quando lo accendi dal pannello */
 .cta{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;padding:16px 18px;border:2px solid var(--acc);border-radius:14px;
   background:linear-gradient(90deg,rgba(255,90,20,.22),rgba(255,90,20,.06));box-shadow:0 0 32px rgba(255,90,20,.35);animation:cta-in 500ms var(--ease-out)}
@@ -102,6 +111,12 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
         <b>La diretta inizia tra</b>
         <div class="cd" data-cd>--:--:--</div>
         <span>Resta su questa pagina: il video parte da solo.</span>
+        <button class="music" type="button" data-music-b aria-pressed="false">
+          <svg class="ico-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+          <svg class="ico-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="m16.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Attiva musica</span>
+        </button>
+        <audio data-music src="../assets/musica-attesa.mp3" loop preload="none" playsinline></audio>
       </div>
     </div>
     <div class="cta" data-cta hidden>
@@ -145,7 +160,44 @@ let current = "", frame = null, muted = true;
 /* fino a 10 minuti prima resta il conto alla rovescia sopra il video; con ?prova=1 nell'indirizzo il video si vede subito (per le prove) */
 const PROVA = new URLSearchParams(location.search).has("prova");
 const early = () => !PROVA && START - new Date() > 10 * 60 * 1000;
-const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; };
+const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; syncMusic(); };
+
+/* musica d'attesa: suona finché c'è il conto alla rovescia, poi sfuma e si ferma.
+   I browser non fanno partire l'audio da soli: se lo bloccano, parte al primo tocco sulla pagina.
+   Il tastino la spegne e la scelta resta salvata su quel dispositivo. */
+const music = document.querySelector("[data-music]"), musicB = document.querySelector("[data-music-b]"), musicT = musicB.querySelector("span");
+let musicOff = false, musicWait = false, fading = false;
+try { musicOff = localStorage.getItem("pbm-musica") === "off"; } catch (e) {}
+const musicLabel = () => {
+  const on = !music.paused && !fading;
+  musicB.classList.toggle("on", on); musicB.setAttribute("aria-pressed", on);
+  musicT.textContent = on ? "Disattiva musica" : "Attiva musica";
+  musicB.setAttribute("aria-label", musicT.textContent);
+};
+function playMusic() { music.play().then(() => { musicWait = false; musicLabel(); }).catch(() => { musicWait = true; musicLabel(); }); }
+function fadeOut() {
+  if (music.paused || fading) return;
+  fading = true; musicLabel();
+  const v0 = music.volume; let i = 0;
+  const t = setInterval(() => {
+    music.volume = Math.max(0, v0 * (1 - ++i / 15));
+    if (i >= 15) { clearInterval(t); music.pause(); music.volume = v0; fading = false; musicLabel(); }
+  }, 100);
+}
+function syncMusic() {
+  if (waiting.hidden) { fadeOut(); return; }
+  if (!musicOff && !musicWait && music.paused && !fading) playMusic();
+}
+musicB.addEventListener("click", () => {
+  musicOff = !music.paused;
+  if (musicOff) music.pause(); else playMusic();
+  try { localStorage.setItem("pbm-musica", musicOff ? "off" : "on"); } catch (e) {}
+  musicLabel();
+});
+["click", "touchend", "keydown"].forEach(t => document.addEventListener(t, e => {
+  if (musicWait && !musicOff && !waiting.hidden && !e.target.closest("[data-music-b]")) { musicWait = false; playMusic(); }
+}, true));
+music.addEventListener("pause", musicLabel); music.addEventListener("play", musicLabel);
 /* se l'audio lo attivano dall'altoparlante del player Cloudflare, il riquadro sotto sparisce */
 const watchVolume = () => {
   if (!frame || !window.Stream || current.includes("youtube")) return;
