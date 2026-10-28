@@ -54,3 +54,5 @@ Nella pagina sono evidenziati in giallo:
 - benefit del VIP;
 - replay sì o no;
 - foto di Andrea, oggi un riquadro segnaposto.
+
+Stato della diretta: `api/live.js` (POST con la chiave del pannello) scrive `live/stato.json` nello spazio Vercel Blob `pbm-live` (pubblico, aggiornato dalla rete entro 60 secondi); la pagina della diretta lo legge per mostrare o nascondere il bottone della call. Nel codice c'è solo l'impronta SHA-256 della chiave, non la chiave.

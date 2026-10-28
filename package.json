@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "name": "webinar-audisio",
+  "description": "Landing del webinar: pagine statiche + funzioni in /api",
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
+  }
+}

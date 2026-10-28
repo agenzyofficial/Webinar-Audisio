@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0D0E">
+<title>Posti disponibili · La morte del personal brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D0E;--bg-2:#111417;--line:#262C31;--fg:#E8ECEE;--fg-2:#A6B0B6;--fg-3:#6B757D;--acc:#FF5A14;--on-acc:#0B0D0E;--sans:"Poppins",system-ui,sans-serif;--ease-out:cubic-bezier(0.23,1,0.32,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{background:radial-gradient(70% 50% at 50% 0%,rgba(255,90,20,.14),transparent 70%),var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1500px;margin:0 auto;padding:clamp(18px,3vw,44px) clamp(16px,3vw,48px) 28px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.logo{display:block;width:clamp(150px,14vw,230px);height:auto;mix-blend-mode:screen}
+h1{margin-top:10px;font-weight:900;font-style:italic;font-size:clamp(34px,4.6vw,72px);line-height:1;letter-spacing:-.015em}
+.sub{margin-top:8px;color:var(--fg-2);font-size:clamp(15px,1.4vw,22px);font-weight:500}
+.count{text-align:right}
+.count b{display:block;font-weight:900;font-size:clamp(56px,7vw,120px);line-height:.9;color:var(--acc);font-variant-numeric:tabular-nums}
+.count span{font-size:clamp(14px,1.3vw,20px);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
+.count.zero b{color:var(--fg-3)}
+.grid{margin-top:clamp(18px,2.4vw,34px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.2vw,18px)}
+/* posto: tratteggiato quando è libero, arancione pieno col nome quando è preso */
+.seat{position:relative;min-height:clamp(120px,15vw,210px);padding:clamp(12px,1.2vw,18px);border:2px dashed #3A434A;border-radius:16px;background:rgba(255,255,255,.02);
+  display:flex;flex-direction:column;justify-content:space-between;text-align:left;color:var(--fg);font-family:var(--sans);cursor:pointer;overflow:hidden;transition:border-color .2s}
+.seat:hover{border-color:var(--fg-3)}
+.seat .n{font-weight:900;font-size:clamp(28px,3vw,52px);line-height:1;color:var(--fg-3)}
+.seat .lab{font-weight:700;font-size:clamp(13px,1.1vw,18px);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+.seat .who{font-weight:800;font-size:clamp(18px,1.7vw,30px);line-height:1.12;word-break:break-word}
+.seat.taken{border:2px solid var(--acc);background:linear-gradient(160deg,#FF6A2A,#E04A0B);color:var(--on-acc);box-shadow:0 0 30px rgba(255,90,20,.35);animation:take .6s var(--ease-out)}
+.seat.taken .n,.seat.taken .lab{color:rgba(11,13,14,.7)}
+.stamp{position:absolute;right:-6px;top:14px;transform:rotate(12deg);padding:4px 14px;border:3px solid var(--on-acc);border-radius:8px;font-weight:900;font-size:clamp(14px,1.3vw,22px);letter-spacing:.12em;color:var(--on-acc);opacity:.85}
+@keyframes take{0%{transform:scale(.92);filter:brightness(1.6)}60%{transform:scale(1.03)}100%{transform:none;filter:none}}
+.seat input{width:100%;margin-top:8px;padding:8px 10px;border:2px solid var(--acc);border-radius:10px;background:#0B0E10;color:var(--fg);font:700 clamp(16px,1.4vw,22px) var(--sans)}
+.seat input:focus{outline:none}
+.out{display:none;margin-top:clamp(16px,2vw,28px);padding:clamp(12px,1.4vw,20px);border:3px solid var(--acc);border-radius:16px;text-align:center;font-weight:900;font-style:italic;
+  font-size:clamp(30px,4vw,64px);letter-spacing:.02em;text-transform:uppercase;color:var(--acc);background:rgba(255,90,20,.1);animation:take .7s var(--ease-out)}
+.out.show{display:block}
+.foot{margin-top:18px;display:flex;justify-content:space-between;gap:12px;color:var(--fg-3);font-size:13px}
+.foot button{border:0;background:none;color:var(--fg-3);font:500 13px var(--sans);text-decoration:underline;cursor:pointer}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.count{text-align:left}}
+@media (prefers-reduced-motion:reduce){.seat.taken,.out{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <img class="logo" src="../assets/logo-evento-mobile-senza-cartellino.jpg" alt="La morte del personal brand" width="900" height="437">
+      <h1>Posti <span style="color:var(--acc)">disponibili</span></h1>
+      <p class="sub">Quando sono finiti, sono finiti.</p>
+    </div>
+    <div class="count" data-count><b data-left>10</b><span>rimasti su 10</span></div>
+  </div>
+
+  <div class="grid" data-grid></div>
+  <div class="out" data-out>Posti esauriti</div>
+
+  <div class="foot">
+    <span>Clicca un posto e scrivi il nome, poi Invio. Clicca un posto preso per cambiarlo; nome vuoto = posto di nuovo libero.</span>
+    <button type="button" data-reset>Azzera tutto</button>
+  </div>
+</div>
+
+<script>
+/* 10 posti: clic sul posto, scrivi il nome, Invio. Restano salvati su questo computer anche se ricarichi. */
+const N = 10, KEY = "pbm-posti";
+const grid = document.querySelector("[data-grid]"), leftEl = document.querySelector("[data-left]"), countEl = document.querySelector("[data-count]"), out = document.querySelector("[data-out]");
+let seats = [];
+try { seats = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+seats = Array.from({ length: N }, (_, i) => (seats[i] || "").toString());
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(seats)); } catch (e) {} };
+
+function render(justTaken) {
+  grid.innerHTML = "";
+  seats.forEach((name, i) => {
+    const b = document.createElement("div");
+    b.className = "seat" + (name ? " taken" : "");
+    if (name && justTaken !== i) b.style.animation = "none";
+    b.tabIndex = 0;
+    b.innerHTML = '<span class="n">' + String(i + 1).padStart(2, "0") + '</span>' +
+      (name ? '<span class="stamp">PRESO</span><span><span class="lab">Posto di</span><br><span class="who"></span></span>' : '<span class="lab">Libero</span>');
+    if (name) b.querySelector(".who").textContent = name;
+    b.addEventListener("click", () => edit(i, b));
+    b.addEventListener("keydown", e => { if (e.key === "Enter" && e.target === b) edit(i, b); });
+    grid.appendChild(b);
+  });
+  const left = seats.filter(s => !s).length;
+  leftEl.textContent = left;
+  countEl.classList.toggle("zero", left === 0);
+  out.classList.toggle("show", left === 0);
+}
+function edit(i, el) {
+  if (el.querySelector("input")) return;
+  const inp = document.createElement("input");
+  inp.type = "text"; inp.maxLength = 40; inp.placeholder = "Nome"; inp.value = seats[i];
+  el.appendChild(inp); inp.focus(); inp.select();
+  let done = false;
+  const finish = ok => {
+    if (done) return; done = true;
+    if (ok) { const was = seats[i]; seats[i] = inp.value.trim(); save(); render(seats[i] && !was ? i : -1); }
+    else render(-1);
+  };
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") finish(true); if (e.key === "Escape") finish(false); });
+  inp.addEventListener("blur", () => finish(true));
+  inp.addEventListener("click", e => e.stopPropagation());
+}
+document.querySelector("[data-reset]").addEventListener("click", () => {
+  if (!confirm("Liberare tutti i 10 posti?")) return;
+  seats = Array(N).fill(""); save(); render(-1);
+});
+render(-1);
+</script>
+</body>
+</html>
