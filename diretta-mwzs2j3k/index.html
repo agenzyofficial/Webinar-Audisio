@@ -48,11 +48,12 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .waiting b{font-size:clamp(18px,3.6vw,26px);font-weight:800;font-style:italic}
 .waiting .cd{font-size:clamp(30px,7vw,54px);font-weight:900;letter-spacing:.02em;font-variant-numeric:tabular-nums}
 .waiting span{color:var(--fg-2);font-size:14px}
-/* audio: i browser fanno partire il video senza suono, un tocco lo attiva */
-.unmute{position:absolute;z-index:3;left:50%;bottom:16px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border:0;border-radius:999px;
-  background:var(--acc);color:var(--on-acc);font:800 15px/1 var(--sans);text-transform:uppercase;letter-spacing:.02em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-.unmute[hidden]{display:none}
-.unmute svg{width:20px;height:20px;fill:currentColor}
+/* audio: i browser fanno partire il video senza suono; sotto il player si spiega di toccare l'altoparlante */
+.audio-tip{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 16px;border:1px solid rgba(255,90,20,.6);border-radius:12px;background:rgba(255,90,20,.12);
+  color:var(--fg-2);font:500 15px/1.45 var(--sans);text-align:left;cursor:pointer}
+.audio-tip[hidden]{display:none}
+.audio-tip b{color:var(--fg)}
+.audio-tip .spk{flex:none;width:30px;height:30px;padding:5px;border-radius:50%;background:var(--acc);color:var(--on-acc);fill:currentColor}
 .help{margin-top:12px;color:var(--fg-3);font-size:13.5px;text-align:center}
 .help a{color:var(--fg-2);text-underline-offset:3px}
 .below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
@@ -91,9 +92,12 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
         <div class="cd" data-cd>--:--:--</div>
         <span>Resta su questa pagina: il video parte da solo.</span>
       </div>
-      <button class="unmute" type="button" data-unmute hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>Tocca per attivare l'audio</button>
     </div>
-    <p class="help">Non senti l'audio? Tocca l'icona del volume nel player. Il video non parte o si blocca? <a href="#" data-reload>Ricarica la pagina</a>.</p>
+    <button class="audio-tip" type="button" data-unmute hidden>
+      <svg class="spk" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="m16.5 9.5 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span><b>Non senti niente?</b> Il video parte senza audio: tocca l'<b>altoparlante</b> in basso nel video.</span>
+    </button>
+    <p class="help">Il video non parte o si blocca? <a href="#" data-reload>Ricarica la pagina</a>.</p>
 
     <div class="below">
       <p><b>Il gruppo WhatsApp dell'evento</b><br>Link, avvisi e materiali della serata arrivano lì.</p>
@@ -127,6 +131,13 @@ let current = "", frame = null, muted = true;
 const PROVA = new URLSearchParams(location.search).has("prova");
 const early = () => !PROVA && START - new Date() > 10 * 60 * 1000;
 const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; };
+/* se l'audio lo attivano dall'altoparlante del player Cloudflare, il riquadro sotto sparisce */
+const watchVolume = () => {
+  if (!frame || !window.Stream || current.includes("youtube")) return;
+  const p = Stream(frame), t0 = Date.now();
+  /* all'avvio il player segnala un cambio di volume prima di essere davvero muto: si guarda lo stato solo dopo */
+  p.addEventListener("volumechange", () => setTimeout(() => { if (Date.now() - t0 > 2500 && p.muted === false) { muted = false; syncWaiting(); } }, 300));
+};
 
 /* conto alla rovescia fino alle 21:00, poi "In diretta" */
 const pad = n => String(n).padStart(2, "0");
@@ -165,6 +176,7 @@ function show(cfg) {
   frame.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen";
   frame.allowFullscreen = true;
   player.prepend(frame);
+  watchVolume();
   syncWaiting();
 }
 /* il primo tocco attiva l'audio (i browser non lo permettono da soli) */
@@ -175,6 +187,8 @@ unmute.addEventListener("click", () => {
     ["unMute", "playVideo"].forEach(func => frame.contentWindow.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*"));
   } else if (window.Stream) {
     const p = Stream(frame); p.muted = false; p.play();
+    /* se il browser non lo lascia attivare da qui (iPhone), il riquadro torna: si usa l'altoparlante del player */
+    setTimeout(() => { if (p.muted) { muted = true; syncWaiting(); } }, 1200);
   } else {
     frame.src = current.replace("muted=true", "muted=false"); current = frame.src;
   }
