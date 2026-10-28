@@ -123,6 +123,10 @@ const START = new Date("2026-10-29T21:00:00+01:00");
 const player = document.querySelector("[data-player]"), waiting = document.querySelector("[data-waiting]"), unmute = document.querySelector("[data-unmute]");
 const stateEl = document.querySelector("[data-state]"), stateT = document.querySelector("[data-state-t]"), cdEl = document.querySelector("[data-cd]"), notice = document.querySelector("[data-notice]");
 let current = "", frame = null, muted = true;
+/* fino a 10 minuti prima resta il conto alla rovescia sopra il video; con ?prova=1 nell'indirizzo il video si vede subito (per le prove) */
+const PROVA = new URLSearchParams(location.search).has("prova");
+const early = () => !PROVA && START - new Date() > 10 * 60 * 1000;
+const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; };
 
 /* conto alla rovescia fino alle 21:00, poi "In diretta" */
 const pad = n => String(n).padStart(2, "0");
@@ -137,6 +141,7 @@ function tick() {
     waiting.querySelector("b").textContent = "Stiamo per iniziare";
     cdEl.textContent = "";
   }
+  syncWaiting();
 }
 tick(); setInterval(tick, 1000);
 
@@ -153,15 +158,14 @@ function show(cfg) {
   if (src === current) return;
   current = src;
   if (frame) { frame.remove(); frame = null; }
-  if (!src) { waiting.hidden = false; unmute.hidden = true; return; }
+  if (!src) { syncWaiting(); return; }
   frame = document.createElement("iframe");
   frame.src = src;
   frame.title = "Diretta La morte del personal brand";
   frame.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen";
   frame.allowFullscreen = true;
   player.prepend(frame);
-  waiting.hidden = true;
-  unmute.hidden = !muted;
+  syncWaiting();
 }
 /* il primo tocco attiva l'audio (i browser non lo permettono da soli) */
 unmute.addEventListener("click", () => {
