@@ -35,6 +35,8 @@ button:disabled{opacity:.5;cursor:wait}
 .msg.err{color:#FF6B6B}
 .links{display:grid;gap:8px;margin-top:10px}
 .links a{color:var(--fg);font-size:14px;word-break:break-all}
+.self{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.b-copy{min-height:36px;padding:0 14px;border-radius:8px;background:#20262B;color:var(--fg);font-size:12px;flex:none}
 .note{margin-top:10px;color:var(--fg-3);font-size:13px}
 [hidden]{display:none!important}
 </style>
@@ -52,10 +54,10 @@ button:disabled{opacity:.5;cursor:wait}
   </div>
 
   <div class="card" data-panel hidden>
-    <h2>Bottone "candidati per la call"</h2>
+    <h2>Bottone "prenota la call"</h2>
     <div class="state" data-state><span class="dot" aria-hidden="true"></span><span data-state-t>Nascosto</span></div>
     <label>Link del calendario (GHL)<input type="url" inputmode="url" placeholder="https://..." data-url></label>
-    <label>Testo sopra il bottone<input type="text" maxlength="120" data-testo value="Candidati per la call con il team"></label>
+    <label>Testo sopra il bottone<input type="text" maxlength="120" data-testo value="Prenota la call con il team"></label>
     <div class="row">
       <button class="b-on" type="button" data-on>Mostra</button>
       <button class="b-off" type="button" data-off>Nascondi</button>
@@ -67,10 +69,12 @@ button:disabled{opacity:.5;cursor:wait}
   <div class="card">
     <h2>Pagine</h2>
     <div class="links">
+      <div class="self"><a href="./" target="_blank" rel="noopener" data-self>Pannello dei comandi</a><button class="b-copy" type="button" data-copy>Copia link</button></div>
       <a href="../diretta-mwzs2j3k/" target="_blank" rel="noopener">Pagina della diretta</a>
       <a href="../diretta-mwzs2j3k/?prova=1" target="_blank" rel="noopener">Pagina della diretta, versione prova</a>
       <a href="../posti-5r2e0x/" target="_blank" rel="noopener">Pagina dei 10 posti</a>
     </div>
+    <p class="note">Il link del pannello ha dentro la chiave: tienilo per te. Serve per aprirlo da un altro dispositivo senza riscriverla.</p>
   </div>
 </div>
 
@@ -86,8 +90,18 @@ const hashKey = new URLSearchParams(location.hash.slice(1)).get("k");
 if (hashKey) { chiave = hashKey; try { localStorage.setItem("pbm-pannello", chiave); } catch (e) {} history.replaceState(null, "", location.pathname); }
 
 const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent = on ? "Visibile agli spettatori" : "Nascosto"; };
-const unlock = () => { login.hidden = !!chiave; panel.hidden = !chiave; };
+/* link di questo pannello con la chiave, per aprirlo da un altro dispositivo */
+const selfA = $("[data-self]"), copyB = $("[data-copy]");
+const unlock = () => {
+  login.hidden = !!chiave; panel.hidden = !chiave;
+  selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
+};
 unlock();
+copyB.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(selfA.href); copyB.textContent = "Copiato"; }
+  catch (e) { prompt("Copia il link del pannello:", selfA.href); }
+  setTimeout(() => { copyB.textContent = "Copia link"; }, 2000);
+});
 
 /* stato attuale (il file pubblico può avere fino a un minuto di ritardo) */
 fetch(STATO, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(st => {
