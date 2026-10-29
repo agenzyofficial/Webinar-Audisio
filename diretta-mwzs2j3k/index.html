@@ -417,7 +417,12 @@ function chat(d) {
   else if (d.t === "sorgente") setTimeout(load, Math.random() * 3000);
   else if (d.t === "errore") {
     avviso(d.testo, true);
-    if (d.campo === "nome") { chatNome.value = nome; nome = ""; try { localStorage.removeItem("pbm-nome"); } catch (e) {} syncNome(); }
+    /* nome rifiutato: se la connessione ha già un nome si usa quello, altrimenti se ne sceglie un altro */
+    if (d.campo === "nome") {
+      if (d.nome) { nome = d.nome; try { localStorage.setItem("pbm-nome", nome); } catch (e) {} }
+      else { chatNome.value = nome; nome = ""; try { localStorage.removeItem("pbm-nome"); } catch (e) {} }
+      syncNome();
+    }
     if (sospeso && !chatT.value) chatT.value = sospeso;
   }
   syncChat();

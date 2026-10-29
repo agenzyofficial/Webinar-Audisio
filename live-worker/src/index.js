@@ -58,7 +58,8 @@ export class Stanza extends DurableObject {
     this.sql = ctx.storage.sql;
     this.sql.exec(`CREATE TABLE IF NOT EXISTS chat (id TEXT PRIMARY KEY, ora INTEGER, nome TEXT, testo TEXT, ip TEXT, dev TEXT, via INTEGER DEFAULT 0);
       CREATE INDEX IF NOT EXISTS chat_ora ON chat (ora);
-      CREATE TABLE IF NOT EXISTS ban (id TEXT PRIMARY KEY, ora INTEGER, nome TEXT, ip TEXT, dev TEXT)`);
+      CREATE TABLE IF NOT EXISTS ban (id TEXT PRIMARY KEY, ora INTEGER, nome TEXT, ip TEXT, dev TEXT);
+      CREATE TABLE IF NOT EXISTS nomi (chi TEXT PRIMARY KEY, nome TEXT)`);
     this.ultimi = new Map();
   }
   recenti() {
@@ -115,12 +116,20 @@ export class Stanza extends DurableObject {
     if (RISERVATI.test(nome)) return errore("Questo nome non si può usare: scegline un altro.", "nome");
     if (!t) return;
     if (/https?:\/\/|www\./i.test(t)) return errore("In chat non si possono mettere link.");
-    const ora = Date.now(), chi = a.dev || a.ip || "";
-    if (ora - (this.ultimi.get(chi) || 0) < PAUSA || ora - (a.ultimo || 0) < PAUSA) return errore("Aspetta qualche secondo tra un messaggio e l'altro.");
-    this.ultimi.set(chi, ora); a.ultimo = ora; ws.serializeAttachment(a);
+    /* un messaggio ogni 3 secondi per finestra, per dispositivo e per IP: più finestre o l'incognito non fanno scrivere più veloce */
+    const ora = Date.now(), dev = a.dev ? "dev:" + a.dev : "", ip = a.ip ? "ip:" + a.ip : "";
+    if (ora - (a.ultimo || 0) < PAUSA || [dev, ip].some(k => k && ora - (this.ultimi.get(k) || 0) < PAUSA))
+      return errore("Aspetta qualche secondo tra un messaggio e l'altro.");
+    /* un nome solo per dispositivo e per IP: chi apre altre finestre non può scrivere con nomi diversi */
+    const legato = this.sql.exec("SELECT nome FROM nomi WHERE chi IN (?, ?) ORDER BY (chi = ?) DESC LIMIT 1", dev, ip, dev).toArray()[0];
+    if (legato && legato.nome.toLowerCase() !== nome.toLowerCase())
+      return ws.send(JSON.stringify({ t: "errore", testo: "Da questa connessione scrivi già come " + legato.nome + ": il nome resta quello.", campo: "nome", nome: legato.nome }));
+    const firma = legato ? legato.nome : nome;
+    for (const k of [dev, ip]) if (k) { this.ultimi.set(k, ora); this.sql.exec("INSERT OR IGNORE INTO nomi (chi, nome) VALUES (?, ?)", k, firma); }
+    a.ultimo = ora; ws.serializeAttachment(a);
     if (this.ultimi.size > 5000) this.ultimi.clear();
-    const m = { id: crypto.randomUUID().replace(/-/g, "").slice(0, 12), ora, nome, testo: t };
-    this.sql.exec("INSERT INTO chat (id, ora, nome, testo, ip, dev) VALUES (?, ?, ?, ?, ?, ?)", m.id, ora, nome, t, a.ip || "", a.dev || "");
+    const m = { id: crypto.randomUUID().replace(/-/g, "").slice(0, 12), ora, nome: firma, testo: t };
+    this.sql.exec("INSERT INTO chat (id, ora, nome, testo, ip, dev) VALUES (?, ?, ?, ?, ?, ?)", m.id, ora, firma, t, a.ip || "", a.dev || "");
     this.manda({ t: "chat", m });
   }
   async modera({ azione, id } = {}) {
@@ -160,7 +169,7 @@ export class Stanza extends DurableObject {
       return json({ ok: true });
     }
     if (azione === "svuota") {
-      this.sql.exec("DELETE FROM chat");
+      this.sql.exec("DELETE FROM chat; DELETE FROM nomi");
       this.manda({ t: "svuota" });
       return json({ ok: true });
     }
