@@ -87,6 +87,10 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .chat-list li{font-size:14.5px;line-height:1.4;overflow-wrap:anywhere}
 .chat-list b{color:var(--acc);font-weight:700;margin-right:6px}
 .chat-list .vuota{margin:auto;color:var(--fg-3);font-size:14px;text-align:center}
+/* prima dell'orario del video la chat è chiusa (nella pagina di prova è sempre aperta) */
+.chat-attesa{flex:1;display:grid;place-content:center;padding:16px;color:var(--fg-2);font-size:14.5px;text-align:center}
+.chat-list[hidden],.chat-attesa[hidden]{display:none}
+@media (max-width:979px){.chat.presto{height:150px}}
 .chat-f{display:grid;gap:8px;padding:10px;border-top:1px solid var(--line)}
 .chat-f[hidden],.chat-f [hidden]{display:none}
 .chat-f input{width:100%;min-width:0;min-height:44px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 16px var(--sans)}
@@ -161,6 +165,7 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     <aside class="chat" aria-label="Chat della diretta">
       <div class="chat-in">
         <div class="chat-h"><span>Chat</span><span data-chat-stato>Mi collego…</span></div>
+        <p class="chat-attesa" data-chat-attesa hidden></p>
         <ol class="chat-list" data-chat-list></ol>
         <form class="chat-f" data-chat-f autocomplete="off">
           <input type="text" maxlength="30" placeholder="Il tuo nome" autocomplete="given-name" aria-label="Il tuo nome" data-chat-nome>
@@ -372,10 +377,19 @@ const vuota = document.createElement("li");
 vuota.className = "vuota"; vuota.textContent = "Ancora nessun messaggio. Scrivi tu il primo!";
 const avviso = (t, err) => { chatMsg.className = "chat-msg" + (err ? " err" : ""); chatMsg.textContent = t || ""; };
 function syncNome() { chatNome.hidden = !!nome; chatCome.hidden = !nome; chatChi.textContent = nome; }
+/* nella pagina vera la chat si apre insieme al video (10 minuti prima dell'inizio), con ?prova=1 è sempre aperta */
+const chatBox = q(".chat"), chatAttesa = q("[data-chat-attesa]");
+chatAttesa.textContent = "La chat si apre alle " + new Date(START - 10 * 60 * 1000).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" }) + ", insieme al video.";
+let presto = null;
 function syncChat() {
+  const eraPresto = presto;
+  presto = early();
+  chatBox.classList.toggle("presto", presto);
+  chatAttesa.hidden = !presto; chatList.hidden = presto;
+  if (eraPresto && !presto) chatList.scrollTop = chatList.scrollHeight;
   chatStato.textContent = wsOk ? "" : "Mi collego…";
-  chatF.hidden = bannato || chiusa;
-  chatStop.hidden = !chatF.hidden;
+  chatF.hidden = presto || bannato || chiusa;
+  chatStop.hidden = presto || !chatF.hidden;
   chatStop.textContent = bannato ? "Non puoi più scrivere in chat." : "La chat è chiusa.";
   if (!chatList.querySelector("li[data-id]")) { if (!vuota.isConnected) chatList.append(vuota); } else vuota.remove();
 }
@@ -424,6 +438,7 @@ chatF.addEventListener("submit", e => {
 });
 q("[data-chat-cambia]").addEventListener("click", () => { chatNome.value = nome; nome = ""; syncNome(); chatNome.focus(); });
 syncNome(); syncChat();
+setInterval(() => { if (early() !== presto) syncChat(); }, 1000);
 
 setInterval(() => { if (wsOk) ws.send("ping"); }, 45000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) connetti(); });
