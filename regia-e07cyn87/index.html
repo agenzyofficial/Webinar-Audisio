@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0D0E">
+<title>Regia slide · La morte del personal brand</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D0E;--bg-2:#111417;--line:#262C31;--fg:#E8ECEE;--fg-2:#A6B0B6;--fg-3:#6B757D;--acc:#FF5A14;--on-acc:#0B0D0E;--ok:#3DDC84;--ko:#FF5A5A;--sans:"Poppins",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button{font-family:var(--sans);cursor:pointer;border:0}
+/* accesso con la chiave del pannello */
+.login{max-width:440px;margin:12vh auto 0;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--bg-2)}
+.login h1{font-weight:800;font-style:italic;font-size:26px}
+.login input{width:100%;min-height:48px;margin-top:14px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 16px var(--sans)}
+.login button{width:100%;min-height:48px;margin-top:12px;border-radius:10px;background:var(--acc);color:var(--on-acc);font-weight:800;text-transform:uppercase}
+.login p{margin-top:10px;color:var(--fg-3);font-size:13px}
+/* regia: in alto barra, a sinistra testi grandi, a destra tappe e anteprime, in basso tasti enormi */
+.regia{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;gap:14px;padding:14px clamp(14px,2vw,28px) calc(14px + env(safe-area-inset-bottom))}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.num{font-weight:900;font-size:clamp(30px,3.4vw,52px);line-height:1;font-variant-numeric:tabular-nums}
+.num small{color:var(--fg-3);font-size:.5em;font-weight:700}
+.ora{margin-left:auto;font-weight:800;font-size:clamp(22px,2.2vw,34px);font-variant-numeric:tabular-nums;color:var(--fg-2)}
+.apri{min-height:52px;padding:0 20px;border-radius:12px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:15px;text-transform:uppercase}
+.vai{display:flex;align-items:center;gap:8px;color:var(--fg-3);font-size:14px;font-weight:600}
+.vai input{width:84px;min-height:44px;padding:0 10px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:700 18px var(--sans)}
+.vai button{min-height:44px;padding:0 14px;border-radius:10px;background:#20262B;color:var(--fg);font-weight:700}
+.mezzo{display:grid;gap:14px;min-height:0;grid-template-columns:minmax(0,1fr)}
+@media (min-width:1000px){.mezzo{grid-template-columns:minmax(0,1fr) 380px}}
+.testi{min-height:0;overflow-y:auto;padding:22px clamp(18px,2vw,32px);border:1px solid var(--line);border-radius:16px;background:var(--bg-2)}
+.testi h3{margin-top:22px;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+.testi h3:first-child{margin-top:0}
+.testi p{margin-top:12px;font-size:clamp(24px,2.3vw,38px);line-height:1.32;font-weight:600}
+.testi .rif p{font-size:clamp(15px,1.2vw,19px);font-weight:500;color:var(--fg-3);line-height:1.45}
+.lato{display:grid;gap:14px;align-content:start;min-height:0;overflow-y:auto}
+.box{padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--bg-2)}
+.box h2{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+/* prossima tappa: chi entra, a che slide, quanto manca e se il ritmo basta */
+.tappa{border-color:rgba(255,90,20,.55)}
+.tappa .chi{margin-top:6px;font-weight:800;font-size:24px;line-height:1.15}
+.tappa .dove{margin-top:4px;color:var(--fg-2);font-size:15px;font-weight:600}
+.tappa .manca{margin-top:10px;font-weight:900;font-size:46px;line-height:1;font-variant-numeric:tabular-nums}
+.tappa .manca small{display:block;margin-top:4px;color:var(--fg-3);font-size:13px;font-weight:600}
+.ritmo{margin-top:12px;padding:10px 12px;border-radius:10px;font-weight:800;font-size:17px;line-height:1.3;background:#20262B}
+.ritmo.ok{background:rgba(61,220,132,.14);color:var(--ok)}
+.ritmo.ko{background:rgba(255,90,90,.14);color:var(--ko)}
+.ritmo small{display:block;margin-top:2px;font-weight:600;font-size:13px;color:var(--fg-2)}
+.elenco{margin-top:8px;display:grid;gap:6px}
+.elenco div{display:flex;justify-content:space-between;gap:8px;font-size:14px;color:var(--fg-2)}
+.elenco div.fatta{color:var(--fg-3);text-decoration:line-through}
+.elenco div.ora-q{color:var(--fg);font-weight:700}
+.prev{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.prev figure{min-width:0}
+.prev img{display:block;width:100%;aspect-ratio:16/9;border-radius:8px;border:1px solid var(--line);background:#000}
+.prev figcaption{margin-top:4px;color:var(--fg-3);font-size:12px;font-weight:600}
+/* tasti enormi */
+.tasti{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+.tasti button{min-height:clamp(84px,12vh,130px);border-radius:18px;font-weight:900;font-size:clamp(22px,2.6vw,40px);text-transform:uppercase}
+.indietro{background:#20262B;color:var(--fg)}
+.avanti{background:var(--acc);color:var(--on-acc)}
+.tasti button:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+<div class="login" data-login hidden>
+  <h1>Regia slide</h1>
+  <input type="password" placeholder="Chiave del pannello" autocomplete="current-password" data-key>
+  <button type="button" data-key-ok>Entra</button>
+  <p>È la stessa chiave del pannello della diretta. Se il pannello è già aperto su questo dispositivo, entri da solo.</p>
+</div>
+
+<div class="regia" data-regia hidden>
+  <div class="bar">
+    <div class="num" data-num>1 <small>/ 247</small></div>
+    <button class="apri" type="button" data-apri>Apri le slide in un'altra finestra</button>
+    <div class="vai"><label for="vai">Vai alla slide</label><input id="vai" type="number" min="1" inputmode="numeric" data-vai-n><button type="button" data-vai>Vai</button></div>
+    <div class="ora" data-ora>--:--:--</div>
+  </div>
+
+  <div class="mezzo">
+    <article class="testi" data-testi aria-live="polite"></article>
+    <aside class="lato">
+      <div class="box tappa" data-tappa>
+        <h2>Prossima tappa</h2>
+        <p class="chi" data-t-chi>–</p>
+        <p class="dove" data-t-dove></p>
+        <p class="manca" data-t-manca>–</p>
+        <p class="ritmo" data-t-ritmo></p>
+      </div>
+      <div class="box">
+        <h2>Anteprima</h2>
+        <div class="prev">
+          <figure><img alt="Slide attuale" data-img-ora><figcaption data-cap-ora>Adesso</figcaption></figure>
+          <figure><img alt="Slide successiva" data-img-dopo><figcaption data-cap-dopo>Dopo</figcaption></figure>
+        </div>
+      </div>
+      <div class="box">
+        <h2>Tappe della serata</h2>
+        <div class="elenco" data-elenco></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="tasti">
+    <button class="indietro" type="button" data-indietro>◀ Indietro</button>
+    <button class="avanti" type="button" data-avanti>Avanti ▶</button>
+  </div>
+</div>
+
+<script>
+/* Regia delle slide: si apre con la chiave del pannello (su questo dispositivo basta aver aperto il pannello).
+   "Apri le slide" apre slide.html in un'altra finestra: è quella da condividere in diretta. Le due finestre si parlano
+   con BroadcastChannel "pbm-regia": avanti e indietro da qui (tasti, frecce, telecomando) cambiano la slide là.
+   Tappe: gli interventi degli ospiti (orari italiani di stasera) e la slide dove entrano; si vede quanto manca,
+   quante slide restano e se il ritmo tenuto finora basta per arrivarci in tempo. */
+const KEY_HASH = "715ccff2b0480e44fc5ea32554e0ca1dbe045526383a3ac3924ded669215d2a5";
+const INIZIO = new Date("2026-10-29T21:00:00+01:00");
+const TAPPE = [
+  { chi: "Felipe Orrego", slide: 93, ora: "21:23", fine: "21:29", collegato: "21:13" },
+  { chi: "Alessandro Labadini", slide: 121, ora: "21:41", fine: "21:47", collegato: "21:31" },
+  { chi: "Alessandro Gaudenzi", slide: 140, ora: "21:55", fine: "22:01", collegato: "21:45" },
+  { chi: "Daniele Defina", slide: 171, ora: "22:07", fine: "22:13", collegato: "21:57" }
+].map(t => ({ ...t, quando: new Date("2026-10-29T" + t.ora + ":00+01:00") }));
+const $ = s => document.querySelector(s);
+const canale = "BroadcastChannel" in window ? new BroadcastChannel("pbm-regia") : null;
+let N = 247, note = {}, attuale = 1, finestra = null;
+
+async function sha(t) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function entra(chiave) {
+  if (!chiave || (await sha(chiave)) !== KEY_HASH) return false;
+  try { localStorage.setItem("pbm-pannello", chiave); } catch (e) {}
+  $("[data-login]").hidden = true; $("[data-regia]").hidden = false;
+  avvia();
+  return true;
+}
+$("[data-key-ok]").addEventListener("click", async () => { if (!(await entra($("[data-key]").value.trim()))) alert("Chiave sbagliata"); });
+$("[data-key]").addEventListener("keydown", e => { if (e.key === "Enter") $("[data-key-ok]").click(); });
+(async () => {
+  let k = ""; try { k = localStorage.getItem("pbm-pannello") || ""; } catch (e) {}
+  if (!(await entra(k))) $("[data-login]").hidden = false;
+})();
+
+/* testi del relatore: i titoli in maiuscolo (TESTO SUGGERITO DA DIRE, RIFERIMENTO…) diventano intestazioni */
+function mostraTesti(n) {
+  const box = $("[data-testi]"), t = note[n] || "";
+  box.replaceChildren();
+  let sez = box;
+  for (const pezzo of t.split(/\n{2,}/)) {
+    const p = pezzo.trim(); if (!p) continue;
+    if (/^[A-ZÀ-Ý0-9 ’'·.,:()\/-]{6,}$/.test(p) && p === p.toUpperCase()) {
+      sez = document.createElement("section");
+      if (/RIFERIMENT|FONTE|NOTA/.test(p)) sez.className = "rif";
+      const h = document.createElement("h3"); h.textContent = p; sez.append(h); box.append(sez);
+    } else { const el = document.createElement("p"); el.textContent = p; sez.append(el); }
+  }
+  if (!box.children.length) { const el = document.createElement("p"); el.textContent = "(nessun testo per questa slide)"; box.append(el); }
+  box.scrollTop = 0;
+}
+const tre = n => String(n).padStart(3, "0");
+function aggiorna() {
+  $("[data-num]").innerHTML = attuale + " <small>/ " + N + "</small>";
+  mostraTesti(attuale);
+  $("[data-img-ora]").src = "anteprime/" + tre(attuale) + ".jpg"; $("[data-cap-ora]").textContent = "Adesso · " + attuale;
+  const dopo = Math.min(N, attuale + 1);
+  $("[data-img-dopo]").src = "anteprime/" + tre(dopo) + ".jpg"; $("[data-cap-dopo]").textContent = attuale < N ? "Dopo · " + dopo : "Ultima slide";
+  try { localStorage.setItem("pbm-regia-n", attuale); } catch (e) {}
+  tempi();
+}
+function vai(n, manda = true) {
+  n = Math.max(1, Math.min(N, n | 0));
+  if (n === attuale && manda) return;
+  /* il ritmo si misura dal primo "avanti" della diretta (non prima delle 20:55, così le prove non contano) */
+  if (n > 1 && Date.now() > INIZIO - 5 * 60000) { try { if (!localStorage.getItem("pbm-regia-via")) localStorage.setItem("pbm-regia-via", Date.now()); } catch (e) {} }
+  attuale = n; aggiorna();
+  if (manda && canale) canale.postMessage({ t: "vai", n });
+}
+if (canale) canale.onmessage = e => {
+  const d = e.data || {};
+  if (d.t === "vai") vai(d.n, false);
+  if (d.t === "chi") canale.postMessage({ t: "vai", n: attuale });
+};
+$("[data-avanti]").addEventListener("click", () => vai(attuale + 1));
+$("[data-indietro]").addEventListener("click", () => vai(attuale - 1));
+$("[data-vai]").addEventListener("click", () => { const v = +$("[data-vai-n]").value; if (v) vai(v); });
+$("[data-vai-n]").addEventListener("keydown", e => { if (e.key === "Enter") { e.stopPropagation(); $("[data-vai]").click(); } });
+addEventListener("keydown", e => {
+  if (e.target.matches("input")) return;
+  if (["ArrowRight", "PageDown", " ", "ArrowDown"].includes(e.key)) { e.preventDefault(); vai(attuale + 1); }
+  else if (["ArrowLeft", "PageUp", "ArrowUp"].includes(e.key)) { e.preventDefault(); vai(attuale - 1); }
+});
+$("[data-apri]").addEventListener("click", () => {
+  finestra = window.open("slide.html", "pbm-slide", "popup,width=1280,height=720");
+  if (!finestra) alert("Il browser ha bloccato la finestra: consenti i popup per questo sito e riprova.");
+});
+
+/* tempi: prossima tappa, quanto manca, slide che restano, ritmo */
+const mmss = ms => { const s = Math.max(0, Math.round(Math.abs(ms) / 1000)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const hhmm = d => d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" });
+function tempi() {
+  const ora = new Date();
+  $("[data-ora]").textContent = ora.toLocaleTimeString("it-IT", { timeZone: "Europe/Rome" });
+  const prossima = TAPPE.find(t => attuale < t.slide);
+  $("[data-elenco]").replaceChildren(...TAPPE.map(t => {
+    const d = document.createElement("div");
+    d.className = attuale >= t.slide ? "fatta" : t === prossima ? "ora-q" : "";
+    d.innerHTML = "<span></span><span></span>";
+    d.children[0].textContent = t.ora + " · " + t.chi; d.children[1].textContent = "slide " + t.slide;
+    return d;
+  }));
+  if (!prossima) {
+    $("[data-t-chi]").textContent = "Ospiti finiti"; $("[data-t-dove]").textContent = "Vai verso la chiusura";
+    $("[data-t-manca]").textContent = "✓"; $("[data-t-ritmo]").className = "ritmo"; $("[data-t-ritmo]").textContent = "";
+    return;
+  }
+  const resta = prossima.quando - ora, slideRestano = prossima.slide - attuale;
+  $("[data-t-chi]").textContent = prossima.chi;
+  $("[data-t-dove]").textContent = "Entra alla slide " + prossima.slide + " alle " + prossima.ora + " (collegato entro " + prossima.collegato + ")";
+  $("[data-t-manca]").innerHTML = (resta >= 0 ? mmss(resta) : "+" + mmss(resta)) + "<small>" +
+    (resta >= 0 ? "minuti che mancano" : "minuti di ritardo sull'orario") + " · " + slideRestano + (slideRestano === 1 ? " slide" : " slide") + " da fare</small>";
+  /* ritmo tenuto finora (dal primo avanti) contro quello che serve per arrivare alla slide della tappa in orario */
+  let via = 0; try { via = +localStorage.getItem("pbm-regia-via") || 0; } catch (e) {}
+  const r = $("[data-t-ritmo]");
+  const serve = resta > 0 && slideRestano > 0 ? resta / slideRestano / 1000 : 0;
+  if (!via || attuale < 3) {
+    r.className = "ritmo"; r.innerHTML = "Per arrivarci in orario: circa " + Math.round(serve) + " secondi a slide<small>Il ritmo si misura quando la diretta parte.</small>";
+    return;
+  }
+  const tenuto = (ora - via) / (attuale - 1) / 1000;
+  const arrivo = new Date(ora.getTime() + slideRestano * tenuto * 1000), scarto = arrivo - prossima.quando;
+  if (resta <= 0) { r.className = "ritmo ko"; r.innerHTML = "Sei in ritardo: vai più veloce<small>Dovresti già essere alla slide " + prossima.slide + ".</small>"; return; }
+  if (scarto > 60000) { r.className = "ritmo ko"; r.innerHTML = "Vai più veloce: arrivi alle " + hhmm(arrivo) + " (" + mmss(scarto) + " tardi)<small>Stai tenendo " + Math.round(tenuto) + " s a slide, ne servono " + Math.round(serve) + ".</small>"; }
+  else if (scarto < -120000) { r.className = "ritmo ok"; r.innerHTML = "Sei in anticipo: arrivi alle " + hhmm(arrivo) + " (" + mmss(scarto) + " prima)<small>Puoi rallentare: " + Math.round(tenuto) + " s a slide, ne bastano " + Math.round(serve) + ".</small>"; }
+  else { r.className = "ritmo ok"; r.innerHTML = "Sei in tempo: arrivi verso le " + hhmm(arrivo) + "<small>" + Math.round(tenuto) + " s a slide, ne servono " + Math.round(serve) + ".</small>"; }
+}
+async function avvia() {
+  try {
+    const d = await (await fetch("note.json", { cache: "no-store" })).json();
+    N = d.slide; d.note.forEach(x => { note[x.n] = x.note; });
+  } catch (e) {}
+  try { attuale = Math.max(1, Math.min(N, +localStorage.getItem("pbm-regia-n") || 1)); } catch (e) {}
+  aggiorna();
+  setInterval(tempi, 1000);
+}
+</script>
+</body>
+</html>
