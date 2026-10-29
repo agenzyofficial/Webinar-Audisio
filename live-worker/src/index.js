@@ -341,10 +341,15 @@ export default {
       const nome = testo(body.nome, 40), dev = String(body.dev || "").replace(/[^\w-]/g, "").slice(0, 40);
       if ([...nome.replace(/[^\p{L}]/gu, "")].length < 2) return json({ error: "Scrivi il tuo nome.", campo: "nome" }, 400);
       if (RISERVATI.test(nome)) return json({ error: "Questo nome non si può usare: scegline un altro.", campo: "nome" }, 400);
-      const e = await controllaEmail(body.email);
-      if (!e.ok) return json({ error: e.errore, campo: "email", suggerita: e.suggerita }, 400);
+      /* dal 29/10 sera si entra con il solo nome: l'email si controlla solo se qualcuno la manda */
+      let email = "";
+      if (String(body.email || "").trim()) {
+        const e = await controllaEmail(body.email);
+        if (!e.ok) return json({ error: e.errore, campo: "email", suggerita: e.suggerita }, 400);
+        email = e.email;
+      }
       if (!dev) return json({ error: "Ricarica la pagina e riprova." }, 400);
-      return stanza.fetch(new Request(req.url, { method: "POST", body: JSON.stringify({ nome, email: e.email, dev, ip: rete(req.headers.get("cf-connecting-ip")) }) }));
+      return stanza.fetch(new Request(req.url, { method: "POST", body: JSON.stringify({ nome, email, dev, ip: rete(req.headers.get("cf-connecting-ip")) }) }));
     }
     if ((path === "/stato" || path === "/chat") && req.method === "POST") {
       let body;

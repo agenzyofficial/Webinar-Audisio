@@ -139,6 +139,7 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .acc-card h2{margin-top:6px;font-weight:800;font-style:italic;font-size:26px;line-height:1.15}
 .acc-sub{margin-top:6px;color:var(--fg-2);font-size:14.5px}
 .acc-card label{display:grid;gap:6px;margin-top:14px;color:var(--fg-2);font-size:14px;font-weight:600}
+.acc-card label[hidden]{display:none}
 .acc-card input{width:100%;min-height:48px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 16px var(--sans)}
 .acc-card input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
 .acc-err{margin-top:12px;color:#FF6B6B;font-size:14px;font-weight:600}
@@ -244,9 +245,9 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
   <form class="acc-card" data-acc-f novalidate>
     <p class="acc-k">La morte del personal brand</p>
     <h2>Entra nella diretta</h2>
-    <p class="acc-sub">Scrivi nome ed email. Il nome è quello che gli altri vedranno in chat.</p>
+    <p class="acc-sub">Scrivi il tuo nome: è quello che gli altri vedranno in chat.</p>
     <label>Nome<input type="text" maxlength="40" autocomplete="name" data-acc-nome></label>
-    <label>Email<input type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" data-acc-email></label>
+    <label hidden>Email<input type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" data-acc-email></label>
     <p class="acc-err" data-acc-err role="alert"></p>
     <button type="submit" data-acc-b>Entra nella diretta</button>
   </form>
@@ -536,10 +537,10 @@ function entra(nuovo) {
 }
 accF.addEventListener("submit", async e => {
   e.preventDefault();
-  const n = accNome.value.trim(), em = accEmail.value.trim();
+  /* dal 29/10 sera si entra con il solo nome (il campo email è nascosto e resta vuoto) */
+  const n = accNome.value.trim(), em = "";
   accErr.textContent = "";
   if (!n) { accErr.textContent = "Scrivi il tuo nome."; accNome.focus(); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { accErr.textContent = "Scrivi la tua email."; accEmail.focus(); return; }
   accB.disabled = true; accB.textContent = "Controllo…";
   try {
     const r = await fetch(ACCESSO, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ nome: n, email: em, dev }) });
@@ -553,7 +554,7 @@ accF.addEventListener("submit", async e => {
         b.addEventListener("click", () => { accEmail.value = out.suggerita; accErr.textContent = ""; accB.focus(); });
         accErr.append(b);
       }
-      (out.campo === "nome" ? accNome : accEmail).focus();
+      accNome.focus();
     }
   } catch (err) { entra({ nome: n, email: em }); }
   accB.disabled = false; accB.textContent = "Entra nella diretta";
