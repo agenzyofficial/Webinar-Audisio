@@ -104,9 +104,9 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .chat-msg.err{color:#FF6B6B}
 .chat-stop{padding:14px;border-top:1px solid var(--line);color:var(--fg-2);font-size:14px;text-align:center}
 .chat-stop[hidden]{display:none}
-/* Andrea cartonato: lo fa uscire il pannello. Sale dal basso, ciondola, la testa si apre a scatti (stile South Park)
-   e dice "Prenota ora!"; toccandolo si apre il link della call. Le misure in % vengono dall'immagine 452x558 (bocca a 42,11%). */
-.sagoma{position:fixed;left:max(10px,env(safe-area-inset-left));bottom:-18px;z-index:60;width:clamp(170px,20vw,270px);pointer-events:none;
+/* Andrea cartonato: lo fa uscire il pannello. Sale dall'angolo in basso a destra del video, ciondola, la testa si apre a scatti
+   (stile South Park) e dice "Prenota ora!"; toccandolo si apre il link della call. Le misure in % vengono dall'immagine 452x558 (bocca a 42,11%). */
+.sagoma{position:absolute;right:2%;bottom:-4%;z-index:5;width:clamp(112px,25%,270px);pointer-events:none;
   transform:translateY(118%);transition:transform 650ms cubic-bezier(.55,-.3,.75,.05)}
 .sagoma[hidden]{display:none}
 .sagoma.su{transform:none;transition:transform 900ms cubic-bezier(.3,1.6,.55,1)}
@@ -115,11 +115,11 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .sg-buco{position:absolute;left:39.38%;top:39.96%;width:19.47%;height:3.23%;border-radius:40%/50%;background:#1b0707}
 .sg-giu{clip-path:polygon(0 42.11%,58.85% 42.11%,58.85% 38.17%,100% 38.17%,100% 100%,0 100%)}
 .sg-su{clip-path:polygon(0 0,100% 0,100% 38.17%,58.85% 38.17%,58.85% 42.11%,0 42.11%)}
-.sg-nuvola{position:absolute;left:66%;top:5%;padding:7px 13px;border:3px solid #0B0D0E;border-radius:18px;background:#fff;color:#0B0D0E;
+.sg-nuvola{position:absolute;right:64%;top:4%;padding:7px 13px;border:3px solid #0B0D0E;border-radius:18px;background:#fff;color:#0B0D0E;
   font:900 italic clamp(13px,1.4vw,18px)/1.1 var(--sans);text-transform:uppercase;white-space:nowrap;box-shadow:0 5px 0 rgba(0,0,0,.35);
-  transform:scale(0) rotate(-4deg);transform-origin:10% 100%}
-.sg-nuvola::after{content:"";position:absolute;left:12px;bottom:-9px;width:13px;height:13px;background:#fff;border-right:3px solid #0B0D0E;border-bottom:3px solid #0B0D0E;transform:rotate(45deg)}
-.sg-x{position:absolute;top:9%;left:10%;width:28px;height:28px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(11,13,14,.8);color:var(--fg);font:600 17px/1 var(--sans);cursor:pointer}
+  transform:scale(0) rotate(-4deg);transform-origin:90% 100%}
+.sg-nuvola::after{content:"";position:absolute;right:12px;bottom:-9px;width:13px;height:13px;background:#fff;border-right:3px solid #0B0D0E;border-bottom:3px solid #0B0D0E;transform:rotate(45deg)}
+.sg-x{position:absolute;top:9%;right:10%;width:28px;height:28px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(11,13,14,.8);color:var(--fg);font:600 17px/1 var(--sans);cursor:pointer}
 .sagoma.su .sg-corpo,.sagoma.su .sg-x{pointer-events:auto}
 .sagoma.su .sg-corpo{animation:sg-ciondola 2.6s ease-in-out infinite}
 .sagoma.su .sg-glow{animation:sg-alone 1.8s ease-in-out infinite}
@@ -177,6 +177,16 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
         </button>
         <audio data-music src="../assets/musica-attesa.mp3" loop preload="none" playsinline></audio>
       </div>
+      <div class="sagoma" data-sagoma hidden>
+        <a class="sg-corpo" href="#" target="_blank" rel="noopener" aria-label="Prenota la call con il team" data-sagoma-a>
+          <img class="sg-glow" src="../assets/sagoma-bagliore.webp" alt="" width="452" height="558">
+          <span class="sg-buco" aria-hidden="true"></span>
+          <img class="sg-giu" src="../assets/sagoma-andrea.webp" alt="" width="452" height="558">
+          <img class="sg-su" src="../assets/sagoma-andrea.webp" alt="Andrea Audisio" width="452" height="558">
+          <span class="sg-nuvola">Prenota ora!</span>
+        </a>
+        <button class="sg-x" type="button" aria-label="Nascondi" data-sagoma-x>×</button>
+      </div>
     </div>
     <div class="cta" data-cta hidden>
       <p class="cta-t" data-cta-t>Prenota la call con il team</p>
@@ -214,17 +224,6 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     </div>
   </div>
 </main>
-
-<div class="sagoma" data-sagoma hidden>
-  <a class="sg-corpo" href="#" target="_blank" rel="noopener" aria-label="Prenota la call con il team" data-sagoma-a>
-    <img class="sg-glow" src="../assets/sagoma-bagliore.webp" alt="" width="452" height="558">
-    <span class="sg-buco" aria-hidden="true"></span>
-    <img class="sg-giu" src="../assets/sagoma-andrea.webp" alt="" width="452" height="558">
-    <img class="sg-su" src="../assets/sagoma-andrea.webp" alt="Andrea Audisio" width="452" height="558">
-    <span class="sg-nuvola">Prenota ora!</span>
-  </a>
-  <button class="sg-x" type="button" aria-label="Nascondi" data-sagoma-x>×</button>
-</div>
 
 <footer>
   <div class="wrap">
