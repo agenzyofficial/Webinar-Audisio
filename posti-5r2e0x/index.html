@@ -35,6 +35,11 @@ h1{margin-top:10px;font-weight:900;font-style:italic;font-size:clamp(34px,4.6vw,
 .seat.taken .n,.seat.taken .lab{color:rgba(11,13,14,.7)}
 .stamp{position:absolute;right:-6px;top:14px;transform:rotate(12deg);padding:4px 14px;border:3px solid var(--on-acc);border-radius:8px;font-weight:900;font-size:clamp(14px,1.3vw,22px);letter-spacing:.12em;color:var(--on-acc);opacity:.85}
 @keyframes take{0%{transform:scale(.92);filter:brightness(1.6)}60%{transform:scale(1.03)}100%{transform:none;filter:none}}
+/* primi 5 posti: sotto il nome l'etichetta del kickoff con Andrea */
+.kick{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:5px 12px;border-radius:999px;background:var(--on-acc);color:#fff;
+  font-weight:800;font-size:clamp(11px,.85vw,14px);letter-spacing:.07em;text-transform:uppercase;line-height:1.2}
+.kick::before{content:"★";color:var(--acc)}
+@media (min-width:1280px){.kick{white-space:nowrap}}
 .seat input{width:100%;margin-top:8px;padding:8px 10px;border:2px solid var(--acc);border-radius:10px;background:#0B0E10;color:var(--fg);font:700 clamp(16px,1.4vw,22px) var(--sans)}
 .seat input:focus{outline:none}
 .out{display:none;margin-top:clamp(16px,2vw,28px);padding:clamp(12px,1.4vw,20px);border:3px solid var(--acc);border-radius:16px;text-align:center;font-weight:900;font-style:italic;
@@ -67,8 +72,9 @@ h1{margin-top:10px;font-weight:900;font-style:italic;font-size:clamp(34px,4.6vw,
 </div>
 
 <script>
-/* 10 posti: clic sul posto, scrivi il nome, Invio. Restano salvati su questo computer anche se ricarichi. */
-const N = 10, KEY = "pbm-posti";
+/* 10 posti: clic sul posto, scrivi il nome, Invio. Restano salvati su questo computer anche se ricarichi.
+   I primi 5, quando sono presi, hanno anche l'etichetta "Kickoff con Andrea"; dal 6 al 10 no. */
+const N = 10, KICKOFF = 5, KEY = "pbm-posti";
 const grid = document.querySelector("[data-grid]"), leftEl = document.querySelector("[data-left]"), countEl = document.querySelector("[data-count]"), out = document.querySelector("[data-out]");
 let seats = [];
 try { seats = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
@@ -83,7 +89,8 @@ function render(justTaken) {
     if (name && justTaken !== i) b.style.animation = "none";
     b.tabIndex = 0;
     b.innerHTML = '<span class="n">' + String(i + 1).padStart(2, "0") + '</span>' +
-      (name ? '<span class="stamp">PRESO</span><span><span class="lab">Posto di</span><br><span class="who"></span></span>' : '<span class="lab">Libero</span>');
+      (name ? '<span class="stamp">PRESO</span><span><span class="lab">Posto di</span><br><span class="who"></span>' +
+        (i < KICKOFF ? '<br><span class="kick">Kickoff con Andrea</span>' : '') + '</span>' : '<span class="lab">Libero</span>');
     if (name) b.querySelector(".who").textContent = name;
     b.addEventListener("click", () => edit(i, b));
     b.addEventListener("keydown", e => { if (e.key === "Enter" && e.target === b) edit(i, b); });
