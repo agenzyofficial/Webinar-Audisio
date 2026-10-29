@@ -270,20 +270,39 @@ async function load() {
 }
 load(); setInterval(load, 20000);
 
-/* Bottone della call: lo accende e lo spegne il pannello (stato pubblico, aggiornato entro 60 s) */
+/* Bottone della call: lo accende e lo spegne il pannello. Arriva in tempo reale dal servizio su Cloudflare (WebSocket);
+   senza connessione si rilegge il file pubblico ogni 15 s (aggiornato entro 60 s). Vale sempre lo stato più recente. */
+const LIVE = "wss://pbm-live.ovolollo580.workers.dev/ws";
 const STATO = "https://hmyrym7qfzuftoi3.public.blob.vercel-storage.com/live/stato.json";
 const cta = document.querySelector("[data-cta]"), ctaA = document.querySelector("[data-cta-a]"), ctaT = document.querySelector("[data-cta-t]");
-async function loadStato() {
-  try {
-    const r = await fetch(STATO, { cache: "no-store" });
-    if (!r.ok) return;
-    const st = await r.json(), c = st.cta || {};
-    const on = !!c.on && /^https:\/\//.test(c.url || "");
-    if (on) { ctaA.href = c.url; if (c.testo) ctaT.textContent = c.testo; }
-    cta.hidden = !on;
-  } catch (e) {}
+let ultimo = "", ws = null, wsOk = false, attesa = 1000, riprova = 0;
+function applica(st) {
+  if (!st || !st.cta || (st.aggiornato || "") < ultimo) return;
+  ultimo = st.aggiornato || "";
+  const c = st.cta, on = !!c.on && /^https:\/\//.test(c.url || "");
+  if (on) { ctaA.href = c.url; if (c.testo) ctaT.textContent = c.testo; }
+  cta.hidden = !on;
 }
-loadStato(); setInterval(loadStato, 15000);
+async function loadStato() {
+  if (wsOk) return;
+  try { const r = await fetch(STATO, { cache: "no-store" }); if (r.ok) applica(await r.json()); } catch (e) {}
+}
+function connetti() {
+  clearTimeout(riprova);
+  if (ws && ws.readyState < 2) return;
+  try { ws = new WebSocket(LIVE); } catch (e) { return; }
+  const s = ws;
+  s.onopen = () => { wsOk = true; attesa = 1000; };
+  s.onmessage = e => { if (e.data !== "pong") try { applica(JSON.parse(e.data)); } catch (err) {} };
+  s.onclose = () => {
+    if (ws !== s) return;
+    ws = null; wsOk = false; loadStato();
+    riprova = setTimeout(connetti, attesa + Math.random() * 1000); attesa = Math.min(attesa * 2, 30000);
+  };
+}
+setInterval(() => { if (wsOk) ws.send("ping"); }, 45000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) connetti(); });
+connetti(); loadStato(); setInterval(loadStato, 15000);
 </script>
 </body>
 </html>

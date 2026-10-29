@@ -1,0 +1,8 @@
+{
+  "name": "pbm-live",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-01",
+  "workers_dev": true,
+  "durable_objects": { "bindings": [{ "name": "STANZA", "class_name": "Stanza" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Stanza"] }]
+}

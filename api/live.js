@@ -1,12 +1,14 @@
 /* Stato della diretta, scritto dal pannello e letto dalla pagina della diretta.
    POST /api/live/ con { chiave, cta: { on, url, testo } } salva live/stato.json nello spazio Blob "pbm-live" (pubblico).
-   La pagina della diretta legge direttamente il file pubblico: la rete lo aggiorna entro 60 secondi.
+   Lo stesso stato va al servizio in tempo reale su Cloudflare (live-worker/), che lo manda subito a chi ha la diretta aperta;
+   il file pubblico resta come riserva (la rete lo aggiorna entro 60 secondi).
    La chiave non sta nel codice: qui c'è solo la sua impronta (SHA-256). */
 const crypto = require("crypto");
 const { put } = require("@vercel/blob");
 
 const KEY_HASH = "715ccff2b0480e44fc5ea32554e0ca1dbe045526383a3ac3924ded669215d2a5";
 const PATH = "live/stato.json";
+const LIVE = "https://pbm-live.ovolollo580.workers.dev/stato";
 
 function send(res, code, obj) {
   res.statusCode = code;
@@ -43,12 +45,17 @@ module.exports = async (req, res) => {
     aggiornato: new Date().toISOString()
   };
 
-  try {
-    const blob = await put(PATH, JSON.stringify(stato), {
+  /* insieme: file pubblico (riserva) e servizio in tempo reale su Cloudflare, che avvisa subito chi guarda */
+  const [blob, live] = await Promise.allSettled([
+    put(PATH, JSON.stringify(stato), {
       access: "public", addRandomSuffix: false, allowOverwrite: true, cacheControlMaxAge: 60, contentType: "application/json"
-    });
-    return send(res, 200, { ok: true, url: blob.url, stato });
-  } catch (e) {
-    return send(res, 502, { error: "salvataggio non riuscito", dettaglio: String(e && e.message || "").slice(0, 200) });
+    }),
+    fetch(LIVE, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chiave: body.chiave, stato }),
+      signal: AbortSignal.timeout(5000) }).then(r => { if (!r.ok) throw new Error("tempo reale " + r.status); return r.json(); })
+  ]);
+  const tempoReale = live.status === "fulfilled";
+  if (blob.status === "rejected" && !tempoReale) {
+    return send(res, 502, { error: "salvataggio non riuscito", dettaglio: String(blob.reason && blob.reason.message || "").slice(0, 200) });
   }
+  return send(res, 200, { ok: true, stato, tempoReale, connessi: tempoReale ? live.value.connessi : null });
 };

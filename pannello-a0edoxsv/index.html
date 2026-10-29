@@ -63,7 +63,7 @@ button:disabled{opacity:.5;cursor:wait}
       <button class="b-off" type="button" data-off>Nascondi</button>
     </div>
     <p class="msg" data-msg role="status"></p>
-    <p class="note">Gli spettatori lo vedono comparire (o sparire) entro circa un minuto: premi un attimo prima di annunciarlo.</p>
+    <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
   </div>
 
   <div class="card">
@@ -81,6 +81,7 @@ button:disabled{opacity:.5;cursor:wait}
 <script>
 /* Pannello: accende e spegne il bottone della call nella pagina della diretta (tramite /api/live/) */
 const STATO = "https://hmyrym7qfzuftoi3.public.blob.vercel-storage.com/live/stato.json";
+const LIVE = "https://pbm-live.ovolollo580.workers.dev/stato";
 const $ = s => document.querySelector(s);
 const login = $("[data-login]"), panel = $("[data-panel]"), keyIn = $("[data-key]"), urlIn = $("[data-url]"), testoIn = $("[data-testo]");
 const stateEl = $("[data-state]"), stateT = $("[data-state-t]"), msg = $("[data-msg]");
@@ -103,8 +104,9 @@ copyB.addEventListener("click", async () => {
   setTimeout(() => { copyB.textContent = "Copia link"; }, 2000);
 });
 
-/* stato attuale (il file pubblico può avere fino a un minuto di ritardo) */
-fetch(STATO, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(st => {
+/* stato attuale: dal servizio in tempo reale; se non risponde, dal file pubblico (fino a un minuto di ritardo) */
+const leggi = u => fetch(u, { cache: "no-store" }).then(r => r.ok ? r.json() : null);
+leggi(LIVE).catch(() => null).then(st => st || leggi(STATO)).then(st => {
   if (!st || !st.cta) return;
   if (st.cta.url) urlIn.value = st.cta.url;
   if (st.cta.testo) testoIn.value = st.cta.testo;
@@ -133,7 +135,9 @@ async function salva(on) {
       msg.className = "msg err"; msg.textContent = "Non salvato: " + (out.error || r.status);
     } else {
       showState(out.stato.cta.on);
-      msg.textContent = (out.stato.cta.on ? "Fatto: il bottone compare" : "Fatto: il bottone sparisce") + " agli spettatori entro circa un minuto (" + new Date().toLocaleTimeString("it-IT") + ").";
+      msg.textContent = (out.stato.cta.on ? "Fatto: il bottone compare" : "Fatto: il bottone sparisce") +
+        (out.tempoReale ? " adesso a chi guarda (" + out.connessi + " collegati)" : " agli spettatori entro circa un minuto") +
+        " · " + new Date().toLocaleTimeString("it-IT");
     }
   } catch (e) { msg.className = "msg err"; msg.textContent = "Connessione non riuscita, riprova."; }
   document.querySelectorAll("[data-on],[data-off]").forEach(b => b.disabled = false);
