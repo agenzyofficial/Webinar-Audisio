@@ -24,7 +24,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px
 img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 .acc{color:var(--acc)}
-.wrap{max-width:1040px;margin:0 auto;padding:0 var(--gutter)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
 header{padding:14px 0 10px}
 header .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .logo{width:min(190px,44vw)}
@@ -74,6 +74,32 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .audio-tip[hidden]{display:none}
 .audio-tip b{color:var(--fg)}
 .audio-tip .spk{flex:none;width:30px;height:30px;padding:5px;border-radius:50%;background:var(--acc);color:var(--on-acc);fill:currentColor}
+/* video e chat: affiancati dal computer, dal telefono la chat sta sotto il video e il bottone */
+.stage{display:grid;gap:16px;margin-top:16px}
+.stage .player{margin-top:0}
+@media (min-width:980px){.stage{grid-template-columns:minmax(0,1fr) 340px}}
+.chat{position:relative;min-height:360px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)}
+@media (max-width:979px){.chat{height:min(62vh,480px)}}
+.chat-in{position:absolute;inset:0;display:flex;flex-direction:column}
+.chat-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.chat-h span+span{color:var(--fg-3);font-size:12px;font-weight:600;letter-spacing:0;text-transform:none}
+.chat-list{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;list-style:none;padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.chat-list li{font-size:14.5px;line-height:1.4;overflow-wrap:anywhere}
+.chat-list b{color:var(--acc);font-weight:700;margin-right:6px}
+.chat-list .vuota{margin:auto;color:var(--fg-3);font-size:14px;text-align:center}
+.chat-f{display:grid;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.chat-f[hidden],.chat-f [hidden]{display:none}
+.chat-f input{width:100%;min-width:0;min-height:44px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 16px var(--sans)}
+.chat-f input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
+.chat-row{display:flex;gap:8px}
+.chat-row button{flex:none;min-height:44px;padding:0 16px;border:0;border-radius:10px;background:var(--acc);color:var(--on-acc);font:800 14px var(--sans);text-transform:uppercase;cursor:pointer}
+.chat-come{color:var(--fg-3);font-size:12.5px}
+.chat-come button{border:0;background:none;color:var(--fg-2);font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.chat-msg{color:var(--fg-2);font-size:13px}
+.chat-msg:empty{display:none}
+.chat-msg.err{color:#FF6B6B}
+.chat-stop{padding:14px;border-top:1px solid var(--line);color:var(--fg-2);font-size:14px;text-align:center}
+.chat-stop[hidden]{display:none}
 .help{margin-top:12px;color:var(--fg-3);font-size:13.5px;text-align:center}
 .help a{color:var(--fg-2);text-underline-offset:3px}
 .below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
@@ -106,6 +132,8 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     <p class="sub">Diretta con Andrea Audisio · <span data-date>giovedì 29 ottobre, ore 21:00</span></p>
     <p class="notice" data-notice role="status" hidden></p>
 
+    <div class="stage">
+    <div>
     <div class="player" data-player>
       <div class="waiting" data-waiting>
         <b>La diretta inizia tra</b>
@@ -128,6 +156,25 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
       <span><b>Non senti niente?</b> Il video parte senza audio: tocca l'<b>altoparlante</b> in basso nel video.</span>
     </button>
     <p class="help">Il video non parte o si blocca? <a href="#" data-reload>Ricarica la pagina</a>.</p>
+    </div>
+
+    <aside class="chat" aria-label="Chat della diretta">
+      <div class="chat-in">
+        <div class="chat-h"><span>Chat</span><span data-chat-stato>Mi collego…</span></div>
+        <ol class="chat-list" data-chat-list></ol>
+        <form class="chat-f" data-chat-f autocomplete="off">
+          <input type="text" maxlength="30" placeholder="Il tuo nome" autocomplete="given-name" aria-label="Il tuo nome" data-chat-nome>
+          <p class="chat-come" data-chat-come hidden>Scrivi come <b data-chat-chi></b> · <button type="button" data-chat-cambia>cambia nome</button></p>
+          <div class="chat-row">
+            <input type="text" maxlength="300" placeholder="Scrivi un messaggio" enterkeyhint="send" aria-label="Messaggio" data-chat-t>
+            <button type="submit">Invia</button>
+          </div>
+          <p class="chat-msg" data-chat-msg role="status"></p>
+        </form>
+        <p class="chat-stop" data-chat-stop hidden></p>
+      </div>
+    </aside>
+    </div>
 
     <div class="below">
       <p><b>Il gruppo WhatsApp dell'evento</b><br>Link, avvisi e materiali della serata arrivano lì.</p>
@@ -262,13 +309,17 @@ unmute.addEventListener("click", () => {
 });
 document.querySelector("[data-reload]").addEventListener("click", e => { e.preventDefault(); location.reload(); });
 
+/* sorgente.json: ogni 20 s solo senza collegamento in tempo reale; collegati basta ogni 3 minuti,
+   perché quando si cambia sorgente il servizio in tempo reale avvisa tutti di rileggerla subito (meno richieste a Vercel) */
+let letta = 0;
 async function load() {
+  letta = Date.now();
   try {
     const r = await fetch("sorgente.json?t=" + Date.now(), { cache: "no-store" });
     if (r.ok) show(await r.json());
   } catch (e) {}
 }
-load(); setInterval(load, 20000);
+load(); setInterval(() => { if (!wsOk || Date.now() - letta > 180000) load(); }, 20000);
 
 /* Bottone della call: lo accende e lo spegne il pannello. Arriva in tempo reale dal servizio su Cloudflare (WebSocket);
    senza connessione si rilegge il file pubblico ogni 15 s (aggiornato entro 60 s). Vale sempre lo stato più recente. */
@@ -290,16 +341,90 @@ async function loadStato() {
 function connetti() {
   clearTimeout(riprova);
   if (ws && ws.readyState < 2) return;
-  try { ws = new WebSocket(LIVE); } catch (e) { return; }
+  try { ws = new WebSocket(LIVE + "?d=" + dev); } catch (e) { return; }
   const s = ws;
-  s.onopen = () => { wsOk = true; attesa = 1000; };
-  s.onmessage = e => { if (e.data !== "pong") try { applica(JSON.parse(e.data)); } catch (err) {} };
+  s.onopen = () => { wsOk = true; attesa = 1000; syncChat(); };
+  s.onmessage = e => {
+    if (e.data === "pong") return;
+    let d; try { d = JSON.parse(e.data); } catch (err) { return; }
+    if (d && d.t) chat(d); else applica(d);
+  };
   s.onclose = () => {
     if (ws !== s) return;
-    ws = null; wsOk = false; loadStato();
+    ws = null; wsOk = false; loadStato(); syncChat();
     riprova = setTimeout(connetti, attesa + Math.random() * 1000); attesa = Math.min(attesa * 2, 30000);
   };
 }
+
+/* Chat: viaggia sullo stesso collegamento del bottone. Il nome resta salvato su questo dispositivo, che ha un suo codice
+   (serve ai moderatori del pannello per bannare insieme all'IP). Chi è bannato vede la chat ma non può scrivere. */
+const q = s => document.querySelector(s);
+const chatList = q("[data-chat-list]"), chatF = q("[data-chat-f]"), chatNome = q("[data-chat-nome]"), chatT = q("[data-chat-t]");
+const chatCome = q("[data-chat-come]"), chatChi = q("[data-chat-chi]"), chatMsg = q("[data-chat-msg]"), chatStop = q("[data-chat-stop]"), chatStato = q("[data-chat-stato]");
+let dev = "", nome = "", bannato = false, chiusa = false, sospeso = "";
+try {
+  dev = localStorage.getItem("pbm-dev") || "";
+  if (!dev) { dev = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36)).replace(/-/g, ""); localStorage.setItem("pbm-dev", dev); }
+  nome = localStorage.getItem("pbm-nome") || "";
+} catch (e) {}
+if (!dev) dev = Math.random().toString(36).slice(2) + Date.now().toString(36);
+const vuota = document.createElement("li");
+vuota.className = "vuota"; vuota.textContent = "Ancora nessun messaggio. Scrivi tu il primo!";
+const avviso = (t, err) => { chatMsg.className = "chat-msg" + (err ? " err" : ""); chatMsg.textContent = t || ""; };
+function syncNome() { chatNome.hidden = !!nome; chatCome.hidden = !nome; chatChi.textContent = nome; }
+function syncChat() {
+  chatStato.textContent = wsOk ? "" : "Mi collego…";
+  chatF.hidden = bannato || chiusa;
+  chatStop.hidden = !chatF.hidden;
+  chatStop.textContent = bannato ? "Non puoi più scrivere in chat." : "La chat è chiusa.";
+  if (!chatList.querySelector("li[data-id]")) { if (!vuota.isConnected) chatList.append(vuota); } else vuota.remove();
+}
+function riga(m) {
+  const li = document.createElement("li"), b = document.createElement("b");
+  li.dataset.id = m.id; b.textContent = m.nome;
+  li.append(b, document.createTextNode(m.testo));
+  return li;
+}
+function aggiungi(ms, tutto) {
+  const giu = tutto || chatList.scrollHeight - chatList.scrollTop - chatList.clientHeight < 80;
+  if (tutto) chatList.replaceChildren();
+  for (const m of ms) if (!chatList.querySelector('[data-id="' + m.id + '"]')) chatList.append(riga(m));
+  while (chatList.querySelectorAll("li[data-id]").length > 200) chatList.querySelector("li[data-id]").remove();
+  syncChat();
+  if (giu) chatList.scrollTop = chatList.scrollHeight;
+}
+function chat(d) {
+  if (d.t === "storia") { bannato = !!d.ban; chiusa = !!d.chiusa; aggiungi(d.m || [], true); }
+  else if (d.t === "chat") aggiungi([d.m]);
+  else if (d.t === "cancella") (d.ids || []).forEach(id => { const li = chatList.querySelector('[data-id="' + id + '"]'); if (li) li.remove(); });
+  else if (d.t === "svuota") chatList.replaceChildren();
+  else if (d.t === "ban") bannato = !!d.v;
+  else if (d.t === "chiusa") chiusa = !!d.v;
+  else if (d.t === "sorgente") setTimeout(load, Math.random() * 3000);
+  else if (d.t === "errore") {
+    avviso(d.testo, true);
+    if (d.campo === "nome") { chatNome.value = nome; nome = ""; try { localStorage.removeItem("pbm-nome"); } catch (e) {} syncNome(); }
+    if (sospeso && !chatT.value) chatT.value = sospeso;
+  }
+  syncChat();
+}
+chatF.addEventListener("submit", e => {
+  e.preventDefault();
+  if (!nome) {
+    const n = chatNome.value.trim();
+    if (!n) { avviso("Scrivi prima il tuo nome.", true); chatNome.focus(); return; }
+    nome = n.slice(0, 30); try { localStorage.setItem("pbm-nome", nome); } catch (e) {}
+    syncNome();
+  }
+  const t = chatT.value.trim();
+  if (!t) { chatT.focus(); return; }
+  if (!wsOk) { avviso("Mi sto ricollegando: riprova tra un attimo.", true); return; }
+  ws.send(JSON.stringify({ t: "msg", nome, testo: t }));
+  sospeso = t; chatT.value = ""; avviso("");
+});
+q("[data-chat-cambia]").addEventListener("click", () => { chatNome.value = nome; nome = ""; syncNome(); chatNome.focus(); });
+syncNome(); syncChat();
+
 setInterval(() => { if (wsOk) ws.send("ping"); }, 45000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) connetti(); });
 connetti(); loadStato(); setInterval(loadStato, 15000);

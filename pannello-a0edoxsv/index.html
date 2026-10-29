@@ -38,6 +38,19 @@ button:disabled{opacity:.5;cursor:wait}
 .self{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .b-copy{min-height:36px;padding:0 14px;border-radius:8px;background:#20262B;color:var(--fg);font-size:12px;flex:none}
 .note{margin-top:10px;color:var(--fg-3);font-size:13px}
+/* chat: i messaggi più nuovi in alto, con Cancella e Banna */
+.cm-list{margin-top:12px;max-height:440px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.cm{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.cm:last-child{border-bottom:0}
+.cm p{flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere}
+.cm b{color:var(--acc)}
+.cm time{margin-left:6px;color:var(--fg-3);font-size:12px}
+.cm-b{display:flex;gap:6px;flex:none}
+.mini{min-height:34px;padding:0 10px;border-radius:8px;background:#20262B;color:var(--fg);font-size:11.5px}
+.mini.ban{background:rgba(255,107,107,.14);color:#FF8A8A;border:1px solid rgba(255,107,107,.45)}
+.vuoto{padding:14px;color:var(--fg-3);font-size:14px;text-align:center}
+.h3{margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
+.ban-list{margin-top:8px;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -66,6 +79,21 @@ button:disabled{opacity:.5;cursor:wait}
     <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
   </div>
 
+  <div class="card" data-chat-card hidden>
+    <h2>Chat</h2>
+    <div class="state" data-chat-state><span class="dot" aria-hidden="true"></span><span data-chat-state-t>Mi collego…</span></div>
+    <div class="cm-list" data-cm-list><p class="vuoto">Ancora nessun messaggio.</p></div>
+    <p class="msg" data-chat-msg role="status"></p>
+    <div class="row">
+      <button class="b-off" type="button" data-chat-chiudi>Chiudi chat</button>
+      <button class="b-off" type="button" data-chat-svuota>Svuota chat</button>
+    </div>
+    <p class="h3">Bannati</p>
+    <div class="ban-list" data-ban-list><p class="vuoto">Nessuno.</p></div>
+    <p class="note"><b>Cancella</b> toglie il messaggio a tutti. <b>Banna</b> blocca chi l'ha scritto (IP e dispositivo) e toglie tutti i suoi messaggi: continua a vedere la diretta ma non può più scrivere. <b>Sblocca</b> annulla il ban. <b>Chiudi chat</b> ferma la scrittura per tutti.</p>
+    <p class="note">Altri moderatori: dagli il link del pannello qui sotto (con quello possono anche accendere il bottone della call).</p>
+  </div>
+
   <div class="card">
     <h2>Pagine</h2>
     <div class="links">
@@ -92,12 +120,12 @@ if (hashKey) { chiave = hashKey; try { localStorage.setItem("pbm-pannello", chia
 
 const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent = on ? "Visibile agli spettatori" : "Nascosto"; };
 /* link di questo pannello con la chiave, per aprirlo da un altro dispositivo */
-const selfA = $("[data-self]"), copyB = $("[data-copy]");
+const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]");
 const unlock = () => {
-  login.hidden = !!chiave; panel.hidden = !chiave;
+  login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
+  if (chiave) { collegaChat(); modera("bannati"); }
 };
-unlock();
 copyB.addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(selfA.href); copyB.textContent = "Copiato"; }
   catch (e) { prompt("Copia il link del pannello:", selfA.href); }
@@ -144,6 +172,93 @@ async function salva(on) {
 }
 $("[data-on]").addEventListener("click", () => salva(true));
 $("[data-off]").addEventListener("click", () => salva(false));
+
+/* Chat: i messaggi arrivano in tempo reale (stesso collegamento della pagina della diretta, segnato come pannello);
+   Cancella, Banna, Sblocca, Chiudi e Svuota passano dal servizio in tempo reale con la chiave del pannello. */
+const WS = "wss://pbm-live.ovolollo580.workers.dev/ws?p=1", CHAT = "https://pbm-live.ovolollo580.workers.dev/chat";
+const cmList = $("[data-cm-list]"), banList = $("[data-ban-list]"), chatMsg = $("[data-chat-msg]");
+const chatState = $("[data-chat-state]"), chatStateT = $("[data-chat-state-t]"), chiudiB = $("[data-chat-chiudi]"), svuotaB = $("[data-chat-svuota]");
+let sock = null, sockOk = false, chiusa = false, attesaC = 1000;
+const ora = t => new Date(t).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+const vuoto = t => { const p = document.createElement("p"); p.className = "vuoto"; p.textContent = t; return p; };
+const dice = (t, err) => { chatMsg.className = "msg" + (err ? " err" : ""); chatMsg.textContent = t; };
+function mini(t, cls, fn) { const b = document.createElement("button"); b.type = "button"; b.className = "mini " + cls; b.textContent = t; b.addEventListener("click", fn); return b; }
+function syncChiusa() {
+  chatState.classList.toggle("on", sockOk && !chiusa);
+  chatStateT.textContent = !sockOk ? "Mi collego…" : chiusa ? "Chat chiusa: nessuno può scrivere" : "Chat aperta: gli spettatori scrivono";
+  chiudiB.textContent = chiusa ? "Riapri chat" : "Chiudi chat";
+}
+async function modera(azione, id) {
+  try {
+    const r = await fetch(CHAT, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chiave, azione, id }) });
+    const out = await r.json().catch(() => ({}));
+    if (r.status === 401) {
+      dice("Chiave sbagliata: rientra con quella giusta.", true);
+      chiave = ""; try { localStorage.removeItem("pbm-pannello"); } catch (e) {} unlock(); return null;
+    }
+    if (!r.ok) { dice("Non riuscito: " + (out.error || r.status), true); return null; }
+    if (out.bannati) mostraBan(out.bannati);
+    if ("chiusa" in out) { chiusa = out.chiusa; syncChiusa(); }
+    return out;
+  } catch (e) { dice("Connessione non riuscita, riprova.", true); return null; }
+}
+function rigaCm(m) {
+  const d = document.createElement("div"), p = document.createElement("p"), b = document.createElement("b"), tm = document.createElement("time"), bx = document.createElement("div");
+  d.className = "cm"; d.dataset.id = m.id; bx.className = "cm-b";
+  b.textContent = m.nome; tm.textContent = ora(m.ora);
+  p.append(b, tm, document.createElement("br"), document.createTextNode(m.testo));
+  bx.append(
+    mini("Cancella", "", () => modera("cancella", m.id).then(o => { if (o) dice("Messaggio di " + m.nome + " cancellato"); })),
+    mini("Banna", "ban", () => {
+      if (!confirm("Bannare " + m.nome + "? Non potrà più scrivere e tutti i suoi messaggi spariscono.")) return;
+      modera("banna", m.id).then(o => { if (o) dice(m.nome + " bannato · " + o.cancellati + " messaggi tolti"); });
+    }));
+  d.append(p, bx);
+  return d;
+}
+function syncVuoto() {
+  const n = cmList.querySelector(".cm"), v = cmList.querySelector(".vuoto");
+  if (!n && !v) cmList.append(vuoto("Ancora nessun messaggio.")); else if (n && v) v.remove();
+}
+function mostraBan(lista) {
+  banList.replaceChildren(...(lista.length ? lista.map(x => {
+    const d = document.createElement("div"), p = document.createElement("p"), b = document.createElement("b"), bx = document.createElement("div");
+    d.className = "cm"; bx.className = "cm-b";
+    b.textContent = x.nome; p.append(b, document.createTextNode(" · " + (x.ip || "IP sconosciuto") + " · " + ora(x.ora)));
+    bx.append(mini("Sblocca", "", () => modera("sblocca", x.id).then(o => { if (o) dice(x.nome + " sbloccato"); })));
+    d.append(p, bx);
+    return d;
+  }) : [vuoto("Nessuno.")]));
+}
+function collegaChat() {
+  if (sock && sock.readyState < 2) return;
+  try { sock = new WebSocket(WS); } catch (e) { return; }
+  const s = sock;
+  s.onopen = () => { sockOk = true; attesaC = 1000; syncChiusa(); };
+  s.onmessage = e => {
+    if (e.data === "pong") return;
+    let d; try { d = JSON.parse(e.data); } catch (err) { return; }
+    if (!d.t) { if (d.cta) showState(!!d.cta.on); return; }
+    if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; }
+    else if (d.t === "chat") cmList.prepend(rigaCm(d.m));
+    else if (d.t === "cancella") (d.ids || []).forEach(id => { const x = cmList.querySelector('[data-id="' + id + '"]'); if (x) x.remove(); });
+    else if (d.t === "svuota") cmList.replaceChildren();
+    else if (d.t === "chiusa") chiusa = !!d.v;
+    syncVuoto(); syncChiusa();
+  };
+  s.onclose = () => {
+    if (sock !== s) return;
+    sock = null; sockOk = false; syncChiusa();
+    if (chiave) setTimeout(collegaChat, attesaC + Math.random() * 1000); attesaC = Math.min(attesaC * 2, 30000);
+  };
+}
+setInterval(() => { if (sockOk) sock.send("ping"); }, 45000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && chiave) collegaChat(); });
+chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
+svuotaB.addEventListener("click", () => {
+  if (confirm("Cancellare tutti i messaggi della chat, per tutti?")) modera("svuota").then(o => { if (o) dice("Chat svuotata"); });
+});
+unlock();
 </script>
 </body>
 </html>
