@@ -150,7 +150,7 @@ const TAPPE = [
 ].map(t => ({ ...t, quando: new Date("2026-10-29T" + t.ora + ":00+01:00") }));
 const $ = s => document.querySelector(s);
 const canale = "BroadcastChannel" in window ? new BroadcastChannel("pbm-regia") : null;
-let N = 247, note = {}, attuale = 1, finestra = null;
+let N = 247, note = {}, attuale = 1, finestra = null, via = 0, viaSlide = 1;
 
 async function sha(t) {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
@@ -233,8 +233,8 @@ $("[data-qr-chiudi]").addEventListener("click", () => { $("[data-qr]").hidden = 
 function vai(n, manda = true) {
   n = Math.max(1, Math.min(N, n | 0));
   if (n === attuale && manda) return;
-  /* il ritmo si misura dal primo "avanti" della diretta (non prima delle 20:55, così le prove non contano) */
-  if (n > 1 && Date.now() > INIZIO - 5 * 60000) { try { if (!localStorage.getItem("pbm-regia-via")) localStorage.setItem("pbm-regia-via", Date.now()); } catch (e) {} }
+  /* il ritmo si misura dal primo cambio di slide dopo aver aperto (o ricaricato) la regia, e da quella slide */
+  if (!via && n !== attuale) { via = Date.now(); viaSlide = attuale; }
   attuale = n; aggiorna();
   if (manda && canale) canale.postMessage({ t: "vai", n });
 }
@@ -282,14 +282,13 @@ function tempi() {
   $("[data-t-manca]").innerHTML = (resta >= 0 ? mmss(resta) : "+" + mmss(resta)) + "<small>" +
     (resta >= 0 ? "minuti che mancano" : "minuti di ritardo sull'orario") + " · " + slideRestano + (slideRestano === 1 ? " slide" : " slide") + " da fare</small>";
   /* ritmo tenuto finora (dal primo avanti) contro quello che serve per arrivare alla slide della tappa in orario */
-  let via = 0; try { via = +localStorage.getItem("pbm-regia-via") || 0; } catch (e) {}
   const r = $("[data-t-ritmo]");
   const serve = resta > 0 && slideRestano > 0 ? resta / slideRestano / 1000 : 0;
-  if (!via || attuale < 3) {
-    r.className = "ritmo"; r.innerHTML = "Per arrivarci in orario: circa " + Math.round(serve) + " secondi a slide<small>Il ritmo si misura quando la diretta parte.</small>";
+  if (!via || attuale - viaSlide < 2) {
+    r.className = "ritmo"; r.innerHTML = "Per arrivarci in orario: circa " + Math.round(serve) + " secondi a slide<small>Il tuo ritmo compare dopo due slide (riparte da zero se ricarichi la pagina).</small>";
     return;
   }
-  const tenuto = (ora - via) / (attuale - 1) / 1000;
+  const tenuto = (ora - via) / (attuale - viaSlide) / 1000;
   const arrivo = new Date(ora.getTime() + slideRestano * tenuto * 1000), scarto = arrivo - prossima.quando;
   if (resta <= 0) { r.className = "ritmo ko"; r.innerHTML = "Sei in ritardo: vai più veloce<small>Dovresti già essere alla slide " + prossima.slide + ".</small>"; return; }
   if (scarto > 60000) { r.className = "ritmo ko"; r.innerHTML = "Vai più veloce: arrivi alle " + hhmm(arrivo) + " (" + mmss(scarto) + " tardi)<small>Stai tenendo " + Math.round(tenuto) + " s a slide, ne servono " + Math.round(serve) + ".</small>"; }
