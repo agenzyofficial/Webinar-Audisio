@@ -79,6 +79,17 @@ button:disabled{opacity:.5;cursor:wait}
     <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
   </div>
 
+  <div class="card" data-sagoma-card hidden>
+    <h2>Andrea cartonato</h2>
+    <div class="state" data-sg-state><span class="dot" aria-hidden="true"></span><span data-sg-state-t>Nascosto</span></div>
+    <div class="row">
+      <button class="b-on" type="button" data-sg-on>Fai uscire</button>
+      <button class="b-off" type="button" data-sg-off>Fai rientrare</button>
+    </div>
+    <p class="msg" data-sg-msg role="status"></p>
+    <p class="note">Sale dal basso dello schermo di chi guarda, ciondola, muove la bocca e dice "Prenota ora!". Toccandolo si apre il link del calendario qui sopra.</p>
+  </div>
+
   <div class="card" data-chat-card hidden>
     <h2>Chat</h2>
     <div class="state" data-chat-state><span class="dot" aria-hidden="true"></span><span data-chat-state-t>Mi collego…</span></div>
@@ -120,9 +131,9 @@ if (hashKey) { chiave = hashKey; try { localStorage.setItem("pbm-pannello", chia
 
 const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent = on ? "Visibile agli spettatori" : "Nascosto"; };
 /* link di questo pannello con la chiave, per aprirlo da un altro dispositivo */
-const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]");
+const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]"), sagomaCard = $("[data-sagoma-card]");
 const unlock = () => {
-  login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave;
+  login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
   if (chiave) { collegaChat(); modera("bannati"); }
 };
@@ -239,7 +250,8 @@ function collegaChat() {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
     if (!d.t) { if (d.cta) showState(!!d.cta.on); return; }
-    if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; }
+    if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; sgStato(!!d.sagoma); }
+    else if (d.t === "sagoma") sgStato(!!d.v);
     else if (d.t === "chat") cmList.prepend(rigaCm(d.m));
     else if (d.t === "cancella") (d.ids || []).forEach(id => { const x = cmList.querySelector('[data-id="' + id + '"]'); if (x) x.remove(); });
     else if (d.t === "svuota") cmList.replaceChildren();
@@ -255,6 +267,19 @@ function collegaChat() {
 setInterval(() => { if (sockOk) sock.send("ping"); }, 45000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden && chiave) collegaChat(); });
 chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
+/* Andrea cartonato: Fai uscire / Fai rientrare, per tutti gli spettatori in tempo reale */
+const sgState = $("[data-sg-state]"), sgStateT = $("[data-sg-state-t]"), sgMsg = $("[data-sg-msg]");
+function sgStato(on) { sgState.classList.toggle("on", on); sgStateT.textContent = on ? "Visibile agli spettatori" : "Nascosto"; }
+async function sagoma(on) {
+  document.querySelectorAll("[data-sg-on],[data-sg-off]").forEach(b => b.disabled = true);
+  sgMsg.className = "msg"; sgMsg.textContent = "Invio…";
+  const o = await modera(on ? "sagoma-su" : "sagoma-giu");
+  if (o) { sgStato(o.sagoma); sgMsg.textContent = (o.sagoma ? "Fatto: Andrea sale" : "Fatto: Andrea rientra") + " · " + new Date().toLocaleTimeString("it-IT"); }
+  else { sgMsg.className = "msg err"; sgMsg.textContent = chatMsg.textContent || "Non riuscito, riprova."; }
+  document.querySelectorAll("[data-sg-on],[data-sg-off]").forEach(b => b.disabled = false);
+}
+$("[data-sg-on]").addEventListener("click", () => sagoma(true));
+$("[data-sg-off]").addEventListener("click", () => sagoma(false));
 svuotaB.addEventListener("click", () => {
   if (confirm("Cancellare tutti i messaggi della chat, per tutti?")) modera("svuota").then(o => { if (o) dice("Chat svuotata"); });
 });

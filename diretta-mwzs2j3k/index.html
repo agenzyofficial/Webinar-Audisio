@@ -104,6 +104,33 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .chat-msg.err{color:#FF6B6B}
 .chat-stop{padding:14px;border-top:1px solid var(--line);color:var(--fg-2);font-size:14px;text-align:center}
 .chat-stop[hidden]{display:none}
+/* Andrea cartonato: lo fa uscire il pannello. Sale dal basso, ciondola, la testa si apre a scatti (stile South Park)
+   e dice "Prenota ora!"; toccandolo si apre il link della call. Le misure in % vengono dall'immagine 452x558 (bocca a 42,11%). */
+.sagoma{position:fixed;left:max(10px,env(safe-area-inset-left));bottom:-18px;z-index:60;width:clamp(170px,20vw,270px);pointer-events:none;
+  transform:translateY(118%);transition:transform 650ms cubic-bezier(.55,-.3,.75,.05)}
+.sagoma[hidden]{display:none}
+.sagoma.su{transform:none;transition:transform 900ms cubic-bezier(.3,1.6,.55,1)}
+.sg-corpo{position:relative;display:block;aspect-ratio:452/558;transform-origin:50% 100%}
+.sg-corpo img{position:absolute;inset:0;width:100%;height:100%}
+.sg-buco{position:absolute;left:39.38%;top:39.96%;width:19.47%;height:3.23%;border-radius:40%/50%;background:#1b0707}
+.sg-giu{clip-path:polygon(0 42.11%,58.85% 42.11%,58.85% 38.17%,100% 38.17%,100% 100%,0 100%)}
+.sg-su{clip-path:polygon(0 0,100% 0,100% 38.17%,58.85% 38.17%,58.85% 42.11%,0 42.11%)}
+.sg-nuvola{position:absolute;left:66%;top:5%;padding:7px 13px;border:3px solid #0B0D0E;border-radius:18px;background:#fff;color:#0B0D0E;
+  font:900 italic clamp(13px,1.4vw,18px)/1.1 var(--sans);text-transform:uppercase;white-space:nowrap;box-shadow:0 5px 0 rgba(0,0,0,.35);
+  transform:scale(0) rotate(-4deg);transform-origin:10% 100%}
+.sg-nuvola::after{content:"";position:absolute;left:12px;bottom:-9px;width:13px;height:13px;background:#fff;border-right:3px solid #0B0D0E;border-bottom:3px solid #0B0D0E;transform:rotate(45deg)}
+.sg-x{position:absolute;top:9%;left:10%;width:28px;height:28px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(11,13,14,.8);color:var(--fg);font:600 17px/1 var(--sans);cursor:pointer}
+.sagoma.su .sg-corpo,.sagoma.su .sg-x{pointer-events:auto}
+.sagoma.su .sg-corpo{animation:sg-ciondola 2.6s ease-in-out infinite}
+.sagoma.su .sg-glow{animation:sg-alone 1.8s ease-in-out infinite}
+.sagoma.su .sg-su{animation:sg-parla 2.4s steps(1,end) infinite}
+.sagoma.su .sg-nuvola{animation:sg-nuvola 450ms 800ms cubic-bezier(.3,1.6,.55,1) forwards,sg-batte 1.3s 1.3s ease-in-out infinite}
+@keyframes sg-ciondola{0%,100%{transform:rotate(-3.5deg)}50%{transform:rotate(3.5deg)}}
+@keyframes sg-alone{50%{opacity:.5}}
+@keyframes sg-parla{0%{transform:none}6%{transform:translateY(-2.15%)}12%{transform:none}18%{transform:translateY(-1.5%)}24%{transform:none}30%{transform:translateY(-2.15%)}36%{transform:translateY(-.8%)}42%{transform:none}48%{transform:translateY(-2.15%)}54%{transform:none}60%{transform:translateY(-1.6%)}66%,100%{transform:none}}
+@keyframes sg-nuvola{to{transform:scale(1) rotate(-4deg)}}
+@keyframes sg-batte{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.08) rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){.sagoma.su .sg-corpo,.sagoma.su .sg-glow,.sagoma.su .sg-su{animation:none}.sagoma.su .sg-nuvola{animation:none;transform:rotate(-4deg)}}
 .help{margin-top:12px;color:var(--fg-3);font-size:13.5px;text-align:center}
 .help a{color:var(--fg-2);text-underline-offset:3px}
 .below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
@@ -187,6 +214,17 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     </div>
   </div>
 </main>
+
+<div class="sagoma" data-sagoma hidden>
+  <a class="sg-corpo" href="#" target="_blank" rel="noopener" aria-label="Prenota la call con il team" data-sagoma-a>
+    <img class="sg-glow" src="../assets/sagoma-bagliore.webp" alt="" width="452" height="558">
+    <span class="sg-buco" aria-hidden="true"></span>
+    <img class="sg-giu" src="../assets/sagoma-andrea.webp" alt="" width="452" height="558">
+    <img class="sg-su" src="../assets/sagoma-andrea.webp" alt="Andrea Audisio" width="452" height="558">
+    <span class="sg-nuvola">Prenota ora!</span>
+  </a>
+  <button class="sg-x" type="button" aria-label="Nascondi" data-sagoma-x>×</button>
+</div>
 
 <footer>
   <div class="wrap">
@@ -337,6 +375,7 @@ function applica(st) {
   ultimo = st.aggiornato || "";
   const c = st.cta, on = !!c.on && /^https:\/\//.test(c.url || "");
   if (on) { ctaA.href = c.url; if (c.testo) ctaT.textContent = c.testo; }
+  if (/^https:\/\//.test(c.url || "")) document.querySelector("[data-sagoma-a]").href = c.url;
   cta.hidden = !on;
 }
 async function loadStato() {
@@ -408,7 +447,8 @@ function aggiungi(ms, tutto) {
   if (giu) chatList.scrollTop = chatList.scrollHeight;
 }
 function chat(d) {
-  if (d.t === "storia") { bannato = !!d.ban; chiusa = !!d.chiusa; aggiungi(d.m || [], true); }
+  if (d.t === "storia") { bannato = !!d.ban; chiusa = !!d.chiusa; aggiungi(d.m || [], true); sagoma(!!d.sagoma); }
+  else if (d.t === "sagoma") sagoma(!!d.v);
   else if (d.t === "chat") aggiungi([d.m]);
   else if (d.t === "cancella") (d.ids || []).forEach(id => { const li = chatList.querySelector('[data-id="' + id + '"]'); if (li) li.remove(); });
   else if (d.t === "svuota") chatList.replaceChildren();
@@ -444,6 +484,23 @@ chatF.addEventListener("submit", e => {
 q("[data-chat-cambia]").addEventListener("click", () => { chatNome.value = nome; nome = ""; syncNome(); chatNome.focus(); });
 syncNome(); syncChat();
 setInterval(() => { if (early() !== presto) syncChat(); }, 1000);
+
+/* Andrea cartonato: lo fa salire e rientrare il pannello; la × lo nasconde solo a chi la tocca (finché il pannello non lo rimanda su) */
+const sagomaEl = q("[data-sagoma]"), sagomaA = q("[data-sagoma-a]");
+let sagomaT = 0;
+function sagoma(on) {
+  clearTimeout(sagomaT);
+  if (on) {
+    if (sagomaEl.classList.contains("su")) return;
+    sagomaEl.hidden = false; void sagomaEl.offsetWidth;
+    sagomaEl.classList.add("su");
+  } else if (!sagomaEl.hidden) {
+    sagomaEl.classList.remove("su");
+    sagomaT = setTimeout(() => { sagomaEl.hidden = true; }, 700);
+  }
+}
+sagomaA.addEventListener("click", e => { if (!/^https:\/\//.test(sagomaA.href)) e.preventDefault(); });
+q("[data-sagoma-x]").addEventListener("click", () => sagoma(false));
 
 setInterval(() => { if (wsOk) ws.send("ping"); }, 45000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) connetti(); });

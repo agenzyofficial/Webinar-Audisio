@@ -4,7 +4,8 @@
    GET  /stato  stato attuale in JSON.
    POST /stato  { chiave, stato } salva e avvisa tutti: lo chiama api/live.js del sito quando si preme Mostra o Nascondi.
    POST /chat   { chiave, azione, id } moderazione dal pannello: cancella, banna, sblocca, bannati, chiudi, apri, svuota;
-                "sorgente" fa rileggere subito sorgente.json a tutte le pagine aperte (dopo averlo cambiato).
+                "sorgente" fa rileggere subito sorgente.json a tutte le pagine aperte (dopo averlo cambiato);
+                "sagoma-su" / "sagoma-giu" fanno salire o rientrare Andrea cartonato nella pagina della diretta.
    Il ban blocca la scrittura per IP (per IPv6 la rete /64) e per codice del dispositivo: chi è bannato vede la chat ma non scrive.
    La chiave non sta nel codice: c'è solo la sua impronta SHA-256, la stessa di api/live.js. */
 import { DurableObject } from "cloudflare:workers";
@@ -89,7 +90,7 @@ export class Stanza extends DurableObject {
       this.ctx.acceptWebSocket(server);
       server.serializeAttachment({ ip, dev, p: u.searchParams.has("p") });
       if (stato) server.send(JSON.stringify(stato));
-      server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")) }));
+      server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")), sagoma: !!(await this.ctx.storage.get("sagoma")) }));
       return new Response(null, { status: 101, webSocket: client });
     }
     if (u.pathname === "/chat") return this.modera(await req.json());
@@ -162,6 +163,13 @@ export class Stanza extends DurableObject {
       await this.ctx.storage.put("chiusa", azione === "chiudi");
       this.manda({ t: "chiusa", v: azione === "chiudi" });
       return json({ ok: true, chiusa: azione === "chiudi" });
+    }
+    /* Andrea cartonato: sale dal basso dello schermo di tutti (sagoma-su) o rientra (sagoma-giu) */
+    if (azione === "sagoma-su" || azione === "sagoma-giu") {
+      const v = azione === "sagoma-su";
+      await this.ctx.storage.put("sagoma", v);
+      this.manda({ t: "sagoma", v });
+      return json({ ok: true, sagoma: v });
     }
     /* dopo aver pubblicato un sorgente.json nuovo (piano B): tutte le pagine aperte lo rileggono subito */
     if (azione === "sorgente") {
