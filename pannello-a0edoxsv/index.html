@@ -39,7 +39,7 @@ button:disabled{opacity:.5;cursor:wait}
 .b-copy{min-height:36px;padding:0 14px;border-radius:8px;background:#20262B;color:var(--fg);font-size:12px;flex:none}
 .note{margin-top:10px;color:var(--fg-3);font-size:13px}
 /* chat: i messaggi più nuovi in alto, con Cancella e Banna */
-.cm-list{margin-top:12px;max-height:440px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.cm-list{margin-top:12px;height:min(50vh,400px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 .cm{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line)}
 .cm:last-child{border-bottom:0}
 .cm p{flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere}
@@ -50,7 +50,7 @@ button:disabled{opacity:.5;cursor:wait}
 .mini.ban{background:rgba(255,107,107,.14);color:#FF8A8A;border:1px solid rgba(255,107,107,.45)}
 .vuoto{padding:14px;color:var(--fg-3);font-size:14px;text-align:center}
 .h3{margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
-.ban-list{margin-top:8px;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.ban-list{margin-top:8px;max-height:180px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 [hidden]{display:none!important}
 </style>
 </head>
