@@ -11,6 +11,7 @@
                   "sorgente" fa rileggere subito sorgente.json a tutte le pagine aperte (dopo averlo cambiato);
                   "sagoma-su" / "sagoma-giu" fanno salire o rientrare Andrea cartonato nella pagina della diretta;
                   "togli-accesso" (id = codice del dispositivo) toglie un accesso di prova dall'elenco.
+   Le statistiche si azzerano da sole all'inizio della diretta (INIZIO, 20:50 italiane).
    Il ban blocca la scrittura per IP (per IPv6 la rete /64) e per codice del dispositivo: chi è bannato vede la chat ma non scrive.
    La chiave non sta nel codice: c'è solo la sua impronta SHA-256, la stessa di api/live.js. */
 import { DurableObject } from "cloudflare:workers";
@@ -18,6 +19,7 @@ import { DurableObject } from "cloudflare:workers";
 const KEY_HASH = "715ccff2b0480e44fc5ea32554e0ca1dbe045526383a3ac3924ded669215d2a5";
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-headers": "content-type", "access-control-allow-methods": "GET, POST, OPTIONS" };
 const STORIA = 100, PAUSA = 3000;
+const INIZIO = Date.parse("2026-10-29T20:50:00+01:00");   // si aprono video, accesso e chat: da qui contano le statistiche
 const RISERVATI = /admin|moderat|staff|andrea\s*audisio|team\s*audisio/i;
 
 const json = (obj, code = 200) => new Response(JSON.stringify(obj), {
@@ -145,19 +147,34 @@ export class Stanza extends DurableObject {
     }
   }
   spettatori() { return this.ctx.getWebSockets().length - this.ctx.getWebSockets("pannello").length; }
+  /* Le statistiche si azzerano da sole all'inizio della diretta (20:50, quando si aprono video, accesso e chat): prima contano tutto
+     (le prove), dopo solo da quell'ora. Non si cancella niente. La prima volta dopo l'inizio riparte anche il picco e i pannelli
+     ricevono l'elenco "Chi è entrato" già ripulito. */
+  async daQuando() {
+    if (Date.now() < INIZIO) return 0;
+    if (!(await this.ctx.storage.get("azzeratoInizio"))) {
+      await this.ctx.storage.put("azzeratoInizio", true);
+      await this.ctx.storage.put("picco", this.spettatori());
+      this.agliAdmin({ t: "accessi", accessi: this.sql.exec("SELECT dev, nome, email, ora FROM accessi WHERE ora >= ? ORDER BY ora DESC", INIZIO).toArray() });
+    }
+    return INIZIO;
+  }
   async stats() {
-    const uno = q => this.sql.exec(q).toArray()[0];
+    const da = await this.daQuando(), uno = q => this.sql.exec(q, da).toArray()[0].n;
     return {
       t: "stats",
-      entrati: uno("SELECT COUNT(*) AS n FROM accessi").n,
-      email: uno("SELECT COUNT(DISTINCT email) AS n FROM accessi").n,
+      entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora >= ?"),
+      email: uno("SELECT COUNT(DISTINCT email) AS n FROM accessi WHERE ora >= ?"),
       collegati: this.spettatori(),
       picco: (await this.ctx.storage.get("picco")) || 0,
-      messaggi: uno("SELECT COUNT(*) AS n FROM chat").n,
-      cancellati: uno("SELECT COUNT(*) AS n FROM chat WHERE via = 1").n,
-      scrittori: uno("SELECT COUNT(DISTINCT dev) AS n FROM chat").n,
-      bannati: uno("SELECT COUNT(*) AS n FROM ban").n
+      messaggi: uno("SELECT COUNT(*) AS n FROM chat WHERE ora >= ?"),
+      cancellati: uno("SELECT COUNT(*) AS n FROM chat WHERE via = 1 AND ora >= ?"),
+      scrittori: uno("SELECT COUNT(DISTINCT dev) AS n FROM chat WHERE ora >= ?"),
+      bannati: uno("SELECT COUNT(*) AS n FROM ban WHERE ora >= ?")
     };
+  }
+  async accessiDa() {
+    return this.sql.exec("SELECT dev, nome, email, ora FROM accessi WHERE ora >= ? ORDER BY ora DESC", await this.daQuando()).toArray();
   }
   async fetch(req) {
     const u = new URL(req.url);
@@ -171,6 +188,7 @@ export class Stanza extends DurableObject {
       if (stato) server.send(JSON.stringify(stato));
       server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")), sagoma: !!(await this.ctx.storage.get("sagoma")) }));
       if (!pannello) {
+        await this.daQuando();
         const n = this.spettatori(), picco = (await this.ctx.storage.get("picco")) || 0;
         if (n > picco) await this.ctx.storage.put("picco", n);
       }
@@ -209,8 +227,7 @@ export class Stanza extends DurableObject {
       a.admin = true; ws.serializeAttachment(a);
       const email = Object.fromEntries(this.sql.exec(`SELECT c.id, a.email FROM chat c JOIN accessi a ON a.dev = c.dev
         WHERE c.via = 0 ORDER BY c.ora DESC LIMIT ?`, STORIA).toArray().map(r => [r.id, r.email]));
-      const accessi = this.sql.exec("SELECT dev, nome, email, ora FROM accessi ORDER BY ora DESC").toArray();
-      ws.send(JSON.stringify({ t: "admin", ok: true, email, accessi }));
+      ws.send(JSON.stringify({ t: "admin", ok: true, email, accessi: await this.accessiDa() }));
       return ws.send(JSON.stringify(await this.stats()));
     }
     if (d.t === "stats" && a.admin) return ws.send(JSON.stringify(await this.stats()));

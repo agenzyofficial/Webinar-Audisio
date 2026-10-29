@@ -13,11 +13,26 @@
 :root{--bg:#0B0D0E;--bg-2:#111417;--line:#262C31;--fg:#E8ECEE;--fg-2:#A6B0B6;--fg-3:#6B757D;--acc:#FF5A14;--on-acc:#0B0D0E;--ok:#3DDC84;--sans:"Poppins",system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.wrap{max-width:560px;margin:0 auto;padding:22px 16px 40px}
-h1{font-weight:800;font-style:italic;font-size:26px;line-height:1.15}
+.wrap{max-width:1440px;margin:0 auto;padding:24px clamp(16px,3vw,32px) 48px}
+h1{font-weight:800;font-style:italic;font-size:clamp(22px,2.4vw,30px);line-height:1.15}
 .sub{margin-top:4px;color:var(--fg-2);font-size:14px}
 .card{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)}
 .card h2{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+/* impaginazione: in alto titolo e statistiche, sotto tre colonne (comandi | chat | persone); due colonne sul tablet, una sul telefono */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+.top-links{display:flex;flex-wrap:wrap;gap:8px}
+.top-links a{display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border:1px solid var(--line);border-radius:999px;color:var(--fg);font-size:13px;font-weight:600;text-decoration:none}
+.top-links a:hover{border-color:var(--acc)}
+.login{max-width:440px;margin:48px auto 0}
+.card-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.card-h .note{margin-top:0}
+.grid{display:grid;gap:18px;margin-top:18px;grid-template-areas:"comandi" "chat" "persone"}
+.grid .card{margin-top:0}
+.col{display:grid;gap:18px;align-content:start;min-width:0}
+.col-comandi{grid-area:comandi}.col-chat{grid-area:chat}.col-persone{grid-area:persone}
+@media (min-width:860px){.grid{grid-template-columns:minmax(300px,360px) minmax(0,1fr);grid-template-areas:"comandi chat" "persone chat"}}
+@media (min-width:1240px){.grid{grid-template-columns:340px minmax(0,1fr) 380px;grid-template-areas:"comandi chat persone"}}
+@media (min-width:860px){.col-chat{position:sticky;top:16px}.chat-card .cm-list{height:max(360px,calc(100vh - 330px))}}
 label{display:grid;gap:6px;margin-top:12px;font-weight:600;font-size:14px;color:var(--fg-2)}
 input{width:100%;min-height:46px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 15px var(--sans)}
 input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
@@ -52,34 +67,43 @@ button:disabled{opacity:.5;cursor:wait}
 .h3{margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
 /* statistiche e chi è entrato */
 .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-@media (min-width:480px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:600px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:1100px){.stats{grid-template-columns:repeat(8,minmax(0,1fr))}}
 .stat{padding:12px;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 .stat b{display:block;font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
 .stat span{color:var(--fg-3);font-size:12px;font-weight:600}
 .stat.acc b{color:var(--acc)}
 .cm .em{color:var(--fg-3);font-size:12px;font-weight:500}
-.acc-list{margin-top:12px;height:min(45vh,340px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
-.ban-list{margin-top:8px;max-height:180px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.acc-list{margin-top:12px;height:min(50vh,420px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.ban-list{margin-top:12px;max-height:220px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Pannello della diretta</h1>
-  <p class="sub">La morte del personal brand · giovedì 29 ottobre</p>
+  <header class="top">
+    <div>
+      <h1>Pannello della diretta</h1>
+      <p class="sub">La morte del personal brand · giovedì 29 ottobre, ore 21:00</p>
+    </div>
+    <nav class="top-links" aria-label="Pagine">
+      <a href="../diretta-mwzs2j3k/" target="_blank" rel="noopener">Diretta ↗</a>
+      <a href="../diretta-mwzs2j3k/?prova=1" target="_blank" rel="noopener">Diretta di prova ↗</a>
+    </nav>
+  </header>
 
-  <div class="card" data-login>
+  <div class="card login" data-login>
     <h2>Accesso</h2>
     <label>Chiave del pannello<input type="password" autocomplete="current-password" data-key></label>
     <button class="b-save" type="button" data-key-save>Entra</button>
     <p class="note">La chiave resta salvata su questo dispositivo.</p>
   </div>
 
-  <div class="card" data-stats-card hidden>
-    <h2>Statistiche della diretta</h2>
+  <section class="card stats-card" data-stats-card hidden>
+    <div class="card-h"><h2>Statistiche della diretta</h2><p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p></div>
     <div class="stats">
       <div class="stat acc"><b data-st="entrati">–</b><span>entrati con email</span></div>
-      <div class="stat"><b data-st="collegati">–</b><span>collegati adesso</span></div>
+      <div class="stat acc"><b data-st="collegati">–</b><span>collegati adesso</span></div>
       <div class="stat"><b data-st="picco">–</b><span>picco collegati</span></div>
       <div class="stat"><b data-st="email">–</b><span>email diverse</span></div>
       <div class="stat"><b data-st="messaggi">–</b><span>messaggi in chat</span></div>
@@ -87,63 +111,77 @@ button:disabled{opacity:.5;cursor:wait}
       <div class="stat"><b data-st="cancellati">–</b><span>messaggi cancellati</span></div>
       <div class="stat"><b data-st="bannati">–</b><span>bannati</span></div>
     </div>
-    <p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p>
-  </div>
+    <p class="note">Alle 20:50, quando si aprono video e chat, i numeri e l'elenco "Chi è entrato" ripartono da zero da soli: le prove di prima non contano.</p>
+  </section>
 
-  <div class="card" data-panel hidden>
-    <h2>Bottone "prenota la call"</h2>
-    <div class="state" data-state><span class="dot" aria-hidden="true"></span><span data-state-t>Nascosto</span></div>
-    <label>Link del calendario (GHL)<input type="url" inputmode="url" placeholder="https://..." data-url></label>
-    <label>Testo sopra il bottone<input type="text" maxlength="120" data-testo value="Prenota la call con il team"></label>
-    <div class="row">
-      <button class="b-on" type="button" data-on>Mostra</button>
-      <button class="b-off" type="button" data-off>Nascondi</button>
+  <div class="grid">
+    <!-- colonna 1: i comandi che si usano durante la diretta -->
+    <div class="col col-comandi">
+      <section class="card" data-panel hidden>
+        <h2>Bottone "prenota la call"</h2>
+        <div class="state" data-state><span class="dot" aria-hidden="true"></span><span data-state-t>Nascosto</span></div>
+        <label>Link del calendario (GHL)<input type="url" inputmode="url" placeholder="https://..." data-url></label>
+        <label>Testo sopra il bottone<input type="text" maxlength="120" data-testo value="Prenota la call con il team"></label>
+        <div class="row">
+          <button class="b-on" type="button" data-on>Mostra</button>
+          <button class="b-off" type="button" data-off>Nascondi</button>
+        </div>
+        <p class="msg" data-msg role="status"></p>
+        <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
+      </section>
+
+      <section class="card" data-sagoma-card hidden>
+        <h2>Andrea cartonato</h2>
+        <div class="state" data-sg-state><span class="dot" aria-hidden="true"></span><span data-sg-state-t>Nascosto</span></div>
+        <div class="row">
+          <button class="b-on" type="button" data-sg-on>Fai uscire</button>
+          <button class="b-off" type="button" data-sg-off>Fai rientrare</button>
+        </div>
+        <p class="msg" data-sg-msg role="status"></p>
+        <p class="note">Sale dall'angolo in basso a destra del video, in tempo reale per tutti, ciondola, muove la bocca e dice "Prenota ora!". Toccandolo si apre il link del calendario del bottone.</p>
+      </section>
+
+      <section class="card">
+        <h2>Pagine</h2>
+        <div class="links">
+          <div class="self"><a href="./" target="_blank" rel="noopener" data-self>Pannello dei comandi</a><button class="b-copy" type="button" data-copy>Copia link</button></div>
+          <a href="../diretta-mwzs2j3k/" target="_blank" rel="noopener">Pagina della diretta</a>
+          <a href="../diretta-mwzs2j3k/?prova=1" target="_blank" rel="noopener">Pagina della diretta, versione prova</a>
+          <a href="../posti-5r2e0x/" target="_blank" rel="noopener">Pagina dei 10 posti</a>
+        </div>
+        <p class="note">Il link del pannello ha dentro la chiave: tienilo per te. Dallo solo agli altri moderatori (con quello possono anche accendere il bottone della call).</p>
+      </section>
     </div>
-    <p class="msg" data-msg role="status"></p>
-    <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
-  </div>
 
-  <div class="card" data-sagoma-card hidden>
-    <h2>Andrea cartonato</h2>
-    <div class="state" data-sg-state><span class="dot" aria-hidden="true"></span><span data-sg-state-t>Nascosto</span></div>
-    <div class="row">
-      <button class="b-on" type="button" data-sg-on>Fai uscire</button>
-      <button class="b-off" type="button" data-sg-off>Fai rientrare</button>
+    <!-- colonna 2: la chat, alta quanto lo schermo -->
+    <div class="col col-chat">
+      <section class="card chat-card" data-chat-card hidden>
+        <h2>Chat</h2>
+        <div class="state" data-chat-state><span class="dot" aria-hidden="true"></span><span data-chat-state-t>Mi collego…</span></div>
+        <div class="cm-list" data-cm-list><p class="vuoto">Ancora nessun messaggio.</p></div>
+        <p class="msg" data-chat-msg role="status"></p>
+        <div class="row">
+          <button class="b-off" type="button" data-chat-chiudi>Chiudi chat</button>
+          <button class="b-off" type="button" data-chat-svuota>Svuota chat</button>
+        </div>
+        <p class="note"><b>Cancella</b> toglie il messaggio a tutti. <b>Banna</b> blocca chi l'ha scritto (IP e dispositivo) e toglie tutti i suoi messaggi: continua a vedere la diretta ma non può più scrivere. <b>Chiudi chat</b> ferma la scrittura per tutti.</p>
+      </section>
     </div>
-    <p class="msg" data-sg-msg role="status"></p>
-    <p class="note">Sale dall'angolo in basso a destra del video, in tempo reale per tutti, ciondola, muove la bocca e dice "Prenota ora!". Toccandolo si apre il link del calendario qui sopra.</p>
-  </div>
 
-  <div class="card" data-chat-card hidden>
-    <h2>Chat</h2>
-    <div class="state" data-chat-state><span class="dot" aria-hidden="true"></span><span data-chat-state-t>Mi collego…</span></div>
-    <div class="cm-list" data-cm-list><p class="vuoto">Ancora nessun messaggio.</p></div>
-    <p class="msg" data-chat-msg role="status"></p>
-    <div class="row">
-      <button class="b-off" type="button" data-chat-chiudi>Chiudi chat</button>
-      <button class="b-off" type="button" data-chat-svuota>Svuota chat</button>
+    <!-- colonna 3: le persone -->
+    <div class="col col-persone">
+      <section class="card" data-acc-card hidden>
+        <h2>Chi è entrato</h2>
+        <p class="note" data-acc-n>Nome ed email di chi è entrato nella diretta, i più recenti in alto.</p>
+        <div class="acc-list" data-acc-list><p class="vuoto">Ancora nessuno.</p></div>
+      </section>
+
+      <section class="card" data-ban-card hidden>
+        <h2>Bannati</h2>
+        <div class="ban-list" data-ban-list><p class="vuoto">Nessuno.</p></div>
+        <p class="note"><b>Sblocca</b> annulla il ban: quella persona può di nuovo scrivere.</p>
+      </section>
     </div>
-    <p class="h3">Bannati</p>
-    <div class="ban-list" data-ban-list><p class="vuoto">Nessuno.</p></div>
-    <p class="note"><b>Cancella</b> toglie il messaggio a tutti. <b>Banna</b> blocca chi l'ha scritto (IP e dispositivo) e toglie tutti i suoi messaggi: continua a vedere la diretta ma non può più scrivere. <b>Sblocca</b> annulla il ban. <b>Chiudi chat</b> ferma la scrittura per tutti.</p>
-    <p class="note">Altri moderatori: dagli il link del pannello qui sotto (con quello possono anche accendere il bottone della call).</p>
-  </div>
-
-  <div class="card" data-acc-card hidden>
-    <h2>Chi è entrato</h2>
-    <p class="note" data-acc-n>Nome ed email di chi è entrato nella diretta, i più recenti in alto.</p>
-    <div class="acc-list" data-acc-list><p class="vuoto">Ancora nessuno.</p></div>
-  </div>
-
-  <div class="card">
-    <h2>Pagine</h2>
-    <div class="links">
-      <div class="self"><a href="./" target="_blank" rel="noopener" data-self>Pannello dei comandi</a><button class="b-copy" type="button" data-copy>Copia link</button></div>
-      <a href="../diretta-mwzs2j3k/" target="_blank" rel="noopener">Pagina della diretta</a>
-      <a href="../diretta-mwzs2j3k/?prova=1" target="_blank" rel="noopener">Pagina della diretta, versione prova</a>
-      <a href="../posti-5r2e0x/" target="_blank" rel="noopener">Pagina dei 10 posti</a>
-    </div>
-    <p class="note">Il link del pannello ha dentro la chiave: tienilo per te. Serve per aprirlo da un altro dispositivo senza riscriverla.</p>
   </div>
 </div>
 
@@ -164,7 +202,7 @@ const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent
 const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]"), sagomaCard = $("[data-sagoma-card]");
 const unlock = () => {
   login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave;
-  $("[data-stats-card]").hidden = !chiave; $("[data-acc-card]").hidden = !chiave;
+  $("[data-stats-card]").hidden = !chiave; $("[data-acc-card]").hidden = !chiave; $("[data-ban-card]").hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
   if (chiave) { collegaChat(); modera("bannati"); }
 };
@@ -286,6 +324,7 @@ function collegaChat() {
     if (d.t === "email") { emailDi[d.id] = d.email; mettiEmail(); return; }
     if (d.t === "accesso") { accessi = [d.a, ...accessi.filter(x => x.dev !== d.a.dev)]; mostraAccessi(accessi); return; }
     if (d.t === "stats") { mostraStats(d); return; }
+    if (d.t === "accessi") { mostraAccessi(d.accessi || []); return; }
     if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; sgStato(!!d.sagoma); }
     else if (d.t === "sagoma") sgStato(!!d.v);
     else if (d.t === "chat") cmList.prepend(rigaCm(d.m));
@@ -327,8 +366,7 @@ function mostraStats(s) {
   for (const k of ["entrati", "collegati", "picco", "email", "messaggi", "scrittori", "cancellati", "bannati"]) { const el = $('[data-st="' + k + '"]'); if (el) el.textContent = s[k] ?? "–"; }
   $("[data-st-ora]").textContent = "Aggiornate alle " + new Date().toLocaleTimeString("it-IT") + " · si aggiornano da sole ogni 10 secondi.";
 }
-setInterval(() => { if (sockOk && chiave) sock.send(JSON.stringify({ t: "stats" })); }, 10000);
-chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
+setInterval(() => { if (sockOk && chiave) sock.send(JSON.stringify({ t: "stats" })); }, 10000);chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
 /* Andrea cartonato: Fai uscire / Fai rientrare, per tutti gli spettatori in tempo reale */
 const sgState = $("[data-sg-state]"), sgStateT = $("[data-sg-state-t]"), sgMsg = $("[data-sg-msg]");
 function sgStato(on) { sgState.classList.toggle("on", on); sgStateT.textContent = on ? "Visibile agli spettatori" : "Nascosto"; }
