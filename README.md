@@ -55,4 +55,4 @@ Nella pagina sono evidenziati in giallo:
 - replay sì o no;
 - foto di Andrea, oggi un riquadro segnaposto.
 
-Stato della diretta: `api/live.js` (POST con la chiave del pannello) scrive `live/stato.json` nello spazio Vercel Blob `pbm-live` (pubblico, aggiornato dalla rete entro 60 secondi); la pagina della diretta lo legge per mostrare o nascondere il bottone della call. Nel codice c'è solo l'impronta SHA-256 della chiave, non la chiave.
+Stato della diretta: `api/live.js` (POST con la chiave del pannello) manda lo stato del bottone della call al servizio in tempo reale `live-worker/` (Cloudflare Worker `pbm-live` con un Durable Object: la pagina della diretta resta collegata via WebSocket e il bottone compare o sparisce in circa un secondo) e lo scrive anche in `live/stato.json` nello spazio Vercel Blob `pbm-live` (pubblico, aggiornato dalla rete entro 60 secondi), che la pagina rilegge solo se la connessione cade. Vale sempre lo stato con l'ora più recente. Nel codice c'è solo l'impronta SHA-256 della chiave, non la chiave. Il Worker si pubblica con `npx wrangler deploy` dalla cartella `live-worker/` (account Cloudflare dello Stream).
