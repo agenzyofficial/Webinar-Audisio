@@ -131,6 +131,21 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 @keyframes sg-nuvola{to{transform:scale(1) rotate(-4deg)}}
 @keyframes sg-batte{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.08) rotate(-4deg)}}
 @media (prefers-reduced-motion:reduce){.sagoma.su .sg-corpo,.sagoma.su .sg-glow,.sagoma.su .sg-su{animation:none}.sagoma.su .sg-nuvola{animation:none;transform:rotate(-4deg)}}
+/* accesso: dalle 20:50 (con ?prova=1 sempre) per vedere la diretta servono nome ed email */
+.accesso{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px 16px;overflow-y:auto;background:rgba(7,9,10,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.accesso[hidden]{display:none}
+.acc-card{width:min(420px,100%);padding:24px 20px;border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:16px;background:var(--bg-2);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.acc-k{color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.acc-card h2{margin-top:6px;font-weight:800;font-style:italic;font-size:26px;line-height:1.15}
+.acc-sub{margin-top:6px;color:var(--fg-2);font-size:14.5px}
+.acc-card label{display:grid;gap:6px;margin-top:14px;color:var(--fg-2);font-size:14px;font-weight:600}
+.acc-card input{width:100%;min-height:48px;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:500 16px var(--sans)}
+.acc-card input:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
+.acc-err{margin-top:12px;color:#FF6B6B;font-size:14px;font-weight:600}
+.acc-err:empty{display:none}
+.acc-err button{margin-left:4px;border:0;background:none;color:var(--fg);font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.acc-card button[type=submit]{width:100%;min-height:54px;margin-top:16px;border:0;border-radius:12px;background:var(--acc);color:var(--on-acc);font:800 16px var(--sans);text-transform:uppercase;cursor:pointer}
+.acc-card button[type=submit]:disabled{opacity:.6;cursor:wait}
 .help{margin-top:12px;color:var(--fg-3);font-size:13.5px;text-align:center}
 .help a{color:var(--fg-2);text-underline-offset:3px}
 .below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
@@ -206,7 +221,7 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
         <ol class="chat-list" data-chat-list></ol>
         <form class="chat-f" data-chat-f autocomplete="off">
           <input type="text" maxlength="30" placeholder="Il tuo nome" autocomplete="given-name" aria-label="Il tuo nome" data-chat-nome>
-          <p class="chat-come" data-chat-come hidden>Scrivi come <b data-chat-chi></b> · <button type="button" data-chat-cambia>cambia nome</button></p>
+          <p class="chat-come" data-chat-come hidden>Scrivi come <b data-chat-chi></b><button type="button" data-chat-cambia hidden>cambia nome</button></p>
           <div class="chat-row">
             <input type="text" maxlength="300" placeholder="Scrivi un messaggio" enterkeyhint="send" aria-label="Messaggio" data-chat-t>
             <button type="submit">Invia</button>
@@ -224,6 +239,18 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     </div>
   </div>
 </main>
+
+<div class="accesso" data-accesso hidden>
+  <form class="acc-card" data-acc-f novalidate>
+    <p class="acc-k">La morte del personal brand</p>
+    <h2>Entra nella diretta</h2>
+    <p class="acc-sub">Scrivi nome ed email. Il nome è quello che gli altri vedranno in chat.</p>
+    <label>Nome<input type="text" maxlength="40" autocomplete="name" data-acc-nome></label>
+    <label>Email<input type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" data-acc-email></label>
+    <p class="acc-err" data-acc-err role="alert"></p>
+    <button type="submit" data-acc-b>Entra nella diretta</button>
+  </form>
+</div>
 
 <footer>
   <div class="wrap">
@@ -249,6 +276,10 @@ let current = "", frame = null, muted = true;
 /* fino a 10 minuti prima resta il conto alla rovescia sopra il video; con ?prova=1 nell'indirizzo il video si vede subito (per le prove) */
 const PROVA = new URLSearchParams(location.search).has("prova");
 const early = () => !PROVA && START - new Date() > 10 * 60 * 1000;
+/* accesso con nome ed email (il riquadro è più sotto): finché manca, dalle 20:50 il video non si carica */
+let accesso = null, inAttesa = null, ultimaCfg = null;
+try { accesso = JSON.parse(localStorage.getItem("pbm-accesso") || "null"); } catch (e) {}
+const bloccato = () => !early() && !(accesso && accesso.nome);
 const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; syncMusic(); };
 
 /* musica d'attesa: suona finché c'è il conto alla rovescia, poi sfuma e si ferma.
@@ -321,8 +352,10 @@ function srcFor(cfg) {
 }
 function show(cfg) {
   const src = srcFor(cfg);
+  ultimaCfg = cfg;
   notice.hidden = !cfg.avviso; notice.textContent = cfg.avviso || "";
   if (src === current) return;
+  if (src && bloccato()) { inAttesa = cfg; return; }
   current = src;
   if (frame) { frame.remove(); frame = null; }
   if (!src) { syncWaiting(); return; }
@@ -411,10 +444,13 @@ try {
   nome = localStorage.getItem("pbm-nome") || "";
 } catch (e) {}
 if (!dev) dev = Math.random().toString(36).slice(2) + Date.now().toString(36);
+/* il nome in chat è quello dato all'accesso; se è lungo si accorcia con … */
+if (accesso && accesso.nome) nome = accesso.nome;
+const corto = n => [...n].length > 18 ? [...n].slice(0, 17).join("").trim() + "…" : n;
 const vuota = document.createElement("li");
 vuota.className = "vuota"; vuota.textContent = "Ancora nessun messaggio. Scrivi tu il primo!";
 const avviso = (t, err) => { chatMsg.className = "chat-msg" + (err ? " err" : ""); chatMsg.textContent = t || ""; };
-function syncNome() { chatNome.hidden = !!nome; chatCome.hidden = !nome; chatChi.textContent = nome; }
+function syncNome() { chatNome.hidden = !!nome; chatCome.hidden = !nome; chatChi.textContent = corto(nome); }
 /* nella pagina vera la chat si apre insieme al video (10 minuti prima dell'inizio), con ?prova=1 è sempre aperta */
 const chatBox = q(".chat"), chatAttesa = q("[data-chat-attesa]");
 chatAttesa.textContent = "La chat si apre alle " + new Date(START - 10 * 60 * 1000).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" }) + ", insieme al video.";
@@ -430,10 +466,11 @@ function syncChat() {
   chatStop.hidden = presto || !chatF.hidden;
   chatStop.textContent = bannato ? "Non puoi più scrivere in chat." : "La chat è chiusa.";
   if (!chatList.querySelector("li[data-id]")) { if (!vuota.isConnected) chatList.append(vuota); } else vuota.remove();
+  syncAccesso();
 }
 function riga(m) {
   const li = document.createElement("li"), b = document.createElement("b");
-  li.dataset.id = m.id; b.textContent = m.nome;
+  li.dataset.id = m.id; b.textContent = corto(m.nome); b.title = m.nome;
   li.append(b, document.createTextNode(m.testo));
   return li;
 }
@@ -456,12 +493,8 @@ function chat(d) {
   else if (d.t === "sorgente") setTimeout(load, Math.random() * 3000);
   else if (d.t === "errore") {
     avviso(d.testo, true);
-    /* nome rifiutato: se la connessione ha già un nome si usa quello, altrimenti se ne sceglie un altro */
-    if (d.campo === "nome") {
-      if (d.nome) { nome = d.nome; try { localStorage.setItem("pbm-nome", nome); } catch (e) {} }
-      else { chatNome.value = nome; nome = ""; try { localStorage.removeItem("pbm-nome"); } catch (e) {} }
-      syncNome();
-    }
+    /* il servizio non conosce questo dispositivo (accesso fatto senza collegamento o cancellato): si rifà l'accesso */
+    if (d.campo === "accesso") { accesso = null; try { localStorage.removeItem("pbm-accesso"); } catch (e) {} }
     if (sospeso && !chatT.value) chatT.value = sospeso;
   }
   syncChat();
@@ -481,6 +514,50 @@ chatF.addEventListener("submit", e => {
   sospeso = t; chatT.value = ""; avviso("");
 });
 q("[data-chat-cambia]").addEventListener("click", () => { chatNome.value = nome; nome = ""; syncNome(); chatNome.focus(); });
+
+/* Accesso alla diretta: dalle 20:50, insieme al video (con ?prova=1 sempre), nome ed email prima di vedere la diretta.
+   Il controllo vero lo fa il servizio in tempo reale: email scritta bene, niente refusi tipo gmial.com (propone quello giusto),
+   niente caselle usa e getta o indirizzi finti, dominio che riceve posta. Il nome è quello della chat. L'accesso resta salvato
+   su questo dispositivo. Se il servizio non risponde si entra lo stesso: nessuno deve restare fuori dalla diretta. */
+const ACCESSO = "https://pbm-live.ovolollo580.workers.dev/accesso";
+const accEl = q("[data-accesso]"), accF = q("[data-acc-f]"), accNome = q("[data-acc-nome]"), accEmail = q("[data-acc-email]"), accErr = q("[data-acc-err]"), accB = q("[data-acc-b]");
+function syncAccesso() {
+  const serve = bloccato();
+  if (serve && frame) { frame.remove(); frame = null; current = ""; inAttesa = ultimaCfg; syncWaiting(); }
+  if (serve && accEl.hidden) { accNome.value = accNome.value || nome; accEmail.value = accEmail.value || (accesso && accesso.email) || ""; }
+  accEl.hidden = !serve;
+  document.documentElement.style.overflow = serve ? "hidden" : "";
+  if (!serve && inAttesa) { const c = inAttesa; inAttesa = null; show(c); }
+}
+function entra(nuovo) {
+  accesso = nuovo; nome = nuovo.nome;
+  try { localStorage.setItem("pbm-accesso", JSON.stringify(nuovo)); localStorage.setItem("pbm-nome", nuovo.nome); } catch (e) {}
+  syncNome(); syncChat();
+}
+accF.addEventListener("submit", async e => {
+  e.preventDefault();
+  const n = accNome.value.trim(), em = accEmail.value.trim();
+  accErr.textContent = "";
+  if (!n) { accErr.textContent = "Scrivi il tuo nome."; accNome.focus(); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { accErr.textContent = "Scrivi la tua email."; accEmail.focus(); return; }
+  accB.disabled = true; accB.textContent = "Controllo…";
+  try {
+    const r = await fetch(ACCESSO, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ nome: n, email: em, dev }) });
+    const out = await r.json().catch(() => ({}));
+    if (r.ok && out.ok) entra({ nome: out.nome, email: out.email });
+    else if (r.status >= 500) entra({ nome: n, email: em });
+    else {
+      accErr.textContent = out.error || "Controlla nome ed email e riprova.";
+      if (out.suggerita) {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = "Sì, correggi";
+        b.addEventListener("click", () => { accEmail.value = out.suggerita; accErr.textContent = ""; accB.focus(); });
+        accErr.append(b);
+      }
+      (out.campo === "nome" ? accNome : accEmail).focus();
+    }
+  } catch (err) { entra({ nome: n, email: em }); }
+  accB.disabled = false; accB.textContent = "Entra nella diretta";
+});
 syncNome(); syncChat();
 setInterval(() => { if (early() !== presto) syncChat(); }, 1000);
 

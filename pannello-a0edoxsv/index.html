@@ -50,6 +50,15 @@ button:disabled{opacity:.5;cursor:wait}
 .mini.ban{background:rgba(255,107,107,.14);color:#FF8A8A;border:1px solid rgba(255,107,107,.45)}
 .vuoto{padding:14px;color:var(--fg-3);font-size:14px;text-align:center}
 .h3{margin-top:18px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
+/* statistiche e chi è entrato */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+@media (min-width:480px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{padding:12px;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+.stat b{display:block;font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{color:var(--fg-3);font-size:12px;font-weight:600}
+.stat.acc b{color:var(--acc)}
+.cm .em{color:var(--fg-3);font-size:12px;font-weight:500}
+.acc-list{margin-top:12px;height:min(45vh,340px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 .ban-list{margin-top:8px;max-height:180px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 [hidden]{display:none!important}
 </style>
@@ -64,6 +73,21 @@ button:disabled{opacity:.5;cursor:wait}
     <label>Chiave del pannello<input type="password" autocomplete="current-password" data-key></label>
     <button class="b-save" type="button" data-key-save>Entra</button>
     <p class="note">La chiave resta salvata su questo dispositivo.</p>
+  </div>
+
+  <div class="card" data-stats-card hidden>
+    <h2>Statistiche della diretta</h2>
+    <div class="stats">
+      <div class="stat acc"><b data-st="entrati">–</b><span>entrati con email</span></div>
+      <div class="stat"><b data-st="collegati">–</b><span>collegati adesso</span></div>
+      <div class="stat"><b data-st="picco">–</b><span>picco collegati</span></div>
+      <div class="stat"><b data-st="email">–</b><span>email diverse</span></div>
+      <div class="stat"><b data-st="messaggi">–</b><span>messaggi in chat</span></div>
+      <div class="stat"><b data-st="scrittori">–</b><span>persone che scrivono</span></div>
+      <div class="stat"><b data-st="cancellati">–</b><span>messaggi cancellati</span></div>
+      <div class="stat"><b data-st="bannati">–</b><span>bannati</span></div>
+    </div>
+    <p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p>
   </div>
 
   <div class="card" data-panel hidden>
@@ -105,6 +129,12 @@ button:disabled{opacity:.5;cursor:wait}
     <p class="note">Altri moderatori: dagli il link del pannello qui sotto (con quello possono anche accendere il bottone della call).</p>
   </div>
 
+  <div class="card" data-acc-card hidden>
+    <h2>Chi è entrato</h2>
+    <p class="note" data-acc-n>Nome ed email di chi è entrato nella diretta, i più recenti in alto.</p>
+    <div class="acc-list" data-acc-list><p class="vuoto">Ancora nessuno.</p></div>
+  </div>
+
   <div class="card">
     <h2>Pagine</h2>
     <div class="links">
@@ -134,6 +164,7 @@ const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent
 const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]"), sagomaCard = $("[data-sagoma-card]");
 const unlock = () => {
   login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave;
+  $("[data-stats-card]").hidden = !chiave; $("[data-acc-card]").hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
   if (chiave) { collegaChat(); modera("bannati"); }
 };
@@ -216,8 +247,9 @@ async function modera(azione, id) {
 function rigaCm(m) {
   const d = document.createElement("div"), p = document.createElement("p"), b = document.createElement("b"), tm = document.createElement("time"), bx = document.createElement("div");
   d.className = "cm"; d.dataset.id = m.id; bx.className = "cm-b";
+  const em = document.createElement("span"); em.className = "em"; em.dataset.em = ""; em.textContent = emailDi[m.id] || "";
   b.textContent = m.nome; tm.textContent = ora(m.ora);
-  p.append(b, tm, document.createElement("br"), document.createTextNode(m.testo));
+  p.append(b, tm, document.createElement("br"), em, em.textContent ? document.createElement("br") : "", document.createTextNode(m.testo));
   bx.append(
     mini("Cancella", "", () => modera("cancella", m.id).then(o => { if (o) dice("Messaggio di " + m.nome + " cancellato"); })),
     mini("Banna", "ban", () => {
@@ -245,11 +277,15 @@ function collegaChat() {
   if (sock && sock.readyState < 2) return;
   try { sock = new WebSocket(WS); } catch (e) { return; }
   const s = sock;
-  s.onopen = () => { sockOk = true; attesaC = 1000; syncChiusa(); };
+  s.onopen = () => { sockOk = true; attesaC = 1000; syncChiusa(); s.send(JSON.stringify({ t: "admin", chiave })); };
   s.onmessage = e => {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
     if (!d.t) { if (d.cta) showState(!!d.cta.on); return; }
+    if (d.t === "admin" && d.ok) { Object.assign(emailDi, d.email || {}); mettiEmail(); mostraAccessi(d.accessi || []); return; }
+    if (d.t === "email") { emailDi[d.id] = d.email; mettiEmail(); return; }
+    if (d.t === "accesso") { accessi = [d.a, ...accessi.filter(x => x.dev !== d.a.dev)]; mostraAccessi(accessi); return; }
+    if (d.t === "stats") { mostraStats(d); return; }
     if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; sgStato(!!d.sagoma); }
     else if (d.t === "sagoma") sgStato(!!d.v);
     else if (d.t === "chat") cmList.prepend(rigaCm(d.m));
@@ -266,6 +302,32 @@ function collegaChat() {
 }
 setInterval(() => { if (sockOk) sock.send("ping"); }, 45000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden && chiave) collegaChat(); });
+
+/* email dei messaggi, chi è entrato e statistiche: arrivano solo a questo pannello (entrato con la chiave), mai agli spettatori */
+const emailDi = {}, accList = $("[data-acc-list]"), accN = $("[data-acc-n]");
+let accessi = [];
+function mettiEmail() {
+  cmList.querySelectorAll(".cm[data-id]").forEach(r => {
+    const em = r.querySelector("[data-em]"), v = emailDi[r.dataset.id];
+    if (em && v && !em.textContent) { em.textContent = v; em.after(document.createElement("br")); }
+  });
+}
+function mostraAccessi(lista) {
+  accessi = lista;
+  accN.textContent = lista.length + (lista.length === 1 ? " persona entrata" : " persone entrate") + " con nome ed email, i più recenti in alto.";
+  accList.replaceChildren(...(lista.length ? lista.map(x => {
+    const d = document.createElement("div"), p = document.createElement("p"), b = document.createElement("b"), tm = document.createElement("time"), em = document.createElement("span");
+    d.className = "cm"; em.className = "em";
+    b.textContent = x.nome; tm.textContent = ora(x.ora); em.textContent = x.email;
+    p.append(b, tm, document.createElement("br"), em); d.append(p);
+    return d;
+  }) : [vuoto("Ancora nessuno.")]));
+}
+function mostraStats(s) {
+  for (const k of ["entrati", "collegati", "picco", "email", "messaggi", "scrittori", "cancellati", "bannati"]) { const el = $('[data-st="' + k + '"]'); if (el) el.textContent = s[k] ?? "–"; }
+  $("[data-st-ora]").textContent = "Aggiornate alle " + new Date().toLocaleTimeString("it-IT") + " · si aggiornano da sole ogni 10 secondi.";
+}
+setInterval(() => { if (sockOk && chiave) sock.send(JSON.stringify({ t: "stats" })); }, 10000);
 chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
 /* Andrea cartonato: Fai uscire / Fai rientrare, per tutti gli spettatori in tempo reale */
 const sgState = $("[data-sg-state]"), sgStateT = $("[data-sg-state-t]"), sgMsg = $("[data-sg-msg]");
