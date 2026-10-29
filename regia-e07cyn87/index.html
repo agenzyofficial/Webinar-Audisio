@@ -27,6 +27,16 @@ button{font-family:var(--sans);cursor:pointer;border:0}
 .num small{color:var(--fg-3);font-size:.5em;font-weight:700}
 .ora{margin-left:auto;font-weight:800;font-size:clamp(22px,2.2vw,34px);font-variant-numeric:tabular-nums;color:var(--fg-2)}
 .apri{min-height:52px;padding:0 20px;border-radius:12px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:15px;text-transform:uppercase}
+.tel{min-height:52px;padding:0 18px;border-radius:12px;background:#20262B;color:var(--fg);font-weight:800;font-size:15px}
+.tel-stato{color:var(--fg-3);font-size:13px;font-weight:600}
+.tel-stato.ok{color:var(--ok)}
+/* QR del telecomando: si inquadra con la fotocamera dell'iPhone */
+.qr{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:rgba(7,9,10,.88)}
+.qr-box{width:min(420px,92vw);padding:22px;border-radius:18px;background:var(--bg-2);border:1px solid var(--line);text-align:center}
+.qr-box h2{font-weight:800;font-size:22px}
+.qr-box p{margin-top:8px;color:var(--fg-2);font-size:14px}
+.qr-img{display:grid;place-items:center;margin:16px auto 0;padding:14px;width:max-content;border-radius:12px;background:#fff}
+.qr-box button{margin-top:16px;min-height:46px;padding:0 20px;border-radius:10px;background:#20262B;color:var(--fg);font-weight:700}
 .vai{display:flex;align-items:center;gap:8px;color:var(--fg-3);font-size:14px;font-weight:600}
 .vai input{width:84px;min-height:44px;padding:0 10px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:700 18px var(--sans)}
 .vai button{min-height:44px;padding:0 14px;border-radius:10px;background:#20262B;color:var(--fg);font-weight:700}
@@ -78,6 +88,8 @@ button{font-family:var(--sans);cursor:pointer;border:0}
   <div class="bar">
     <div class="num" data-num>1 <small>/ 247</small></div>
     <button class="apri" type="button" data-apri>Apri le slide in un'altra finestra</button>
+    <button class="tel" type="button" data-tel>📱 Telecomando iPhone</button>
+    <span class="tel-stato" data-tel-stato></span>
     <div class="vai"><label for="vai">Vai alla slide</label><input id="vai" type="number" min="1" inputmode="numeric" data-vai-n><button type="button" data-vai>Vai</button></div>
     <div class="ora" data-ora>--:--:--</div>
   </div>
@@ -112,6 +124,16 @@ button{font-family:var(--sans);cursor:pointer;border:0}
   </div>
 </div>
 
+<div class="qr" data-qr hidden>
+  <div class="qr-box">
+    <h2>Telecomando sull'iPhone</h2>
+    <p>Inquadra il QR con la fotocamera dell'iPhone e apri il link: Avanti e Indietro comandano queste slide.</p>
+    <div class="qr-img" data-qr-img></div>
+    <p>Il QR contiene la chiave del pannello: non mostrarlo in diretta.</p>
+    <button type="button" data-qr-chiudi>Chiudi</button>
+  </div>
+</div>
+
 <script>
 /* Regia delle slide: si apre con la chiave del pannello (su questo dispositivo basta aver aperto il pannello).
    "Apri le slide" apre slide.html in un'altra finestra: è quella da condividere in diretta. Le due finestre si parlano
@@ -134,8 +156,10 @@ async function sha(t) {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
   return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
+let chiaveRegia = "";
 async function entra(chiave) {
   if (!chiave || (await sha(chiave)) !== KEY_HASH) return false;
+  chiaveRegia = chiave;
   try { localStorage.setItem("pbm-pannello", chiave); } catch (e) {}
   $("[data-login]").hidden = true; $("[data-regia]").hidden = false;
   avvia();
@@ -173,7 +197,39 @@ function aggiorna() {
   $("[data-img-dopo]").src = "anteprime/" + tre(dopo) + ".jpg"; $("[data-cap-dopo]").textContent = attuale < N ? "Dopo · " + dopo : "Ultima slide";
   try { localStorage.setItem("pbm-regia-n", attuale); } catch (e) {}
   tempi();
+  annuncia();
 }
+
+/* Telecomando dell'iPhone: la regia sta collegata al servizio in tempo reale con la chiave, riceve avanti/indietro
+   e rimanda il numero della slide al telecomando. */
+const WS = "wss://pbm-live.ovolollo580.workers.dev/ws?p=1";
+let sock = null, sockOk = false, attesaWs = 1000;
+const telStato = (t, ok) => { const el = $("[data-tel-stato]"); el.textContent = t; el.className = "tel-stato" + (ok ? " ok" : ""); };
+function annuncia() { if (sockOk) sock.send(JSON.stringify({ t: "slide-ora", n: attuale, tot: N })); }
+function collegaTel() {
+  if (!chiaveRegia || (sock && sock.readyState < 2)) return;
+  try { sock = new WebSocket(WS); } catch (e) { return; }
+  const s = sock;
+  s.onopen = () => { attesaWs = 1000; s.send(JSON.stringify({ t: "regia", chiave: chiaveRegia })); };
+  s.onmessage = e => {
+    if (e.data === "pong") return;
+    let d; try { d = JSON.parse(e.data); } catch (err) { return; }
+    if (d.t === "regia") { sockOk = !!d.ok; telStato(sockOk ? "Telecomando pronto" : "", sockOk); annuncia(); }
+    if (d.t === "slide") vai(attuale + (d.cmd === "indietro" ? -1 : 1));
+  };
+  s.onclose = () => { if (sock !== s) return; sock = null; sockOk = false; telStato("Telecomando: mi ricollego…"); setTimeout(collegaTel, attesaWs); attesaWs = Math.min(attesaWs * 2, 15000); };
+}
+setInterval(() => { if (sock && sock.readyState === 1) sock.send("ping"); }, 30000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) collegaTel(); });
+$("[data-tel]").addEventListener("click", async () => {
+  const url = location.origin + location.pathname.replace(/[^/]*$/, "") + "telecomando.html#k=" + encodeURIComponent(chiaveRegia);
+  $("[data-qr]").hidden = false;
+  const box = $("[data-qr-img]"); box.replaceChildren();
+  if (!window.QRCode) await new Promise(r => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.onload = r; sc.onerror = r; document.head.append(sc); });
+  if (window.QRCode) new QRCode(box, { text: url, width: 260, height: 260, correctLevel: QRCode.CorrectLevel.M });
+  else box.textContent = url;
+});
+$("[data-qr-chiudi]").addEventListener("click", () => { $("[data-qr]").hidden = true; $("[data-qr-img]").replaceChildren(); });
 function vai(n, manda = true) {
   n = Math.max(1, Math.min(N, n | 0));
   if (n === attuale && manda) return;
@@ -248,6 +304,7 @@ async function avvia() {
   try { attuale = Math.max(1, Math.min(N, +localStorage.getItem("pbm-regia-n") || 1)); } catch (e) {}
   aggiorna();
   setInterval(tempi, 1000);
+  collegaTel();
 }
 </script>
 </body>

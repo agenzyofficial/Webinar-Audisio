@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0D0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Telecomando slide</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0D0E;--bg-2:#111417;--line:#262C31;--fg:#E8ECEE;--fg-3:#6B757D;--acc:#FF5A14;--on-acc:#0B0D0E;--ok:#3DDC84;--ko:#FF5A5A;--sans:"Poppins",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-user-select:none;user-select:none;touch-action:manipulation}
+[hidden]{display:none!important}
+.login{padding:calc(40px + env(safe-area-inset-top)) 20px 20px}
+.login h1{font-weight:900;font-size:28px}
+.login input{width:100%;min-height:52px;margin-top:16px;padding:0 14px;border:1px solid #2C343A;border-radius:12px;background:#0B0E10;color:var(--fg);font:600 17px var(--sans);-webkit-user-select:text;user-select:text}
+.login button{width:100%;min-height:52px;margin-top:12px;border:0;border-radius:12px;background:var(--acc);color:var(--on-acc);font:800 16px var(--sans);text-transform:uppercase}
+.login p{margin-top:12px;color:var(--fg-3);font-size:14px}
+/* telecomando: in alto stato e numero, sotto Avanti grande e Indietro più piccolo */
+.tele{display:grid;grid-template-rows:auto 1fr auto;height:100%;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom))}
+.testa{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.num{font-weight:900;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+.num small{color:var(--fg-3);font-size:20px;font-weight:700}
+.stato{display:flex;align-items:center;gap:8px;color:var(--fg-3);font-size:14px;font-weight:700;text-align:right}
+.stato i{width:12px;height:12px;border-radius:50%;background:var(--fg-3);flex:none}
+.stato.ok i{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.stato.ko{color:var(--ko)}
+.stato.ko i{background:var(--ko)}
+button.t{border:0;border-radius:24px;font:900 40px var(--sans);text-transform:uppercase;letter-spacing:.02em}
+.avanti{background:var(--acc);color:var(--on-acc);font-size:52px}
+.indietro{min-height:22vh;background:#20262B;color:var(--fg)}
+button.t:active{transform:scale(.97);filter:brightness(1.15)}
+</style>
+</head>
+<body>
+<div class="login" data-login hidden>
+  <h1>Telecomando slide</h1>
+  <input type="password" placeholder="Chiave del pannello" autocomplete="current-password" data-key>
+  <button type="button" data-key-ok>Entra</button>
+  <p>Più comodo: nella regia sul Mac premi "Telecomando iPhone" e inquadra il QR con la fotocamera.</p>
+</div>
+
+<div class="tele" data-tele hidden>
+  <div class="testa">
+    <div class="num" data-num>– <small>/ –</small></div>
+    <div class="stato" data-stato><i></i><span>Mi collego…</span></div>
+  </div>
+  <button class="t avanti" type="button" data-avanti>Avanti ▶</button>
+  <button class="t indietro" type="button" data-indietro>◀ Indietro</button>
+</div>
+
+<script>
+/* Telecomando per l'iPhone: manda avanti/indietro alla regia aperta sul Mac tramite il servizio in tempo reale
+   (stesso del bottone e della chat, con la chiave del pannello). La regia esegue e rimanda il numero della slide. */
+const KEY_HASH = "715ccff2b0480e44fc5ea32554e0ca1dbe045526383a3ac3924ded669215d2a5";
+const WS = "wss://pbm-live.ovolollo580.workers.dev/ws?p=1";
+const $ = s => document.querySelector(s);
+let chiave = "", sock = null, ok = false, attesa = 1000, inAttesa = 0;
+async function sha(t) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+  return [...new Uint8Array(d)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function entra(k) {
+  if (!k || (await sha(k)) !== KEY_HASH) return false;
+  chiave = k; try { localStorage.setItem("pbm-pannello", k); } catch (e) {}
+  $("[data-login]").hidden = true; $("[data-tele]").hidden = false;
+  collega(); return true;
+}
+const stato = (t, cls) => { const s = $("[data-stato]"); s.className = "stato " + (cls || ""); s.querySelector("span").textContent = t; };
+function collega() {
+  if (sock && sock.readyState < 2) return;
+  try { sock = new WebSocket(WS); } catch (e) { return; }
+  const s = sock;
+  s.onopen = () => { attesa = 1000; s.send(JSON.stringify({ t: "regia", chiave })); };
+  s.onmessage = e => {
+    if (e.data === "pong") return;
+    let d; try { d = JSON.parse(e.data); } catch (err) { return; }
+    if (d.t === "regia") { ok = !!d.ok; stato(ok ? "Collegato" : "Chiave sbagliata", ok ? "ok" : "ko"); if (d.ora) numero(d.ora); }
+    if (d.t === "slide-ora") { clearTimeout(inAttesa); numero(d); stato("Collegato", "ok"); }
+  };
+  s.onclose = () => { if (sock !== s) return; sock = null; ok = false; stato("Mi ricollego…", "ko"); setTimeout(collega, attesa); attesa = Math.min(attesa * 2, 8000); };
+}
+const numero = o => { if (o && o.n) $("[data-num]").innerHTML = o.n + " <small>/ " + (o.tot || "–") + "</small>"; };
+function manda(cmd) {
+  if (!ok) { stato("Non collegato: riprovo…", "ko"); collega(); return; }
+  sock.send(JSON.stringify({ t: "slide", cmd }));
+  /* se la regia non risponde entro 2 secondi, probabilmente non è aperta sul Mac */
+  clearTimeout(inAttesa); inAttesa = setTimeout(() => stato("La regia sul Mac non risponde: è aperta?", "ko"), 2000);
+  sveglia();
+}
+$("[data-avanti]").addEventListener("click", () => manda("avanti"));
+$("[data-indietro]").addEventListener("click", () => manda("indietro"));
+setInterval(() => { if (sock && sock.readyState === 1) sock.send("ping"); }, 30000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && chiave) collega(); });
+/* lo schermo dell'iPhone resta acceso finché il telecomando è aperto (dove il browser lo permette) */
+let blocco = null;
+async function sveglia() { try { if (!blocco && navigator.wakeLock) { blocco = await navigator.wakeLock.request("screen"); blocco.addEventListener("release", () => { blocco = null; }); } } catch (e) {} }
+$("[data-key-ok]").addEventListener("click", async () => { if (!(await entra($("[data-key]").value.trim()))) alert("Chiave sbagliata"); });
+(async () => {
+  const h = new URLSearchParams(location.hash.slice(1)).get("k");
+  if (h) history.replaceState(null, "", location.pathname);
+  let k = h || ""; if (!k) try { k = localStorage.getItem("pbm-pannello") || ""; } catch (e) {}
+  if (!(await entra(k))) $("[data-login]").hidden = false;
+})();
+</script>
+</body>
+</html>

@@ -231,6 +231,19 @@ export class Stanza extends DurableObject {
       return ws.send(JSON.stringify(await this.stats()));
     }
     if (d.t === "stats" && a.admin) return ws.send(JSON.stringify(await this.stats()));
+    /* regia slide e telecomando dell'iPhone: entrano con la chiave (?p=1), il telecomando manda avanti/indietro,
+       la regia sul Mac esegue e rimanda la slide attuale; tutto solo ai collegati con la chiave */
+    if (d.t === "regia" && a.p) {
+      if (!(await keyOk(d.chiave))) return ws.send(JSON.stringify({ t: "regia", ok: false }));
+      a.admin = true; ws.serializeAttachment(a);
+      return ws.send(JSON.stringify({ t: "regia", ok: true, ora: (await this.ctx.storage.get("slideOra")) || null }));
+    }
+    if (d.t === "slide" && a.admin) return this.agliAdmin({ t: "slide", cmd: d.cmd === "indietro" ? "indietro" : "avanti" });
+    if (d.t === "slide-ora" && a.admin) {
+      const ora = { n: d.n | 0, tot: d.tot | 0 };
+      await this.ctx.storage.put("slideOra", ora);
+      return this.agliAdmin({ t: "slide-ora", ...ora });
+    }
     if (d.t !== "msg") return;
     const errore = (t, campo) => ws.send(JSON.stringify({ t: "errore", testo: t, campo }));
     if (this.bannato(a.ip, a.dev)) return ws.send(JSON.stringify({ t: "ban", v: true }));
