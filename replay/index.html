@@ -35,9 +35,8 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 main{padding:6px 0 32px}
 h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
 .sub{margin-top:6px;color:var(--fg-2);font-size:15px}
-/* video e capitoli: affiancati dal computer, dal telefono i capitoli sotto il video e il bottone */
-.stage{display:grid;gap:16px;margin-top:16px}
-@media (min-width:980px){.stage{grid-template-columns:minmax(0,1fr) 340px}}
+/* video a tutta larghezza, sotto il programma: i capitoli divisi in sezioni come il programma di un evento */
+.stage{margin-top:16px}
 .player{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6)}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .attesa{position:absolute;inset:0;display:grid;place-content:center;gap:8px;padding:20px;text-align:center;background:radial-gradient(60% 60% at 50% 45%,rgba(255,90,20,.16),transparent 70%),#07090A}
@@ -55,22 +54,26 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 @keyframes cta-pulse{50%{box-shadow:0 0 0 6px rgba(255,90,20,.18),0 0 34px rgba(255,90,20,.7)}}
 @media (max-width:600px){.cta{flex-direction:column;align-items:stretch;text-align:center}.cta-btn{justify-content:center}}
 @media (prefers-reduced-motion:reduce){.cta,.cta-btn{animation:none}}
-.capitoli{position:relative;min-height:360px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)}
-@media (max-width:979px){.capitoli{height:min(60vh,460px)}}
-.cap-in{position:absolute;inset:0;display:flex;flex-direction:column}
-.cap-h{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.cap-list{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;list-style:none;padding:6px}
-.cap-list button{display:grid;grid-template-columns:58px 1fr;gap:8px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--fg-2);font:500 14px/1.35 var(--sans);text-align:left;cursor:pointer}
-.cap-list button:hover{background:rgba(255,255,255,.04);color:var(--fg)}
-.cap-list button time{color:var(--fg-3);font-weight:700;font-variant-numeric:tabular-nums}
-.cap-list button.ora{background:rgba(255,90,20,.12);color:#fff}
-.cap-list button.ora time{color:var(--acc)}
-.cap-list button.pitch time{color:var(--acc)}
-.cap-list button span{display:flex;flex-direction:column;gap:2px;min-width:0}
-.cap-list button span b{font-weight:700;color:var(--fg)}
-.cap-list button span small{font-size:13px;color:var(--fg-3)}
-.cap-sez{padding:14px 10px 6px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
-.cap-sez:first-child{padding-top:6px}
+.programma{margin-top:40px}
+.programma h2{font-weight:800;font-style:italic;font-size:clamp(24px,4vw,34px);line-height:1.1;letter-spacing:-.01em}
+.programma>p{margin-top:6px;color:var(--fg-2)}
+.sezioni{margin-top:20px}
+@media (min-width:860px){.sezioni{columns:2;column-gap:16px}}
+.sez{break-inside:avoid;margin-bottom:16px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2);overflow:hidden}
+.sez.pitch{border-color:rgba(255,90,20,.55)}
+.sez-h{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.sez-h i{font-style:normal;font-weight:800;font-size:14px;color:var(--acc);font-variant-numeric:tabular-nums}
+.sez-h h3{font-weight:800;font-size:18px;line-height:1.2}
+.sez-h time{margin-left:auto;font-size:13px;font-weight:700;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.sez ol{list-style:none;padding:6px}
+.sez button{display:grid;grid-template-columns:64px 1fr;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:8px;background:none;color:var(--fg-2);font:500 15px/1.35 var(--sans);text-align:left;cursor:pointer}
+.sez button:hover{background:rgba(255,255,255,.05)}
+.sez button time{padding-top:1px;color:var(--fg-3);font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.sez button span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sez button span b{font-weight:700;color:var(--fg)}
+.sez button span small{font-size:13.5px;color:var(--fg-3)}
+.sez button.ora{background:rgba(255,90,20,.14)}
+.sez button.ora time,.sez.pitch button time{color:var(--acc)}
 .ver-desc{max-width:760px;margin:6px 0 18px;color:var(--fg-2);font-size:15px;line-height:1.5}
 .ver-desc b{color:var(--fg)}
 .versioni{display:inline-flex;gap:4px;margin:14px 0 4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--bg-2)}
@@ -124,13 +127,13 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
           <a class="cta-btn" href="https://links.profitos.it/widget/bookings/call-strategica-webinar" target="_blank" rel="noopener" data-cta-a>Prenota ora <span aria-hidden="true">→</span></a>
         </div>
       </div>
-      <aside class="capitoli" aria-label="Capitoli del replay">
-        <div class="cap-in">
-          <div class="cap-h">Capitoli</div>
-          <ol class="cap-list" data-capitoli></ol>
-        </div>
-      </aside>
     </div>
+
+    <section class="programma" aria-label="Capitoli del replay">
+      <h2>Il programma</h2>
+      <p>Clicca un capitolo per saltare a quel punto del video.</p>
+      <div class="sezioni" data-capitoli></div>
+    </section>
 
     <div class="below">
       <p><b>Vuoi lavorare con noi?</b><br>Prenota una call con il team: vediamo insieme la tua situazione.</p>
@@ -173,18 +176,27 @@ function mostraCapitoli() {
   capitoli = VERSIONI[scelta].capitoli;
   pitch = (capitoli.find(c => c[3] === "La proposta") || [Infinity])[0];
   lista.textContent = "";
-  bottoni = capitoli.map(([t, titolo, sotto, sezione]) => {
-    if (sezione) { const h = document.createElement("li"); h.className = "cap-sez"; h.textContent = sezione; lista.append(h); }
+  bottoni = [];
+  let ol = null, n = 0;
+  capitoli.forEach(([t, titolo, sotto, sezione], k) => {
+    if (sezione || !ol) {
+      const box = document.createElement("section"), hd = document.createElement("div"), num = document.createElement("i"), h3 = document.createElement("h3"), tm = document.createElement("time");
+      box.className = "sez" + (t >= pitch ? " pitch" : ""); hd.className = "sez-h";
+      num.textContent = String(++n).padStart(2, "0"); h3.textContent = sezione || "Il replay"; tm.textContent = mmss(t);
+      hd.append(num, h3, tm); ol = document.createElement("ol"); box.append(hd, ol); lista.append(box);
+    }
     const li = document.createElement("li"), b = document.createElement("button"), tm = document.createElement("time"), tx = document.createElement("span");
     const ti = document.createElement("b"); ti.textContent = titolo; tx.append(ti);
     if (sotto) { const s = document.createElement("small"); s.textContent = sotto; tx.append(s); }
     b.type = "button"; tm.textContent = mmss(t);
-    if (t >= pitch) b.classList.add("pitch");
-    b.append(tm, tx); li.append(b); lista.append(li);
-    b.addEventListener("click", () => { if (sp) { sp.currentTime = t; sp.play(); } if (t >= pitch) mostraCta(); });
-    return b;
+    b.append(tm, tx); li.append(b); ol.append(li);
+    b.addEventListener("click", () => {
+      if (sp) { sp.currentTime = t; sp.play(); }
+      if (t >= pitch) mostraCta();
+      player.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    bottoni.push(b);
   });
-  lista.scrollTop = 0;
 }
 function evidenzia(s) {
   let i = -1; capitoli.forEach((c, k) => { if (s >= c[0]) i = k; });
