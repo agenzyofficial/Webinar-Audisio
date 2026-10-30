@@ -413,7 +413,7 @@ function collegaChat() {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
     if (!d.t) { if (d.cta) showState(!!d.cta.on); return; }
-    if (d.t === "admin" && d.ok) { Object.assign(emailDi, d.email || {}); mettiEmail(); mostraAccessi(d.accessi || []); if (vistaStat) chiediMinuti(); return; }
+    if (d.t === "admin" && d.ok) { Object.assign(emailDi, d.email || {}); mettiEmail(); mostraAccessi(d.accessi || []); chiediMinuti(); return; }
     if (d.t === "minuti") { mostraMinuti(d); return; }
     if (d.t === "email") { emailDi[d.id] = d.email; mettiEmail(); return; }
     if (d.t === "accesso") { accessi = [d.a, ...accessi.filter(x => x.dev !== d.a.dev)]; mostraAccessi(accessi); return; }
@@ -509,7 +509,23 @@ document.querySelectorAll("[data-vista-b]").forEach(b => b.addEventListener("cli
 function chiediMinuti() { if (sockOk && chiave) sock.send(JSON.stringify(voglio ? { t: "minuti", da: voglio } : { t: "minuti" })); }
 $("[data-st-diretta]").addEventListener("change", e => { voglio = Number(e.target.value) || null; scelto = null; chiediMinuti(); });
 
+/* minuti di una diretta passata da caricare una volta sola: se accanto al pannello c'è minuti-da-caricare.json (non sta nel repo,
+   si pubblica a parte), il pannello lo manda al servizio con la sua chiave, se quella diretta non c'è ancora */
+let daCaricare = true;
+async function caricaMancanti(d) {
+  if (!daCaricare) return;
+  daCaricare = false;
+  try {
+    const r = await fetch("minuti-da-caricare.json", { cache: "no-store" });
+    if (!r.ok) return;
+    const nuove = (await r.json()).righe || [];
+    if (!nuove.length || (d.dirette || []).some(x => x.da <= nuove[nuove.length - 1].min && x.a >= nuove[0].min)) return;
+    const o = await fetch(CHAT.replace(/\/chat$/, "/minuti"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chiave, righe: nuove }) });
+    if (o.ok) { voglio = null; chiediMinuti(); }
+  } catch (e) {}
+}
 function mostraMinuti(d) {
+  caricaMancanti(d);
   dati = d; righe = d.righe || []; momenti = [];
   serie = ["video", "audio", "pagine"].filter(k => righe.some(r => r[k] != null));
   chatDi = new Map((d.chat || []).map(c => [c.min, c.n]));
