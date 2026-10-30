@@ -10,7 +10,8 @@
    POST /chat     { chiave, azione, id } moderazione dal pannello: cancella, banna, sblocca, bannati, chiudi, apri, svuota;
                   "sorgente" fa rileggere subito sorgente.json a tutte le pagine aperte (dopo averlo cambiato);
                   "sagoma-su" / "sagoma-giu" fanno salire o rientrare Andrea cartonato nella pagina della diretta;
-                  "togli-accesso" (id = codice del dispositivo) toglie un accesso di prova dall'elenco.
+                  "togli-accesso" (id = codice del dispositivo) toglie un accesso di prova dall'elenco;
+                  "chiudi-diretta" (con testo) / "riapri-diretta": a diretta finita la pagina mostra solo il messaggio di saluto.
    POST /minuti   { chiave, righe } carica i minuti di una diretta passata (dalle statistiche di Cloudflare); oltre alla chiave
                   del pannello accetta il codice del secret IMPORTA, se c'è.
    Le statistiche si azzerano da sole all'inizio della diretta (INIZIO, 20:50 italiane).
@@ -192,8 +193,9 @@ export class Stanza extends DurableObject {
        come le statistiche in alto del pannello) o da 15 minuti prima del primo minuto salvato (si entra prima che parta il conteggio) */
     const inizio = s.da <= INIZIO && INIZIO <= s.a ? INIZIO : s.da - 15 * 60000, uno = (q, ...p) => this.sql.exec(q, ...p).toArray()[0].n;
     return {
-      t: "minuti", dirette, da: s.da,
+      t: "minuti", dirette, da: s.da, inizio, fine: s.a + 60000,
       entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora BETWEEN ? AND ?", inizio, s.a + 60000),
+      ip: uno("SELECT COUNT(DISTINCT ip) AS n FROM accessi WHERE ora BETWEEN ? AND ?", inizio, s.a + 60000),
       scrittori: uno("SELECT COUNT(DISTINCT dev) AS n FROM chat WHERE ora BETWEEN ? AND ?", inizio, s.a + 60000),
       righe: this.sql.exec("SELECT * FROM minuti WHERE min BETWEEN ? AND ? ORDER BY min", s.da, s.a).toArray(),
       eventi: this.sql.exec("SELECT ora, cosa FROM eventi WHERE ora BETWEEN ? AND ? ORDER BY ora", s.da - 60000, s.a + 60000).toArray(),
@@ -233,7 +235,8 @@ export class Stanza extends DurableObject {
     const guardano = vive.filter(a => a.g > 0).length;
     return {
       t: "stats",
-      entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora >= ?"),
+      da, entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora >= ?"),
+      ip: uno("SELECT COUNT(DISTINCT ip) AS n FROM accessi WHERE ora >= ?"),
       email: uno("SELECT COUNT(DISTINCT email) AS n FROM accessi WHERE ora >= ?"),
       collegati: vive.length, guardano, attesa: vive.length - guardano,
       picco: this.sql.exec("SELECT MAX(video) AS n FROM minuti WHERE min >= ?", da).toArray()[0].n || 0,
@@ -256,7 +259,8 @@ export class Stanza extends DurableObject {
       this.ctx.acceptWebSocket(server, pannello ? ["pannello"] : []);
       server.serializeAttachment({ ip, dev, p: pannello, da: Date.now() });
       if (stato) server.send(JSON.stringify(stato));
-      server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")), sagoma: !!(await this.ctx.storage.get("sagoma")) }));
+      server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")),
+        sagoma: !!(await this.ctx.storage.get("sagoma")), finita: (await this.ctx.storage.get("finita")) || { v: false } }));
       /* il primo spettatore fa partire il conteggio minuto per minuto (il picco si aggiorna lì, con le sole pagine vive) */
       if (!pannello) {
         await this.daQuando();
@@ -345,8 +349,16 @@ export class Stanza extends DurableObject {
     this.manda({ t: "chat", m });
     this.agliAdmin({ t: "email", id: m.id, email: acc.email });
   }
-  async modera({ azione, id } = {}) {
+  async modera({ azione, id, testo: msg } = {}) {
     id = String(id || "");
+    /* fine della diretta: chi apre la pagina vede solo il saluto (senza video, chat e accesso); "riapri-diretta" la rimette com'era */
+    if (azione === "chiudi-diretta" || azione === "riapri-diretta") {
+      const v = azione === "chiudi-diretta", finita = { v, testo: testo(msg, 200) || "Grazie di essere stato con noi. Ci vediamo alla prossima diretta!" };
+      await this.ctx.storage.put("finita", finita);
+      this.segna(v ? "Pagina della diretta chiusa" : "Pagina della diretta riaperta");
+      this.manda({ t: "finita", ...finita });
+      return json({ ok: true, finita });
+    }
     if (azione === "cancella") {
       this.sql.exec("UPDATE chat SET via = 1 WHERE id = ?", id);
       this.manda({ t: "cancella", ids: [id] });
@@ -443,7 +455,7 @@ export default {
       let body;
       try { body = await req.json(); } catch (e) { return json({ error: "json non valido" }, 400); }
       if (!(await keyOk(body.chiave))) return json({ error: "chiave sbagliata" }, 401);
-      const dentro = path === "/stato" ? pulisci(body.stato) : { azione: body.azione, id: body.id };
+      const dentro = path === "/stato" ? pulisci(body.stato) : { azione: body.azione, id: body.id, testo: body.testo };
       return stanza.fetch(new Request(req.url, { method: "POST", body: JSON.stringify(dentro) }));
     }
     return json({ error: "non trovato" }, 404);

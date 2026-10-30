@@ -163,6 +163,14 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
   .btn-wa{justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.state.live .dot{animation:none}}
+/* diretta finita: al posto di video e chat il saluto (lo accende il pannello con "Chiudi la diretta") */
+.finita-box{margin-top:22px;padding:clamp(32px,6vw,64px) clamp(20px,4vw,48px);border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:16px;
+  background:radial-gradient(60% 80% at 50% 0%,rgba(255,90,20,.14),transparent 70%),var(--bg-2);text-align:center}
+.finita-box[hidden]{display:none}
+.finita-box .k{color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.finita-box h2{margin-top:10px;font-weight:800;font-style:italic;font-size:clamp(28px,4.4vw,44px);line-height:1.12}
+.finita-box p{margin:14px auto 0;max-width:560px;color:var(--fg-2);font-size:clamp(16px,1.6vw,18px)}
+body.finita .stage,body.finita .notice{display:none!important}
 </style>
 </head>
 <body>
@@ -178,6 +186,11 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     <h1>La morte del <span class="acc">personal brand.</span></h1>
     <p class="sub">Diretta con Andrea Audisio · <span data-date>giovedì 29 ottobre, ore 21:00</span></p>
     <p class="notice" data-notice role="status" hidden></p>
+    <section class="finita-box" data-finita hidden>
+      <p class="k">Diretta finita</p>
+      <h2>Ci vediamo alla prossima.</h2>
+      <p data-finita-t>Grazie di essere stato con noi. Ci vediamo alla prossima diretta!</p>
+    </section>
 
     <div class="stage">
     <div>
@@ -280,7 +293,10 @@ const early = () => !PROVA && START - new Date() > 10 * 60 * 1000;
 /* accesso con nome ed email (il riquadro è più sotto): finché manca, dalle 20:50 il video non si carica */
 let accesso = null, inAttesa = null, ultimaCfg = null;
 try { accesso = JSON.parse(localStorage.getItem("pbm-accesso") || "null"); } catch (e) {}
-const bloccato = () => !early() && !(accesso && accesso.nome);
+/* diretta finita (tasto "Chiudi la diretta" del pannello): niente video, chat e accesso, solo il saluto. Finché il servizio
+   non ha risposto (al massimo 2,5 s) non partono né l'accesso né il video, così non lampeggiano prima del saluto. */
+let finita = false, pronto = false;
+const bloccato = () => finita || !pronto || (!early() && !(accesso && accesso.nome));
 const syncWaiting = () => { waiting.hidden = !!current && !early(); unmute.hidden = !muted || !frame || !waiting.hidden; syncMusic(); };
 
 /* musica d'attesa: suona finché c'è il conto alla rovescia, poi sfuma e si ferma.
@@ -306,7 +322,7 @@ function fadeOut() {
   }, 100);
 }
 function syncMusic() {
-  if (waiting.hidden) { fadeOut(); return; }
+  if (waiting.hidden || finita) { fadeOut(); return; }
   if (!musicOff && !musicWait && music.paused && !fading) playMusic();
 }
 musicB.addEventListener("click", () => {
@@ -343,6 +359,7 @@ window.addEventListener("message", e => {
 /* conto alla rovescia fino alle 21:00, poi "In diretta" */
 const pad = n => String(n).padStart(2, "0");
 function tick() {
+  if (finita) { stateEl.classList.remove("live"); stateT.textContent = "Diretta finita"; return; }
   const ms = START - new Date();
   if (ms > 0) {
     const s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
@@ -518,9 +535,20 @@ function aggiungi(ms, tutto) {
   syncChat();
   if (giu) chatList.scrollTop = chatList.scrollHeight;
 }
+const finitaEl = q("[data-finita]"), finitaT = q("[data-finita-t]");
+function syncFinita(f) {
+  f = f || {};
+  if (f.testo) finitaT.textContent = f.testo;
+  if (!f.v) { if (finita) location.reload(); return; }
+  finita = true;
+  document.body.classList.add("finita");
+  finitaEl.hidden = false;
+  sagoma(false); tick(); fadeOut();
+}
 function chat(d) {
-  if (d.t === "storia") { bannato = !!d.ban; chiusa = !!d.chiusa; aggiungi(d.m || [], true); sagoma(!!d.sagoma); }
-  else if (d.t === "sagoma") sagoma(!!d.v);
+  if (d.t === "storia") { pronto = true; syncFinita(d.finita); bannato = !!d.ban; chiusa = !!d.chiusa; aggiungi(d.m || [], true); sagoma(!finita && !!d.sagoma); }
+  else if (d.t === "finita") syncFinita(d);
+  else if (d.t === "sagoma") sagoma(!finita && !!d.v);
   else if (d.t === "chat") aggiungi([d.m]);
   else if (d.t === "cancella") (d.ids || []).forEach(id => { const li = chatList.querySelector('[data-id="' + id + '"]'); if (li) li.remove(); });
   else if (d.t === "svuota") chatList.replaceChildren();
@@ -558,11 +586,15 @@ q("[data-chat-cambia]").addEventListener("click", () => { chatNome.value = nome;
 const ACCESSO = "https://pbm-live.ovolollo580.workers.dev/accesso";
 const accEl = q("[data-accesso]"), accF = q("[data-acc-f]"), accNome = q("[data-acc-nome]"), accEmail = q("[data-acc-email]"), accErr = q("[data-acc-err]"), accB = q("[data-acc-b]");
 function syncAccesso() {
-  const serve = bloccato();
-  if (serve && frame) { frame.remove(); frame = null; current = ""; inAttesa = ultimaCfg; syncWaiting(); }
-  if (serve && accEl.hidden) { accNome.value = accNome.value || nome; accEmail.value = accEmail.value || (accesso && accesso.email) || ""; }
-  accEl.hidden = !serve;
-  document.documentElement.style.overflow = serve ? "hidden" : "";
+  const serve = bloccato(), chiedi = serve && pronto && !finita;
+  if (serve && frame) {
+    frame.remove(); frame = null; current = ""; inAttesa = ultimaCfg;
+    if (sp) { try { sp.destroy(); } catch (e) {} sp = null; }
+    syncWaiting();
+  }
+  if (chiedi && accEl.hidden) { accNome.value = accNome.value || nome; accEmail.value = accEmail.value || (accesso && accesso.email) || ""; }
+  accEl.hidden = !chiedi;
+  document.documentElement.style.overflow = chiedi ? "hidden" : "";
   if (!serve && inAttesa) { const c = inAttesa; inAttesa = null; show(c); }
 }
 function entra(nuovo) {
@@ -596,6 +628,8 @@ accF.addEventListener("submit", async e => {
 });
 syncNome(); syncChat();
 setInterval(() => { if (early() !== presto) syncChat(); }, 1000);
+/* se il servizio in tempo reale non risponde, la pagina va avanti lo stesso */
+setTimeout(() => { if (!pronto) { pronto = true; syncChat(); } }, 2500);
 
 /* Andrea cartonato: lo fa salire e rientrare il pannello; la × lo nasconde solo a chi la tocca (finché il pannello non lo rimanda su) */
 const sagomaEl = q("[data-sagoma]"), sagomaA = q("[data-sagoma-a]");

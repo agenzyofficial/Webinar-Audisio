@@ -162,7 +162,7 @@ table.momenti{width:100%;border-collapse:collapse;font-size:14px}
   <section class="card stats-card v-diretta" data-stats-card hidden>
     <div class="card-h"><h2>Statistiche della diretta</h2><p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p></div>
     <div class="stats">
-      <div class="stat acc"><b data-st="entrati">–</b><span>persone entrate</span></div>
+      <div class="stat acc"><b data-st="entrati">–</b><span data-st-entrati>persone entrate</span></div>
       <div class="stat acc"><b data-st="guardano">–</b><span data-st-guardano>guardano adesso</span></div>
       <div class="stat"><b data-st="picco">–</b><span>picco: guardavano insieme</span></div>
       <div class="stat"><b data-st="email">–</b><span>email diverse</span></div>
@@ -222,6 +222,18 @@ table.momenti{width:100%;border-collapse:collapse;font-size:14px}
         </div>
         <p class="msg" data-msg role="status"></p>
         <p class="note">Gli spettatori lo vedono comparire (o sparire) in un paio di secondi, senza ricaricare la pagina.</p>
+      </section>
+
+      <section class="card" data-fine-card hidden>
+        <h2>Pagina della diretta</h2>
+        <div class="state" data-fine-state><span class="dot" aria-hidden="true"></span><span data-fine-state-t>…</span></div>
+        <label>Messaggio quando è chiusa<input type="text" maxlength="200" data-fine-testo value="Grazie di essere stato con noi. Ci vediamo alla prossima diretta!"></label>
+        <div class="row">
+          <button class="b-on" type="button" data-fine-chiudi>Chiudi la diretta</button>
+          <button class="b-off" type="button" data-fine-apri>Riapri</button>
+        </div>
+        <p class="msg" data-fine-msg role="status"></p>
+        <p class="note">Chiusa: chi apre la pagina della diretta vede solo «Ci vediamo alla prossima» con questo messaggio, senza video, chat e accesso. Cambia per tutti in un paio di secondi. Riaprila prima della prossima diretta.</p>
       </section>
 
       <section class="card" data-sagoma-card hidden>
@@ -295,7 +307,7 @@ const showState = on => { stateEl.classList.toggle("on", on); stateT.textContent
 /* link di questo pannello con la chiave, per aprirlo da un altro dispositivo */
 const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-chat-card]"), sagomaCard = $("[data-sagoma-card]");
 const unlock = () => {
-  login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave;
+  login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave; $("[data-fine-card]").hidden = !chiave;
   $("[data-stats-card]").hidden = !chiave; $("[data-acc-card]").hidden = !chiave; $("[data-ban-card]").hidden = !chiave;
   $("[data-viste]").hidden = !chiave; $("[data-st-card]").hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
@@ -363,9 +375,9 @@ function syncChiusa() {
   chatStateT.textContent = !sockOk ? "Mi collego…" : chiusa ? "Chat chiusa: nessuno può scrivere" : "Chat aperta: gli spettatori scrivono";
   chiudiB.textContent = chiusa ? "Riapri chat" : "Chiudi chat";
 }
-async function modera(azione, id) {
+async function modera(azione, id, testo) {
   try {
-    const r = await fetch(CHAT, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chiave, azione, id }) });
+    const r = await fetch(CHAT, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chiave, azione, id, testo }) });
     const out = await r.json().catch(() => ({}));
     if (r.status === 401) {
       dice("Chiave sbagliata: rientra con quella giusta.", true);
@@ -421,7 +433,8 @@ function collegaChat() {
     if (d.t === "accesso") { accessi = [d.a, ...accessi.filter(x => x.dev !== d.a.dev)]; mostraAccessi(accessi); return; }
     if (d.t === "stats") { mostraStats(d); return; }
     if (d.t === "accessi") { mostraAccessi(d.accessi || []); return; }
-    if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; sgStato(!!d.sagoma); }
+    if (d.t === "storia") { cmList.replaceChildren(...(d.m || []).slice().reverse().map(rigaCm)); chiusa = !!d.chiusa; sgStato(!!d.sagoma); fineStato(d.finita); }
+    else if (d.t === "finita") fineStato(d);
     else if (d.t === "sagoma") sgStato(!!d.v);
     else if (d.t === "chat") cmList.prepend(rigaCm(d.m));
     else if (d.t === "cancella") (d.ids || []).forEach(id => { const x = cmList.querySelector('[data-id="' + id + '"]'); if (x) x.remove(); });
@@ -461,6 +474,7 @@ function mostraAccessi(lista) {
 function mostraStats(s) {
   for (const k of ["entrati", "guardano", "picco", "email", "messaggi", "scrittori", "cancellati", "bannati"]) { const el = $('[data-st="' + k + '"]'); if (el) el.textContent = s[k] ?? "–"; }
   $("[data-st-guardano]").textContent = "guardano adesso" + (s.attesa ? " · " + s.attesa + " in attesa" : "");
+  if (s.da) $("[data-st-entrati]").textContent = "persone entrate da " + new Date(s.da).toLocaleDateString("it-IT", { weekday: "long", day: "numeric", timeZone: "Europe/Rome" }) + ", " + hm(s.da);
   $("[data-st-ora]").textContent = "Aggiornate alle " + new Date().toLocaleTimeString("it-IT") + " · si aggiornano da sole ogni 10 secondi.";
 }
 setInterval(() => { if (sockOk && chiave) sock.send(JSON.stringify({ t: "stats" })); }, 10000);chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
@@ -477,6 +491,25 @@ async function sagoma(on) {
 }
 $("[data-sg-on]").addEventListener("click", () => sagoma(true));
 $("[data-sg-off]").addEventListener("click", () => sagoma(false));
+/* Pagina della diretta: a diretta finita "Chiudi la diretta" lascia solo il saluto a chi la apre; "Riapri" la rimette com'era */
+const fineState = $("[data-fine-state]"), fineStateT = $("[data-fine-state-t]"), fineTesto = $("[data-fine-testo]"), fineMsg = $("[data-fine-msg]");
+function fineStato(f) {
+  f = f || {};
+  fineState.classList.toggle("on", !f.v);
+  fineStateT.textContent = f.v ? "Chiusa: chi la apre vede solo il saluto" : "Aperta: video, chat e accesso";
+  if (f.v && f.testo && document.activeElement !== fineTesto) fineTesto.value = f.testo;
+}
+async function fine(chiudi) {
+  const tasti = document.querySelectorAll("[data-fine-chiudi],[data-fine-apri]");
+  tasti.forEach(b => b.disabled = true);
+  fineMsg.className = "msg"; fineMsg.textContent = "Invio…";
+  const o = await modera(chiudi ? "chiudi-diretta" : "riapri-diretta", "", fineTesto.value.trim());
+  if (o) { fineStato(o.finita); fineMsg.textContent = (chiudi ? "Fatto: la pagina mostra il saluto" : "Fatto: la pagina è di nuovo aperta") + " · " + new Date().toLocaleTimeString("it-IT"); }
+  else { fineMsg.className = "msg err"; fineMsg.textContent = chatMsg.textContent || "Non riuscito, riprova."; }
+  tasti.forEach(b => b.disabled = false);
+}
+$("[data-fine-chiudi]").addEventListener("click", () => fine(true));
+$("[data-fine-apri]").addEventListener("click", () => fine(false));
 svuotaB.addEventListener("click", () => {
   if (confirm("Cancellare tutti i messaggi della chat, per tutti?")) modera("svuota").then(o => { if (o) dice("Chat svuotata"); });
 });
@@ -572,7 +605,7 @@ function tessere() {
   const minuti = righe.reduce((a, r) => a + (r.video || 0), 0), entrati = dati.entrati || 0;
   const durata = m => m >= 60 ? Math.floor(m / 60) + " h " + String(Math.round(m % 60)).padStart(2, "0") + " min" : Math.round(m) + " min";
   box.replaceChildren(...[
-    [entrati || "–", "persone entrate", "ognuna contata una volta" + (dati.scrittori ? " · " + dati.scrittori + " hanno scritto in chat" : ""), true],
+    [entrati || "–", "persone entrate", "tra le " + hm(dati.inizio) + " e le " + hm(dati.fine) + (dati.ip ? " · da " + dati.ip + " connessioni internet (IP) diverse" : "") + (dati.scrittori ? " · " + dati.scrittori + " hanno scritto in chat" : ""), true],
     [valore(picco), "picco: guardavano insieme", "alle " + hm(picco.min), true],
     [entrati ? durata(minuti / entrati) : "–", "tempo medio a persona", Math.round(minuti).toLocaleString("it-IT") + " minuti guardati in tutto"],
     [valore(ult), "guardavano alla fine", "alle " + hm(ult.min) + " · " + perc(valore(ult)) + " del picco"]
