@@ -27,7 +27,6 @@ button{font-family:var(--sans);cursor:pointer;border:0}
 .num small{color:var(--fg-3);font-size:.5em;font-weight:700}
 .ora{margin-left:auto;font-weight:800;font-size:clamp(22px,2.2vw,34px);font-variant-numeric:tabular-nums;color:var(--fg-2)}
 .apri{min-height:52px;padding:0 20px;border-radius:12px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:15px;text-transform:uppercase}
-.tel{min-height:52px;padding:0 18px;border-radius:12px;background:#20262B;color:var(--fg);font-weight:800;font-size:15px}
 .tel-stato{color:var(--fg-3);font-size:13px;font-weight:600}
 .tel-stato.ok{color:var(--ok)}
 /* QR del telecomando: si inquadra con la fotocamera dell'iPhone */
@@ -37,6 +36,16 @@ button{font-family:var(--sans);cursor:pointer;border:0}
 .qr-box p{margin-top:8px;color:var(--fg-2);font-size:14px}
 .qr-img{display:grid;place-items:center;margin:16px auto 0;padding:14px;width:max-content;border-radius:12px;background:#fff}
 .qr-box button{margin-top:16px;min-height:46px;padding:0 20px;border-radius:10px;background:#20262B;color:var(--fg);font-weight:700}
+/* lo stesso QR sempre in vista in cima alla colonna di destra: si chiude da solo appena il telefono comanda le slide */
+.tel-box .testa{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tel-mini{flex-shrink:0;white-space:nowrap;min-height:36px;padding:0 12px;border-radius:9px;background:#20262B;color:var(--fg);font-weight:700;font-size:13px}
+.tel-corpo{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin-top:12px}
+.tel-corpo .qr-img{margin:0;padding:8px;overflow-wrap:anywhere;color:#000;font-size:11px}
+.tel-corpo .spiega{flex:1 1 150px;min-width:0}
+.tel-corpo .spiega p{color:var(--fg-2);font-size:14px;line-height:1.4}
+.tel-corpo .spiega p+p{margin-top:6px;color:var(--fg-3);font-size:12px}
+.tel-corpo .spiega button{margin-top:10px}
+.tel-ok{margin-top:8px;color:var(--ok);font-weight:700;font-size:14px}
 .vai{display:flex;align-items:center;gap:8px;color:var(--fg-3);font-size:14px;font-weight:600}
 .vai input{width:84px;min-height:44px;padding:0 10px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:700 18px var(--sans)}
 .vai button{min-height:44px;padding:0 14px;border-radius:10px;background:#20262B;color:var(--fg);font-weight:700}
@@ -97,7 +106,6 @@ button{font-family:var(--sans);cursor:pointer;border:0}
   <div class="bar">
     <div class="num" data-num>1 <small>/ 247</small></div>
     <button class="apri" type="button" data-apri>Apri le slide in un'altra finestra</button>
-    <button class="tel" type="button" data-tel>📱 Telecomando iPhone</button>
     <span class="tel-stato" data-tel-stato></span>
     <div class="vai"><label for="vai">Vai alla slide</label><input id="vai" type="number" min="1" inputmode="numeric" data-vai-n><button type="button" data-vai>Vai</button></div>
     <div class="ora" data-ora>--:--:--</div>
@@ -107,6 +115,18 @@ button{font-family:var(--sans);cursor:pointer;border:0}
     <article class="testi" data-testi aria-live="polite"></article>
     <div class="divisore" role="separator" aria-orientation="vertical" aria-label="Trascina per cambiare la larghezza delle colonne" tabindex="0" title="Trascina per allargare o stringere · doppio clic per tornare com'era" data-divisore></div>
     <aside class="lato">
+      <div class="box tel-box">
+        <div class="testa"><h2>📱 Telecomando sul telefono</h2><button class="tel-mini" type="button" data-qr-mostra>Nascondi QR</button></div>
+        <div class="tel-corpo" data-qr-corpo>
+          <div class="qr-img" data-qr-lato></div>
+          <div class="spiega">
+            <p>Inquadra il QR con la fotocamera del telefono e apri il link: Avanti e Indietro sul telefono comandano queste slide.</p>
+            <p>Contiene la chiave del pannello: non condividere questa finestra.</p>
+            <button class="tel-mini" type="button" data-qr-grande>Ingrandisci</button>
+          </div>
+        </div>
+        <p class="tel-ok" data-tel-ok hidden>Telefono collegato ✓</p>
+      </div>
       <div class="box tappa" data-tappa>
         <h2>Prossima tappa</h2>
         <p class="chi" data-t-chi>–</p>
@@ -136,8 +156,8 @@ button{font-family:var(--sans);cursor:pointer;border:0}
 
 <div class="qr" data-qr hidden>
   <div class="qr-box">
-    <h2>Telecomando sull'iPhone</h2>
-    <p>Inquadra il QR con la fotocamera dell'iPhone e apri il link: Avanti e Indietro comandano queste slide.</p>
+    <h2>Telecomando sul telefono</h2>
+    <p>Inquadra il QR con la fotocamera del telefono e apri il link: Avanti e Indietro comandano queste slide.</p>
     <div class="qr-img" data-qr-img></div>
     <p>Il QR contiene la chiave del pannello: non mostrarlo in diretta.</p>
     <button type="button" data-qr-chiudi>Chiudi</button>
@@ -225,20 +245,30 @@ function collegaTel() {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
     if (d.t === "regia") { sockOk = !!d.ok; telStato(sockOk ? "Telecomando pronto" : "", sockOk); annuncia(); }
-    if (d.t === "slide") vai(attuale + (d.cmd === "indietro" ? -1 : 1));
+    if (d.t === "slide") { telefonoUsato(); vai(attuale + (d.cmd === "indietro" ? -1 : 1)); }
   };
   s.onclose = () => { if (sock !== s) return; sock = null; sockOk = false; telStato("Telecomando: mi ricollego…"); setTimeout(collegaTel, attesaWs); attesaWs = Math.min(attesaWs * 2, 15000); };
 }
 setInterval(() => { if (sock && sock.readyState === 1) sock.send("ping"); }, 30000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) collegaTel(); });
-$("[data-tel]").addEventListener("click", async () => {
+/* QR del telecomando: piccolo in cima alla colonna di destra, grande con "Ingrandisci" */
+let libQR = null;
+const caricaQR = () => libQR || (libQR = window.QRCode ? Promise.resolve() : new Promise(r => {
+  const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+  sc.onload = r; sc.onerror = r; document.head.append(sc);
+}));
+async function disegnaQR(box, lato) {
   const url = location.origin + location.pathname.replace(/[^/]*$/, "") + "telecomando.html#k=" + encodeURIComponent(chiaveRegia);
-  $("[data-qr]").hidden = false;
-  const box = $("[data-qr-img]"); box.replaceChildren();
-  if (!window.QRCode) await new Promise(r => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"; sc.onload = r; sc.onerror = r; document.head.append(sc); });
-  if (window.QRCode) new QRCode(box, { text: url, width: 260, height: 260, correctLevel: QRCode.CorrectLevel.M });
+  box.replaceChildren();
+  await caricaQR();
+  if (window.QRCode) new QRCode(box, { text: url, width: lato, height: lato, correctLevel: QRCode.CorrectLevel.M });
   else box.textContent = url;
-});
+}
+const mostraQR = si => { $("[data-qr-corpo]").hidden = !si; $("[data-qr-mostra]").textContent = si ? "Nascondi QR" : "Mostra QR"; };
+$("[data-qr-mostra]").addEventListener("click", () => mostraQR($("[data-qr-corpo]").hidden));
+let telUsato = false;
+function telefonoUsato() { if (telUsato) return; telUsato = true; $("[data-tel-ok]").hidden = false; mostraQR(false); }
+$("[data-qr-grande]").addEventListener("click", () => { $("[data-qr]").hidden = false; disegnaQR($("[data-qr-img]"), 260); });
 $("[data-qr-chiudi]").addEventListener("click", () => { $("[data-qr]").hidden = true; $("[data-qr-img]").replaceChildren(); });
 
 /* barra tra le colonne: trascinandola cambia la larghezza della colonna di destra (tappe e anteprime) */
@@ -338,6 +368,7 @@ async function avvia() {
   aggiorna();
   setInterval(tempi, 1000);
   collegaTel();
+  disegnaQR($("[data-qr-lato]"), 148);
 }
 </script>
 </body>
