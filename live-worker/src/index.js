@@ -173,7 +173,6 @@ export class Stanza extends DurableObject {
     this.sql.exec(`INSERT INTO minuti (min, pagine, video, audio, slide) VALUES (?, ?, ?, ?, ?) ON CONFLICT(min) DO UPDATE SET
       pagine = excluded.pagine, video = excluded.video, audio = excluded.audio, slide = excluded.slide`,
       min, vive.length, vive.filter(a => a.g > 0).length, vive.filter(a => a.g === 2).length, slide);
-    if (vive.length > ((await this.ctx.storage.get("picco")) || 0)) await this.ctx.storage.put("picco", vive.length);
     if (this.spettatori() > 0) await this.ctx.storage.setAlarm(min + 60000);
   }
   /* le dirette salvate (minuti con meno di 30 minuti di buco tra loro) e i minuti di quella chiesta (l'ultima se non si dice),
@@ -189,8 +188,13 @@ export class Stanza extends DurableObject {
     const dirette = tutte.filter(d => (d.n >= 10 && d.picco >= 3) || Date.now() - d.a < 10 * 60000);
     const s = tutte.find(d => d.da === Number(da)) || dirette[dirette.length - 1];
     if (!s) return { t: "minuti", dirette, righe: [], eventi: [], chat: [] };
+    /* persone entrate (una per dispositivo) e persone che hanno scritto: dall'inizio della diretta (INIZIO, se cade in questa,
+       come le statistiche in alto del pannello) o da 15 minuti prima del primo minuto salvato (si entra prima che parta il conteggio) */
+    const inizio = s.da <= INIZIO && INIZIO <= s.a ? INIZIO : s.da - 15 * 60000, uno = (q, ...p) => this.sql.exec(q, ...p).toArray()[0].n;
     return {
       t: "minuti", dirette, da: s.da,
+      entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora BETWEEN ? AND ?", inizio, s.a + 60000),
+      scrittori: uno("SELECT COUNT(DISTINCT dev) AS n FROM chat WHERE ora BETWEEN ? AND ?", inizio, s.a + 60000),
       righe: this.sql.exec("SELECT * FROM minuti WHERE min BETWEEN ? AND ? ORDER BY min", s.da, s.a).toArray(),
       eventi: this.sql.exec("SELECT ora, cosa FROM eventi WHERE ora BETWEEN ? AND ? ORDER BY ora", s.da - 60000, s.a + 60000).toArray(),
       chat: this.sql.exec("SELECT (ora / 60000) * 60000 AS min, COUNT(*) AS n FROM chat WHERE ora BETWEEN ? AND ? GROUP BY 1",
@@ -222,14 +226,17 @@ export class Stanza extends DurableObject {
     }
     return INIZIO;
   }
+  /* persone, non pagine: "guardano" = pagine vive con il video in play, "attesa" = sulla pagina ma col video fermo
+     (per esempio prima dell'inizio); il picco è il massimo di persone che guardavano nello stesso minuto, come nel grafico */
   async stats() {
-    const da = await this.daQuando(), uno = q => this.sql.exec(q, da).toArray()[0].n;
+    const da = await this.daQuando(), uno = q => this.sql.exec(q, da).toArray()[0].n, vive = this.vive();
+    const guardano = vive.filter(a => a.g > 0).length;
     return {
       t: "stats",
       entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora >= ?"),
       email: uno("SELECT COUNT(DISTINCT email) AS n FROM accessi WHERE ora >= ?"),
-      collegati: this.vive().length,
-      picco: (await this.ctx.storage.get("picco")) || 0,
+      collegati: vive.length, guardano, attesa: vive.length - guardano,
+      picco: this.sql.exec("SELECT MAX(video) AS n FROM minuti WHERE min >= ?", da).toArray()[0].n || 0,
       messaggi: uno("SELECT COUNT(*) AS n FROM chat WHERE ora >= ?"),
       cancellati: uno("SELECT COUNT(*) AS n FROM chat WHERE via = 1 AND ora >= ?"),
       scrittori: uno("SELECT COUNT(DISTINCT dev) AS n FROM chat WHERE ora >= ?"),

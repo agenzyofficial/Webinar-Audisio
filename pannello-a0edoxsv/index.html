@@ -162,9 +162,9 @@ table.momenti{width:100%;border-collapse:collapse;font-size:14px}
   <section class="card stats-card v-diretta" data-stats-card hidden>
     <div class="card-h"><h2>Statistiche della diretta</h2><p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p></div>
     <div class="stats">
-      <div class="stat acc"><b data-st="entrati">–</b><span>entrati in tutta la serata</span></div>
-      <div class="stat acc"><b data-st="collegati">–</b><span>collegati adesso</span></div>
-      <div class="stat"><b data-st="picco">–</b><span>picco collegati insieme</span></div>
+      <div class="stat acc"><b data-st="entrati">–</b><span>persone entrate</span></div>
+      <div class="stat acc"><b data-st="guardano">–</b><span data-st-guardano>guardano adesso</span></div>
+      <div class="stat"><b data-st="picco">–</b><span>picco: guardavano insieme</span></div>
       <div class="stat"><b data-st="email">–</b><span>email diverse</span></div>
       <div class="stat"><b data-st="messaggi">–</b><span>messaggi in chat</span></div>
       <div class="stat"><b data-st="scrittori">–</b><span>persone che scrivono</span></div>
@@ -172,7 +172,9 @@ table.momenti{width:100%;border-collapse:collapse;font-size:14px}
       <div class="stat"><b data-st="bannati">–</b><span>bannati</span></div>
     </div>
     <p class="note">Alle 20:50, quando si aprono video e chat, i numeri e l'elenco "Chi è entrato" ripartono da zero da soli: le prove di prima non contano.
-      "Entrati" conta tutti quelli passati durante la serata; "collegati" e "picco" solo le pagine della diretta aperte nello stesso momento (senza pannello e regia).</p>
+      "Persone entrate": tutte quelle passate durante la serata, ognuna una volta sola (chi entra da telefono e computer conta due).
+      "Guardano adesso": persone con il video che va in questo momento ("in attesa": sulla pagina, video non ancora partito o fermo).
+      "Picco": il massimo di persone che guardavano nello stesso minuto, lo stesso numero delle Statistiche.</p>
   </section>
 
   <!-- vista Statistiche: spettatori minuto per minuto -->
@@ -199,7 +201,7 @@ table.momenti{width:100%;border-collapse:collapse;font-size:14px}
     <h3 class="h3">Momenti chiave</h3>
     <div class="tab-wrap">
       <table class="momenti">
-        <thead><tr><th>Ora</th><th>Momento</th><th class="num">Video in play</th><th class="num">Pagine aperte</th><th class="num">Rispetto al picco</th></tr></thead>
+        <thead><tr><th>Ora</th><th>Momento</th><th class="num">Persone che guardavano</th><th class="num">Rispetto al picco</th></tr></thead>
         <tbody data-momenti></tbody>
       </table>
     </div>
@@ -457,7 +459,8 @@ function mostraAccessi(lista) {
   }) : [vuoto("Ancora nessuno.")]));
 }
 function mostraStats(s) {
-  for (const k of ["entrati", "collegati", "picco", "email", "messaggi", "scrittori", "cancellati", "bannati"]) { const el = $('[data-st="' + k + '"]'); if (el) el.textContent = s[k] ?? "–"; }
+  for (const k of ["entrati", "guardano", "picco", "email", "messaggi", "scrittori", "cancellati", "bannati"]) { const el = $('[data-st="' + k + '"]'); if (el) el.textContent = s[k] ?? "–"; }
+  $("[data-st-guardano]").textContent = "guardano adesso" + (s.attesa ? " · " + s.attesa + " in attesa" : "");
   $("[data-st-ora]").textContent = "Aggiornate alle " + new Date().toLocaleTimeString("it-IT") + " · si aggiornano da sole ogni 10 secondi.";
 }
 setInterval(() => { if (sockOk && chiave) sock.send(JSON.stringify({ t: "stats" })); }, 10000);chiudiB.addEventListener("click", () => modera(chiusa ? "apri" : "chiudi").then(o => { if (o) dice(o.chiusa ? "Chat chiusa" : "Chat riaperta"); }));
@@ -479,14 +482,14 @@ svuotaB.addEventListener("click", () => {
 });
 
 /* Statistiche minuto per minuto (vista "Statistiche"): le chiede al servizio in tempo reale, solo con la chiave.
-   Durante ogni diretta il servizio salva da solo, ogni minuto, le pagine vive degli spettatori, quante hanno il video in play
+   Durante ogni diretta il servizio salva da solo, ogni minuto, quante persone hanno il video in play
    e quante l'audio acceso, la slide della regia e i comandi del pannello. Il 29 ottobre è stato caricato dopo, dalle statistiche
    di Cloudflare, con quello che stavi dicendo minuto per minuto (dalla trascrizione della registrazione). */
-const COL = { video: "#E8530E", audio: "#3A98E0", pagine: "#8A949B", chat: "#5B656C" };
-const NOMI = { video: "Video in play", audio: "Con l'audio acceso", pagine: "Pagine aperte" };
+const COL = { video: "#E8530E", audio: "#3A98E0", chat: "#5B656C" };
+const NOMI = { video: "Persone che guardano", audio: "Di cui con l'audio acceso" };
 const hm = t => new Date(t).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" });
 const giorno = t => new Date(t).toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Rome" });
-const valore = r => r.video ?? r.pagine ?? 0;
+const valore = r => r.video ?? 0;
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 const ns = (tag, at, txt) => {
   const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -527,7 +530,7 @@ async function caricaMancanti(d) {
 function mostraMinuti(d) {
   caricaMancanti(d);
   dati = d; righe = d.righe || []; momenti = [];
-  serie = ["video", "audio", "pagine"].filter(k => righe.some(r => r[k] != null));
+  serie = ["video", "audio"].filter(k => righe.some(r => r[k] != null));
   chatDi = new Map((d.chat || []).map(c => [c.min, c.n]));
   eventiDi = new Map();
   const metti = (min, cosa) => {
@@ -554,8 +557,8 @@ function mostraMinuti(d) {
     : "Dalle " + hm(righe[0].min) + " alle " + hm(righe[righe.length - 1].min) + " · " + righe.length + " minuti" + (vivo ? " · in corso, si aggiorna da solo ogni minuto" : "");
   const importata = righe.some(r => r.momento || r.frase);
   $("[data-st-note]").textContent = importata
-    ? "Numeri del 29 ottobre presi dopo dalle statistiche di Cloudflare. «Pagine aperte» comprende anche le vostre (pannello, regia, telecomando, moderatori): per questo al picco è un po' più alto del «picco collegati insieme» dei Comandi, che conta solo gli spettatori. «Video in play» sono le persone con il video che andava davvero. Le frasi vengono dalla trascrizione automatica della registrazione: qualche parola può essere sbagliata."
-    : "«Pagine aperte»: pagine della diretta aperte dagli spettatori e ancora vive (pannello, regia e telecomando esclusi; un telefono bloccato smette di contare dopo 2 minuti). «Video in play»: quante hanno il video che va; «con l'audio acceso»: quante lo sentono. La slide è quella della regia in quel minuto, se la regia era aperta.";
+    ? "«Persone entrate»: chi ha messo il nome ed è entrato nella diretta, ognuno una volta sola (chi è entrato da telefono e da computer conta due). «Persone che guardano»: quante avevano il video che andava in quel minuto (il 29 ottobre preso dalle statistiche di Cloudflare). «Tempo medio»: minuti guardati in tutto diviso le persone entrate. Le frasi vengono dalla trascrizione automatica della registrazione: qualche parola può essere sbagliata."
+    : "«Persone entrate»: chi ha messo il nome ed è entrato nella diretta, ognuno una volta sola (chi entra da telefono e da computer conta due). «Persone che guardano»: quante hanno il video che va in quel minuto; «con l'audio acceso»: quante lo sentono. «Tempo medio»: minuti guardati in tutto diviso le persone entrate. La slide è quella della regia in quel minuto, se la regia era aperta.";
   tessere(); legenda(); disegna(); dettaglio(); tabella();
 }
 
@@ -563,16 +566,16 @@ function tessere() {
   const box = $("[data-st-tiles]");
   if (!righe.length) { box.replaceChildren(); return; }
   /* ultimo minuto della diretta: quello segnato come tale, se c'è; se no l'ultimo con almeno il 10% del picco
-     (finita la diretta restano per qualche minuto poche pagine aperte) */
+     (finita la diretta resta per qualche minuto qualcuno col video aperto) */
   const segnato = momenti.find(m => /ultimo minuto/i.test(m.cosa));
   const ult = (segnato && righe.find(r => r.min === segnato.min)) || righe.slice().reverse().find(r => valore(r) >= valore(picco) / 10) || righe[righe.length - 1];
-  const maxP = righe.reduce((p, r) => (r.pagine ?? -1) > (p.pagine ?? -1) ? r : p, righe[0]);
-  const msg = [...chatDi.values()].reduce((a, b) => a + b, 0);
+  const minuti = righe.reduce((a, r) => a + (r.video || 0), 0), entrati = dati.entrati || 0;
+  const durata = m => m >= 60 ? Math.floor(m / 60) + " h " + String(Math.round(m % 60)).padStart(2, "0") + " min" : Math.round(m) + " min";
   box.replaceChildren(...[
-    [valore(picco), "picco", (picco.video != null ? "video in play" : "pagine aperte") + " alle " + hm(picco.min), true],
-    [maxP.pagine ?? "–", "pagine aperte al massimo", "alle " + hm(maxP.min)],
-    [valore(ult), "ultimo minuto", "alle " + hm(ult.min) + " · " + perc(valore(ult)) + " del picco"],
-    [msg, "messaggi in chat", "in tutta la diretta"]
+    [entrati || "–", "persone entrate", "ognuna contata una volta" + (dati.scrittori ? " · " + dati.scrittori + " hanno scritto in chat" : ""), true],
+    [valore(picco), "picco: guardavano insieme", "alle " + hm(picco.min), true],
+    [entrati ? durata(minuti / entrati) : "–", "tempo medio a persona", Math.round(minuti).toLocaleString("it-IT") + " minuti guardati in tutto"],
+    [valore(ult), "guardavano alla fine", "alle " + hm(ult.min) + " · " + perc(valore(ult)) + " del picco"]
   ].map(([v, nome, sotto, acc]) => {
     const d = el("div", "stat" + (acc ? " acc" : ""));
     d.append(el("b", "", String(v)), el("span", "", nome), el("small", "", sotto));
@@ -600,7 +603,7 @@ function disegna() {
   const cTop = yb + 44, chatH = 54, cBot = cTop + chatH, H = cBot + 4;
   const t0 = righe[0].min, t1 = Math.max(righe[righe.length - 1].min, t0 + 60000);
   const x = t => m.l + (t - t0) / (t1 - t0) * (W - m.l - m.r);
-  const top = Math.max(1, ...righe.map(r => Math.max(r.pagine ?? 0, r.video ?? 0, r.audio ?? 0)));
+  const top = Math.max(1, ...righe.map(r => Math.max(r.video ?? 0, r.audio ?? 0)));
   const passo = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find(p => top / p <= 5) || 10000;
   const ymax = Math.ceil(top * 1.04 / passo) * passo, y = v => yb - v / ymax * (yb - m.t);
   const svg = ns("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Spettatori minuto per minuto" });
@@ -641,7 +644,6 @@ function disegna() {
     return pezzi;
   };
   const percorso = k => tratti(k).map(pz => pz.map((r, i) => (i ? "L" : "M") + x(r.min).toFixed(1) + "," + y(r[k]).toFixed(1)).join("")).join("");
-  if (serie.includes("pagine")) svg.append(ns("path", { d: percorso("pagine"), fill: "none", stroke: COL.pagine, "stroke-width": 1.5, "stroke-linejoin": "round" }));
   if (serie.includes("video")) {
     const area = tratti("video").map(pz => "M" + x(pz[0].min).toFixed(1) + "," + yb + pz.map(r => "L" + x(r.min).toFixed(1) + "," + y(r.video).toFixed(1)).join("") + "L" + x(pz[pz.length - 1].min).toFixed(1) + "," + yb + "Z").join("");
     svg.append(ns("path", { d: area, fill: COL.video, "fill-opacity": .16 }));
@@ -778,11 +780,11 @@ function dettaglio() {
 function tabella() {
   const tb = $("[data-momenti]"), di = new Map(righe.map(r => [r.min, r]));
   const vicina = t => righe.reduce((a, r) => Math.abs(r.min - t) < Math.abs(a.min - t) ? r : a);
-  if (!momenti.length) { const tr = el("tr"), td = el("td", "", righe.length ? "Nessun momento segnato." : "–"); td.colSpan = 5; tr.append(td); tb.replaceChildren(tr); return; }
+  if (!momenti.length) { const tr = el("tr"), td = el("td", "", righe.length ? "Nessun momento segnato." : "–"); td.colSpan = 4; tr.append(td); tb.replaceChildren(tr); return; }
   tb.replaceChildren(...momenti.map(mo => {
     const r = di.get(mo.min) || vicina(mo.min), tr = el("tr");
     tr.dataset.min = r.min; tr.classList.toggle("on", r.min === scelto);
-    tr.append(el("td", "", hm(mo.min)), el("td", "cosa", mo.cosa), el("td", "num", r.video ?? "–"), el("td", "num", r.pagine ?? "–"), el("td", "num", perc(valore(r))));
+    tr.append(el("td", "", hm(mo.min)), el("td", "cosa", mo.cosa), el("td", "num", r.video ?? "–"), el("td", "num", perc(valore(r))));
     tr.addEventListener("click", () => { scegli(r.min); $("[data-grafico]").scrollIntoView({ behavior: "smooth", block: "center" }); });
     return tr;
   }));
@@ -791,8 +793,8 @@ function tabella() {
 $("[data-st-csv]").addEventListener("click", () => {
   if (!righe.length) return;
   const q = v => v == null ? "" : /[";\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : String(v);
-  const testa = ["ora", "video in play", "con audio", "pagine aperte", "messaggi in chat", "slide", "momento", "eventi", "frase"];
-  const corpo = righe.map(r => [hm(r.min), r.video, r.audio, r.pagine, chatDi.get(r.min) || 0, r.slide, r.momento, (eventiDi.get(r.min) || []).join(" / "), r.frase].map(q).join(";"));
+  const testa = ["ora", "persone che guardano", "con audio", "messaggi in chat", "slide", "momento", "eventi", "frase"];
+  const corpo = righe.map(r => [hm(r.min), r.video, r.audio, chatDi.get(r.min) || 0, r.slide, r.momento, (eventiDi.get(r.min) || []).join(" / "), r.frase].map(q).join(";"));
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob(["﻿" + [testa.join(";"), ...corpo].join("\n")], { type: "text/csv;charset=utf-8" }));
   a.download = "spettatori-" + new Date(righe[0].min).toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" }) + ".csv";
