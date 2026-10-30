@@ -66,6 +66,12 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .cap-list button.ora{background:rgba(255,90,20,.12);color:#fff}
 .cap-list button.ora time{color:var(--acc)}
 .cap-list button.pitch time{color:var(--acc)}
+.versioni{display:inline-flex;gap:4px;margin:14px 0 4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--bg-2)}
+.versioni button{min-height:44px;padding:0 18px;border:0;border-radius:999px;background:none;color:var(--fg-2);font:700 14px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.versioni button small{margin-left:6px;font-weight:600;color:var(--fg-3);text-transform:none}
+.versioni button[aria-pressed="true"]{background:var(--acc);color:var(--on-acc)}
+.versioni button[aria-pressed="true"] small{color:inherit;opacity:.8}
+@media (max-width:600px){.versioni{display:flex}.versioni button{flex:1;padding:0 10px}}
 .below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
 .below p{color:var(--fg-2);font-size:15px}
 .below p b{color:var(--fg)}
@@ -92,7 +98,11 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
 <main>
   <div class="wrap">
     <h1>La morte del <span class="acc">personal brand.</span></h1>
-    <p class="sub">Il replay della diretta con Andrea Audisio · giovedì 29 ottobre · 59 minuti</p>
+    <p class="sub">Il replay della diretta con Andrea Audisio · giovedì 29 ottobre</p>
+    <div class="versioni" aria-label="Versione del replay">
+      <button type="button" data-v="breve" aria-pressed="true">Versione breve <small>1h31</small></button>
+      <button type="button" data-v="completa" aria-pressed="false">Diretta completa <small>3h12</small></button>
+    </div>
 
     <div class="stage">
       <div>
@@ -131,29 +141,39 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
 
 <script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
 <script>
-/* Pagina del replay. Il video sta su Cloudflare Stream: il suo ID va in replay.json ("video"), finché è vuoto si vede
-   "Il replay arriva tra poco" e la pagina lo rilegge ogni 30 s. I capitoli vengono dalla scaletta del montaggio:
-   cliccandoli il video salta lì. Il bottone della call compare quando il video arriva alla presentazione (PITCH)
-   e da lì resta, anche se si ricarica la pagina. Il link della call è lo stesso della diretta. */
+/* Pagina del replay, in due versioni: la breve (il montaggio) e la diretta completa. I video stanno su Cloudflare
+   Stream: gli ID vanno in replay.json ("breve" e "completa"); finché manca quello scelto si vede "Il replay arriva tra
+   poco" e la pagina lo rilegge ogni 30 s. Ogni versione ha i suoi capitoli: cliccandoli il video salta lì. La completa
+   parte da dove inizia la diretta (prima c'è l'attesa). Il bottone della call compare quando il video arriva alla
+   presentazione (PITCH) e da lì resta, anche se si ricarica la pagina. Il link della call è lo stesso della diretta. */
 const CLIENTE = "mmn87qdxwqp7tczh";
-const CAPITOLI = [[0, "Apertura: autopsia del personal brand"], [69, "Cosa vuoi davvero; il problema non è marketing, è fiducia"], [290, "Un motivo concreto per sceglierti; non emergere, farsi scegliere"], [385, "Il reel è attenzione, non business; volantini; la crema del cappuccino"], [515, "Delegare tutto non esiste; il perfezionismo è una scusa"], [581, "L'ordine giusto del business; non lavorare più di un dipendente"], [634, "Storia: 19 anni, primo imprenditore della famiglia, agenzia acquisita"], [665, "Storia: polmone perforato, lascio tutto, Consulente High Ticket"], [835, "Storia: il socio che mi frega; cosa proteggere"], [886, "Storia: ProfitOS 100k in un mese"], [908, "Riconosco la gabbia: 19 anni"], [953, "Il business funziona finché ci sei tu"], [1024, "L'AI come dopamina: non fate gli ingegneri"], [1092, "Miti del personal brand: follower, pubblicare ogni giorno, organico"], [1178, "Il business non si misura in follower; nicchia; funnel"], [1229, "Le 4 cose che servono; il lavoro resta a te"], [1289, "Prima la struttura poi la visibilità; il 5% degli influencer"], [1353, "Il contenuto è un mezzo; arriva l'ospite"], [1412, "Felipe: i contenuti non sono il fattore critico"], [1491, "Felipe: 30 collaboratori, 3,5 milioni"], [1528, "La competenza non è un'offerta: l'esempio dello yoga"], [1776, "Situazione precisa, non avatar"], [1811, "High ticket senza essere nessuno: impara a vendere"], [1893, "Emergere = dare un criterio di scelta; piramide di consapevolezza; lavorare a percentuale"], [2157, "Garanzia, rischi di consegna, contro-garanzia, la formula dell'offerta"], [2370, "Adatta le competenze al mercato, non la nicchia"], [2449, "L'esperienza non vale niente senza una proposta chiara"], [2539, "Alessandro: due momenti di vita precisi"], [2597, "Alessandro: da 3 a 7 mesi per poter garantire"], [2639, "Testa l'offerta con le ads"], [2690, "Capisci i rifiuti; le obiezioni migliorano l'offerta"], [2756, "Ale: 30 reel al giorno, 13k follower, profilo bannato"], [2843, "Sapere non è eseguire: la ricetta e la pizzeria"], [2963, "In mezzo a tutto resti sempre tu; arriva Daniele (400k follower)"], [3087, "Daniele: chi sono, coaching nutrizione e fitness"], [3153, "Daniele: produzione dei contenuti a blocchi"], [3228, "Daniele: l'editing è il collo di bottiglia"], [3318, "Daniele: la procedura minima per produrre in serie"], [3386, "PITCH: chi prepara tutto questo? Noi. Delega inversa"], [3462, "PITCH: tool di analisi dell'offerta, con noi in prima linea"], [3792, "PITCH: tool funnel"], [3871, "PITCH: Peddy, contenuti"], [4085, "PITCH: la Fabbrica dei Reel"], [4265, "PITCH: Setty, il CRM per Instagram"], [4409, "PITCH: Sales Coach AI"], [4485, "PITCH: Academy, supporto e Nova"], [4626, "PITCH: cosa resta a te"], [4771, "PITCH: agenzia, corso o noi"], [4844, "PITCH: quanto costa farlo altrove"], [4974, "PITCH: il tempo che risparmi"], [5104, "PITCH: condizioni, il prezzo"], [5185, "PITCH: come candidarsi"], [5238, "PITCH: percorso di un anno, ti seguo finché non ti ripaghi"], [5321, "FAQ"], [5458, "Saluto finale"]];
-const PITCH = (CAPITOLI.find(c => /^PITCH/i.test(c[1])) || [Infinity])[0];
+const VERSIONI = {
+  breve: { inizio: 0, capitoli: [[0, "Apertura: autopsia del personal brand"], [69, "Cosa vuoi davvero; il problema non è marketing, è fiducia"], [290, "Un motivo concreto per sceglierti; non emergere, farsi scegliere"], [385, "Il reel è attenzione, non business; volantini; la crema del cappuccino"], [515, "Delegare tutto non esiste; il perfezionismo è una scusa"], [581, "L'ordine giusto del business; non lavorare più di un dipendente"], [634, "Storia: 19 anni, primo imprenditore della famiglia, agenzia acquisita"], [665, "Storia: polmone perforato, lascio tutto, Consulente High Ticket"], [835, "Storia: il socio che mi frega; cosa proteggere"], [886, "Storia: ProfitOS 100k in un mese"], [908, "Riconosco la gabbia: 19 anni"], [953, "Il business funziona finché ci sei tu"], [1024, "L'AI come dopamina: non fate gli ingegneri"], [1092, "Miti del personal brand: follower, pubblicare ogni giorno, organico"], [1178, "Il business non si misura in follower; nicchia; funnel"], [1229, "Le 4 cose che servono; il lavoro resta a te"], [1289, "Prima la struttura poi la visibilità; il 5% degli influencer"], [1353, "Il contenuto è un mezzo; arriva l'ospite"], [1412, "Felipe: i contenuti non sono il fattore critico"], [1491, "Felipe: 30 collaboratori, 3,5 milioni"], [1528, "La competenza non è un'offerta: l'esempio dello yoga"], [1776, "Situazione precisa, non avatar"], [1811, "High ticket senza essere nessuno: impara a vendere"], [1893, "Emergere = dare un criterio di scelta; piramide di consapevolezza; lavorare a percentuale"], [2157, "Garanzia, rischi di consegna, contro-garanzia, la formula dell'offerta"], [2370, "Adatta le competenze al mercato, non la nicchia"], [2449, "L'esperienza non vale niente senza una proposta chiara"], [2539, "Alessandro: due momenti di vita precisi"], [2597, "Alessandro: da 3 a 7 mesi per poter garantire"], [2639, "Testa l'offerta con le ads"], [2690, "Capisci i rifiuti; le obiezioni migliorano l'offerta"], [2756, "Ale: 30 reel al giorno, 13k follower, profilo bannato"], [2843, "Sapere non è eseguire: la ricetta e la pizzeria"], [2963, "In mezzo a tutto resti sempre tu; arriva Daniele (400k follower)"], [3087, "Daniele: chi sono, coaching nutrizione e fitness"], [3153, "Daniele: produzione dei contenuti a blocchi"], [3228, "Daniele: l'editing è il collo di bottiglia"], [3318, "Daniele: la procedura minima per produrre in serie"], [3386, "PITCH: chi prepara tutto questo? Noi. Delega inversa"], [3462, "PITCH: tool di analisi dell'offerta, con noi in prima linea"], [3792, "PITCH: tool funnel"], [3871, "PITCH: Peddy, contenuti"], [4085, "PITCH: la Fabbrica dei Reel"], [4265, "PITCH: Setty, il CRM per Instagram"], [4409, "PITCH: Sales Coach AI"], [4485, "PITCH: Academy, supporto e Nova"], [4626, "PITCH: cosa resta a te"], [4771, "PITCH: agenzia, corso o noi"], [4844, "PITCH: quanto costa farlo altrove"], [4974, "PITCH: il tempo che risparmi"], [5104, "PITCH: condizioni, il prezzo"], [5185, "PITCH: come candidarsi"], [5238, "PITCH: percorso di un anno, ti seguo finché non ti ripaghi"], [5321, "FAQ"], [5458, "Saluto finale"]] },
+  completa: { inizio: 2050, capitoli: [[2050, "Inizio della diretta: autopsia del personal brand"], [2294, "Cosa vuoi davvero; il problema non è marketing, è fiducia"], [2523, "Un motivo concreto per sceglierti; non emergere, farsi scegliere"], [2619, "Il reel è attenzione, non business; volantini; la crema del cappuccino"], [2986, "Delegare tutto non esiste; il perfezionismo è una scusa"], [3082, "L'ordine giusto del business; non lavorare più di un dipendente"], [3190, "Storia: 19 anni, primo imprenditore della famiglia, agenzia acquisita"], [3331, "Storia: polmone perforato, lascio tutto, Consulente High Ticket"], [3617, "Storia: il socio che mi frega; cosa proteggere"], [3769, "Storia: ProfitOS 100k in un mese"], [3887, "Riconosco la gabbia: 19 anni"], [3932, "Il business funziona finché ci sei tu"], [4070, "L'AI come dopamina: non fate gli ingegneri"], [4139, "Miti del personal brand: follower, pubblicare ogni giorno, organico"], [4357, "Il business non si misura in follower; nicchia; funnel"], [4440, "Le 4 cose che servono; il lavoro resta a te"], [4508, "Prima la struttura poi la visibilità; il 5% degli influencer"], [4590, "Il contenuto è un mezzo; arriva l'ospite"], [4650, "Arriva Felipe"], [4703, "Felipe: i contenuti non sono il fattore critico"], [4963, "Felipe: 30 collaboratori, 3,5 milioni"], [5548, "La competenza non è un'offerta: l'esempio dello yoga"], [5816, "Situazione precisa, non avatar"], [6171, "High ticket senza essere nessuno: impara a vendere"], [6447, "Emergere = dare un criterio di scelta; piramide di consapevolezza; lavorare a percentuale"], [6812, "Garanzia, rischi di consegna, contro-garanzia, la formula dell'offerta"], [7104, "Adatta le competenze al mercato, non la nicchia"], [7227, "L'esperienza non vale niente senza una proposta chiara"], [7318, "Arriva Alessandro"], [7495, "Alessandro: due momenti di vita precisi"], [7706, "Alessandro: da 3 a 7 mesi per poter garantire"], [8159, "Testa l'offerta con le ads"], [8228, "Capisci i rifiuti; le obiezioni migliorano l'offerta"], [8294, "Arriva Ale (Sales Life)"], [8618, "Ale: 30 reel al giorno, 13k follower, profilo bannato"], [8704, "Ale: ads, offerta e cosa rifarebbe"], [9182, "Contenuti: domande dei clienti e lead magnet"], [9451, "Sapere non è eseguire: la ricetta e la pizzeria"], [9636, "In mezzo a tutto resti sempre tu; arriva Daniele (400k follower)"], [9792, "Daniele: chi sono, coaching nutrizione e fitness"], [9929, "Daniele: produzione dei contenuti a blocchi"], [10179, "Daniele: l'editing è il collo di bottiglia"], [10371, "Daniele: la procedura minima per produrre in serie"], [10608, "PITCH: chi prepara tutto questo? Noi. Delega inversa"], [10720, "PITCH: tool di analisi dell'offerta, con noi in prima linea"], [11049, "PITCH: tool funnel"], [11128, "PITCH: Peddy, contenuti"], [11342, "PITCH: la Fabbrica dei Reel"], [11522, "PITCH: Setty, il CRM per Instagram"], [11666, "PITCH: Sales Coach AI"], [11742, "PITCH: Academy, supporto e Nova"], [11883, "PITCH: cosa resta a te"], [12028, "PITCH: agenzia, corso o noi"], [12101, "PITCH: quanto costa farlo altrove"], [12231, "PITCH: il tempo che risparmi"], [12361, "PITCH: condizioni, il prezzo"], [12450, "PITCH: come candidarsi"], [12502, "PITCH: le garanzie per i primi 10"], [12621, "PITCH: percorso di un anno, ti seguo finché non ti ripaghi"], [12703, "PITCH: il link e i posti in diretta"], [13097, "FAQ"], [13156, "Domande, ringraziamenti e saluti"]] },
+};
 const $ = s => document.querySelector(s);
 const player = $("[data-player]"), attesa = $("[data-attesa]"), cta = $("[data-cta]"), lista = $("[data-capitoli]");
-let frame = null, sp = null, video = "";
-const mmss = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+let frame = null, sp = null, video = "", ids = {}, scelta = "breve", capitoli = [], pitch = Infinity, bottoni = [];
+try { if (localStorage.getItem("pbm-replay-versione") === "completa") scelta = "completa"; } catch (e) {}
+const mmss = s => (s >= 3600 ? Math.floor(s / 3600) + ":" + String(Math.floor(s % 3600 / 60)).padStart(2, "0") : Math.floor(s / 60)) + ":" + String(s % 60).padStart(2, "0");
 
-/* capitoli */
-const bottoni = CAPITOLI.map(([t, nome]) => {
-  const li = document.createElement("li"), b = document.createElement("button"), tm = document.createElement("time"), sp2 = document.createElement("span");
-  b.type = "button"; tm.textContent = mmss(t); sp2.textContent = nome.replace(/^PITCH:\s*/i, "");
-  if (t >= PITCH) b.classList.add("pitch");
-  b.append(tm, sp2); li.append(b); lista.append(li);
-  b.addEventListener("click", () => { if (sp) { sp.currentTime = t; sp.play(); } if (t >= PITCH) mostraCta(); });
-  return b;
-});
+/* capitoli della versione scelta */
+function mostraCapitoli() {
+  capitoli = VERSIONI[scelta].capitoli;
+  pitch = (capitoli.find(c => /^PITCH/i.test(c[1])) || [Infinity])[0];
+  lista.textContent = "";
+  bottoni = capitoli.map(([t, nome]) => {
+    const li = document.createElement("li"), b = document.createElement("button"), tm = document.createElement("time"), sp2 = document.createElement("span");
+    b.type = "button"; tm.textContent = mmss(t); sp2.textContent = nome.replace(/^PITCH:\s*/i, "");
+    if (t >= pitch) b.classList.add("pitch");
+    b.append(tm, sp2); li.append(b); lista.append(li);
+    b.addEventListener("click", () => { if (sp) { sp.currentTime = t; sp.play(); } if (t >= pitch) mostraCta(); });
+    return b;
+  });
+  lista.scrollTop = 0;
+}
 function evidenzia(s) {
-  let i = -1; CAPITOLI.forEach((c, k) => { if (s >= c[0]) i = k; });
+  let i = -1; capitoli.forEach((c, k) => { if (s >= c[0]) i = k; });
   bottoni.forEach((b, k) => b.classList.toggle("ora", k === i));
 }
 
@@ -168,11 +188,13 @@ fetch("https://pbm-live.ovolollo580.workers.dev/stato", { cache: "no-store" }).t
 
 /* video */
 function carica(id) {
-  if (!id || id === video) return;
+  if (!id) { if (frame) { frame.remove(); frame = null; sp = null; } video = ""; attesa.hidden = false; return; }
+  if (id === video) return;
   video = id;
   if (frame) frame.remove();
   frame = document.createElement("iframe");
-  frame.src = "https://customer-" + CLIENTE + ".cloudflarestream.com/" + encodeURIComponent(id) + "/iframe?preload=auto";
+  const inizio = VERSIONI[scelta].inizio;
+  frame.src = "https://customer-" + CLIENTE + ".cloudflarestream.com/" + encodeURIComponent(id) + "/iframe?preload=auto" + (inizio ? "&startTime=" + inizio : "");
   frame.title = "Replay La morte del personal brand";
   frame.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen";
   frame.allowFullscreen = true;
@@ -180,12 +202,25 @@ function carica(id) {
   attesa.hidden = true;
   if (window.Stream) {
     sp = Stream(frame);
-    sp.addEventListener("timeupdate", () => { const s = sp.currentTime || 0; evidenzia(s); if (s >= PITCH) mostraCta(); });
+    sp.addEventListener("timeupdate", () => { const s = sp.currentTime || 0; evidenzia(s); if (s >= pitch) mostraCta(); });
   }
 }
-async function leggi() {
-  try { const d = await (await fetch("replay.json?t=" + Date.now(), { cache: "no-store" })).json(); carica(d.video); } catch (e) {}
+function scegli(v) {
+  scelta = v;
+  try { localStorage.setItem("pbm-replay-versione", v); } catch (e) {}
+  document.querySelectorAll("[data-v]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+  mostraCapitoli();
+  carica(ids[v]);
 }
+document.querySelectorAll("[data-v]").forEach(b => b.addEventListener("click", () => { if (b.dataset.v !== scelta) scegli(b.dataset.v); }));
+async function leggi() {
+  try {
+    const d = await (await fetch("replay.json?t=" + Date.now(), { cache: "no-store" })).json();
+    ids = { breve: d.breve || d.video || "", completa: d.completa || "" };
+    carica(ids[scelta]);
+  } catch (e) {}
+}
+scegli(scelta);
 leggi(); setInterval(() => { if (!video) leggi(); }, 30000);
 </script>
 </body>
