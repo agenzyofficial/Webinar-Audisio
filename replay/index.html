@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B0D0E">
+<title>Replay · La morte del personal brand</title>
+<meta name="description" content="Il replay della diretta di Andrea Audisio: far crescere il fatturato senza far crescere le tue ore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0D0E;--bg-2:#111417;--line:#262C31;
+  --fg:#E8ECEE;--fg-2:#A6B0B6;--fg-3:#6B757D;
+  --acc:#FF5A14;--on-acc:#0B0D0E;--wa:#25D366;
+  --sans:"Poppins",system-ui,sans-serif;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --gutter:clamp(16px,4vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.acc{color:var(--acc)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gutter)}
+header{padding:14px 0 10px}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.logo{width:min(190px,44vw)}
+.logo img{mix-blend-mode:screen}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid rgba(255,90,20,.55);border-radius:999px;background:rgba(255,90,20,.12);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--acc)}
+main{padding:6px 0 32px}
+h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin-top:6px;color:var(--fg-2);font-size:15px}
+/* video e capitoli: affiancati dal computer, dal telefono i capitoli sotto il video e il bottone */
+.stage{display:grid;gap:16px;margin-top:16px}
+@media (min-width:980px){.stage{grid-template-columns:minmax(0,1fr) 340px}}
+.player{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.attesa{position:absolute;inset:0;display:grid;place-content:center;gap:8px;padding:20px;text-align:center;background:radial-gradient(60% 60% at 50% 45%,rgba(255,90,20,.16),transparent 70%),#07090A}
+.attesa[hidden]{display:none}
+.attesa b{font-size:clamp(18px,3.4vw,26px);font-weight:800;font-style:italic}
+.attesa span{color:var(--fg-2);font-size:14px}
+/* bottone della call: compare quando il video arriva alla presentazione (e resta) */
+.cta{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px;padding:16px 18px;border:2px solid var(--acc);border-radius:14px;
+  background:linear-gradient(90deg,rgba(255,90,20,.22),rgba(255,90,20,.06));box-shadow:0 0 32px rgba(255,90,20,.35);animation:cta-in 500ms var(--ease-out)}
+.cta[hidden]{display:none}
+.cta-t{font-weight:800;font-style:italic;font-size:clamp(18px,3vw,24px);line-height:1.2}
+.cta-btn{flex:none;display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 24px;border-radius:12px;background:var(--acc);color:var(--on-acc);
+  font-weight:800;font-size:17px;text-transform:uppercase;text-decoration:none;box-shadow:0 0 24px rgba(255,90,20,.55);animation:cta-pulse 2.4s ease-in-out 600ms infinite}
+@keyframes cta-in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+@keyframes cta-pulse{50%{box-shadow:0 0 0 6px rgba(255,90,20,.18),0 0 34px rgba(255,90,20,.7)}}
+@media (max-width:600px){.cta{flex-direction:column;align-items:stretch;text-align:center}.cta-btn{justify-content:center}}
+@media (prefers-reduced-motion:reduce){.cta,.cta-btn{animation:none}}
+.capitoli{position:relative;min-height:360px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2)}
+@media (max-width:979px){.capitoli{height:min(60vh,460px)}}
+.cap-in{position:absolute;inset:0;display:flex;flex-direction:column}
+.cap-h{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.cap-list{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;list-style:none;padding:6px}
+.cap-list button{display:grid;grid-template-columns:52px 1fr;gap:8px;width:100%;padding:8px 10px;border:0;border-radius:8px;background:none;color:var(--fg-2);font:500 14px/1.35 var(--sans);text-align:left;cursor:pointer}
+.cap-list button:hover{background:rgba(255,255,255,.04);color:var(--fg)}
+.cap-list button time{color:var(--fg-3);font-weight:700;font-variant-numeric:tabular-nums}
+.cap-list button.ora{background:rgba(255,90,20,.12);color:#fff}
+.cap-list button.ora time{color:var(--acc)}
+.cap-list button.pitch time{color:var(--acc)}
+.below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
+.below p{color:var(--fg-2);font-size:15px}
+.below p b{color:var(--fg)}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:12px;background:var(--wa);color:#06180D;font-weight:800;font-size:15px;text-transform:uppercase;text-decoration:none}
+.btn-wa svg{width:20px;height:20px;fill:currentColor}
+footer{border-top:1px solid var(--line);padding:18px 0 calc(22px + env(safe-area-inset-bottom));color:var(--fg-3);font-size:12px;text-align:center}
+footer a{color:var(--fg-2);text-underline-offset:3px}
+@media (max-width:600px){
+  .pill{font-size:11.5px;padding:5px 10px}
+  .player{margin-left:calc(-1 * var(--gutter));margin-right:calc(-1 * var(--gutter));border-radius:0;border-left:0;border-right:0}
+  .below{flex-direction:column;align-items:stretch;text-align:center}
+  .btn-wa{justify-content:center}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="../" aria-label="La morte del personal brand"><img src="../assets/logo-evento-mobile-senza-cartellino.jpg" alt="La morte del personal brand" width="900" height="437"></a>
+    <span class="pill"><span class="dot" aria-hidden="true"></span>Replay</span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>La morte del <span class="acc">personal brand.</span></h1>
+    <p class="sub">Il replay della diretta con Andrea Audisio · giovedì 29 ottobre · 59 minuti</p>
+
+    <div class="stage">
+      <div>
+        <div class="player" data-player>
+          <div class="attesa" data-attesa>
+            <b>Il replay arriva tra poco</b>
+            <span>Resta su questa pagina: il video compare da solo.</span>
+          </div>
+        </div>
+        <div class="cta" data-cta hidden>
+          <p class="cta-t">Prenota la call con il team</p>
+          <a class="cta-btn" href="https://links.profitos.it/widget/bookings/call-strategica-webinar" target="_blank" rel="noopener" data-cta-a>Prenota ora <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <aside class="capitoli" aria-label="Capitoli del replay">
+        <div class="cap-in">
+          <div class="cap-h">Capitoli</div>
+          <ol class="cap-list" data-capitoli></ol>
+        </div>
+      </aside>
+    </div>
+
+    <div class="below">
+      <p><b>Il gruppo WhatsApp dell'evento</b><br>Link, avvisi e materiali arrivano lì.</p>
+      <a class="btn-wa" href="https://chat.whatsapp.com/FQ54LZCGYAVGLxmeSzN9mh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>Gruppo WhatsApp</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><a href="https://world.ambitioned.net/terms-of-service/" target="_blank" rel="noopener">Terms</a> · <a href="https://www.privacypolicies.com/live/7ca9823a-2aa2-4cbc-be9b-4e2bf2d313e3" target="_blank" rel="noopener">Privacy Policy</a></p>
+    <p>Copyright © 2026 | Ambitioned LTD - 24 Tax Suite 137 b Westlink House 981 Great West Road - Brentford (London) - United Kingdom</p>
+  </div>
+</footer>
+
+<script src="https://embed.cloudflarestream.com/embed/sdk.latest.js"></script>
+<script>
+/* Pagina del replay. Il video sta su Cloudflare Stream: il suo ID va in replay.json ("video"), finché è vuoto si vede
+   "Il replay arriva tra poco" e la pagina lo rilegge ogni 30 s. I capitoli vengono dalla scaletta del montaggio:
+   cliccandoli il video salta lì. Il bottone della call compare quando il video arriva alla presentazione (PITCH)
+   e da lì resta, anche se si ricarica la pagina. Il link della call è lo stesso della diretta. */
+const CLIENTE = "mmn87qdxwqp7tczh";
+const CAPITOLI = [[0, "Apertura: autopsia del personal brand"], [69, "Cosa vuoi davvero; il problema non è marketing, è fiducia"], [290, "Un motivo concreto per sceglierti; non emergere, farsi scegliere"], [384, "Il reel è attenzione, non business; volantini; la crema del cappuccino"], [514, "Delegare tutto non esiste; il perfezionismo è una scusa"], [580, "L'ordine giusto del business; non lavorare più di un dipendente"], [633, "Storia: 19 anni, primo imprenditore della famiglia, agenzia acquisita"], [664, "Storia: polmone perforato, lascio tutto, Consulente High Ticket"], [835, "Storia: il socio che mi frega; cosa proteggere"], [886, "Storia: ProfitOS 100k in un mese"], [908, "Riconosco la gabbia: 19 anni + Il business funziona finché ci sei tu"], [1023, "L'AI come dopamina: non fate gli ingegneri + Miti del personal brand: follower, pubblicare ogni giorno, organico"], [1178, "Il business non si misura in follower; nicchia; funnel"], [1229, "Le 4 cose che servono; il lavoro resta a te"], [1289, "Prima la struttura poi la visibilità; il 5% degli influencer"], [1352, "Il contenuto è un mezzo; arriva l'ospite"], [1412, "Felipe: i contenuti non sono il fattore critico"], [1491, "Felipe: 30 collaboratori, 3,5 milioni"], [1528, "La competenza non è un'offerta: l'esempio dello yoga"], [1776, "Situazione precisa, non avatar"], [1811, "High ticket senza essere nessuno: impara a vendere"], [1893, "Emergere = dare un criterio di scelta; mostra i prezzi"], [1982, "Lavorare a percentuale; le palle di garantire"], [2076, "Un'offerta senza garanzia non è un'offerta"], [2151, "L'esperienza non vale niente senza una proposta chiara"], [2242, "Alessandro: due momenti di vita precisi"], [2299, "Alessandro: da 3 a 7 mesi per poter garantire"], [2342, "Testa l'offerta con le ads"], [2393, "Capisci i rifiuti; le obiezioni migliorano l'offerta"], [2459, "Ale: 30 reel al giorno, 13k follower, profilo bannato"], [2545, "Sapere non è eseguire: la ricetta e la pizzeria"], [2665, "In mezzo a tutto resti sempre tu"], [2709, "PITCH: chi prepara tutto questo? Noi. Delega inversa"], [2785, "PITCH: tool di analisi dell'offerta, con noi in prima linea"], [2906, "PITCH: tool funnel"], [2966, "PITCH: Peddy, contenuti"], [3010, "PITCH: la Fabbrica dei Reel"], [3032, "PITCH: Sales Coach AI"], [3077, "PITCH: Academy e supporto"], [3130, "PITCH: cosa resta a te"], [3212, "PITCH: quanto costa farlo altrove"], [3294, "PITCH: condizioni, il prezzo"], [3340, "PITCH: come candidarsi"], [3393, "PITCH: percorso di un anno, ti seguo finché non ti ripaghi"], [3475, "FAQ"], [3534, "Saluto finale"]];
+const PITCH = (CAPITOLI.find(c => /^PITCH/i.test(c[1])) || [Infinity])[0];
+const $ = s => document.querySelector(s);
+const player = $("[data-player]"), attesa = $("[data-attesa]"), cta = $("[data-cta]"), lista = $("[data-capitoli]");
+let frame = null, sp = null, video = "";
+const mmss = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+
+/* capitoli */
+const bottoni = CAPITOLI.map(([t, nome]) => {
+  const li = document.createElement("li"), b = document.createElement("button"), tm = document.createElement("time"), sp2 = document.createElement("span");
+  b.type = "button"; tm.textContent = mmss(t); sp2.textContent = nome.replace(/^PITCH:\s*/i, "");
+  if (t >= PITCH) b.classList.add("pitch");
+  b.append(tm, sp2); li.append(b); lista.append(li);
+  b.addEventListener("click", () => { if (sp) { sp.currentTime = t; sp.play(); } if (t >= PITCH) mostraCta(); });
+  return b;
+});
+function evidenzia(s) {
+  let i = -1; CAPITOLI.forEach((c, k) => { if (s >= c[0]) i = k; });
+  bottoni.forEach((b, k) => b.classList.toggle("ora", k === i));
+}
+
+/* bottone della call: dalla presentazione in poi, e resta per chi l'ha già visto */
+let ctaVista = false;
+try { ctaVista = localStorage.getItem("pbm-replay-cta") === "1"; } catch (e) {}
+function mostraCta() { cta.hidden = false; if (!ctaVista) { ctaVista = true; try { localStorage.setItem("pbm-replay-cta", "1"); } catch (e) {} } }
+if (ctaVista) cta.hidden = false;
+fetch("https://pbm-live.ovolollo580.workers.dev/stato", { cache: "no-store" }).then(r => r.json()).then(st => {
+  if (st && st.cta && /^https:\/\//.test(st.cta.url || "")) $("[data-cta-a]").href = st.cta.url;
+}).catch(() => {});
+
+/* video */
+function carica(id) {
+  if (!id || id === video) return;
+  video = id;
+  if (frame) frame.remove();
+  frame = document.createElement("iframe");
+  frame.src = "https://customer-" + CLIENTE + ".cloudflarestream.com/" + encodeURIComponent(id) + "/iframe?preload=auto";
+  frame.title = "Replay La morte del personal brand";
+  frame.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen";
+  frame.allowFullscreen = true;
+  player.prepend(frame);
+  attesa.hidden = true;
+  if (window.Stream) {
+    sp = Stream(frame);
+    sp.addEventListener("timeupdate", () => { const s = sp.currentTime || 0; evidenzia(s); if (s >= PITCH) mostraCta(); });
+  }
+}
+async function leggi() {
+  try { const d = await (await fetch("replay.json?t=" + Date.now(), { cache: "no-store" })).json(); carica(d.video); } catch (e) {}
+}
+leggi(); setInterval(() => { if (!video) leggi(); }, 30000);
+</script>
+</body>
+</html>
