@@ -79,18 +79,17 @@ h1{font-weight:800;font-style:italic;font-size:clamp(22px,4.2vw,34px);line-heigh
 .versioni button[aria-pressed="true"]{background:var(--acc);color:var(--on-acc)}
 .versioni button[aria-pressed="true"] small{color:inherit;opacity:.8}
 @media (max-width:600px){.versioni{display:flex}.versioni button{flex:1;padding:0 10px}}
-.below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--wa);border-radius:12px;background:var(--bg-2)}
+.below{margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 18px;border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:12px;background:var(--bg-2)}
 .below p{color:var(--fg-2);font-size:15px}
 .below p b{color:var(--fg)}
-.btn-wa{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:12px;background:var(--wa);color:#06180D;font-weight:800;font-size:15px;text-transform:uppercase;text-decoration:none}
-.btn-wa svg{width:20px;height:20px;fill:currentColor}
+.btn-call{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:12px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:15px;text-transform:uppercase;text-decoration:none}
 footer{border-top:1px solid var(--line);padding:18px 0 calc(22px + env(safe-area-inset-bottom));color:var(--fg-3);font-size:12px;text-align:center}
 footer a{color:var(--fg-2);text-underline-offset:3px}
 @media (max-width:600px){
   .pill{font-size:11.5px;padding:5px 10px}
   .player{margin-left:calc(-1 * var(--gutter));margin-right:calc(-1 * var(--gutter));border-radius:0;border-left:0;border-right:0}
   .below{flex-direction:column;align-items:stretch;text-align:center}
-  .btn-wa{justify-content:center}
+  .btn-call{justify-content:center}
 }
 </style>
 </head>
@@ -134,8 +133,8 @@ footer a{color:var(--fg-2);text-underline-offset:3px}
     </div>
 
     <div class="below">
-      <p><b>Il gruppo WhatsApp dell'evento</b><br>Link, avvisi e materiali arrivano lì.</p>
-      <a class="btn-wa" href="https://chat.whatsapp.com/FQ54LZCGYAVGLxmeSzN9mh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>Gruppo WhatsApp</a>
+      <p><b>Vuoi lavorare con noi?</b><br>Prenota una call con il team: vediamo insieme la tua situazione.</p>
+      <a class="btn-call" href="https://links.profitos.it/widget/bookings/call-strategica-webinar" target="_blank" rel="noopener" data-cta-a>Prenota la call <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </main>
@@ -198,7 +197,7 @@ try { ctaVista = localStorage.getItem("pbm-replay-cta") === "1"; } catch (e) {}
 function mostraCta() { cta.hidden = false; if (!ctaVista) { ctaVista = true; try { localStorage.setItem("pbm-replay-cta", "1"); } catch (e) {} } }
 if (ctaVista) cta.hidden = false;
 fetch("https://pbm-live.ovolollo580.workers.dev/stato", { cache: "no-store" }).then(r => r.json()).then(st => {
-  if (st && st.cta && /^https:\/\//.test(st.cta.url || "")) $("[data-cta-a]").href = st.cta.url;
+  if (st && st.cta && /^https:\/\//.test(st.cta.url || "")) document.querySelectorAll("[data-cta-a]").forEach(a => a.href = st.cta.url);
 }).catch(() => {});
 
 /* video */
