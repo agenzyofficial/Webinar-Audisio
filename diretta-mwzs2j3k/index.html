@@ -319,13 +319,26 @@ musicB.addEventListener("click", () => {
   if (musicWait && !musicOff && !waiting.hidden && !e.target.closest("[data-music-b]")) { musicWait = false; playMusic(); }
 }, true));
 music.addEventListener("pause", musicLabel); music.addEventListener("play", musicLabel);
-/* se l'audio lo attivano dall'altoparlante del player Cloudflare, il riquadro sotto sparisce */
+/* il player Cloudflare (uno per video): se l'audio lo attivano dall'altoparlante del player, il riquadro sotto sparisce.
+   Play, pausa e volume servono anche alle statistiche del pannello (syncGuardo, più sotto). */
+let sp = null, inPlay = false, yt = {};
 const watchVolume = () => {
   if (!frame || !window.Stream || current.includes("youtube")) return;
-  const p = Stream(frame), t0 = Date.now();
+  const p = sp = Stream(frame), t0 = Date.now();
   /* all'avvio il player segnala un cambio di volume prima di essere davvero muto: si guarda lo stato solo dopo */
-  p.addEventListener("volumechange", () => setTimeout(() => { if (Date.now() - t0 > 2500 && p.muted === false) { muted = false; syncWaiting(); } }, 300));
+  p.addEventListener("volumechange", () => { syncGuardo(); setTimeout(() => { if (Date.now() - t0 > 2500 && p.muted === false) { muted = false; syncWaiting(); } }, 300); });
+  ["play", "playing"].forEach(t => p.addEventListener(t, () => { inPlay = true; syncGuardo(); }));
+  ["pause", "ended"].forEach(t => p.addEventListener(t, () => { inPlay = false; syncGuardo(); }));
 };
+/* piano B YouTube: il player manda il suo stato (playerState 1 = in play, 3 = carica; muted, volume) dopo il messaggio "listening" */
+window.addEventListener("message", e => {
+  if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(e.origin) || typeof e.data !== "string") return;
+  let d; try { d = JSON.parse(e.data); } catch (err) { return; }
+  if (d.event === "infoDelivery" && d.info) Object.assign(yt, d.info);
+  else if (d.event === "onStateChange") yt.playerState = d.info;
+  else return;
+  syncGuardo();
+});
 
 /* conto alla rovescia fino alle 21:00, poi "In diretta" */
 const pad = n => String(n).padStart(2, "0");
@@ -359,12 +372,17 @@ function show(cfg) {
   if (src && bloccato()) { inAttesa = cfg; return; }
   current = src;
   if (frame) { frame.remove(); frame = null; }
+  if (sp) { try { sp.destroy(); } catch (e) {} sp = null; }
+  inPlay = false; yt = {};
   if (!src) { syncWaiting(); return; }
-  frame = document.createElement("iframe");
+  const f = frame = document.createElement("iframe");
   frame.src = src;
   frame.title = "Diretta La morte del personal brand";
   frame.allow = "accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen";
   frame.allowFullscreen = true;
+  if (src.includes("youtube")) f.addEventListener("load", () => {
+    try { f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: 1, channel: "widget" }), "*"); } catch (e) {}
+  });
   player.prepend(frame);
   watchVolume();
   syncWaiting();
@@ -376,7 +394,7 @@ unmute.addEventListener("click", () => {
   if (current.includes("youtube")) {
     ["unMute", "playVideo"].forEach(func => frame.contentWindow.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*"));
   } else if (window.Stream) {
-    const p = Stream(frame); p.muted = false; p.play();
+    const p = sp || Stream(frame); p.muted = false; p.play();
     /* se il browser non lo lascia attivare da qui (iPhone), il riquadro torna: si usa l'altoparlante del player */
     setTimeout(() => { if (p.muted) { muted = true; syncWaiting(); } }, 1200);
   } else {
@@ -420,7 +438,7 @@ function connetti() {
   if (ws && ws.readyState < 2) return;
   try { ws = new WebSocket(LIVE + "?d=" + dev); } catch (e) { return; }
   const s = ws;
-  s.onopen = () => { wsOk = true; attesa = 1000; syncChat(); };
+  s.onopen = () => { wsOk = true; attesa = 1000; syncChat(); syncGuardo(true); };
   s.onmessage = e => {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
@@ -432,6 +450,23 @@ function connetti() {
     riprova = setTimeout(connetti, attesa + Math.random() * 1000); attesa = Math.min(attesa * 2, 30000);
   };
 }
+
+/* Statistiche del pannello: il servizio in tempo reale conta ogni minuto quante pagine hanno il video che va
+   (0 fermo o coperto dal conto alla rovescia, 1 in play senza audio, 2 in play con l'audio). Si manda solo quando cambia
+   e a ogni nuovo collegamento; ogni 15 s si ricontrolla, per i cambi che il player non segnala. */
+let guardo = -1;
+function statoVideo() {
+  if (!frame || !waiting.hidden) return 0;
+  if (current.includes("youtube")) return yt.playerState === 1 || yt.playerState === 3 ? (yt.muted || yt.volume === 0 ? 1 : 2) : 0;
+  return sp && inPlay ? (sp.muted || sp.volume === 0 ? 1 : 2) : 0;
+}
+function syncGuardo(forza) {
+  const g = statoVideo();
+  if (!wsOk || (g === guardo && !forza)) return;
+  guardo = g;
+  try { ws.send(JSON.stringify({ t: "guardo", g })); } catch (e) {}
+}
+setInterval(syncGuardo, 15000);
 
 /* Chat: viaggia sullo stesso collegamento del bottone. Il nome resta salvato su questo dispositivo, che ha un suo codice
    (serve ai moderatori del pannello per bannare insieme all'IP). Chi è bannato vede la chat ma non può scrivere. */

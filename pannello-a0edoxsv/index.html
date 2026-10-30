@@ -77,6 +77,59 @@ button:disabled{opacity:.5;cursor:wait}
 .cm .em{color:var(--fg-3);font-size:12px;font-weight:500}
 .acc-list{margin-top:12px;height:min(50vh,420px);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
 .ban-list{margin-top:12px;max-height:220px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:#0B0E10}
+/* due viste: i comandi della diretta e le statistiche minuto per minuto */
+.viste{display:flex;gap:8px;margin-top:18px;padding:5px;border:1px solid var(--line);border-radius:14px;background:var(--bg-2);width:max-content;max-width:100%}
+.viste button{min-height:44px;padding:0 18px;border-radius:10px;background:transparent;color:var(--fg-2);font-size:14px;text-transform:none}
+.viste button[aria-pressed="true"]{background:var(--acc);color:var(--on-acc)}
+body.vista-stat .v-diretta,body:not(.vista-stat) .v-stat{display:none!important}
+.st-testa{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.st-testa select{min-height:42px;max-width:100%;padding:0 12px;border:1px solid #2C343A;border-radius:10px;background:#0B0E10;color:var(--fg);font:600 14px var(--sans)}
+.st-azioni{display:flex;flex-wrap:wrap;gap:8px;max-width:100%}
+@media (max-width:640px){.st-azioni{width:100%}.st-testa select{flex:1 1 100%;min-width:0;width:100%}}
+.st-azioni .mini{min-height:42px;padding:0 14px;font-size:12.5px}
+.stats.st4{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){.stats.st4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat small{display:block;margin-top:2px;color:var(--fg-2);font-size:12.5px}
+.legenda{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-size:13px;color:var(--fg-2)}
+.legenda span{display:inline-flex;align-items:center;gap:7px}
+.legenda i{display:inline-block;width:18px;height:3px;border-radius:2px}
+.grafico{position:relative;margin-top:8px;outline:none;touch-action:pan-y}
+.grafico:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:6px}
+.grafico svg{display:block;width:100%;overflow:visible;user-select:none;-webkit-user-select:none}
+.grafico text{font-family:var(--sans)}
+.suggerimento{position:absolute;z-index:2;pointer-events:none;min-width:150px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#15191C;box-shadow:0 8px 24px rgba(0,0,0,.45);font-size:12.5px;line-height:1.45}
+.suggerimento b{display:block;font-size:13px}
+.suggerimento .r{display:flex;align-items:center;gap:6px;color:var(--fg-2)}
+.suggerimento .r i{width:10px;height:3px;border-radius:2px;flex:none}
+.suggerimento .r em{margin-left:auto;padding-left:10px;font-style:normal;color:var(--fg);font-weight:700;font-variant-numeric:tabular-nums}
+.passi{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.passi .mini{min-width:52px}
+.passi span{color:var(--fg-3);font-size:13px}
+.dett{display:grid;gap:16px;margin-top:14px;padding:16px;border:1px solid var(--line);border-radius:12px;background:#0B0E10}
+@media (min-width:900px){.dett{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)}}
+.dett-ora{font-size:26px;font-weight:800;line-height:1.1}
+.dett-ora small{display:block;margin-top:4px;color:var(--fg-3);font-size:13px;font-weight:600}
+.dett-num{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.dett-num div{padding:10px;border:1px solid var(--line);border-radius:10px}
+.dett-num b{display:block;font-size:22px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.dett-num span{display:flex;align-items:center;gap:6px;color:var(--fg-3);font-size:12px;font-weight:600}
+.dett-num span i{width:10px;height:3px;border-radius:2px}
+.chip{display:inline-block;margin:10px 6px 0 0;padding:4px 10px;border-radius:999px;background:rgba(255,90,20,.14);border:1px solid rgba(255,90,20,.45);color:#FFB38F;font-size:12.5px;font-weight:700}
+.dett h3{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-2)}
+.dett .momento{margin-top:6px;color:var(--fg-2);font-size:13.5px;font-weight:600}
+.dett .frase{margin-top:8px;font-size:15px;line-height:1.6;white-space:pre-line}
+.dett .slide{display:flex;gap:12px;align-items:flex-start;margin-top:8px}
+.dett .slide img{width:min(220px,45%);border-radius:8px;border:1px solid var(--line);background:#000}
+.dett .slide p{font-size:14px;line-height:1.55}
+.tab-wrap{margin-top:14px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table.momenti{width:100%;border-collapse:collapse;font-size:14px}
+.momenti th{position:sticky;top:0;padding:10px 12px;background:#15191C;color:var(--fg-3);font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-align:left;white-space:nowrap}
+.momenti td{padding:10px 12px;border-top:1px solid var(--line);white-space:nowrap}
+.momenti td.num,.momenti th.num{text-align:right;font-variant-numeric:tabular-nums}
+.momenti td.cosa{white-space:normal;min-width:180px}
+.momenti tbody tr{cursor:pointer}
+.momenti tbody tr:hover{background:#15191C}
+.momenti tbody tr.on{background:rgba(255,90,20,.12)}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -101,22 +154,59 @@ button:disabled{opacity:.5;cursor:wait}
     <p class="note">La chiave resta salvata su questo dispositivo.</p>
   </div>
 
-  <section class="card stats-card" data-stats-card hidden>
+  <div class="viste" role="group" aria-label="Vista" data-viste hidden>
+    <button type="button" data-vista-b="diretta" aria-pressed="true">🎛 Comandi della diretta</button>
+    <button type="button" data-vista-b="statistiche" aria-pressed="false">📈 Statistiche</button>
+  </div>
+
+  <section class="card stats-card v-diretta" data-stats-card hidden>
     <div class="card-h"><h2>Statistiche della diretta</h2><p class="note" data-st-ora>Si aggiornano da sole ogni 10 secondi.</p></div>
     <div class="stats">
-      <div class="stat acc"><b data-st="entrati">–</b><span>entrati con email</span></div>
+      <div class="stat acc"><b data-st="entrati">–</b><span>entrati in tutta la serata</span></div>
       <div class="stat acc"><b data-st="collegati">–</b><span>collegati adesso</span></div>
-      <div class="stat"><b data-st="picco">–</b><span>picco collegati</span></div>
+      <div class="stat"><b data-st="picco">–</b><span>picco collegati insieme</span></div>
       <div class="stat"><b data-st="email">–</b><span>email diverse</span></div>
       <div class="stat"><b data-st="messaggi">–</b><span>messaggi in chat</span></div>
       <div class="stat"><b data-st="scrittori">–</b><span>persone che scrivono</span></div>
       <div class="stat"><b data-st="cancellati">–</b><span>messaggi cancellati</span></div>
       <div class="stat"><b data-st="bannati">–</b><span>bannati</span></div>
     </div>
-    <p class="note">Alle 20:50, quando si aprono video e chat, i numeri e l'elenco "Chi è entrato" ripartono da zero da soli: le prove di prima non contano.</p>
+    <p class="note">Alle 20:50, quando si aprono video e chat, i numeri e l'elenco "Chi è entrato" ripartono da zero da soli: le prove di prima non contano.
+      "Entrati" conta tutti quelli passati durante la serata; "collegati" e "picco" solo le pagine della diretta aperte nello stesso momento (senza pannello e regia).</p>
   </section>
 
-  <div class="grid">
+  <!-- vista Statistiche: spettatori minuto per minuto -->
+  <section class="card v-stat" data-st-card hidden>
+    <div class="st-testa">
+      <h2>Spettatori minuto per minuto</h2>
+      <div class="st-azioni">
+        <select aria-label="Diretta" data-st-diretta><option>Carico…</option></select>
+        <button class="mini" type="button" data-st-csv>Scarica CSV</button>
+      </div>
+    </div>
+    <p class="note" data-st-stato>Carico i dati…</p>
+    <div class="stats st4" data-st-tiles></div>
+    <div class="legenda" data-st-legenda></div>
+    <div class="grafico" tabindex="0" aria-label="Grafico degli spettatori: frecce sinistra e destra per spostarti di un minuto" data-grafico></div>
+    <div class="passi">
+      <button class="mini" type="button" data-passo="-5">−5</button>
+      <button class="mini" type="button" data-passo="-1">−1</button>
+      <button class="mini" type="button" data-passo="1">+1</button>
+      <button class="mini" type="button" data-passo="5">+5</button>
+      <span>Tocca il grafico o una riga dei momenti per vedere quel minuto.</span>
+    </div>
+    <div class="dett" data-dett></div>
+    <h3 class="h3">Momenti chiave</h3>
+    <div class="tab-wrap">
+      <table class="momenti">
+        <thead><tr><th>Ora</th><th>Momento</th><th class="num">Video in play</th><th class="num">Pagine aperte</th><th class="num">Rispetto al picco</th></tr></thead>
+        <tbody data-momenti></tbody>
+      </table>
+    </div>
+    <p class="note" data-st-note></p>
+  </section>
+
+  <div class="grid v-diretta">
     <!-- colonna 1: i comandi che si usano durante la diretta -->
     <div class="col col-comandi">
       <section class="card" data-panel hidden>
@@ -205,6 +295,7 @@ const selfA = $("[data-self]"), copyB = $("[data-copy]"), chatCard = $("[data-ch
 const unlock = () => {
   login.hidden = !!chiave; panel.hidden = !chiave; chatCard.hidden = !chiave; sagomaCard.hidden = !chiave;
   $("[data-stats-card]").hidden = !chiave; $("[data-acc-card]").hidden = !chiave; $("[data-ban-card]").hidden = !chiave;
+  $("[data-viste]").hidden = !chiave; $("[data-st-card]").hidden = !chiave;
   selfA.href = location.origin + location.pathname + (chiave ? "#k=" + encodeURIComponent(chiave) : "");
   if (chiave) { collegaChat(); modera("bannati"); }
 };
@@ -322,7 +413,8 @@ function collegaChat() {
     if (e.data === "pong") return;
     let d; try { d = JSON.parse(e.data); } catch (err) { return; }
     if (!d.t) { if (d.cta) showState(!!d.cta.on); return; }
-    if (d.t === "admin" && d.ok) { Object.assign(emailDi, d.email || {}); mettiEmail(); mostraAccessi(d.accessi || []); return; }
+    if (d.t === "admin" && d.ok) { Object.assign(emailDi, d.email || {}); mettiEmail(); mostraAccessi(d.accessi || []); if (vistaStat) chiediMinuti(); return; }
+    if (d.t === "minuti") { mostraMinuti(d); return; }
     if (d.t === "email") { emailDi[d.id] = d.email; mettiEmail(); return; }
     if (d.t === "accesso") { accessi = [d.a, ...accessi.filter(x => x.dev !== d.a.dev)]; mostraAccessi(accessi); return; }
     if (d.t === "stats") { mostraStats(d); return; }
@@ -385,6 +477,323 @@ $("[data-sg-off]").addEventListener("click", () => sagoma(false));
 svuotaB.addEventListener("click", () => {
   if (confirm("Cancellare tutti i messaggi della chat, per tutti?")) modera("svuota").then(o => { if (o) dice("Chat svuotata"); });
 });
+
+/* Statistiche minuto per minuto (vista "Statistiche"): le chiede al servizio in tempo reale, solo con la chiave.
+   Durante ogni diretta il servizio salva da solo, ogni minuto, le pagine vive degli spettatori, quante hanno il video in play
+   e quante l'audio acceso, la slide della regia e i comandi del pannello. Il 29 ottobre è stato caricato dopo, dalle statistiche
+   di Cloudflare, con quello che stavi dicendo minuto per minuto (dalla trascrizione della registrazione). */
+const COL = { video: "#E8530E", audio: "#3A98E0", pagine: "#8A949B", chat: "#5B656C" };
+const NOMI = { video: "Video in play", audio: "Con l'audio acceso", pagine: "Pagine aperte" };
+const hm = t => new Date(t).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Rome" });
+const giorno = t => new Date(t).toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Rome" });
+const valore = r => r.video ?? r.pagine ?? 0;
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const ns = (tag, at, txt) => {
+  const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const k in at) e.setAttribute(k, at[k]);
+  if (txt != null) e.textContent = txt;
+  return e;
+};
+let vistaStat = false, dati = null, righe = [], serie = [], chatDi = new Map(), eventiDi = new Map(), momenti = [];
+let picco = null, scelto = null, voglio = null, note = null, geo = null;
+const perc = v => picco && valore(picco) ? Math.round(v / valore(picco) * 100) + "%" : "–";
+
+function vista(v) {
+  vistaStat = v === "statistiche";
+  document.body.classList.toggle("vista-stat", vistaStat);
+  document.querySelectorAll("[data-vista-b]").forEach(b => b.setAttribute("aria-pressed", b.dataset.vistaB === v));
+  try { localStorage.setItem("pbm-vista", v); } catch (e) {}
+  if (vistaStat) { chiediMinuti(); requestAnimationFrame(disegna); }
+}
+document.querySelectorAll("[data-vista-b]").forEach(b => b.addEventListener("click", () => vista(b.dataset.vistaB)));
+function chiediMinuti() { if (sockOk && chiave) sock.send(JSON.stringify(voglio ? { t: "minuti", da: voglio } : { t: "minuti" })); }
+$("[data-st-diretta]").addEventListener("change", e => { voglio = Number(e.target.value) || null; scelto = null; chiediMinuti(); });
+
+function mostraMinuti(d) {
+  dati = d; righe = d.righe || []; momenti = [];
+  serie = ["video", "audio", "pagine"].filter(k => righe.some(r => r[k] != null));
+  chatDi = new Map((d.chat || []).map(c => [c.min, c.n]));
+  eventiDi = new Map();
+  const metti = (min, cosa) => {
+    min = Math.floor(min / 60000) * 60000;
+    eventiDi.set(min, [...(eventiDi.get(min) || []), cosa]);
+    momenti.push({ min, cosa });
+  };
+  for (const r of righe) if (r.evento) metti(r.min, r.evento);
+  for (const e of d.eventi || []) metti(e.ora, e.cosa);
+  momenti.sort((a, b) => a.min - b.min);
+  picco = righe.reduce((p, r) => !p || valore(r) > valore(p) ? r : p, null);
+  if (picco && !momenti.some(m => m.min === picco.min)) momenti = [...momenti, { min: picco.min, cosa: "Picco" }].sort((a, b) => a.min - b.min);
+  if (!righe.some(r => r.min === scelto)) scelto = picco ? picco.min : null;
+
+  const sel = $("[data-st-diretta]"), dir = d.dirette || [];
+  sel.replaceChildren(...(dir.length ? dir.slice().reverse().map(x => {
+    const g = giorno(x.da), o = new Option(g[0].toUpperCase() + g.slice(1) + " · " + hm(x.da) + "–" + hm(x.a) + " · picco " + x.picco, x.da);
+    o.selected = x.da === d.da;
+    return o;
+  }) : [new Option("Nessuna diretta salvata")]));
+  const vivo = righe.length && dir.length && d.da === dir[dir.length - 1].da && Date.now() - righe[righe.length - 1].min < 10 * 60000;
+  $("[data-st-stato]").textContent = !righe.length
+    ? "Ancora nessun dato: il grafico si riempie da solo alla prossima diretta, appena entra il primo spettatore."
+    : "Dalle " + hm(righe[0].min) + " alle " + hm(righe[righe.length - 1].min) + " · " + righe.length + " minuti" + (vivo ? " · in corso, si aggiorna da solo ogni minuto" : "");
+  const importata = righe.some(r => r.momento || r.frase);
+  $("[data-st-note]").textContent = importata
+    ? "Numeri del 29 ottobre presi dopo dalle statistiche di Cloudflare. «Pagine aperte» comprende anche le vostre (pannello, regia, telecomando, moderatori): per questo al picco è un po' più alto del «picco collegati insieme» dei Comandi, che conta solo gli spettatori. «Video in play» sono le persone con il video che andava davvero. Le frasi vengono dalla trascrizione automatica della registrazione: qualche parola può essere sbagliata."
+    : "«Pagine aperte»: pagine della diretta aperte dagli spettatori e ancora vive (pannello, regia e telecomando esclusi; un telefono bloccato smette di contare dopo 2 minuti). «Video in play»: quante hanno il video che va; «con l'audio acceso»: quante lo sentono. La slide è quella della regia in quel minuto, se la regia era aperta.";
+  tessere(); legenda(); disegna(); dettaglio(); tabella();
+}
+
+function tessere() {
+  const box = $("[data-st-tiles]");
+  if (!righe.length) { box.replaceChildren(); return; }
+  /* ultimo minuto della diretta: quello segnato come tale, se c'è; se no l'ultimo con almeno il 10% del picco
+     (finita la diretta restano per qualche minuto poche pagine aperte) */
+  const segnato = momenti.find(m => /ultimo minuto/i.test(m.cosa));
+  const ult = (segnato && righe.find(r => r.min === segnato.min)) || righe.slice().reverse().find(r => valore(r) >= valore(picco) / 10) || righe[righe.length - 1];
+  const maxP = righe.reduce((p, r) => (r.pagine ?? -1) > (p.pagine ?? -1) ? r : p, righe[0]);
+  const msg = [...chatDi.values()].reduce((a, b) => a + b, 0);
+  box.replaceChildren(...[
+    [valore(picco), "picco", (picco.video != null ? "video in play" : "pagine aperte") + " alle " + hm(picco.min), true],
+    [maxP.pagine ?? "–", "pagine aperte al massimo", "alle " + hm(maxP.min)],
+    [valore(ult), "ultimo minuto", "alle " + hm(ult.min) + " · " + perc(valore(ult)) + " del picco"],
+    [msg, "messaggi in chat", "in tutta la diretta"]
+  ].map(([v, nome, sotto, acc]) => {
+    const d = el("div", "stat" + (acc ? " acc" : ""));
+    d.append(el("b", "", String(v)), el("span", "", nome), el("small", "", sotto));
+    return d;
+  }));
+}
+
+function legenda() {
+  const box = $("[data-st-legenda]");
+  box.replaceChildren(...serie.map(k => { const s = el("span"), i = el("i"); i.style.background = COL[k]; s.append(i, NOMI[k]); return s; }));
+  if (righe.length) {
+    const c = el("span"), i = el("i"); i.style.cssText = "height:10px;width:8px;background:" + COL.chat; c.append(i, "Messaggi in chat (barre sotto)");
+    const m = el("span"), j = el("i"); j.style.cssText = "width:0;height:12px;border-left:1.5px dashed #6B757D;border-radius:0"; m.append(j, "Momento segnato");
+    box.append(c, m);
+  }
+}
+
+/* grafico: una sola scala (persone), area arancione per chi ha il video in play; sotto, i messaggi di chat al minuto */
+function disegna() {
+  const box = $("[data-grafico]");
+  if (!vistaStat || !box || !box.clientWidth) return;
+  box.replaceChildren(); geo = null;
+  if (!righe.length) return;
+  const W = Math.max(300, box.clientWidth), m = { t: 50, r: 14, l: 34 }, yb = W < 640 ? 250 : 340;
+  const cTop = yb + 44, chatH = 54, cBot = cTop + chatH, H = cBot + 4;
+  const t0 = righe[0].min, t1 = Math.max(righe[righe.length - 1].min, t0 + 60000);
+  const x = t => m.l + (t - t0) / (t1 - t0) * (W - m.l - m.r);
+  const top = Math.max(1, ...righe.map(r => Math.max(r.pagine ?? 0, r.video ?? 0, r.audio ?? 0)));
+  const passo = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 5000].find(p => top / p <= 5) || 10000;
+  const ymax = Math.ceil(top * 1.04 / passo) * passo, y = v => yb - v / ymax * (yb - m.t);
+  const svg = ns("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Spettatori minuto per minuto" });
+
+  for (let v = 0; v <= ymax; v += passo) {
+    svg.append(ns("line", { x1: m.l, x2: W - m.r, y1: y(v), y2: y(v), stroke: v ? "#1C2226" : "#3A434A" }));
+    svg.append(ns("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end", fill: "#6B757D", "font-size": 11 }, String(v)));
+  }
+  /* orari sotto il grafico: ogni 15, 30, 60 o 120 minuti, quanti ne stanno senza toccarsi (circa 48 px l'uno) */
+  const durata = (t1 - t0) / 60000, largo = W - m.l - m.r;
+  const ogni = [15, 30, 60, 120].find(o => durata / o * 48 <= largo) || 240;
+  for (let t = t0; t <= t1; t += 60000) {
+    const [hh, mm] = hm(t).split(":").map(Number);
+    if ((hh * 60 + mm) % ogni) continue;
+    const vicino = x(t) - m.l < 18 ? "start" : W - m.r - x(t) < 18 ? "end" : "middle";
+    svg.append(ns("line", { x1: x(t), x2: x(t), y1: yb, y2: yb + 4, stroke: "#3A434A" }));
+    svg.append(ns("text", { x: x(t), y: yb + 17, "text-anchor": vicino, fill: "#6B757D", "font-size": 11 }, hm(t)));
+  }
+  /* momenti segnati: linea tratteggiata e nome in alto, su tre righe per non sovrapporsi (senza posto resta solo la linea) */
+  const fine = [-1e9, -1e9, -1e9];
+  for (const mo of momenti) {
+    if (mo.min < t0 || mo.min > t1) continue;
+    const px = x(mo.min), nome = [...mo.cosa].length > 24 ? [...mo.cosa].slice(0, 23).join("") + "…" : mo.cosa, w = [...nome].length * 6.3 + 6;
+    svg.append(ns("line", { x1: px, x2: px, y1: m.t - 6, y2: yb, stroke: "#4A545B", "stroke-dasharray": "3 3" }));
+    const sx = px + w + 3 > W ? px - w - 3 : px + 3, riga = fine.findIndex(f => sx > f + 6);
+    if (riga < 0) continue;
+    fine[riga] = sx + w;
+    svg.append(ns("text", { x: sx, y: 12 + riga * 14, fill: "#A6B0B6", "font-size": 11 }, nome));
+  }
+  /* linee: si interrompono dove mancano minuti */
+  const tratti = k => {
+    const pezzi = []; let p = null;
+    for (const r of righe) {
+      if (r[k] == null) { p = null; continue; }
+      if (!p || r.min - p.min > 120000) pezzi.push([]);
+      pezzi[pezzi.length - 1].push(r); p = r;
+    }
+    return pezzi;
+  };
+  const percorso = k => tratti(k).map(pz => pz.map((r, i) => (i ? "L" : "M") + x(r.min).toFixed(1) + "," + y(r[k]).toFixed(1)).join("")).join("");
+  if (serie.includes("pagine")) svg.append(ns("path", { d: percorso("pagine"), fill: "none", stroke: COL.pagine, "stroke-width": 1.5, "stroke-linejoin": "round" }));
+  if (serie.includes("video")) {
+    const area = tratti("video").map(pz => "M" + x(pz[0].min).toFixed(1) + "," + yb + pz.map(r => "L" + x(r.min).toFixed(1) + "," + y(r.video).toFixed(1)).join("") + "L" + x(pz[pz.length - 1].min).toFixed(1) + "," + yb + "Z").join("");
+    svg.append(ns("path", { d: area, fill: COL.video, "fill-opacity": .16 }));
+    svg.append(ns("path", { d: percorso("video"), fill: "none", stroke: COL.video, "stroke-width": 2, "stroke-linejoin": "round" }));
+  }
+  if (serie.includes("audio")) svg.append(ns("path", { d: percorso("audio"), fill: "none", stroke: COL.audio, "stroke-width": 2, "stroke-linejoin": "round" }));
+
+  /* messaggi di chat al minuto */
+  const cmax = Math.max(1, ...chatDi.values()), bw = Math.max(1.5, (W - m.l - m.r) / Math.max(1, durata) * .7);
+  svg.append(ns("text", { x: m.l, y: cTop - 6, fill: "#6B757D", "font-size": 11 }, "Messaggi in chat al minuto (max " + cmax + ")"));
+  for (const [t, n] of chatDi) {
+    if (t < t0 || t > t1) continue;
+    const h = Math.max(1.5, n / cmax * (chatH - 8));
+    svg.append(ns("rect", { x: x(t) - bw / 2, y: cBot - h, width: bw, height: h, rx: 1, fill: COL.chat }));
+  }
+  svg.append(ns("line", { x1: m.l, x2: W - m.r, y1: cBot, y2: cBot, stroke: "#3A434A" }));
+
+  /* minuto scelto (fisso) e minuto sotto il mouse */
+  const gruppo = colore => {
+    const g = ns("g", { visibility: "hidden" });
+    g.append(ns("line", { y1: m.t - 6, y2: cBot, stroke: colore, "stroke-width": 1 }));
+    for (const k of serie) g.append(ns("circle", { r: 4.5, fill: COL[k], stroke: "#111417", "stroke-width": 2, "data-k": k }));
+    svg.append(g);
+    return g;
+  };
+  const gSel = gruppo("rgba(232,236,238,.75)"), gHov = gruppo("rgba(232,236,238,.35)");
+  const tip = el("div", "suggerimento"); tip.hidden = true;
+  box.append(svg, tip);
+  geo = { svg, W, x, y, gSel, gHov, tip, t0, t1, m };
+  const trova = cx => {
+    const b = svg.getBoundingClientRect(), t = t0 + ((cx - b.left) * W / b.width - m.l) / (W - m.l - m.r) * (t1 - t0);
+    return righe.reduce((a, r) => Math.abs(r.min - t) < Math.abs(a.min - t) ? r : a);
+  };
+  svg.addEventListener("pointermove", e => {
+    if (e.pointerType === "touch") { if (e.buttons) scegli(trova(e.clientX).min); return; }
+    hover(trova(e.clientX));
+  });
+  svg.addEventListener("pointerleave", () => hover(null));
+  svg.addEventListener("pointerdown", e => scegli(trova(e.clientX).min));
+  piazza(gSel, righe.find(r => r.min === scelto));
+}
+function piazza(g, r) {
+  if (!geo || !g) return;
+  if (!r) { g.setAttribute("visibility", "hidden"); return; }
+  const px = geo.x(r.min);
+  g.setAttribute("visibility", "visible");
+  const l = g.querySelector("line"); l.setAttribute("x1", px); l.setAttribute("x2", px);
+  g.querySelectorAll("circle").forEach(c => {
+    const v = r[c.dataset.k];
+    c.setAttribute("visibility", v == null ? "hidden" : "visible");
+    if (v != null) { c.setAttribute("cx", px); c.setAttribute("cy", geo.y(v)); }
+  });
+}
+function hover(r) {
+  if (!geo) return;
+  piazza(geo.gHov, r);
+  const tip = geo.tip;
+  if (!r) { tip.hidden = true; return; }
+  tip.replaceChildren(el("b", "", hm(r.min)));
+  for (const k of serie) {
+    const riga = el("div", "r"), i = el("i"); i.style.background = COL[k];
+    riga.append(i, NOMI[k], el("em", "", r[k] == null ? "–" : String(r[k]))); tip.append(riga);
+  }
+  const c = el("div", "r"); c.append("Messaggi in chat", el("em", "", String(chatDi.get(r.min) || 0))); tip.append(c);
+  if (r.slide) { const s = el("div", "r"); s.append("Slide", el("em", "", String(r.slide))); tip.append(s); }
+  for (const e of eventiDi.get(r.min) || []) tip.append(el("div", "", "▸ " + e));
+  tip.hidden = false;
+  const b = geo.svg.getBoundingClientRect(), px = geo.x(r.min) * b.width / geo.W, w = tip.offsetWidth;
+  tip.style.left = (px + 14 + w > b.width ? Math.max(0, px - 14 - w) : px + 14) + "px";
+  tip.style.top = "56px";
+}
+function scegli(min) {
+  if (!righe.length) return;
+  scelto = min;
+  if (geo) piazza(geo.gSel, righe.find(r => r.min === min));
+  dettaglio();
+  document.querySelectorAll("[data-momenti] tr[data-min]").forEach(tr => tr.classList.toggle("on", Number(tr.dataset.min) === min));
+}
+function passo(n) {
+  if (!righe.length) return;
+  const i = Math.max(0, righe.findIndex(r => r.min === scelto));
+  scegli(righe[Math.min(righe.length - 1, Math.max(0, i + n))].min);
+}
+document.querySelectorAll("[data-passo]").forEach(b => b.addEventListener("click", () => passo(Number(b.dataset.passo))));
+$("[data-grafico]").addEventListener("keydown", e => {
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  e.preventDefault(); passo((e.key === "ArrowLeft" ? -1 : 1) * (e.shiftKey ? 5 : 1));
+});
+
+/* il minuto scelto: numeri, momenti segnati e cosa stavi dicendo (frase della registrazione, o la slide della regia con il suo testo) */
+async function caricaNote() {
+  if (note) return;
+  note = {};
+  try { const j = await (await fetch("../regia-e07cyn87/note.json")).json(); for (const x of j.note || []) note[x.n] = x.note; } catch (e) {}
+  dettaglio();
+}
+const testoSlide = n => {
+  const t = String((note && note[n]) || ""), m = t.match(/TESTO SUGGERITO DA DIRE\s*\n+([\s\S]*?)(?:\n\s*\n[A-ZÀÈÉÌÒÙ' ]{6,}\n|$)/);
+  return (m ? m[1] : t).trim();
+};
+function dettaglio() {
+  const box = $("[data-dett]"), r = righe.find(x => x.min === scelto);
+  box.hidden = !r;
+  if (!r) return;
+  const sx = el("div"), dx = el("div"), ora = el("div", "dett-ora", hm(r.min)), num = el("div", "dett-num");
+  const g = giorno(r.min);
+  ora.append(el("small", "", [g[0].toUpperCase() + g.slice(1), r.reg ? "minuto " + r.reg + " della registrazione" : ""].filter(Boolean).join(" · ")));
+  const voce = (v, nome, k) => {
+    const d = el("div"), s = el("span");
+    if (k) { const i = el("i"); i.style.background = COL[k]; s.append(i); }
+    s.append(nome); d.append(el("b", "", v == null ? "–" : String(v)), s);
+    return d;
+  };
+  for (const k of serie) num.append(voce(r[k], NOMI[k].toLowerCase(), k));
+  num.append(voce(chatDi.get(r.min) || 0, "messaggi in chat"), voce(perc(valore(r)), "rispetto al picco"));
+  sx.append(ora, num, ...(eventiDi.get(r.min) || []).map(e => el("span", "chip", e)));
+  if (r.momento || r.frase) {
+    dx.append(el("h3", "", "Cosa stavi dicendo"));
+    if (r.momento) dx.append(el("p", "momento", r.momento));
+    dx.append(el("p", "frase", r.frase || "In questo minuto non c'è parlato nella trascrizione."));
+  } else if (r.slide) {
+    dx.append(el("h3", "", "Slide sullo schermo · " + r.slide));
+    const s = el("div", "slide"), img = el("img");
+    img.src = "../regia-e07cyn87/anteprime/" + String(r.slide).padStart(3, "0") + ".jpg"; img.alt = "Slide " + r.slide; img.loading = "lazy";
+    s.append(img, el("p", "", note ? testoSlide(r.slide) || "Nessun testo per questa slide." : "Carico il testo della slide…"));
+    dx.append(s);
+    caricaNote();
+  } else {
+    dx.append(el("h3", "", "Cosa stavi dicendo"), el("p", "note", "Nessuna slide registrata in questo minuto: la regia non era aperta."));
+  }
+  box.replaceChildren(sx, dx);
+}
+
+function tabella() {
+  const tb = $("[data-momenti]"), di = new Map(righe.map(r => [r.min, r]));
+  const vicina = t => righe.reduce((a, r) => Math.abs(r.min - t) < Math.abs(a.min - t) ? r : a);
+  if (!momenti.length) { const tr = el("tr"), td = el("td", "", righe.length ? "Nessun momento segnato." : "–"); td.colSpan = 5; tr.append(td); tb.replaceChildren(tr); return; }
+  tb.replaceChildren(...momenti.map(mo => {
+    const r = di.get(mo.min) || vicina(mo.min), tr = el("tr");
+    tr.dataset.min = r.min; tr.classList.toggle("on", r.min === scelto);
+    tr.append(el("td", "", hm(mo.min)), el("td", "cosa", mo.cosa), el("td", "num", r.video ?? "–"), el("td", "num", r.pagine ?? "–"), el("td", "num", perc(valore(r))));
+    tr.addEventListener("click", () => { scegli(r.min); $("[data-grafico]").scrollIntoView({ behavior: "smooth", block: "center" }); });
+    return tr;
+  }));
+}
+
+$("[data-st-csv]").addEventListener("click", () => {
+  if (!righe.length) return;
+  const q = v => v == null ? "" : /[";\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : String(v);
+  const testa = ["ora", "video in play", "con audio", "pagine aperte", "messaggi in chat", "slide", "momento", "eventi", "frase"];
+  const corpo = righe.map(r => [hm(r.min), r.video, r.audio, r.pagine, chatDi.get(r.min) || 0, r.slide, r.momento, (eventiDi.get(r.min) || []).join(" / "), r.frase].map(q).join(";"));
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + [testa.join(";"), ...corpo].join("\n")], { type: "text/csv;charset=utf-8" }));
+  a.download = "spettatori-" + new Date(righe[0].min).toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" }) + ".csv";
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+/* durante la diretta (ultimo minuto salvato da meno di 10 minuti), o finché non c'è niente, si richiede ogni minuto;
+   altrimenti ogni 5 minuti, così una diretta nuova compare da sola (se non ne hai scelta un'altra dal menu) */
+let giri = 0;
+setInterval(() => {
+  if (!vistaStat || !dati) return;
+  const dir = dati.dirette || [], ultima = dir[dir.length - 1];
+  const vivo = righe.length && ultima && dati.da === ultima.da && Date.now() - righe[righe.length - 1].min < 10 * 60000;
+  if (!righe.length || vivo || (!voglio && ++giri % 5 === 0)) chiediMinuti();
+}, 60000);
+let rz = 0;
+addEventListener("resize", () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(disegna); });
+try { if (localStorage.getItem("pbm-vista") === "statistiche") vista("statistiche"); } catch (e) {}
 unlock();
 </script>
 </body>

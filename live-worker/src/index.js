@@ -11,7 +11,11 @@
                   "sorgente" fa rileggere subito sorgente.json a tutte le pagine aperte (dopo averlo cambiato);
                   "sagoma-su" / "sagoma-giu" fanno salire o rientrare Andrea cartonato nella pagina della diretta;
                   "togli-accesso" (id = codice del dispositivo) toglie un accesso di prova dall'elenco.
+   POST /minuti   { chiave, righe } carica i minuti di una diretta passata (dalle statistiche di Cloudflare); oltre alla chiave
+                  del pannello accetta il codice del secret IMPORTA, se c'è.
    Le statistiche si azzerano da sole all'inizio della diretta (INIZIO, 20:50 italiane).
+   Minuto per minuto, finché c'è qualcuno collegato, si salvano le pagine vive, quante hanno il video in play e quante l'audio
+   acceso (la pagina lo manda con { t: "guardo", g }) e la slide della regia; il pannello le chiede con { t: "minuti" }.
    Il ban blocca la scrittura per IP (per IPv6 la rete /64) e per codice del dispositivo: chi è bannato vede la chat ma non scrive.
    La chiave non sta nel codice: c'è solo la sua impronta SHA-256, la stessa di api/live.js. */
 import { DurableObject } from "cloudflare:workers";
@@ -19,6 +23,7 @@ import { DurableObject } from "cloudflare:workers";
 const KEY_HASH = "715ccff2b0480e44fc5ea32554e0ca1dbe045526383a3ac3924ded669215d2a5";
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-headers": "content-type", "access-control-allow-methods": "GET, POST, OPTIONS" };
 const STORIA = 100, PAUSA = 3000;
+const VIVA = 120000, BUCO = 30 * 60000;   // pagina viva: ping negli ultimi 2 minuti · più di 30 minuti senza nessuno = un'altra diretta
 const INIZIO = Date.parse("2026-10-29T20:50:00+01:00");   // si aprono video, accesso e chat: da qui contano le statistiche
 const RISERVATI = /admin|moderat|staff|andrea\s*audisio|team\s*audisio/i;
 
@@ -119,7 +124,10 @@ export class Stanza extends DurableObject {
       CREATE INDEX IF NOT EXISTS chat_ora ON chat (ora);
       CREATE TABLE IF NOT EXISTS ban (id TEXT PRIMARY KEY, ora INTEGER, nome TEXT, ip TEXT, dev TEXT);
       CREATE TABLE IF NOT EXISTS nomi (chi TEXT PRIMARY KEY, nome TEXT);
-      CREATE TABLE IF NOT EXISTS accessi (dev TEXT PRIMARY KEY, nome TEXT, email TEXT, ip TEXT, ora INTEGER)`);
+      CREATE TABLE IF NOT EXISTS accessi (dev TEXT PRIMARY KEY, nome TEXT, email TEXT, ip TEXT, ora INTEGER);
+      CREATE TABLE IF NOT EXISTS minuti (min INTEGER PRIMARY KEY, pagine INTEGER, video INTEGER, audio INTEGER, slide INTEGER,
+        momento TEXT, frase TEXT, evento TEXT, reg TEXT);
+      CREATE TABLE IF NOT EXISTS eventi (ora INTEGER, cosa TEXT)`);
     this.ultimi = new Map();
     this.ingressi = new Map();
   }
@@ -147,6 +155,61 @@ export class Stanza extends DurableObject {
     }
   }
   spettatori() { return this.ctx.getWebSockets().length - this.ctx.getWebSockets("pannello").length; }
+  /* pagine della diretta davvero aperte: appena collegate o con un ping negli ultimi 2 minuti (la pagina ne manda uno ogni 45 s).
+     Un telefono bloccato o una pagina chiusa male restano collegati ancora per un po' senza mandare niente: così non contano. */
+  vive() {
+    const da = Date.now() - VIVA;
+    return this.ctx.getWebSockets().map(ws => {
+      const a = ws.deserializeAttachment() || {}, t = this.ctx.getWebSocketAutoResponseTimestamp(ws);
+      return a.p || Math.max(a.da || 0, t ? t.getTime() : 0) < da ? null : a;
+    }).filter(Boolean);
+  }
+  segna(cosa) { this.sql.exec("INSERT INTO eventi (ora, cosa) VALUES (?, ?)", Date.now(), cosa); }
+  /* ogni minuto, finché c'è qualcuno collegato: pagine vive, video in play, audio acceso e slide della regia (se è aperta) */
+  async alarm() {
+    const min = Math.round(Date.now() / 60000) * 60000, vive = this.vive();
+    const regia = this.ctx.getWebSockets("pannello").some(ws => (ws.deserializeAttachment() || {}).regia);
+    const slide = regia ? ((await this.ctx.storage.get("slideOra")) || {}).n || null : null;
+    this.sql.exec(`INSERT INTO minuti (min, pagine, video, audio, slide) VALUES (?, ?, ?, ?, ?) ON CONFLICT(min) DO UPDATE SET
+      pagine = excluded.pagine, video = excluded.video, audio = excluded.audio, slide = excluded.slide`,
+      min, vive.length, vive.filter(a => a.g > 0).length, vive.filter(a => a.g === 2).length, slide);
+    if (vive.length > ((await this.ctx.storage.get("picco")) || 0)) await this.ctx.storage.put("picco", vive.length);
+    if (this.spettatori() > 0) await this.ctx.storage.setAlarm(min + 60000);
+  }
+  /* le dirette salvate (minuti con meno di 30 minuti di buco tra loro) e i minuti di quella chiesta (l'ultima se non si dice),
+     con gli eventi del pannello e i messaggi di chat di ogni minuto. Le pagine aperte per prova (meno di 10 minuti o meno di
+     3 persone) non entrano nell'elenco, salvo quella in corso. */
+  minuti(da) {
+    const tutti = this.sql.exec("SELECT min, video, pagine FROM minuti ORDER BY min").toArray(), tutte = [];
+    for (const r of tutti) {
+      const d = tutte[tutte.length - 1];
+      if (d && r.min - d.a < BUCO) { d.a = r.min; d.picco = Math.max(d.picco, r.video ?? r.pagine); d.n++; }
+      else tutte.push({ da: r.min, a: r.min, picco: r.video ?? r.pagine, n: 1 });
+    }
+    const dirette = tutte.filter(d => (d.n >= 10 && d.picco >= 3) || Date.now() - d.a < 10 * 60000);
+    const s = tutte.find(d => d.da === Number(da)) || dirette[dirette.length - 1];
+    if (!s) return { t: "minuti", dirette, righe: [], eventi: [], chat: [] };
+    return {
+      t: "minuti", dirette, da: s.da,
+      righe: this.sql.exec("SELECT * FROM minuti WHERE min BETWEEN ? AND ? ORDER BY min", s.da, s.a).toArray(),
+      eventi: this.sql.exec("SELECT ora, cosa FROM eventi WHERE ora BETWEEN ? AND ? ORDER BY ora", s.da - 60000, s.a + 60000).toArray(),
+      chat: this.sql.exec("SELECT (ora / 60000) * 60000 AS min, COUNT(*) AS n FROM chat WHERE ora BETWEEN ? AND ? GROUP BY 1",
+        s.da, s.a + 60000).toArray()
+    };
+  }
+  importa(righe) {
+    let n = 0;
+    for (const r of Array.isArray(righe) ? righe : []) {
+      const min = Math.round(Number(r.min) / 60000) * 60000;
+      if (!min) continue;
+      const num = v => v === null || v === undefined || v === "" ? null : Math.max(0, Math.round(Number(v)) || 0);
+      const txt = (v, k) => v ? String(v).slice(0, k) : null;
+      this.sql.exec(`INSERT OR REPLACE INTO minuti (min, pagine, video, audio, slide, momento, frase, evento, reg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        min, num(r.pagine), num(r.video), num(r.audio), num(r.slide), txt(r.momento, 300), txt(r.frase, 4000), txt(r.evento, 120), txt(r.reg, 20));
+      n++;
+    }
+    return json({ ok: true, righe: n });
+  }
   /* Le statistiche si azzerano da sole all'inizio della diretta (20:50, quando si aprono video, accesso e chat): prima contano tutto
      (le prove), dopo solo da quell'ora. Non si cancella niente. La prima volta dopo l'inizio riparte anche il picco e i pannelli
      ricevono l'elenco "Chi è entrato" già ripulito. */
@@ -165,7 +228,7 @@ export class Stanza extends DurableObject {
       t: "stats",
       entrati: uno("SELECT COUNT(*) AS n FROM accessi WHERE ora >= ?"),
       email: uno("SELECT COUNT(DISTINCT email) AS n FROM accessi WHERE ora >= ?"),
-      collegati: this.spettatori(),
+      collegati: this.vive().length,
       picco: (await this.ctx.storage.get("picco")) || 0,
       messaggi: uno("SELECT COUNT(*) AS n FROM chat WHERE ora >= ?"),
       cancellati: uno("SELECT COUNT(*) AS n FROM chat WHERE via = 1 AND ora >= ?"),
@@ -184,20 +247,22 @@ export class Stanza extends DurableObject {
       const ip = rete(req.headers.get("cf-connecting-ip")), dev = (u.searchParams.get("d") || "").replace(/[^\w-]/g, "").slice(0, 40);
       const pannello = u.searchParams.has("p");
       this.ctx.acceptWebSocket(server, pannello ? ["pannello"] : []);
-      server.serializeAttachment({ ip, dev, p: pannello });
+      server.serializeAttachment({ ip, dev, p: pannello, da: Date.now() });
       if (stato) server.send(JSON.stringify(stato));
       server.send(JSON.stringify({ t: "storia", m: this.recenti(), ban: this.bannato(ip, dev), chiusa: !!(await this.ctx.storage.get("chiusa")), sagoma: !!(await this.ctx.storage.get("sagoma")) }));
+      /* il primo spettatore fa partire il conteggio minuto per minuto (il picco si aggiorna lì, con le sole pagine vive) */
       if (!pannello) {
         await this.daQuando();
-        const n = this.spettatori(), picco = (await this.ctx.storage.get("picco")) || 0;
-        if (n > picco) await this.ctx.storage.put("picco", n);
+        if (!(await this.ctx.storage.getAlarm())) await this.ctx.storage.setAlarm(Math.floor(Date.now() / 60000) * 60000 + 60000);
       }
       return new Response(null, { status: 101, webSocket: client });
     }
     if (u.pathname === "/accesso") return this.accesso(await req.json());
     if (u.pathname === "/chat") return this.modera(await req.json());
+    if (u.pathname === "/minuti") return this.importa((await req.json()).righe);
     if (req.method === "POST") {
       const nuovo = await req.json();
+      if (!!(stato && stato.cta && stato.cta.on) !== !!nuovo.cta.on) this.segna(nuovo.cta.on ? "Bottone call acceso" : "Bottone call spento");
       await this.ctx.storage.put("stato", nuovo);
       this.manda(nuovo);
       return json({ ok: true, stato: nuovo, connessi: this.spettatori() });
@@ -231,11 +296,18 @@ export class Stanza extends DurableObject {
       return ws.send(JSON.stringify(await this.stats()));
     }
     if (d.t === "stats" && a.admin) return ws.send(JSON.stringify(await this.stats()));
+    if (d.t === "minuti" && a.admin) return ws.send(JSON.stringify(this.minuti(d.da)));
+    /* la pagina della diretta dice se il video sta andando: 0 fermo, 1 in play senza audio, 2 in play con l'audio */
+    if (d.t === "guardo" && !a.p) {
+      const g = d.g === 1 || d.g === 2 ? d.g : 0;
+      if (a.g !== g) { a.g = g; ws.serializeAttachment(a); }
+      return;
+    }
     /* regia slide e telecomando dell'iPhone: entrano con la chiave (?p=1), il telecomando manda avanti/indietro,
        la regia sul Mac esegue e rimanda la slide attuale; tutto solo ai collegati con la chiave */
     if (d.t === "regia" && a.p) {
       if (!(await keyOk(d.chiave))) return ws.send(JSON.stringify({ t: "regia", ok: false }));
-      a.admin = true; ws.serializeAttachment(a);
+      a.admin = true; a.regia = true; ws.serializeAttachment(a);
       return ws.send(JSON.stringify({ t: "regia", ok: true, ora: (await this.ctx.storage.get("slideOra")) || null }));
     }
     if (d.t === "slide" && a.admin) return this.agliAdmin({ t: "slide", cmd: d.cmd === "indietro" ? "indietro" : "avanti" });
@@ -294,6 +366,7 @@ export class Stanza extends DurableObject {
     if (azione === "bannati") return json({ ok: true, bannati: this.bannati(), chiusa: !!(await this.ctx.storage.get("chiusa")) });
     if (azione === "chiudi" || azione === "apri") {
       await this.ctx.storage.put("chiusa", azione === "chiudi");
+      this.segna(azione === "chiudi" ? "Chat chiusa" : "Chat riaperta");
       this.manda({ t: "chiusa", v: azione === "chiudi" });
       return json({ ok: true, chiusa: azione === "chiudi" });
     }
@@ -301,11 +374,13 @@ export class Stanza extends DurableObject {
     if (azione === "sagoma-su" || azione === "sagoma-giu") {
       const v = azione === "sagoma-su";
       await this.ctx.storage.put("sagoma", v);
+      this.segna(v ? "Andrea cartonato esce" : "Andrea cartonato rientra");
       this.manda({ t: "sagoma", v });
       return json({ ok: true, sagoma: v });
     }
     /* dopo aver pubblicato un sorgente.json nuovo (piano B): tutte le pagine aperte lo rileggono subito */
     if (azione === "sorgente") {
+      this.segna("Cambio sorgente del video");
       this.manda({ t: "sorgente" });
       return json({ ok: true });
     }
@@ -350,6 +425,12 @@ export default {
       }
       if (!dev) return json({ error: "Ricarica la pagina e riprova." }, 400);
       return stanza.fetch(new Request(req.url, { method: "POST", body: JSON.stringify({ nome, email, dev, ip: rete(req.headers.get("cf-connecting-ip")) }) }));
+    }
+    if (path === "/minuti" && req.method === "POST") {
+      let body;
+      try { body = await req.json(); } catch (e) { return json({ error: "json non valido" }, 400); }
+      if (!(await keyOk(body.chiave)) && !(env.IMPORTA && body.chiave === env.IMPORTA)) return json({ error: "chiave sbagliata" }, 401);
+      return stanza.fetch(new Request(req.url, { method: "POST", body: JSON.stringify({ righe: body.righe }) }));
     }
     if ((path === "/stato" || path === "/chat") && req.method === "POST") {
       let body;
